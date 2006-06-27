@@ -1,0 +1,8 @@
+compute                 Computation Of Sensitivity Indices
+fast                    Fourier Amplitude Sensitivity Test
+linsa                   Linear Sensitivity Analysis
+morris                  The Morris OAT Screening Method
+sensitivity             Package 'sensitivity': Sensitivity Analysis
+sobol                   Sobol Non-linear Sensitivity Analysis
+sobol.sal02             Sobol Non-linear Sensitivity Analysis
+testmodels              Test Models For Sensitivity Analysis
