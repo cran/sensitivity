@@ -49,17 +49,17 @@ morris(model = NULL, factors, levels, r, k.delta = "usual",
 
   \code{k.delta} is such that:
   \deqn{
-    \Delta = \frac{\textrm{k.delta}}{k-1}
+    \Delta_i = \textrm{k.delta} \frac{\textrm{max}_i-\textrm{min}_i}{k-1}
   }{
-    Delta = \code{k.delta} / ( k - 1 )
+    Delta_i = \code{k.delta} * ( \code{max}_i - \code{min}_i ) / ( k - 1 )
   }
   where \eqn{k}{k} is the number of levels (\code{levels}). If
   \code{k.delta} is given as \code{"usual"} and \eqn{k}{k} is even,
   then \eqn{\Delta}{Delta} is the value recommended by Morris:
   \deqn{
-    \Delta = \frac{k}{2(k-1)}
+    \Delta_i = (\textrm{max}_i-\textrm{min}_i) \frac{k}{2(k-1)}
   }{
-    Delta = k / ( 2 * ( k - 1 ) )
+    Delta_i = ( \code{max}_i - \code{min}_i ) * k / ( 2 * ( k - 1 ) )
   }
 
   \code{min} and \code{max} are boundaries of the region of

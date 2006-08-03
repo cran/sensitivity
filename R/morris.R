@@ -25,10 +25,12 @@ morris <- function(model = NULL, factors, levels, r, k.delta = "usual",
   # delta
 
   if (k.delta == "usual")
-    if (p %% 2 == 0)
-      k.delta <- p / 2
+    if (levels %% 2 == 0)
+      k.delta <- levels / 2
+    else
+      stop("k.delta can't be set to \"usual\" with an odd value of p")
 
-  delta <- k.delta / (p - 1)
+  delta <- k.delta / (levels - 1)
     
   # DESIGN OF EXPERIMENTS
 
