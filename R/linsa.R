@@ -122,14 +122,14 @@ plot.linsa <- function(x, ask = TRUE, ...)
     op <- par(ask = TRUE)
     on.exit(par(op))
   }
-  if (sa$rank == FALSE)
+  if (x$rank == FALSE)
     titles <- c("SRC", "PCC")
   else
     titles <- c("SRRC", "PRCC")
-  nodeplot(sa$src, ylim = c(-1, 1))
+  nodeplot(x$src, ylim = c(-1, 1))
   title(main = titles[1])
-  if ("pcc" %in% names(sa)){
-    nodeplot(sa$pcc, ylim = c(-1, 1))
+  if ("pcc" %in% names(x)){
+    nodeplot(x$pcc, ylim = c(-1, 1))
     title(main = titles[2])
   }
 }

@@ -67,10 +67,10 @@ compute.sobol.sal02 <- function(sa, y = NULL)
   S <- estim(estim.sobol.sal02, data, sa$nboot, sa$conf)
 
   sa$S1 <- subset(S, subset = c(rep(TRUE, p), rep(FALSE, p)))
-  rownames(sa$S1) <- paste("S", 1 : p)
+  rownames(sa$S1) <- colnames(sa$x1)
 
   sa$St <- subset(S, subset = c(rep(FALSE, p), rep(TRUE, p)))
-  rownames(sa$St) <- paste("St", 1 : p)
+  rownames(sa$St) <- colnames(sa$x1)
     
   # SAVING OF THE INDICES
   
@@ -93,7 +93,7 @@ print.sobol.sal02 <- function(x, ...)
 plot.sobol.sal02 <- function(x, ...)
 {
   pch <- c(21, 24)
-  p <- ncol(sa$x1)
+  p <- ncol(x$x1)
   nodeplot(x$S1, xlim = c(1,p+1), ylim = c(0,1), labels = colnames(x$x1),
            pch = pch[1])
   nodeplot(x$St, xlim = c(1,p+1), ylim = c(0,1), labels = FALSE,

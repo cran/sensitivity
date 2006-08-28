@@ -9,14 +9,12 @@
 \description{
   \code{fast} is the implementation of the Fourier Amplitude Sensitivity
   Test. This function computes the following non-linear indices of
-  sensitivity: first-order indices and total indices (extended FAST
-  method).
+  sensitivity: first-order indices and total indices.
 }
 
 \usage{
 fast(model = NULL, factors, n, M = 4,
-     G = "uniform", min = 0, max = 1,
-     nboot = 0, conf = 0.95, \dots)
+     G = "uniform", min = 0, max = 1, omega = NULL, \dots)
 \method{compute}{fast}(sa, y = NULL)
 }
 
@@ -28,8 +26,7 @@ fast(model = NULL, factors, n, M = 4,
   \item{G}{the space transformation.}
   \item{min}{the minimum values for the factors (uniform distribution).}
   \item{max}{the maximum values for the factors (uniform distribution).}
-  \item{nboot}{the number of bootstrap replicates.}
-  \item{conf}{the confidence level for bootstrap confidence intervals.}
+  \item{omega}{the set of frequencies.}
   \item{sa}{the sensitivity analysis object.}
   \item{y}{the response.}
   \item{\dots}{any other arguments for \code{model} which are passed
@@ -61,8 +58,11 @@ fast(model = NULL, factors, n, M = 4,
   where \eqn{a_i}{a_i} and \eqn{b_i}{b_i} are the boundaries given by
   the arguments \code{min} and \code{max}. \code{min} and \code{max} can
   be single values (the same for each factor) or vectors.
-  
-  Integrals in the s-space are computed by Monte Carlo integration.
+
+  If the set of frequencies \code{omega} is not given, the function use
+  the set recommended by Saltelli (the so-called extended-FAST). The
+  first frequency is the greater, corresponding to the index of
+  interest, and the other correspond to the complementary set.
 }
 
 \value{
@@ -72,11 +72,8 @@ fast(model = NULL, factors, n, M = 4,
 
   \item{model}{the model.}
   \item{M}{the number of harmonics to sum.}
-  \item{nboot}{the number of bootstrap replicates for bootstrap
-    confidence intervals.}
-  \item{conf}{the confidence level.}
-  \item{s}{the discretisation of the s-space}
-  \item{omega}{the set of frequencies for each index.}
+  \item{s}{the discretisation of the s-space.}
+  \item{omega}{the set of frequencies.}
   \item{x}{the factor sample.}
   \item{y}{the response.}
   \item{S}{the estimations of the first-order indices.}
@@ -105,7 +102,7 @@ systems. \emph{J. Comput. Phys.}, \bold{26}, 1--42.
 \examples{
 # Test case : the non-monotonic Sobol g-function
 
-sa <- fast(model = sobol.fun, factors = 8, n = 1000, nboot = 100)
+sa <- fast(model = sobol.fun, factors = 8, n = 1000)
 print(sa)
 plot(sa)
 }
