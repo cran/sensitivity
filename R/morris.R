@@ -1,191 +1,238 @@
-morris <- function(model = NULL, factors, levels, r, k.delta = "usual",
-                   min = 0, max = 1, scale = TRUE,
-                   nboot = 0, conf = 0.95, ...)
-{
-  # ARGUMENTS
 
-  # factor number and names
+## File: morris.R
+## Description: The Morris screening method
+## Author: Gilles Pujol
+
+
+morris <- function(model = NULL, factors, levels, R, jump = NULL,
+                   min = 0, max = 1, scale = TRUE, optim = NULL, ...){
+  
+  ## ARGUMENTS
+
+  ## factor number and names
   
   if (class(factors) == "character"){
     names <- factors
     p <- length(names)
-  }
-  else{
+  }else{
     p <- factors
     names <- paste("X", 1:p, sep="")
   }
+
+  ## levels
+
+  if (length(levels) == 1){
+    levels <- rep(levels, p)
+  }
   
-  # boundaries
+  ## boundaries
   
-  if (length(min) == 1)
+  if (length(min) == 1){
     min <- rep(min, p)
-  if (length(max) == 1)
+  }
+  if (length(max) == 1){
     max <- rep(max, p)
-
-  # delta
-
-  if (k.delta == "usual")
-    if (levels %% 2 == 0)
-      k.delta <- levels / 2
-    else
-      stop("k.delta can't be set to \"usual\" with an odd value of p")
-
-  delta <- k.delta / (levels - 1)
-    
-  # DESIGN OF EXPERIMENTS
-
-  matrices <- function(p, levels, delta)
-  {
-    # D.star : p*p diagonal matrix composed of equiprobable +1 and -1
-    
-    D.star <- diag(2 * floor(runif(p, 0, 2)) - 1)
-   
-    # P.star : p*p random permutation matrix
-    
-    tmp <- sample(p)
-    P.star <- matrix(0, p, p)
-    for ( j in 1:p )
-      P.star[j, tmp[j]] <- 1
-    
-    # B : (p+1)*p matrix with ones in the lower triangular part and zeros in the
-    # upper part
-    
-    B <- matrix(0, p, p)
-    B[lower.tri(B, diag = TRUE)] <- 1
-    B <- rbind(matrix(0, 1, p), B)
-    
-    # B.star : (p+1)*p matrix of the DOE
-    
-    M <- delta / 2 * ((2 * B - matrix(1, p + 1, p)) %*%
-                      D.star + matrix(1, p + 1, p))
-    B.star <- 1.1
-    while ( max(B.star) > 1 ){
-      x <- floor(runif(p, 0, levels - 1)) / (levels - 1)
-      B.star <- (matrix(1, p + 1, 1) %*% x + M) %*% P.star
-    }
-    
-    return(list(B = B.star, D = D.star, P = P.star))
   }
-
-  # generation of all matrices (r repetitions)
   
-  B <- matrix(nr = (p + 1) * r, nc = p)
-  D <- matrix(nr = p * r, nc = p)
-  P <- matrix(nr = p * r, nc = p)
-  for ( i in 1:r ){
-    tmp <- matrices(p, levels, delta)
-    B[(1 : (p + 1)) + (i - 1) * (p + 1),] <- tmp$B
-    D[(1 : p) + (i - 1) * p,] <- tmp$D
-    P[(1 : p) + (i - 1) * p,] <- tmp$P
+  ## delta
+
+  if (is.null(jump)){
+    if (1 %in% (levels %% 2)){
+      stop("the levels must be even if jumps are not given...")
+    }else{
+      jump <- levels / 2
+    }
+  }else{
+    if (length(jump) == 1){
+      jump <- rep(jump, p)
+    }
   }
 
-  # the DOE must be transformed to be between real limits (rather than [0,1]^p)
+  delta <- jump / (levels - 1) # corresponding to the set [0,1]^p
+    
+  ## DESIGN OF EXPERIMENTS
 
-  x <- B
-  for (i in 1:ncol(x))
-    x[,i] <- B[,i] * (max[i] - min[i]) + min[i]
+  ## B : orientation matrix
+  
+  B <- matrix(0, nrow = p + 1, ncol = p)
+  B[lower.tri(B)] <- 1
+
+  ## G : grid (restricted to [0, 1-delta_i])
+  
+  G <- rep(list(NULL), p)
+  for (i in 1:p){
+    G[[i]] <- (0 : (levels[i] - 1 - jump[i])) / (levels[i] - 1)
+  }
+  
+  ## generation of the R trajectories
+
+  x.base <- numeric(p)
+  x <- NULL
+  for ( i in 1 : R ){
+    ## random elements : directions, and base point
+
+    d <- sample(c(-1, 1), size = p, replace = TRUE)
+    for ( i in 1 : p )
+      x.base[i] <- sample(G[[i]], 1)
+
+    ## trajectory
+
+    B2 <- ((2 * B - 1) %*% diag(d) + 1) / 2
+    x.new <- matrix(x.base, nrow = p + 1, ncol = p, byrow = TRUE) +
+      0.5 * ((2 * B - 1) %*% diag(d) + 1) %*% diag(delta)
+    x <- rbind(x, x.new)  
+  }
+
+  ## duplicated trajectories are removed
+
+  x2 <- array(t(x), dim = c(p, p + 1, R))
+  x2 <- unique(x2, MARGIN = 3)
+  x <- matrix(x2, ncol = p, byrow = TRUE)
+  R2 <- nrow(x) / (p + 1)
+  if (R2 < R)
+    warning(paste("keeping", R2, "trajectories out of", R))
+  R <- R2
+
+  ## optimisation of the design (selection of trajectories that optimize a
+  ## good-filling-space criteria)
+
+  if (! is.null(optim)){
+    r <- optim
+    x <- optim.doe(x, r)
+    R <- r
+  }
+
+  ## the DOE must be transformed to be between real limits (rather than [0,1]^p)
+
+  for ( i in 1 : ncol(x) )
+    x[, i] <- x[, i] * (max[i] - min[i]) + min[i]
   colnames(x) <- names
   
-  # OBJECT OF CLASS "morris"
+  ## OBJECT OF CLASS "morris"
   
-  sa <- list(model = model, levels = levels, r = r, delta = delta,
-             min = min, max = max, scale = scale, nboot = nboot, conf = conf,
-             B = B, D = D, P = P,  x = x, y = NULL, mu = NULL, sigma = NULL,
+  sa <- list(model = model, levels = levels, R = R, delta = delta,
+             min = min, max = max, scale = scale,
+             x = x, y = NULL, ee = NULL,
              call = match.call())
   class(sa) <- "morris"
   
-  # COMPUTATION OF THE RESPONSE AND SENSITIVITY ANALYSIS
+  ## COMPUTATION OF THE RESPONSE AND SENSITIVITY ANALYSIS
   
   if (!is.null(sa$model)){
       response(sa, ...)
-      compute(sa)
+      tell(sa)
   }
   
-  # RETURN OF THE OBJECT OF CLASS "morris"
+  ## RETURN OF THE OBJECT OF CLASS "morris"
  
   return(sa)
 }
 
 
-estim.morris <- function(data, i) # data : (r*p) matrix of the
-                                  # elementary effects
-{
-  d <- data[i, ]
-  return(as.numeric(c(mean(abs(d)), sd(d))))
+optim.doe <- function(x, r){
+## optimisation of the design of experiment by extracting
+## the r designs (r << R) that cover the space well
+
+  p <- ncol(x)
+  R <- nrow(x) / (p + 1)
+
+  if (R < r)
+    stop(paste("Can't select", r, "trajectories out of", R, sep = " "))
+  
+  ## indices of the trajectory #i
+
+  traj.indices <- function(i) (1 + (i - 1) * (p + 1)) : (i * (p + 1))
+
+  ## distances between the trajectories
+
+  d <- matrix(0, R, R)
+  for (i in 1 : (R - 1)){
+    for (j in (i+1) : R){
+      ## vectorized double loop...
+      pi <- rep(traj.indices(i), each = p + 1)
+      pj <- rep(traj.indices(j), times = p + 1)
+      d[i, j] <- sum(sqrt(rowSums((x[pi, ] - x[pj, ])^2)))
+    }
+  }
+  d <- d + t(d)
+
+  ## selection of r trajectories
+
+  opt <- 1
+  for (i in 2 : r){
+    tmp <- matrix(d[opt, -opt], nrow = length(opt))
+    ## maximin criteria :
+    opt.new <- which.max(apply(tmp, 2, min)) # index in (1:R)[-opt]
+    opt.new <- (1:R)[-opt][opt.new] # index in 1:R
+    opt <- append(opt, opt.new)
+  }
+
+  ## extraction of the matrices corresponding to the optimal trajectories
+
+  x2 <- matrix(ncol = p, nrow = r * (p + 1))
+  for (i in 1 : r){
+    x2[traj.indices(i),] <- x[traj.indices(opt[i]),]
+  }
+
+  return(x2)
 }
 
 
-compute.morris <- function(sa, y = NULL)
-{
+tell.morris <- function(sa, y = NULL){
   id <- deparse(substitute(sa))
 
-  # EXTERNAL MODEL
+  ## EXTERNAL MODEL
 
   if (! is.null(y))
     sa$y <- y
   
-  # SCALING OF INPUTS AND OUTPUTS (IF REQUIRED)
-  
+  ## SCALING OF INPUTS AND OUTPUTS (IF REQUIRED)
+
+  x <- sa$x
+  y <- sa$y
   if (sa$scale == TRUE){
-    sa$x <- as.data.frame(scale(sa$x))
-    sa$y <- as.numeric(scale(sa$y))
+    x <- as.data.frame(scale(x))
+    y <- as.numeric(scale(y))
   }
-  
-  # delta vector (computed on the factor sample)
 
-  p <- ncol(sa$x)
-  down <- (1 : (sa$r * (p + 1)))[- ((0 : (sa$r - 1)) * (p + 1) + 1)]
-  up <- (1 : (sa$r * (p + 1)))[- ((0 : (sa$r - 1)) * (p + 1) + (p + 1))]
-  delta <- as.numeric(abs(t(sa$x[up, ] - sa$x[down, ])[t(sa$P) == 1]))
+  ## COMPUTING ELEMENTARY EFFECTS
 
-  # d : sample of the elementary effects
-  
-  d <- matrix(nr=sa$r, nc=p)
-  colnames(d) <- colnames(sa$x)
-  for ( i in 1:sa$r ){
-    y <- sa$y[(1 : (p + 1)) + (i - 1) * (p + 1)]
-    D <- sa$D[(1 : p) + (i - 1) * p,]
-    P <- sa$P[(1 : p) + (i - 1) * p,]
-    d[i, ] <- (((y[2 : (p + 1)] - y[1 : p]) /
-                      delta[(1 : p) + (i - 1) * p]) %*% D %*% P)
+  p <- ncol(x)
+  ee <- matrix(nrow = sa$R, nc = p)
+  colnames(ee) <- colnames(x)
+  for (i in 1 : sa$R){
+    j <- (1 : p) + (p + 1) * (i - 1)
+    ee[i, ] <- (y[j + 1] - y[j]) / rowSums(x[j + 1, ] - x[j, ])
   }
-  d <- as.data.frame(d)
-  
-  # ESTIMATION OF THE INDICES
-  
-  estimation <- estim(estim.morris, d, sa$nboot, sa$conf)
-
-  sa$mu <- as.data.frame(estimation[1:p,])
-  colnames(sa$mu) <- colnames(estimation)
-  rownames(sa$mu) <- colnames(sa$x)
-
-  sa$sigma <- as.data.frame(estimation[(p+1):(2*p),])
-  colnames(sa$sigma) <- colnames(estimation)
-  rownames(sa$sigma) <- colnames(sa$x)
-  
-  # SAVING OF THE INDICES
+  sa$ee <- ee
+    
+  ## SAVING OF THE INDICES
   
   assign(id, sa, parent.frame())
 }
 
 
-print.morris <- function(x, ...)
-{
+print.morris <- function(x, ...){
   cat("\nMORRIS OAT METHOD\n")
   cat("\nCall:\n", deparse(x$call), "\n", sep = "")
   cat("\nModel runs:", length(x$y), "\n")
-  cat("\nmu*:\n")
-  print(x$mu)
-  cat("\nsigma:\n")
-  print(x$sigma)
+  if (! is.null(x$ee)){
+    M <- data.frame(apply(x$ee, 2, function(x) mean(abs(x))), apply(x$ee, 2, sd))
+    colnames(M) <- c("mu*", "sigma")
+    rownames(M) <- colnames(x$ee)
+    print(M)
+  }
 }
 
 
-plot.morris <- function(x, ...)
-{
-  xlab <- expression(mu^"*")
-  ylab <- expression(sigma)
-  crossplot(x$mu, x$sigma, col = "lightgray", xlab = xlab, ylab = ylab,
-            labels = colnames(x$x))
+plot.morris <- function(x, identify = FALSE, ...){
+  mu <- as.numeric(apply(x$ee, 2, function(x) mean(abs(x))))
+  sigma <- as.numeric(apply(x$ee, 2, sd))  
+  plot(mu, sigma, pch = 20,
+       xlab = expression(mu^"*"), ylab = expression(sigma), ...)
+  if (identify == FALSE){
+    text(mu, sigma, labels = colnames(x$ee), pos = 4)
+ } else{
+    identify(mu, sigma, labels = colnames(x$ee))
+  }
 }
-

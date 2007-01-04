@@ -5,10 +5,7 @@ Service d'Etudes et de Simulation du Comportement des Combustibles
 Contact : bertrand.iooss@cea.fr
 
 This software is a computer program whose purpose is to perform 
-sensitivity analyses within the R environment. Implemented methods are :
-linear sensitivity analysis (SRC, PCC...), the screening method of 
-Morris and non-linear global sensitivity analysis (Sobol indices, FAST 
-method).
+sensitivity analyses within the R environment.
 
 This software is governed by the CeCILL  license under French law and
 abiding by the rules of distribution of free software.  You can  use, 

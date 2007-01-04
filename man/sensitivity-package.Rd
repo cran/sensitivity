@@ -1,4 +1,4 @@
-\name{sensitivity}
+\name{INTRODUCTION}
 \alias{sensitivity-package}
 \alias{sensitivity}
 \docType{package}
@@ -23,9 +23,9 @@
   The approach applied when performing a sensitivity analysis (SA) is as
   follows:
   \describe{
-    \item{step 1}{The model is defined: it is a function that associates
-      an unique real value (the response), with input parameters (the
-      factors).}
+    \item{step 1}{The model is defined: it is a function that returns
+      the (real) ouput values (called responses), corresponding to a
+      sample of (real) input parameters (called factors).}
     \item{step 2}{A sensitivity analysis method is chosen. Parameters of
       this method must be in accordance with objectives and technical
       constraints (like computational time).}
@@ -39,14 +39,17 @@
 
   The \pkg{sensitivity} package allows to follow this methodology:
 
-  (step 1) The model can be internal or external to R. If internal, it
+  (step 1) The model can be internal or external to \R. If internal, it
   can be a function that takes an unique \code{matrix} or \code{data.frame}
   parameter and returns a \code{numeric} vector. It can also be a
   predictor, i.e. an object wich can be called with the \code{predict}
-  method. If the model is external it does not have to be
-  interfaced with R: the program will stop after generating the DOE, and
-  calculations will start again when one gives the corresponding
-  responses.
+  method. One should note that all the responses must be computed by a
+  single call to the model function (then, the model can be vectorized).\cr
+  If the model is external it does not have to be interfaced with \R: the
+  user won't have to give a model to the function. Then, it will
+  stop just after generating the DOE. The responses have to be computed
+  by the user, whithin \R or not. Calculations will start again when the
+  user gives the corresponding responses (via the \code{tell} function). 
   
   The four next steps depend upon the type of the model:
 
@@ -55,17 +58,17 @@
   
   For external models:\cr
   (step 2-3) \code{sa <- method(model = NULL, parameters\dots)}\cr
-  (step 4) external to R, and the result is loaded in the y variable\cr
-  (step 5) \code{compute(sa, y)}
-
+  (step 4) external to R (or not), and the result is loaded by the user
+  in the y variable\cr
+  (step 5) \code{tell(sa, y)}
 
   \code{method} should be the name of a SA function, such as
-  \code{\link{linsa}}, \code{\link{morris}}, \code{\link{sobol}},
-  \code{\link{sobol.sal02}} or \code{\link{fast}}. These function create
-  the object \code{sa} of class \code{"linsa"}, \code{"morris"},
-  \code{"sobol"}, \code{"sobol.sal02"} or \code{"fast"}. For further
-  information on these function, see the corresponding documentation.  
-
+  \code{\link{srcpcc}}, \code{\link{morris}}, \code{\link{sobol}},
+  or \code{\link{fast}}. These function create the object \code{sa} of
+  class \code{"srcpcc"}, \code{"morris"}, \code{"sobol"}, or
+  \code{"fast"}. For further information on these function, see the
+  corresponding documentation.
+  
   Finally, for displaying the results of the analysis:\cr
   (step 6) \code{print(sa); plot(sa)}
 }
@@ -76,12 +79,11 @@ Saltelli, A., Chan, K. and Scott, E. M., 2000, \emph{Sensitivity
 }
 
 \seealso{
-  \code{\link{linsa}}
+  \code{\link{srcpcc}}
   \code{\link{morris}}
   \code{\link{sobol}}  
-  \code{\link{sobol.sal02}}
   \code{\link{fast}}
-  \code{\link{compute}}
+  \code{\link{tell}}
   \code{\link{testmodels}}
 }
 

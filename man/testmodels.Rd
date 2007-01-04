@@ -25,43 +25,12 @@ morris.fun(x)
 
 \value{
   All these functions return a \code{numeric} vector containig the values
-  of the function.
+  of the function. These functions are vectorized.
 }
 
 \references{
 Saltelli, A., Chan, K. and Scott, E. M., 2000, \emph{Sensitivity
   analysis}. Wiley, 33--45.
-}
-
-\seealso{
-  \code{\link{sensitivity}}
-}
-
-\examples{
-# Scatterplots for Sobol g-function versus X1 and X2
-
-n <- 2000
-x <- matrix(nr = n, nc = 8)
-for (i in 1:8)
-  x[, i] <- runif(n)
-
-y <- sobol.fun(x)
-
-plot(x[, 1], y)
-plot(x[, 2], y)
-
-# Scatterplots for the Ishigami function versus X1, X2 and X3
-
-n <- 2000
-x <- matrix(nr = n, nc = 3)
-for (i in 1:3)
-  x[, i] <- runif(n, min = -pi, max = pi)
-
-y <- ishigami.fun(x)
-
-plot(x[, 1], y)
-plot(x[, 2], y)
-plot(x[, 3], y)
 }
 
 \keyword{misc}

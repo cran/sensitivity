@@ -1,3 +1,9 @@
+
+## File: sobol_sobol93.R
+## Description: The method of Sobol, original estimation sheme from Sobol (1993)
+## Author: Gilles Pujol
+
+
 subsets <- function(set, size, type = "eq") # finds all the subsets of
 {                                           # size (less or) equal to n
   n <- length(set)
@@ -19,53 +25,51 @@ subsets <- function(set, size, type = "eq") # finds all the subsets of
 }
 
 
-sobol <- function(model = NULL, x1, x2, order = 1, nboot = 0, conf = 0.95, ...)
-{
-  # ARGUMENTS
+sobol.sobol93 <- function(model = NULL, x1, x2, max.order = 1, nboot = 0, conf = 0.95, ...){
+  ## ARGUMENTS
 
   if ( (ncol(x1) != ncol(x2)) | (nrow(x1) != nrow(x2)) )
-    error("The two samples x1 and x2 must have the same dimensions")
+    stop("The two samples x1 and x2 must have the same dimensions")
   p <- ncol(x1)
 
-  # DESIGN OF EXPERIMENTS
+  ## DESIGN OF EXPERIMENTS
   
   x <- x1
-  for ( i in subsets(set = 1 : p, size = order, type = "leq") ){
+  for ( i in subsets(set = 1 : p, size = max.order, type = "leq") ){
     xb <- x2
     xb[, i] <- x1[, i]
     x <- rbind(x, xb) 
   }
 
-  # OBJECT OF CLASS "sobol"
+  ## OBJECT OF CLASS "sobol.sobol93"
   
-  sa <- list(model = model, x1 = x1, x2 = x2, order = order, nboot = nboot,
-             conf = conf, , x = x, y = NULL, S = NULL, call = match.call())
+  sa <- list(model = model, x1 = x1, x2 = x2, max.order = max.order, nboot = nboot,
+             conf = conf, x = x, y = NULL, S = NULL, call = match.call())
 
-  class(sa) <- "sobol"
+  class(sa) <- "sobol.sobol93"
 
-  # COMPUTATION OF THE RESPONSE AND SENSITIVITY ANALYSIS
+  ## COMPUTATION OF THE RESPONSE AND SENSITIVITY ANALYSIS
   
   if ( !is.null(sa$model) ){
       response(sa, ...)
-      compute(sa)
+      tell(sa)
   }
 
-  # RETURN OF THE OBJECT OF CLASS "sobol"
+  ## RETURN OF THE OBJECT OF CLASS "sobol.sobol93"
   
   return(sa)
 }
 
 
-estim.sobol <- function(data, i, mask)
-{
-  # 1. computation of subset indices
+estim.sobol.sobol93 <- function(data, i = 1 : nrow(data), mask){
+  ## 1. computation of subset indices
   d <- as.matrix(data[i, ]) # as.matrix pour que colSums renvoie un numeric...
   n <- nrow(d)
   V <- var(d[, 1])
   m2 <- mean(d[, 1])^2
   subset.indices <- (colSums(d[, -1] * d[, 1]) / (n - 1) - m2) / V
 
-  # 2. computation of multi-order indices, based on subset ones
+  ## 2. computation of multi-order indices, based on subset ones
   multi.indices <- subset.indices
   ni <- length(multi.indices)
   for ( j in 1 : ni )
@@ -75,22 +79,23 @@ estim.sobol <- function(data, i, mask)
 }
 
 
-compute.sobol <- function(sa, y = NULL)
-{
+tell.sobol.sobol93 <- function(sa, y = NULL){
   id <- deparse(substitute(sa))
   
-  # EXTERNAL MODEL
+  ## EXTERNAL MODEL
 
   if ( ! is.null(y) )
     sa$y <- y
 
-  # ESTIMATION OF THE INDICES
+  ## ESTIMATION OF THE INDICES
   
-  # indices to compute
-  list.indices <- subsets(set = 1 : ncol(sa$x1), size = sa$order, type = "leq")
+  ## indices to compute
+
+  list.indices <- subsets(set = 1 : ncol(sa$x1), size = sa$max.order, type = "leq")
   ni <- length(list.indices)
 
-  # mask used to compute hight-order indices from the indices of lower order
+  ## mask used to compute hight-order indices from the indices of lower order
+
   mask <- list()
   for ( i in list.indices ){
     v <- rep(0, ni)
@@ -102,25 +107,36 @@ compute.sobol <- function(sa, y = NULL)
     mask <- c(mask, list(v))
   }
 
-  # labels
+  ## labels
+
   labels.indices <- character(ni)
   factor.names <- colnames(sa$x1)
   for ( i in 1 : ni )
     labels.indices[i] <- paste(factor.names[list.indices[[i]]], collapse = ",")
- 
-  # estimation
+
+  ## estimation
+  
   data <- matrix(sa$y, nr = nrow(sa$x1), nc = ni + 1)
-  sa$S <- estim(estim.sobol, data, sa$nboot, sa$conf, mask = mask)
-  rownames(sa$S) <- labels.indices
-    
-  # SAVING OF THE INDICES
+
+  if (sa$nboot == 0){
+    ## single estimation
+    sa$S <- data.frame(original = estim.sobol.sobol93(data, mask = mask))
+    rownames(sa$S) <- labels.indices
+  }
+  else{
+    ## bootstrap estimation
+    boot.sobol <- boot(data, estim.sobol.sobol93, R = sa$nboot, mask = mask)
+    sa$S <- bootstats(boot.sobol, sa$conf, "basic")
+    rownames(sa$S) <- labels.indices
+  }
+  
+  ## SAVING OF THE INDICES
   
   assign(id, sa, parent.frame())
 }
 
 
-print.sobol <- function(x, ...)
-{
+print.sobol.sobol93 <- function(x, ...){
   cat("\nSOBOL METHOD\n")
   cat("\nCall:\n", deparse(x$call), "\n", sep = "")
   cat("\nModel runs:", length(x$y), "\n")
@@ -129,7 +145,6 @@ print.sobol <- function(x, ...)
 }
 
 
-plot.sobol <- function(x, ...)
-{
+plot.sobol.sobol93 <- function(x, ...){
   nodeplot(x$S, ylim = c(0, 1))
 }

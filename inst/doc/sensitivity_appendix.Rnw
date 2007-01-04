@@ -1,0 +1,271 @@
+\documentclass[a4paper,10pt]{article}
+
+%\VignetteIndexEntry{Package 'sensitivity' : scientific appendix}
+
+
+\usepackage{array}
+
+\setlength\parindent{0pt}
+\setlength\parskip{1ex}
+
+\usepackage{gilles_maths}
+
+\begin{document}
+
+\title{Package 'sensitivity'~: scientific appendix}
+\author{Gilles Pujol}
+\maketitle
+
+
+This document presents the formulas implemented in the 'sensitivity'
+package.
+
+\section*{Notations}
+
+\begin{tabular}{l>{$}l<{$}}
+model & y = f(x_1, \dots ,x_p)\\
+$n$-sample & X = (X_{ki})_{\substack{k = 1 \dots n\\i = 1 \dots p}}\\
+vector extraction & y_. = (y_k)_{k=1 \dots n}\\
+ & X_{.i} = (X_{ki})_{k = 1 \dots n}\\
+implicit loop & f_1(x_.) = f_2(y_.) \textrm{  means  } \forall k=1 \dots n,
+f_1(x_k) = f_2(y_k)\\
+estimators & \widehat{\mathrm{var}} : \textrm{ variance }\\
+ & \widehat{\mathrm{cor}} : \textrm{ Pearson's correlation }\\
+rounding & \lfloor x \rfloor : \textrm{ largest integer not greater than } x
+\end{tabular}
+
+\section{srcpcc}
+
+Linear regressions~:
+\begin{eqnarray*}
+y_. & \simeq & b_0 + \sum_{j=1}^p b_j X_{.j} \\
+y_. & \simeq &  c_0 + \sum_{\substack{j=1\\j \neq i}}^p c_j X_{.j} \\
+X_{.i} & \simeq & d_{i0} + \sum_{\substack{j=1\\j \neq i}}^p d_{ij} X_{.j} \ (i
+= 1 \dots p)
+\end{eqnarray*}
+
+Sensitivity indices ($i=1 \dots p$)~:
+\begin{eqnarray*}
+\mathrm{SRC_i} & = &
+\frac{\widehat{\mathrm{var}}(X_{.i})}{\widehat{\mathrm{var}}(y_.)} b_i^2 \\
+\mathrm{PCC_i} & = & \widehat{\mathrm{cor}} \Big(
+  y_. -  c_0 - \sum_{\substack{j=1\\j \neq i}}^p c_j X_{.j} ,\ 
+  X_{.i} -  d_{i0} - \sum_{\substack{j=1\\j \neq i}}^p d_{ij} X_{.j} \Big)
+\end{eqnarray*}
+
+\section{morris}
+
+Notations about the domain~:
+\begin{itemize}
+\item $\displaystyle \bigotimes_{i=1}^p [a_i, b_i]$ : the domain
+\item $n_1, \dots, n_p$ : number of levels
+\item $k_1, \dots, k_p$ : ``grid jump'' coefficients
+\end{itemize}
+
+Delta ($i=1\dots p$)~:
+\[
+\Delta_i = k_i \frac{b_i - a_i}{n_i - 1}
+\]
+
+Discretisation of the space~:
+\begin{eqnarray*}
+G & = & \bigotimes_{i=1}^p \left\{a_i + k \frac{b_i-a_i}{n_i-1}
+\right\}_{k=0\dots n_i-1} \quad \textrm{(grid on the whole domain)}\\
+G' & = & \bigotimes_{i=1}^p \left\{a_i + k \frac{b_i-a_i}{n_i-1}
+\right\}_{k=0\dots n_i-1-k_i} \quad \textrm{(grid restricted to }
+\bigotimes_{i=1}^p [a_i, b_i - \Delta_i] \textrm{)}
+\end{eqnarray*}
+
+Random elements ($r = 1 \dots R$)~:
+\begin{itemize}
+\item $d^{(r)}$~: vector of length $p$ composed of equiprobable + ones and -
+  ones
+\item $x^{(r)}$~: randomly chosen point on the grid $G'$ (row vector of length $p$)
+\end{itemize}
+
+The $p+1 \times p$ matrix of the design of experiments (r = 1 \dots R)~:
+\[
+X^{(r)} = J_{p+1,1} x^{(r)} + \frac{(2B - J_{p+1,p}) D(d^{(r)}) +
+    J_{p+1,p}}{2} D(\Delta_1, \dots, \Delta_p)
+\]
+where
+\begin{itemize}
+\item $J_{i,j}$~: $i \times j$ matrix filled with ones
+\item $B$~: $(p+1) \times p$ matrix with ones in the lower triangular part and
+  zeros in the upper part, e.g.
+\[
+B = \left( \begin{array}{lll} 0 & \ldots & 0 \\
+1 & \ddots & \vdots \\ \vdots & \ddots & 0\\
+1 & \ldots & 1
+\end{array} \right)
+\]
+\item $D(x)$~: $p \times p$ diagonal matrix with the elements of the
+  vector $x$ on the diagonal
+\end{itemize}
+
+Predictions ($r = 1 \dots R$, $i = 1 \dots p + 1$)~:
+\[
+y_i^{(r)} = f(X_{i1}^{(r)}, \dots, X_{ip}^{(r)})
+\]
+
+Elementary effects ($r = 1 \dots R$, $i = 1 \dots p$)~:
+\[
+EE_i^{(r)} = d_i^{(r)} \frac{y_{i+1}^{(r)} - y_i^{(r)}}{\Delta_i}
+\]
+
+Sensitivity indices (i = 1 \dots p)~:
+\begin{eqnarray*}
+\mu_i^* & = & \frac{1}{R} \sum_{r=1}^R | EE_i^{(r)} | \\
+\sigma_i & = & \sqrt{\widehat{\mathrm{var}}(EE_i^{(.)})}
+\end{eqnarray*}
+\section{sobol}
+
+Two initial $n$-samples,noted $X^{(1)}$ and $X^{(2)}$.
+
+The corresponding response~:
+\begin{eqnarray*}
+y^{(1)}_. & = & f(X^{(1)}_{.1}, \dots, X^{(1)}_{.p})\\
+y^{(2)}_. & = & f(X^{(2)}_{.1}, \dots, X^{(2)}_{.p})
+\end{eqnarray*}
+
+\subsection{method=sobol93}
+
+One more $n$-sample for each subset of indices $I=\{i_1, \dots, i_{n_I}\}$,
+noted $X^{(2,I,1)}$~:
+\begin{eqnarray*}
+X^{(2,I,1)}_{.i} & = & X^{(2)}_{.i}, \textrm{ if } i \notin I\\
+X^{(2,I,1)}_{.i} & = & X^{(1)}_{.i}, \textrm{ if } i \in I
+\end{eqnarray*}
+
+The response~:
+\begin{eqnarray*}
+y^{(2,I,1)}_. & = & f(X^{(2,I,1)}_{.1}, \dots, X^{(2,I,1)}_{.p})
+\end{eqnarray*}
+
+Partial variances~:
+\[
+D_I = \frac{1}{n-1} \sum_{k=1}^n y^{(1)}_k y^{(2,I,1)}_k - \left( \frac{1}{n}
+  \sum_{k=1}^n y^{(1)}_k \right)^2
+\]
+
+Sobol index~:
+\[
+S_I = \frac{D_I - \sum_{\substack{J \subset \{1 \dots p\} \\ J \subsetneq I}} D_J}
+{\widehat{\mathrm{var}}(y^{(1)}_.)}
+\]
+
+\subsection{method=saltelli02}
+
+The $p$ more samples, noted $X^{(1,i,2)}$ ($i=1 \dots p$)~:
+\begin{eqnarray*}
+X^{(1,i,2)}_{.i} & = & X^{(2)}_{.i}\\
+X^{(1,i,2)}_{.j} & = & X^{(1)}_{.j}, j \neq i
+\end{eqnarray*}
+
+The response~:
+\begin{eqnarray*}
+y^{(1,i,2)}_. & = & f(X^{(1,i,2)}_{.1}, \dots, X^{(1,i,2)}_{.p})
+\end{eqnarray*}
+
+Partial variances~:
+\begin{eqnarray*}
+D_i & = & \frac{1}{n-1} \sum_{k=1}^n y^{(2)}_k y^{(1,i,2)}_k - \frac{1}{n} \sum_{k=1}^n
+  y^{(1)}_k y^{(2)}_k\\
+D^{\mathrm{tot}}_i & = & \frac{1}{n-1} \sum_{k=1}^n y^{(1)}_k y^{(1,i,2)}_k - \left(
+  \frac{1}{n} \sum_{k=1}^n y^{(1)}_k \right)^2
+\end{eqnarray*}
+
+First order and total indices~:
+\begin{eqnarray*}
+S_i & = & \frac{D_i}{\widehat{\mathrm{var}}(y^{(1)}_.)}\\
+S^{\mathrm{tot}}_i & = & 1 - \frac{D^{\mathrm{tot}}_i}{
+  \widehat{\mathrm{var}}(y^{(1)}_.)}
+\end{eqnarray*}
+
+\section{fast}
+
+% \subsection{method=cukier7?}
+
+% Sampling~:
+% \begin{eqnarray*}
+% s_k & = & \frac{2k\pi}{n}, \  \forall k=0 \dots n-1\\
+% X_{i.} & = & F_{i}^{-1} \left( \frac{1}{2} + \frac{1}{\pi}
+%   \arcsin(\sin(\omega_{i} s_.)) \right), \  \forall i=1 \dots p
+% \end{eqnarray*}
+
+% Fourier coefficients ($j=0 \dots n-1$)~:
+% \[
+% c_j = \frac{1}{n} \sum_{k=0}^{n-1} f(X_{1k}, \dots, X_{pk}) e^{-i s_k j}
+% \]
+
+% Variance and partial variances ($i = 1 \dots p$)~:
+% \begin{eqnarray*}
+% D & = & \sum_{j=1}^{n-1} |c_j|^2 \\
+% D_i & = & 2 \sum_{j=1}^M |c_{j \omega_i}|^2 \\
+% D^{\mathrm{tot}}_i & = & 2 \sum_{j=1}^{\omega_i / 2} |c_j|^2 
+% \end{eqnarray*}
+
+% Sensitivity indices ($i = 1 \dots p$)~:
+% \begin{eqnarray*}
+% S_i & = & \frac{D_i}{D} \\
+% S^{\mathrm{tot}}_i & = & 1 - \frac{D^{\mathrm{tot}}_i}{D}
+% \end{eqnarray*}
+
+\subsection{method=saltelli99}
+
+Maximum frequencies~:
+\begin{eqnarray*}
+\omega_{\mathrm{max}} & = & \left\lfloor \frac{n-1}{2M} \right\rfloor \\
+\omega'_{\mathrm{max}} & = & \left\lfloor \frac{\omega_{\mathrm{max}}}{2M}
+\right\rfloor
+\end{eqnarray*}
+
+Frequencies (i = 1 \dots p)~:
+\begin{eqnarray*}
+\omega_i^{(i)} & = & \omega_{\mathrm{max}}\\
+(\omega_j^{(i)})_{\substack{j = 1 \dots p\\j \neq i}} & = & (w_k)_{k = 1 \dots p-1} 
+\end{eqnarray*}
+where
+\begin{eqnarray*}
+w_k & = & 1 + \left\lfloor (k-1) \frac{\omega'_{\mathrm{max}} - 1}{p-2}
+\right\rfloor \ \textrm{ if } \omega'_{\mathrm{max}} \geq p-1\\
+w_k & = & 1 + \big( (k-1) \mod \omega'_{\mathrm{max}} \big) \ \textrm{ if }
+\omega'_{\mathrm{max}} < p-1
+\end{eqnarray*}
+
+Sampling (k = 1 \dots n)~:
+\begin{eqnarray*}
+s_k & = & \frac{2 \pi (k-1)}{n}\\
+X_{jk}^{(i)} & = & F_{j}^{-1} \left( \frac{1}{2} + \frac{1}{\pi}
+  \arcsin(\sin(\omega_{j}^{(i)} s_k)) \right) \  (j=1 \dots p)
+\end{eqnarray*}
+where $F_{j}^{-1}$ is the inverse of the distribution function of the $i$th
+parameter.
+
+Fourier coefficients ($j=0 \dots n-1$)~:
+\[
+c_j^{(i)} = \frac{1}{n} \sum_{k=1}^{n} f(X_{1k}^{(i)}, \dots, X_{pk}^{(i)})
+e^{-i s_k j}
+\]
+
+Variance and partial variances ($i = 1 \dots p$)~:
+\begin{eqnarray*}
+D^{(i)} & = & \sum_{j=1}^{n-1} |c_j^{(i)}|^2 \\
+D_i & = & 2 \sum_{j=1}^M |c_{j \omega_i}^{(i)}|^2 \\
+D^{\mathrm{tot}}_i & = & 2 \sum_{j=1}^{\omega_i / 2} |c_j^{(i)}|^2 
+\end{eqnarray*}
+
+Sensitivity indices ($i = 1 \dots p$)~:
+\begin{eqnarray*}
+S_i & = & \frac{D_i}{D^{(i)}} \\
+S^{\mathrm{tot}}_i & = & 1 - \frac{D^{\mathrm{tot}}_i}{D^{(i)}}
+\end{eqnarray*}
+
+
+\nocite{Saltelli1999}
+\nocite{Saltelli2000}
+\nocite{Saltelli2002}
+\bibliographystyle{plain}
+\bibliography{stats}
+
+\end{document}

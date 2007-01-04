@@ -1,3 +1,9 @@
+
+## File: testmodels.R
+## Description: Test models for sensitivity analysis, taken from Saltelli's
+## Author: Gilles Pujol
+
+
 # source : Saltelli, A., Chan, K. and Scott, E. M., 2000, Sensitivity
 #          analysis. Wiley. (Section 2.9 : Analytical test models)
 

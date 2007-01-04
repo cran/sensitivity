@@ -1,5 +1,8 @@
-1.0  initial version (methods : linsa, morris, sobol, sobol.sal02, fast)
-1.1  morris : correction of a bug
-1.2  fast : correction of a bug, suppression of bootstrap
-     fast : 2 new arguments, the frequency set (omega) and the discretization (s)
-     plot.* : correction of a bug (old variable name 'sa')
+
+			       REVISIONS
+
+1.0  initial version
+1.1  quick revision (fixed bug in morris)
+1.2  quick revision (fixed bug in fast)
+(Developper's note: I had better call these revisions 1.0-1 and 1.0-2... too late !)
+1.3  

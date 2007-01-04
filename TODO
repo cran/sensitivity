@@ -1,0 +1,27 @@
+
+                              A FAIRE
+
+
+* indices de sobol : les objets devraient sauvegarder les V plutôt que
+  les S, le calcul se faisant quand print et plot
+  -> ok pour fast, reste les 2 sobol
+  après réflexion, il faut sauvegarder les 2 (les S et les V) mais ne 
+  documenter que les S...
+
+* listes typées : ne sauvegarder que ce qui est réellement utilisé par le
+  programme.
+
+* quick start... ou article dans les news R
+  dossier de validation
+
+* fast : shift resampling
+
+
+
+* sobol, sobol.sal02, fast : option order=TRUE dans print et plot
+
+* fast : warnings "n trop petit", "les omega ne sont pas incommensurate"...
+
+* fast : cukier78 (trouver algo des fréquences)
+
+* print et plot : améliorer

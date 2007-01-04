@@ -1,6 +1,6 @@
 \name{morris}
 \alias{morris}
-\alias{compute.morris}
+\alias{tell.morris}
 \alias{print.morris}
 \alias{plot.morris}
 
@@ -14,28 +14,26 @@
 }
 
 \usage{
-morris(model = NULL, factors, levels, r, k.delta = "usual",
-       min = 0, max = 1, scale = TRUE, nboot = 0, conf = 0.95, \dots)
-\method{compute}{morris}(sa, y = NULL)
+morris(model = NULL, factors, levels, R, jump = NULL,
+       min = 0, max = 1, scale = TRUE, optim = NULL, \dots)
 }
 
 \arguments{
-  \item{model}{the model.}
-  \item{factors}{the number of factors, or their names.}
-  \item{levels}{the number of levels of the design grid.}
-  \item{r}{the number of repetitions of the design, i.e. the number of
-    elementary effect computed per factor.}
-  \item{k.delta}{the \sQuote{grid jump} coefficient.}
-  \item{min}{the minimum values for the factors.}
-  \item{max}{the maximum values for the factors.}
+  \item{model}{the model}
+  \item{factors}{the number of factors, or their names}
+  \item{levels}{the number of levels of the design grid}
+  \item{R}{the number of repetitions of the design, i.e. the number of
+    elementary effect computed per factor}
+  \item{jump}{the \sQuote{grid jump} coefficient}
+  \item{min}{the minimum values for the factors}
+  \item{max}{the maximum values for the factors}
   \item{scale}{logical. If \code{TRUE}, the input and output data are
-    scaled.}
-  \item{nboot}{the number of bootstrap replicates.}
-  \item{conf}{the confidence level for bootstrap confidence intervals.}
-  \item{sa}{the sensitivity analysis object.}
-  \item{y}{the response.}
+    scaled}
+  \item{optim}{optimization of the design for better coverage of the
+    space (cf Campolongo 2005), not documented yet (for informations
+    feel free to ask the maintainer)}
   \item{\dots}{any other arguments for \code{model} which are passed
-    unchanged each time it is called.}
+    unchanged each time it is called}
 }
 
 \details{
@@ -44,27 +42,29 @@ morris(model = NULL, factors, levels, r, k.delta = "usual",
   sample given by \code{x}. If no model is specified, the indices will be
   computed when one gives the response.
 
-  The number of levels is the same for each space coordinate. Then
-  \code{levels} must be a single integer.
+  \code{factors} could either be a single number or a vector of
+  character strings.
 
-  \code{k.delta} is such that:
-  \deqn{
-    \Delta_i = \textrm{k.delta} \frac{\textrm{max}_i-\textrm{min}_i}{k-1}
-  }{
-    Delta_i = \code{k.delta} * ( \code{max}_i - \code{min}_i ) / ( k - 1 )
-  }
-  where \eqn{k}{k} is the number of levels (\code{levels}). If
-  \code{k.delta} is given as \code{"usual"} and \eqn{k}{k} is even,
-  then \eqn{\Delta}{Delta} is the value recommended by Morris:
-  \deqn{
-    \Delta_i = (\textrm{max}_i-\textrm{min}_i) \frac{k}{2(k-1)}
-  }{
-    Delta_i = ( \code{max}_i - \code{min}_i ) * k / ( 2 * ( k - 1 ) )
-  }
-
+  The number of levels is not necessary the same for each space
+  coordinate. It is the case when \code{levels} is a single integer.
+  
   \code{min} and \code{max} are boundaries of the region of
   experimentation. They can be single values (the same for each
   factor) or vectors.
+
+  \code{jump} is such that:
+  \deqn{
+    \Delta_i = \texttt{jump}_i \times \frac{\texttt{max}_i-\texttt{min}_i}{\texttt{levels}_i-1}
+  }{
+    Delta[i] = jump[i] * ( max[i] - min[i] ) / ( levels[i] - 1 )
+  }
+  If \code{jump} is given as \code{NULL} and the number of levels is
+  even (for each component), then \code{jump} has the value recommended
+  by Morris:
+  \eqn{\texttt{jump} = \texttt{levels} / 2}{jump = levels / 2}.
+  If \code{jump} is a single value, then it is taken the same for each
+  coordinate.
+
 }
 
 \value{
@@ -72,23 +72,16 @@ morris(model = NULL, factors, levels, r, k.delta = "usual",
   An object of class \code{"morris"} is a list containing the following
   components:
 
-  \item{model}{the model.}
-  \item{levels}{the number of levels of the design grid.}
-  \item{r}{the number of repetitions of the design.}
-  \item{delta}{the value of \eqn{\Delta}{Delta}.}
-  \item{min}{the minimum values for the factors.}
-  \item{max}{the maximum values for the factors.}
-  \item{scale}{logical. If \code{TRUE}, the input and output data are
-    scaled before computing the elementary effects.}
-  \item{nboot}{the number of bootstrap replicates.}
-  \item{conf}{the confidence level for bootstrap confidence intervals.}
-  \item{D}{the successive diagonal matrices composed of equiprobable +1 and -1.}
-  \item{P}{the successive random permutation matrices.}
-  \item{x}{the design of experiments (input sample).}
-  \item{y}{the response.}
-  \item{mu}{the estimations of the \eqn{\mu^*}{mu*} index.}
-  \item{sigma}{the estimations of the \eqn{\sigma}{sigma} index.}
-  \item{call}{the matched call.}
+  \item{x}{the design of experiments (input sample)}
+  \item{y}{the response}
+  \item{ee}{the matrix of the elementary effects}
+  \item{mu}{the estimations of the \eqn{\mu^*}{mu*} index}
+  \item{sigma}{the estimations of the \eqn{\sigma}{sigma} index}
+}
+
+\section{Computational cost}{
+  The number of model evaluations is \eqn{(p+1) \times R}{(p + 1) * R}
+  where \eqn{p}{p} is the number of factors.
 }
 
 \references{
@@ -99,15 +92,10 @@ Morris, M. D., 1991, Factorial sampling plans for preliminary
 computational experiments. \emph{Technometrics}, \bold{33}, 161--174.
 }
 
-\seealso{
-  \code{\link{sensitivity}}
-  \code{\link{compute}}
-}
-
 \examples{
 # Test case : the non-monotonic function of Morris
 
-sa <- morris(model = morris.fun, factors = 20, levels = 4, r = 4)
+sa <- morris(model = morris.fun, factors = 20, levels = 4, R = 4)
 print(sa)
 plot(sa)
 }

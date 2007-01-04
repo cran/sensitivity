@@ -1,7 +1,1 @@
-export(compute,
-       linsa, compute.linsa, print.linsa, plot.linsa,
-       morris, compute.morris, print.morris, plot.morris,
-       sobol, compute.sobol, print.sobol, plot.sobol,
-       sobol.sal02, compute.sobol.sal02, print.sobol.sal02, plot.sobol.sal02,
-       fast, compute.fast, print.fast, plot.fast,
-       sobol.fun, ishigami.fun, morris.fun)
+export(tell, srcpcc, tell.srcpcc, print.srcpcc, plot.srcpcc, morris, tell.morris, print.morris, plot.morris, sobol, sobol.sobol93, tell.sobol.sobol93, print.sobol.sobol93, plot.sobol.sobol93, sobol.saltelli02, tell.sobol.saltelli02, print.sobol.saltelli02, plot.sobol.saltelli02, fast, fast.saltelli99, tell.fast.saltelli99, print.fast.saltelli99, plot.fast.saltelli99, sobol.fun, ishigami.fun, morris.fun)

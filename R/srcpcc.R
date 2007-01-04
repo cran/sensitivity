@@ -1,51 +1,44 @@
-linsa <- function(model = NULL, x, pcc = TRUE, rank = FALSE,
-                  nboot = 0, conf = 0.95, ...)
-{
-  # OBJECT OF CLASS "linsa"
+
+## File: srcpcc.R
+## Description: linear sensitivity analysis
+## Author: Gilles Pujol
+
+
+srcpcc <- function(model = NULL, x, pcc = TRUE, rank = FALSE,
+                  nboot = 0, conf = 0.95, ...){
+  
+  ## OBJECT OF CLASS "srcpcc"
   
   sa <- list(model = model, x = x, rank = rank, nboot = nboot, conf = conf,
              y = NULL, src = NULL, call = match.call())
   if (pcc == TRUE){
     sa <- c(sa, list(pcc = NULL))
   }
-  class(sa) <- "linsa"
+  class(sa) <- "srcpcc"
   
-  # COMPUTATION OF THE RESPONSE AND SENSITIVITY ANALYSIS
+  ## COMPUTATION OF THE RESPONSE AND SENSITIVITY ANALYSIS
   
   if (!is.null(sa$model)){
       response(sa, ...)
-      compute(sa)
+      tell(sa)
   }
   
-  # RETURN OF THE OBJECT OF CLASS "linsa"
+  ## RETURN OF THE OBJECT OF CLASS "srcpcc"
   
   return(sa)
 }
 
 
-## estim.pear <- function(data, i)
-## {
-##   d <- data[i, ]
-##   p <- ncol(d) - 1
-##   out <- numeric(p)
-##   for (j in 1 : p)
-##     out[j] <- cor(d[1], d[j+1])
-##   return(out)
-## }
-
-
-estim.src <- function(data, i)
-{
+estim.src <- function(data, i = 1 : nrow(data)){
   d <- data[i, ]
-  f <- formula(paste(colnames(d)[1], "~", paste(colnames(d)[-1],
-                                                collapse = "+")))
+  f <- formula(paste(colnames(d)[1], "~",
+                     paste(colnames(d)[-1], collapse = "+")))
   reg <- lm(formula = f, data = d)
   return(coefficients(reg)[-1] * sd(d[-1]) / sd(d[1]))
 }
 
 
-estim.pcc <- function(data, i)
-{
+estim.pcc <- function(data, i = 1 : nrow(data)){
   d <- data[i, ]
   p <- ncol(d) - 1
   out <- numeric(p)
@@ -61,16 +54,15 @@ estim.pcc <- function(data, i)
 }
 
 
-compute.linsa <- function(sa, y = NULL)
-{
+tell.srcpcc <- function(sa, y = NULL){
   id <- deparse(substitute(sa))
 
-  # EXTERNAL MODEL
+  ## EXTERNAL MODEL
 
   if (! is.null(y))
     sa$y <- y
   
-  # RANK ANALYSIS ?
+  ## RANK ANALYSIS ?
 
   if (sa$rank == TRUE){
     for (i in 1:ncol(sa$x))
@@ -78,26 +70,46 @@ compute.linsa <- function(sa, y = NULL)
     sa$y <- rank(sa$y)
   }
 
-  # ESTIMATION OF THE INDICES
-  
+  ## a first linear regression (to allow the user to control the linearity)
+
   data <- as.data.frame(cbind(Y=sa$y, sa$x))
-##   sa$pear <- estim(estim.pear, data, sa$nboot, sa$conf)
-##   rownames(sa$pear) <- colnames(x)
-  sa$src <- estim(estim.src, data, sa$nboot, sa$conf)
-  rownames(sa$src) <- colnames(sa$x)
-  if ("pcc" %in% names(sa)){
-    sa$pcc <- estim(estim.pcc, data, sa$nboot, sa$conf)
-    rownames(sa$pcc) <- colnames(sa$x)
+  
+  f <- formula(paste(colnames(data)[1], "~",
+                     paste(colnames(data)[-1], collapse = "+")))
+  sa$lm <- lm(formula = f, data = data)
+
+  ## ESTIMATION OF THE INDICES
+  
+  if (sa$nboot == 0){
+    ## single estimation
+    sa$src <- data.frame(original = estim.src(data))
+    rownames(sa$src) <- colnames(sa$x)
+    
+    if ("pcc" %in% names(sa)){
+      sa$pcc <- data.frame(original = estim.pcc(data))
+      rownames(sa$pcc) <- colnames(sa$x)
+    }
+  }
+  else{
+    ## bootstrap estimation
+    boot.src <- boot(data, estim.src, R = sa$nboot)
+    sa$src <- bootstats(boot.src, sa$conf, "basic")
+    rownames(sa$src) <- colnames(sa$x)
+    
+    if ("pcc" %in% names(sa)){
+      boot.pcc <- boot(data, estim.pcc, R = sa$nboot)
+      sa$pcc <- bootstats(boot.pcc, sa$conf, "basic")
+      rownames(sa$pcc) <- colnames(sa$x)
+    }
   }
   
-  # SAVING OF THE INDICES
+  ## SAVING OF THE INDICES
   
   assign(id, sa, parent.frame())
 }
 
 
-print.linsa <- function(x, ...)
-{
+print.srcpcc <- function(x, ...){
    if (x$rank == FALSE)
      titles <- c("\nStandardized Regression Coefficients:\n",
                  "\nPartial Correlation Coefficients:\n")
@@ -116,8 +128,7 @@ print.linsa <- function(x, ...)
 }
 
 
-plot.linsa <- function(x, ask = TRUE, ...)
-{
+plot.srcpcc <- function(x, ask = TRUE, ...){
   if (ask){
     op <- par(ask = TRUE)
     on.exit(par(op))
