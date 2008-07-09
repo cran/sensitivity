@@ -18,7 +18,7 @@ nodeplot <- function(x, xlim = NULL, ylim = NULL, labels = TRUE,
     at <- 1 : n
   if (add)
     par(new = TRUE)
-
+  
   # axes
   
   plot(0, xlim = xlim, ylim = ylim, axes = FALSE,
@@ -44,7 +44,7 @@ nodeplot <- function(x, xlim = NULL, ylim = NULL, labels = TRUE,
 
   if (("min. c.i." %in% colnames(x)) & "max. c.i." %in% colnames(x))
     for (i in 1 : n)
-      lines(c(at[i], at[i]), c(x[["min. c.i."]][i], x[["max. c.i"]][i]),
+      lines(c(at[i], at[i]), c(x[["min. c.i."]][i], x[["max. c.i."]][i]),
             col = col)
 
   # points

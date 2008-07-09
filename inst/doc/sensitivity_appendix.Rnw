@@ -8,7 +8,9 @@
 \setlength\parindent{0pt}
 \setlength\parskip{1ex}
 
-\usepackage{gilles_maths}
+%\usepackage{gilles_maths}
+\usepackage{amsmath}
+\usepackage{amssymb}
 
 \begin{document}
 

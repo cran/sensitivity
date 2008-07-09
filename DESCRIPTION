@@ -1,16 +1,16 @@
 Package: sensitivity
-Version: 1.3-0
-Date: 2007-01-04
+Version: 1.3-1
+Date: 2008-07-09
 Title: Sensitivity Analysis
 Author: Gilles Pujol (this package was originally developped at Commissariat a 
   l'Energie Atomique CEA, Service d'Etudes et de Simulation du Comportement des 
   Combustibles CEA/DEN/CAD/DEC/SESC, France ; the author would like to thank : 
   Patrick Obry, Bertrand Iooss, Claire Cannamela and Frederic Michel).
 Maintainer: Bertrand Iooss <bertrand.iooss@cea.fr>
-Depends: R, boot
+Depends: R (>= 2.4.0), boot
 Description: This package allows to perform sensitivity analyses within the R
   environment. Implemented methods are : linear sensitivity analysis (SRC,
   PCC, rank analysis), the screening method of Morris, the Sobol global 
   sensitivity indices (two methods of estimation), and the FAST method.
 License: CeCILL version 2
-Packaged: Fri Jan  5 14:12:49 2007; hornik
+Packaged: Wed Jul  9 11:05:03 2008; bi165542
