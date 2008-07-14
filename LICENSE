@@ -1,4 +1,5 @@
-              CeCILL FREE SOFTWARE LICENSE AGREEMENT
+
+CeCILL FREE SOFTWARE LICENSE AGREEMENT
 
 
     Notice
@@ -15,16 +16,16 @@ the two main principles guiding its drafting:
       intellectual property law, and the protection that it offers to
       both authors and holders of the economic rights over software.
 
-The authors of the CeCILL (for Ce[a] C[nrs] I[nria] L[logiciel] L[ibre])
+The authors of the CeCILL (for Ce[a] C[nrs] I[nria] L[ogiciel] L[ibre])
 license are:
 
-Commissariat a l'Energie Atomique - CEA, a public scientific, technical
-and industrial establishment, having its principal place of business at
-31-33 rue de la Federation, 75752 Paris cedex 15, France.
+Commissariat à l'Energie Atomique - CEA, a public scientific, technical
+and industrial research establishment, having its principal place of
+business at 25 rue Leblanc, immeuble Le Ponant D, 75015 Paris, France.
 
 Centre National de la Recherche Scientifique - CNRS, a public scientific
 and technological establishment, having its principal place of business
-at 3 rue Michel-Ange 75794 Paris cedex 16, France.
+at 3 rue Michel-Ange, 75794 Paris cedex 16, France.
 
 Institut National de Recherche en Informatique et en Automatique -
 INRIA, a public scientific and technological establishment, having its
@@ -52,7 +53,7 @@ the user's attention, given its Free Software status, which may make it
 complicated to use, with the result that its use is reserved for
 developers and experienced professionals having in-depth computer
 knowledge. Users are therefore encouraged to load and test the
-Software's suitability as regards their requirements in conditions
+suitability of the software as regards their requirements in conditions
 enabling the security of their systems and/or data to be ensured and,
 more generally, to use and operate it in the same conditions of
 security. This Agreement may be freely reproduced and published,
@@ -125,8 +126,8 @@ These expressions may be used both in singular and plural form.
 
 The purpose of the Agreement is the grant by the Licensor to the
 Licensee of a non-exclusive, transferable and worldwide license for the
-Software as set forth in Article 5 hereinafter for the whole term of the 
-protection granted by the rights over said Software.
+Software as set forth in Article 5 hereinafter for the whole term of the
+protection granted by the rights over said Software. 
 
 
     Article 3 - ACCEPTANCE
@@ -145,7 +146,7 @@ following events:
 characteristics of the Software, to the limited warranty, and to the
 fact that its use is restricted to experienced users has been provided
 to the Licensee prior to its acceptance as set forth in Article 3.1
-hereinabove, and the Licensee hereby acknowledges that it has read and 
+hereinabove, and the Licensee hereby acknowledges that it has read and
 understood it.
 
 
@@ -203,7 +204,7 @@ that this comprises:
 
 The right to make Contributions includes the right to translate, adapt,
 arrange, or make any or all modifications to the Software, and the right
-to reproduce the resulting Software.
+to reproduce the resulting software.
 
 The Licensee is authorized to make any or all Contributions to the
 Software provided that it includes an explicit notice that it is the
@@ -244,11 +245,11 @@ shall not exceed the cost of transferring the data.
         5.3.2 DISTRIBUTION OF MODIFIED SOFTWARE
 
 When the Licensee makes a Contribution to the Software, the terms and
-conditions for the distribution of the Modified Software become subject
-to all the provisions of this Agreement.
+conditions for the distribution of the resulting Modified Software
+become subject to all the provisions of this Agreement.
 
 The Licensee is authorized to distribute the Modified Software, in
-Source Code or Object Code form, provided that said distribution
+source code or object code form, provided that said distribution
 complies with all the provisions of the Agreement and is accompanied by:
 
    1. a copy of the Agreement,
@@ -256,11 +257,11 @@ complies with all the provisions of the Agreement and is accompanied by:
    2. a notice relating to the limitation of both the Licensor's
       warranty and liability as set forth in Articles 8 and 9,
 
-and that, in the event that only the Object Code of the Modified
+and that, in the event that only the object code of the Modified
 Software is redistributed, the Licensee allows future Licensees
-unhindered access to the full Source Code of the Modified Software by
+unhindered access to the full source code of the Modified Software by
 indicating how to access it, it being understood that the additional
-cost of acquiring the Source Code shall not exceed the cost of
+cost of acquiring the source code shall not exceed the cost of
 transferring the data.
 
 
@@ -296,18 +297,19 @@ and no one shall be entitled to modify the terms and conditions for the
 distribution of said Initial Software.
 
 The Holder undertakes that the Initial Software will remain ruled at
-least by the current license, for the duration set forth in article 4.2.
+least by this Agreement, for the duration set forth in Article 4.2.
 
 
       6.2 OVER THE CONTRIBUTIONS
 
-A Licensee who develops a Contribution is the owner of the intellectual
-property rights over this Contribution as defined by applicable law.
+The Licensee who develops a Contribution is the owner of the
+intellectual property rights over this Contribution as defined by
+applicable law.
 
 
       6.3 OVER THE EXTERNAL MODULES
 
-A Licensee who develops an External Module is the owner of the
+The Licensee who develops an External Module is the owner of the
 intellectual property rights over this External Module as defined by
 applicable law and is free to choose the type of agreement that shall
 govern its distribution.
@@ -325,7 +327,7 @@ The Licensee expressly undertakes:
 
 The Licensee undertakes not to directly or indirectly infringe the
 intellectual property rights of the Holder and/or Contributors on the
-Software and to take, where applicable, vis-a-vis its staff, any and all
+Software and to take, where applicable, vis-à-vis its staff, any and all
 measures required to ensure respect of said intellectual property rights
 of the Holder and/or Contributors.
 
@@ -382,9 +384,9 @@ modifying and/or developing and reproducing the Software which are
 reserved for experienced users.
 
 The Licensee shall be responsible for verifying, by any or all means,
-the product's suitability for its requirements, its good working order,
-and for ensuring that it shall not cause damage to either persons or
-properties.
+the suitability of the product for its requirements, its good working
+order, and for ensuring that it shall not cause damage to either persons
+or properties.
 
 9.2 The Licensor hereby represents, in good faith, that it is entitled
 to grant all the rights over the Software (including in particular the
@@ -392,8 +394,8 @@ rights set forth in Article 5).
 
 9.3 The Licensee acknowledges that the Software is supplied "as is" by
 the Licensor without any other express or tacit warranty, other than
-that provided for in Article 9.2 and, in particular, without any warranty
-as to its commercial value, its secured, safe, innovative or relevant 
+that provided for in Article 9.2 and, in particular, without any warranty 
+as to its commercial value, its secured, safe, innovative or relevant
 nature.
 
 Specifically, the Licensor does not warrant that the Software is free
@@ -445,7 +447,7 @@ networks, network paralysis following a virus attack, intervention by
 government authorities, natural disasters, water damage, earthquakes,
 fire, explosions, strikes and labor unrest, war, etc.
 
-11.2 Any Failure by either Party, on one or more occasions, to invoke
+11.2 Any failure by either Party, on one or more occasions, to invoke
 one or more of the provisions hereof, shall under no circumstances be
 interpreted as being a waiver by the interested Party of its right to
 invoke said provision(s) subsequently.
@@ -501,4 +503,4 @@ disagreements or disputes shall be referred to the Paris Courts having
 jurisdiction, by the more diligent Party.
 
 
-Version 2.0 dated 2005-05-21.
+Version 2.0 dated 2006-09-05.

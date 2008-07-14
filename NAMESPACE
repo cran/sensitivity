@@ -1,1 +1,42 @@
-export(tell, srcpcc, tell.srcpcc, print.srcpcc, plot.srcpcc, morris, tell.morris, print.morris, plot.morris, sobol, sobol.sobol93, tell.sobol.sobol93, print.sobol.sobol93, plot.sobol.sobol93, sobol.saltelli02, tell.sobol.saltelli02, print.sobol.saltelli02, plot.sobol.saltelli02, fast, fast.saltelli99, tell.fast.saltelli99, print.fast.saltelli99, plot.fast.saltelli99, sobol.fun, ishigami.fun, morris.fun)
+export(ask)
+export(tell)
+
+importFrom(stats, rnorm)
+export(sobol.fun, ishigami.fun, morris.fun)
+
+export(src)
+S3method(print, src)
+S3method(plot, src)
+
+export(pcc)
+S3method(print, pcc)
+S3method(plot, pcc)
+
+export(morris)
+S3method(tell, morris)
+S3method(print, morris)
+S3method(plot, morris)
+export(plot3d.morris)
+
+export(sobol)
+S3method(tell, sobol)
+S3method(print, sobol)
+S3method(plot, sobol)
+
+export(sobol2002)
+S3method(tell, sobol2002)
+S3method(print, sobol2002)
+S3method(plot, sobol2002)
+
+export(fast99)
+S3method(tell, fast99)
+S3method(print, fast99)
+S3method(plot, fast99)
+
+export(sb)
+S3method(ask, sb)
+S3method(tell, sb)
+S3method(print, sb)
+S3method(plot, sb)
+
+export(template.replace)

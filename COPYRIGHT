@@ -1,7 +1,12 @@
-Copyright or © or Copr. Commissariat a l'Energie Atomique (CEA), 
-contributor : Gilles Pujol and Bertrand Iooss, (2008-07-09)
+Copyright CEA - EMSE (2008-01-19).
 
-Contact : bertrand.iooss@cea.fr
+This software was developped at:
+* Commissariat a l'Energie Atomique - CEA, Service d'Etudes et de
+  Simulation du Comportement des Combustibles (DEN/CAD/DEC/SESC),
+  untill june 2006 (version 1.0);
+* Ecole Nationale Superieure des Mines de Saint-Etienne - EMSE, Centre
+  Genie Industriel et Informatique (G2I), from august 2006 (versions
+  1.1, 1.2, 1.3-0 and 1.4-0).
 
 This software is a computer program whose purpose is to perform 
 sensitivity analyses within the R environment.

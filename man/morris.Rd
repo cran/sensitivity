@@ -3,101 +3,152 @@
 \alias{tell.morris}
 \alias{print.morris}
 \alias{plot.morris}
+\alias{plot3d.morris}
 
-\title{The Morris OAT Screening Method}
+\title{Morris's Elementary Effects Screening Method}
 
 \description{
-  \code{morris} is the implementation of the Morris OAT Screening
-  method. This function generates the Morris design of experiments and
-  computes the measures of sensitivity \eqn{\mu^*}{mu*} and
-  \eqn{\sigma}{sigma}.
+  
+  \code{morris} implements the Morris's elementary effects screening
+  method (Morris 1992). This method, based on design of experiments,
+  allows to identify the few important factors at a cost of \eqn{r
+  \times (p+1)}{r * (p + 1)} simulations (where \eqn{p}{p} is the number
+  of factors). This implementation includes some improvements of the
+  original method: space-filling optimization of the design (Campolongo
+  et al. 2007) and simplex-based design (Pujol 2008).
 }
 
 \usage{
-morris(model = NULL, factors, levels, R, jump = NULL,
-       min = 0, max = 1, scale = TRUE, optim = NULL, \dots)
+morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
+       scale = TRUE, \dots)
+\method{tell}{morris}(x, y = NULL, \dots)
+\method{print}{morris}(x, \dots)
+\method{plot}{morris}(x, identify = FALSE, \dots)
+plot3d.morris(x, alpha = c(0.2, 0), sphere.size = 1)
 }
 
 \arguments{
-  \item{model}{the model}
-  \item{factors}{the number of factors, or their names}
-  \item{levels}{the number of levels of the design grid}
-  \item{R}{the number of repetitions of the design, i.e. the number of
-    elementary effect computed per factor}
-  \item{jump}{the \sQuote{grid jump} coefficient}
-  \item{min}{the minimum values for the factors}
-  \item{max}{the maximum values for the factors}
+  \item{model}{a function, or a model with a \code{predict} method,
+    defining the model to analyze.}
+  \item{factors}{an integer giving the number of factors, or a vector of
+    character strings giving their names.}
+  \item{r}{either an integer giving the number of repetitions of the design,
+    i.e. the number of elementary effect computed per factor, or a
+    vector of two integers \code{c(r1, r2)} for the space-filling
+    improvement (Campolongo et al.). In this case, \code{r1} is the
+    wanted design size, and \code{r2} (\eqn{> \code{r1}}{> \code{r1}})
+    is the size of the (bigger) population in which is extracted the
+    design (this can throw a warning, see below).
+  }
+  \item{design}{a list specifying the design type and its
+    parameters:
+    \itemize{
+      \item \code{type = "oat"} for Morris's OAT design (Morris 1992),
+      with the parameters:
+      \itemize{
+	\item \code{levels} : either an integer specifying the number of
+	levels of the design, or a vector of integers for different
+	values for each factor.
+	\item \code{grid.jump} : either an integer specifying the number of
+	levels that are increased/decreased for computing the
+	elementary effects, or a vector of integers for different values
+	for each factor. If not given, it is set to \code{grid.jump =
+	  1}. Notice that this default value of one does not follow
+	Morris's recommendation of 
+	\eqn{\texttt{levels} / 2}{levels / 2}.
+      }
+      \item \code{type = "simplex"} for simplex-based design (Pujol
+      2008), with the parameter:
+      \itemize{
+	\item \code{scale.factor} : a numeric value, the homothety factor of
+	the (isometric) simplexes. Edges equal one with a scale factor
+	of one.
+      }
+    }
+  }
+  \item{binf}{either an integer, specifying the minimum value for the
+    factors, or a vector for different values for each factor.}
+  \item{bsup}{either an integer, specifying the maximum value for the
+    factors, or a vector for different values for each factor.}
   \item{scale}{logical. If \code{TRUE}, the input and output data are
-    scaled}
-  \item{optim}{optimization of the design for better coverage of the
-    space (cf Campolongo 2005), not documented yet (for informations
-    feel free to ask the maintainer)}
+    scaled before computing the elementary effects.}
+  \item{x}{a list of class \code{"morris"} storing the state of the
+    screening study (parameters, data, estimates).}
+  \item{y}{a vector of model responses.}
+  \item{identify}{logical. If \code{TRUE}, the user selects with the
+    mouse the factors to label on the \eqn{(\mu^*,\sigma)}{(mu*, sigma)}
+  graph (see \code{identify}).}
   \item{\dots}{any other arguments for \code{model} which are passed
-    unchanged each time it is called}
+    unchanged each time it is called.}
+  \item{alpha}{a vector of three values between 0.0 (fully transparent) and 1.0
+    (opaque) (see \code{rgl.material}). The first value is for the
+    cone, the second for the planes.}
+  \item{sphere.size}{a numeric value, the scale factor for displaying the
+    spheres.}
 }
 
 \details{
-  \code{model} is a function or a predictor (a class with a
-  \code{predict} method) computing the response \code{y} based on the
-  sample given by \code{x}. If no model is specified, the indices will be
-  computed when one gives the response.
 
-  \code{factors} could either be a single number or a vector of
-  character strings.
-
-  The number of levels is not necessary the same for each space
-  coordinate. It is the case when \code{levels} is a single integer.
+  \code{plot2d} draws the \eqn{(\mu^*,\sigma)}{(mu*, sigma)} graph.
   
-  \code{min} and \code{max} are boundaries of the region of
-  experimentation. They can be single values (the same for each
-  factor) or vectors.
-
-  \code{jump} is such that:
-  \deqn{
-    \Delta_i = \texttt{jump}_i \times \frac{\texttt{max}_i-\texttt{min}_i}{\texttt{levels}_i-1}
-  }{
-    Delta[i] = jump[i] * ( max[i] - min[i] ) / ( levels[i] - 1 )
+  \code{plot3d.morris} draws the \eqn{(\mu, \mu^*,\sigma)}{(mu, mu*,
+    sigma)} graph (requires the \pkg{rgl} package). On this graph, the
+    points are in a domain bounded by a cone and two planes (application
+    of the Cauchy-Schwarz inequality).
   }
-  If \code{jump} is given as \code{NULL} and the number of levels is
-  even (for each component), then \code{jump} has the value recommended
-  by Morris:
-  \eqn{\texttt{jump} = \texttt{levels} / 2}{jump = levels / 2}.
-  If \code{jump} is a single value, then it is taken the same for each
-  coordinate.
-
-}
 
 \value{
-  \code{morris} returns an object of class \code{"morris"}.
-  An object of class \code{"morris"} is a list containing the following
-  components:
+  \code{morris} returns a list of class \code{"morris"}, containing all
+  the input argument detailed before, plus the following components:
 
-  \item{x}{the design of experiments (input sample)}
-  \item{y}{the response}
-  \item{ee}{the matrix of the elementary effects}
-  \item{mu}{the estimations of the \eqn{\mu^*}{mu*} index}
-  \item{sigma}{the estimations of the \eqn{\sigma}{sigma} index}
+  \item{call}{the matched call.}
+  \item{X}{a \code{data.frame} containing the design of experiments.}
+  \item{y}{a vector of model responses.}
+  \item{ee}{a \eqn{r \times p}{r * p} matrix of elementary effects for
+    all the factors.}
+
+  Notice that the statitics of interest (\eqn{\mu}{mu}, \eqn{\mu^*}{mu*}
+  and \eqn{\sigma}{sigma}) are not stored. They can be printed by the
+  \code{print} method, but to extract numerical values, one has to
+  compute them with the following instructions:
+  \preformatted{
+mu <- apply(x$ee, 2, mean)
+mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
+sigma <- apply(x$ee, 2, sd)}
 }
 
-\section{Computational cost}{
-  The number of model evaluations is \eqn{(p+1) \times R}{(p + 1) * R}
-  where \eqn{p}{p} is the number of factors.
+\section{Warning messages}{
+  \describe{
+    \item{"keeping r' repetitions out of r"}{when generating the design of
+  experiments, identical repetitions are removed, leading to a lower
+  number than requested.}
+  }
+
 }
 
 \references{
-Saltelli, A., Chan, K. and Scott, E. M., 2000, \emph{Sensitivity
-  analysis}. Wiley.
+M. D. Morris, 1991, \emph{Factorial sampling plans for preliminary
+computational experiments}, Technometrics, 33, 161--174.
 
-Morris, M. D., 1991, Factorial sampling plans for preliminary
-computational experiments. \emph{Technometrics}, \bold{33}, 161--174.
+F. Campolongo, J. Cariboni and A. Saltelli, 2007, \emph{An effective
+screening design for sensitivity}, Environmental Modelling \&
+  Software, 22, 1509--1518.
+
+G. Pujol (2008), \emph{Simplex-based screening designs for estimating
+  metamodels}, submited to Reliability Engineering and System Safety.
+}
+
+\seealso{
+  \code{\link{decoupling}}
 }
 
 \examples{
 # Test case : the non-monotonic function of Morris
-
-sa <- morris(model = morris.fun, factors = 20, levels = 4, R = 4)
-print(sa)
-plot(sa)
+x <- morris(model = morris.fun, factors = 20, r = 4,
+            design = list(type = "oat", levels = 5, grid.jump = 3))
+print(x)
+plot(x)
+\dontrun{morris.plot3d(x)  # (requires the package 'rgl')}
 }
 
-\keyword{misc}
+\keyword{design}

@@ -4,33 +4,33 @@
 \alias{ishigami.fun}
 \alias{morris.fun}
 
-\title{Test Models For Sensitivity Analysis}
+\title{Test Models for Sensitivity Analysis}
 
 \description{
   These functions are standard testcase for sensitivity
-  analysis benchmarks. There are: the g-function of Sobol, the function
-  of Ishigami and the function of Morris.
+  analysis benchmarks: The g-function of Sobol', the function
+  of Ishigami and the function of Morris (see Saltelli et al. 2000,
+  section 2.9)
 }
 
 \usage{
-sobol.fun(x)
-ishigami.fun(x)
-morris.fun(x)
+sobol.fun(X)
+ishigami.fun(X)
+morris.fun(X)
 }
 
 \arguments{
-  \item{x}{the \code{matrix} or \code{data.frame} containing the input
-    values.}
+  \item{X}{a matrix (or \code{data.frame}) containing the input
+    sample.}
 }
 
 \value{
-  All these functions return a \code{numeric} vector containig the values
-  of the function. These functions are vectorized.
+  A vector of function responses.
 }
 
 \references{
-Saltelli, A., Chan, K. and Scott, E. M., 2000, \emph{Sensitivity
-  analysis}. Wiley, 33--45.
+A. Saltelli, K. Chan and E. M. Scott eds, 2000, \emph{Sensitivity
+  Analysis}, Wiley.
 }
 
 \keyword{misc}
