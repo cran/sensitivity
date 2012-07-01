@@ -37,9 +37,6 @@ sobol2002(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
     unchanged each time it is called}
 }
 
-\details{
-}
-
 \value{
   \code{sobol2002} returns a list of class \code{"sobol2002"}, containing all
   the input arguments detailed before, plus the following components:

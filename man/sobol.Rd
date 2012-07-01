@@ -43,9 +43,6 @@ sobol(model = NULL, X1, X2, order = 1, nboot = 0, conf = 0.95, \dots)
     unchanged each time it is called.}
 }
 
-\details{
-}
-
 \value{
   \code{sobol} returns a list of class \code{"sobol"}, containing all
   the input arguments detailed before, plus the following components:

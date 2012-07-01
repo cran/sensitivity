@@ -6,7 +6,7 @@
 estim.src <- function(data, i = 1:nrow(data)) {
   d <- data[i, ]
   lm.Y <- lm(formula(paste(colnames(d)[1], "~", paste(colnames(d)[-1], collapse = "+"))), data = d)
-  coefficients(lm.Y)[-1] * sd(d[-1]) / sd(d[1])
+  coefficients(lm.Y)[-1] * sapply(d[-1], sd) / sapply(d[1], sd)
 }
 
 

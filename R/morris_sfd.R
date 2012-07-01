@@ -11,7 +11,7 @@ haussdorf.distance <- function(x, set1, set2) {
 # returns: the Haussdorf distance between the two sets of points.
   n1 <- length(set1)
   n2 <- length(set2)
-  d <- matrix(nr = n1, nc = n2)
+  d <- matrix(nrow = n1, ncol = n2)
   for (i1 in 1 : n1) {
     for (i2 in 1 : n2) {
       d[i1,i2] <- sqrt(sum((x[set1[i1],] - x[set2[i2],])^2))
@@ -44,7 +44,7 @@ morris.maximin <- function(x, r) {
 # returns: the indices (in 1:R) of the r selected repetitions.
   p <- ncol(x)
   R <- nrow(x) / (p + 1)
-  d <- matrix(0, nr = R, nc = R)
+  d <- matrix(0, nrow = R, ncol = R)
   for (i in 1 : (R - 1)) {
     for (j in (i + 1) : R) {
       d[i,j] <- d[j,i] <- haussdorf.distance(x, ind.rep(i, p), ind.rep(j, p))

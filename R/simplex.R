@@ -6,7 +6,7 @@
 simplex.reg <- function(p) {
 # generates the matrix of a regular simplex, of edge length = 1,
 # centered on the origin
-  S <- matrix(0, nr = p + 1, nc = p)
+  S <- matrix(0, nrow = p + 1, ncol = p)
   S[2,1] <- 1
   for (i in 3 : (p + 1)) {
     for (j in 1 : (i - 2)) {
@@ -20,7 +20,7 @@ simplex.reg <- function(p) {
 
 simplex.rect <- function(p) {
 # generates the matrix of a rectangle ("orthonormal") simplex
-  S <- matrix(0, nr = p + 1, nc = p)
+  S <- matrix(0, nrow = p + 1, ncol = p)
   for (i in 1:p) {
     S[i+1,i] <- 1
   }
@@ -30,8 +30,8 @@ simplex.rect <- function(p) {
 
 plane.rot <- function(p, i, j, theta) {
 # matrix of the plane (i,j)-rotation of angle theta in dimension p
-  R <- diag(nr = p)
-  R[c(i,j), c(i,j)] <- matrix(c(cos(theta), sin(theta), - sin(theta), cos(theta)), nr = 2)
+  R <- diag(nrow = p)
+  R[c(i,j), c(i,j)] <- matrix(c(cos(theta), sin(theta), - sin(theta), cos(theta)), nrow = 2)
   return(R) 
 }
 
@@ -41,7 +41,7 @@ random.simplexes <- function(p, r, min = rep(0, p), max = rep(1, p), h = 0.25) {
   X <- matrix(nrow = r * (p + 1), ncol = p)
   
   # initial random rotation matrix
-  R <- diag(nr = p, nc = p)
+  R <- diag(nrow = p, ncol = p)
   ind <- combn(p, 2)
   theta <- runif(choose(p, 2), min = 0, max = 2 * pi)
   for (i in 1 : choose(p, 2)) {
@@ -71,7 +71,7 @@ ee.simplex <- function(X, y) {
 # compute the elementary effects for a simplex design
   p <- ncol(X)
   r <- nrow(X) / (p + 1)
-  ee <- matrix(nr = r, nc = p)
+  ee <- matrix(nrow = r, ncol = p)
   colnames(ee) <- colnames(X)
   for (i in 1 : r) {
     j <- ind.rep(i, p)

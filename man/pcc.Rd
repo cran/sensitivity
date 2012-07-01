@@ -33,9 +33,6 @@ pcc(X, y, rank = FALSE, nboot = 0, conf = 0.95)
     parameters (see \code{par}).}
 }
 
-\details{
-}
-
 \value{
   \code{pcc} returns a list of class \code{"pcc"}, containing the following
   components:

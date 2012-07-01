@@ -46,9 +46,6 @@ code.pattern = "@\\\\{CODE\\\\}"}
   be escaped both (one for perl, one for \R).
 }
 
-\value{
-}
-
 \examples{
 txt <- c("Hello $(name)!", "$(a) + $(b) = @{$(a)+$(b)}",
          "pi = @{format(pi,digits=5)}")

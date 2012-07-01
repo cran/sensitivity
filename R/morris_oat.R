@@ -20,7 +20,7 @@ ee.oat <- function(X, y) {
 # compute the elementary effects for a OAT design
   p <- ncol(X)
   r <- nrow(X) / (p + 1)
-  ee <- matrix(nr = r, nc = p)
+  ee <- matrix(nrow = r, ncol = p)
   colnames(ee) <- colnames(X)
   for (i in 1 : r) {
     j <- ind.rep(i, p)

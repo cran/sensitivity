@@ -33,9 +33,6 @@ src(X, y, rank = FALSE, nboot = 0, conf = 0.95)
     parameters (see \code{par}).}
 }
 
-\details{
-}
-
 \value{
   \code{src} returns a list of class \code{"src"}, containing the following
   components:
