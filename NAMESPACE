@@ -1,3 +1,5 @@
+useDynLib(sensitivity)
+
 export(ask)
 export(tell)
 
@@ -23,10 +25,23 @@ S3method(tell, sobol)
 S3method(print, sobol)
 S3method(plot, sobol)
 
+export(sobolEff)
+S3method(tell, sobolEff)
+S3method(print, sobolEff)
+S3method(plot, sobolEff)
+
 export(sobol2002)
 S3method(tell, sobol2002)
 S3method(print, sobol2002)
 S3method(plot, sobol2002)
+
+export(sobol2007)
+S3method(tell, sobol2007)
+S3method(print, sobol2007)
+S3method(plot, sobol2007)
+
+export(sobolCert)
+S3method(print, sobolCert)
 
 export(fast99)
 S3method(tell, fast99)

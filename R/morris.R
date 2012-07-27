@@ -174,7 +174,7 @@ plot.morris <- function(x, identify = FALSE, ...) {
 }
 
 
-plot3d.morris <- function(x, alpha = c(0.2, 0), sphere.size = 1) {
+plot3d.morris <- function(x, alpha = c(0.2, 0), sphere.size = 1, ...) {
   library(rgl)
   spheres.rad <- max((apply(x$ee,2,max) - apply(x$ee,2,min)) / 100) * sphere.size
   color = "grey"

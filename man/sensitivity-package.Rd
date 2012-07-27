@@ -15,11 +15,13 @@
     (\code{\link{src}}), PCC and PRCC (\code{\link{pcc}}).
     \item Morris's "OAT" elementary effects screening method (\code{\link{morris}}).
     \item Bettonvil's sequential bifurcations (\code{\link{sb}}).
-    \item Monte Carlo estimation of Sobol' indices: Sobol's scheme
-  (1993) to compute the indices given by the variance decomposition up
-  to a specified order (\code{\link{sobol}}), and Saltelli's
-    scheme (2002) to compute first order and total indices
-    with a reduced cost (\code{\link{sobol2002}}).
+    \item Monte Carlo estimation of Sobol' indices: 
+	  \itemize{
+		  \item Sobol's scheme (1993) to compute the indices given by the variance decomposition up to a specified order (\code{\link{sobol}})
+  		  \item Saltelli's scheme (2002) to compute first order and total indices with a reduced cost (\code{\link{sobol2002}}).
+		  \item Monod's scheme (2006) to compute first order indices with optimal asymptotic variance (\code{\link{sobolEff}}). 
+		  \item Sobol's scheme (2007) to compute first order and total indices using improved formulas for small indices (\code{\link{sobol2007}})
+	  }
     \item Estimation of the Sobol' first order and total indices with
     Saltelli's so-called "extended-FAST" method (\code{\link{fast99}}).
   }

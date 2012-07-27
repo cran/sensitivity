@@ -24,7 +24,7 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
 \method{tell}{morris}(x, y = NULL, \dots)
 \method{print}{morris}(x, \dots)
 \method{plot}{morris}(x, identify = FALSE, \dots)
-plot3d.morris(x, alpha = c(0.2, 0), sphere.size = 1)
+\method{plot3d}{morris}(x, alpha = c(0.2, 0), sphere.size = 1, ...)
 }
 
 \arguments{

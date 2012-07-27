@@ -68,7 +68,7 @@ model}, Math. Modelling Comput. Exp., 1, 407--414.
 }
 
 \seealso{
-  \code{\link{sobol2002}}
+  \code{\link{sobol2002}, \link{sobol2007}, \link{sobolEff}}
 }
 
 \examples{
