@@ -15,12 +15,12 @@
   \times (p+1)}{r * (p + 1)} simulations (where \eqn{p}{p} is the number
   of factors). This implementation includes some improvements of the
   original method: space-filling optimization of the design (Campolongo
-  et al. 2007) and simplex-based design (Pujol 2008).
+  et al. 2007) and simplex-based design (Pujol 2009).
 }
 
 \usage{
 morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
-       scale = TRUE, \dots)
+       scale = FALSE, \dots)
 \method{tell}{morris}(x, y = NULL, \dots)
 \method{print}{morris}(x, \dots)
 \method{plot}{morris}(x, identify = FALSE, \dots)
@@ -70,8 +70,9 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
     factors, or a vector for different values for each factor.}
   \item{bsup}{either an integer, specifying the maximum value for the
     factors, or a vector for different values for each factor.}
-  \item{scale}{logical. If \code{TRUE}, the input and output data are
-    scaled before computing the elementary effects.}
+  \item{scale}{logical. If \code{TRUE}, the input design of experiments is
+    scaled before computing the elementary effects so that all factors
+    vary within the range [0,1].}
   \item{x}{a list of class \code{"morris"} storing the state of the
     screening study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
@@ -88,7 +89,6 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
 }
 
 \details{
-
   \code{plot2d} draws the \eqn{(\mu^*,\sigma)}{(mu*, sigma)} graph.
   
   \code{plot3d.morris} draws the \eqn{(\mu, \mu^*,\sigma)}{(mu, mu*,
@@ -115,6 +115,11 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
 mu <- apply(x$ee, 2, mean)
 mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
 sigma <- apply(x$ee, 2, sd)}
+
+  Contrary to earlier versions of the function, the scaling of factors isn't 
+  forced by default. Although, it is highly recommended to use the function with
+  the argument \code{scale = TRUE} to avoid an uncorrect interpretation of factors that
+  would have different orders of magnitude.
 }
 
 \section{Warning messages}{
@@ -134,12 +139,8 @@ F. Campolongo, J. Cariboni and A. Saltelli, 2007, \emph{An effective
 screening design for sensitivity}, Environmental Modelling \&
   Software, 22, 1509--1518.
 
-G. Pujol (2008), \emph{Simplex-based screening designs for estimating
-  metamodels}, submited to Reliability Engineering and System Safety.
-}
-
-\seealso{
-  \code{\link{decoupling}}
+G. Pujol, 2009, \emph{Simplex-based screening designs for estimating
+  metamodels}, Reliability Engineering and System Safety 94, 1156--1160.
 }
 
 \examples{

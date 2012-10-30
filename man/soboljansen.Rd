@@ -1,23 +1,23 @@
-\name{sobol2007}
-\alias{sobol2007}
-\alias{tell.sobol2007}
-\alias{print.sobol2007}
-\alias{plot.sobol2007}
+\name{soboljansen}
+\alias{soboljansen}
+\alias{tell.soboljansen}
+\alias{print.soboljansen}
+\alias{plot.soboljansen}
 
-\title{Monte Carlo Estimation of Sobol' Indices (improved formulas of Sobol et al. (2007) and Saltelli et al. (2010))}
+\title{Monte Carlo Estimation of Sobol' Indices (improved formulas of Jansen (1999) and Saltelli et al. (2010))}
 
 \description{
-  \code{sobol2007} implements the Monte Carlo estimation of
+  \code{soboljansen} implements the Monte Carlo estimation of
   the Sobol' indices for both first-order and total indices at the same
   time (alltogether \eqn{2p}{2p} indices), at a total cost of \eqn{(p+2)
     \times n}{(p + 2) * n} model evaluations.
 }
 
 \usage{
-sobol2007(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
-\method{tell}{sobol2007}(x, y = NULL, return.var = NULL, \dots)
-\method{print}{sobol2007}(x, \dots)
-\method{plot}{sobol2007}(x, ylim = c(0, 1), \dots)
+soboljansen(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
+\method{tell}{soboljansen}(x, y = NULL, return.var = NULL, \dots)
+\method{print}{soboljansen}(x, \dots)
+\method{plot}{soboljansen}(x, ylim = c(0, 1), \dots)
 }
 
 \arguments{
@@ -38,7 +38,7 @@ sobol2007(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
 }
 
 \value{
-  \code{sobol2007} returns a list of class \code{"sobol2007"}, containing all
+  \code{soboljansen} returns a list of class \code{"soboljansen"}, containing all
   the input arguments detailed before, plus the following components:
 
   \item{call}{the matched call.}
@@ -56,13 +56,12 @@ sobol2007(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
 }
 
 \details{
-This estimator is good for small first-order and total indices.
+This estimator is good for large first-order indices, and (large and small) total indices.
 }
 
 \references{
-I.M. Sobol, S. Tarantola, D. Gatelli, S.S. Kucherenko and W. Mauntz, 2007, \emph{Estimating
-the approximation errors when fixing unessential factors in global sensitivity analysis},
-Reliability Engineering and System Safety, 92, 957--960.
+M.J.W. Jansen, 1999, \emph{Analysis of variance designs for model output},
+Computer Physics Communication, 117, 35--43.
 
 A. Saltelli, P. Annoni, I. Azzini, F. Campolongo, M. Ratto and S. Tarantola, 2010,
 \emph{Variance based sensitivity analysis of model output. Design and estimator for the
@@ -82,7 +81,7 @@ X2 <- data.frame(matrix(runif(8 * n), nrow = n))
 
 # sensitivity analysis
 
-x <- sobol2007(model = sobol.fun, X1, X2, nboot = 100)
+x <- soboljansen(model = sobol.fun, X1, X2, nboot = 100)
 print(x)
 plot(x)
 }

@@ -40,6 +40,11 @@ S3method(tell, sobol2007)
 S3method(print, sobol2007)
 S3method(plot, sobol2007)
 
+export(soboljansen)
+S3method(tell, soboljansen)
+S3method(print, soboljansen)
+S3method(plot, soboljansen)
+
 export(sobolCert)
 S3method(print, sobolCert)
 

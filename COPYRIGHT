@@ -1,4 +1,4 @@
-Copyright CEA - EMSE (2008-01-19).
+Copyright CEA - EMSE - EDF (2008-01-19).
 
 This software was developped at:
 * Commissariat a l'Energie Atomique - CEA, Service d'Etudes et de
@@ -7,6 +7,8 @@ This software was developped at:
 * Ecole Nationale Superieure des Mines de Saint-Etienne - EMSE, Centre
   Genie Industriel et Informatique (G2I), from august 2006 (versions
   1.1, 1.2, 1.3-0 and 1.4-0).
+* Electricite de France - Research and Development, from june 2012 
+  (versions 1.5 and 1.6-0).
 
 This software is a computer program whose purpose is to perform 
 sensitivity analyses within the R environment.

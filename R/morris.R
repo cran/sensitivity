@@ -1,5 +1,4 @@
 # Morris's screening method (Morris 1992, Campolongo 2007)
-# Provides also simplex-based screening designs (Pujol 2007)
 #
 # Gilles Pujol 2006-2008
 #
@@ -10,13 +9,12 @@
 
 
 ind.rep <- function(i, p) {
-# indices of the ith trajectory in the DoE
+# indices of the points of the ith trajectory in the DoE
   (1 : (p + 1)) + (i - 1) * (p + 1)
 }
 
 
-morris <- function(model = NULL, factors, r, design, binf = 0, bsup = 1,
-                   scale = TRUE, ...) {
+morris <- function(model = NULL, factors, r, design, binf = 0, bsup = 1, scale = FALSE, ...) {
   
   # argument checking: factor number and names
   if (is.character(factors)) {
@@ -69,13 +67,7 @@ morris <- function(model = NULL, factors, r, design, binf = 0, bsup = 1,
   
   # generation of the initial design
   if (design$type == "oat") {
-    X <- matrix(nrow = r.max * (p + 1), ncol = p)
-    for (j in 1 : r.max) {
-      X[ind.rep(j,p),] <- random.oat(p, nl, jump)
-    }
-    for (i in 1 : p) {
-      X[,i] <- X[,i] * (bsup[i] - binf[i]) + binf[i]
-    }
+    X <- random.oat(p, r.max, binf, bsup, nl, jump)
   } else if (design$type == "simplex") {
     X <- random.simplexes(p, r.max, binf, bsup, h)
   }
@@ -126,8 +118,11 @@ tell.morris <- function(x, y = NULL, ...) {
   y <- x$y
 
   if (x$scale) {
-    X <- scale(X)
-    y <- as.numeric(scale(y))
+    #X <- scale(X)
+    #y <- as.numeric(scale(y))
+    Binf <- matrix(x$binf, nrow = nrow(X), ncol = length(x$binf), byrow = TRUE)
+	Bsup <- matrix(x$bsup, nrow = nrow(X), ncol = length(x$bsup), byrow = TRUE)
+	X <- (X - Binf) / (Bsup - Binf) 
   }
 
   if (x$design$type == "oat") {

@@ -46,7 +46,7 @@ sobolEff(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
 }
 
 \details{
-	The estimator used by sobolEff is defined in Monod et al. (2006), Section 4.2.4.2 and studied under the name T_N in Janon et al. (2012).
+	The estimator used by sobolEff is defined in Monod et al. (2006), Section 4.2.4.2 and studied under the name T_N in Janon et al. (2012). This estimator is good for large first-order indices.
 }
 
 \references{
