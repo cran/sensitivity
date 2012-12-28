@@ -37,26 +37,25 @@
   than external models such as heavy computational codes. This is achieved with
   the input argument \code{model} present in all functions of this package.
   
-  If \code{model} isn't set to \code{NULL}, it is expected to be either a
+  The argument \code{model} is expected to be either a
   funtion or a predictor (i.e. an object with a \code{predict} function such as
   \code{lm}).
   \itemize{
-    \item If \code{model = f} where \code{f} is a function, it will be invoked
-        once by \code{y <- f(X)}.
-    \item If \code{model = r} where \code{r} is a predictor, it will be invoked
-        once by \code{y <- predict(r, X)}.
+    \item If \code{model = m} where \code{m} is a function, it will be invoked
+        once by \code{y <- m(X)}.
+    \item If \code{model = m} where \code{m} is a predictor, it will be invoked
+        once by \code{y <- predict(m, X)}.
   }
   \code{X} is the design of experiments, i.e. a \code{data.frame} with
   \code{p} columns (the input factors) and \code{n} lines (each, an
   experiment), and \code{y} is the vector of length \code{n} of the
   model responses.
   
-  We draw attention to the fact that the model in invoked once for the whole
-  design of experiment, which can be unnatural to many users. If the model to analyze
-  isn't vectorized, it can be encapsulated in a parent loop model. It can also been used
-  as it through the decoupled approach as described in \code{\link{decoupling}}.
-  This is also how one can use the functions of the package with external
-  computational codes that rarely run on the statistician's computer.
+  The model in invoked once for the whole design of experiment.
+  
+  The argument \code{model} can be left to \code{NULL}. This is refered to as 
+  the decoupled approach and used with external computational codes that rarely
+  run on the statistician's computer. See \code{\link{decoupling}}.
 }
 
 \references{

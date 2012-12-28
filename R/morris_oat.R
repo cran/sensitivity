@@ -42,7 +42,8 @@ ee.oat <- function(X, y) {
     j <- ind.rep(i, p)
     j1 <- j[1 : p]
     j2 <- j[2 : (p + 1)]
-    ee[i,] <- (y[j2] - y[j1]) / rowSums(X[j2,] - X[j1,])
+    #ee[i,] <- (y[j2] - y[j1]) / rowSums(X[j2,] - X[j1,])
+    ee[i,] <- solve(X[j2,] - X[j1,], y[j2] - y[j1])
   }
   return(ee)
 }

@@ -1,12 +1,12 @@
 9924a0b61e2f394ce212b7d54ba46f56 *COPYRIGHT
-1d7dc5948aa9edfb016fa859692ee2b3 *DESCRIPTION
+353508320b95574d18a9bb9139d05a4c *DESCRIPTION
 2d740db2d9a00ce8e4d54d3ea8789b5a *LICENSE
 f4c2af69851bb8f257476b4bd0cfdfdf *NAMESPACE
 777bbea211c5c11305b5f510520c37f0 *R/base.R
 82847588a758c48d67df8ea1652b91b3 *R/bootstats.R
 5a3ee2007e13f7334f5372a57e5d8e37 *R/fast99.R
 b5daae5eaf60f2f191f15a4a834ac99e *R/morris.R
-5ae8afe1fe1a71787e9946a9bbdd560a *R/morris_oat.R
+4a78159ac9127ffdc62ed939341e95d4 *R/morris_oat.R
 bee7b1ea7f082d3300b5d710e799882f *R/morris_sfd.R
 a06ce0316f1c01877823fc7d0d55992b *R/nodeplot.R
 d75b2fda5c111596d15ae8c8e5597e00 *R/pcc.R
@@ -27,7 +27,7 @@ b1ed399a45cad9fb2487ff910529febf *R/testmodels.R
 78a97406f67e4669b730e54efe7ff804 *man/morris.Rd
 b0079b63b0fced2cb93acdd1c2912ec4 *man/pcc.Rd
 72b2c7e76e33988d6f46fd77e55e3ee5 *man/sb.Rd
-a5e736660e566c0ba335511142ef7464 *man/sensitivity-package.Rd
+d545b0d61ceb2a6b1b700a8787ef0789 *man/sensitivity-package.Rd
 f211e4a82413fed43c4fee0d65fcaacd *man/sobol.Rd
 95c2a91682f61a7b37ba0a945294eae1 *man/sobol2002.Rd
 cbe60123b79204f45b2fdddce72b4911 *man/sobol2007.Rd
