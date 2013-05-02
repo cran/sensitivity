@@ -1,13 +1,15 @@
 Package: sensitivity
-Version: 1.6-1
-Date: 2012-12-28
+Version: 1.7
+Date: 2013-05-02
 Title: Sensitivity Analysis
 Author: Gilles Pujol, Bertrand Iooss, Alexandre Janon
 Maintainer: Bertrand Iooss <biooss@yahoo.fr>
-Depends: R (>= 2.7.0), boot, rgl
-Description: A collection of functions for factor screening and global
-        sensitivity analysis of model output.
-License: CeCILL-2
-Packaged: 2012-12-28 15:01:07 UTC; pujol
+Depends: R (>= 2.7.0), boot, rgl, evd
+Description: A collection of functions for factor screening, global
+        sensitivity analysis and reliability sensitivity analysis of
+        model output.
+License: GPL-2
+Packaged: 2013-12-15 12:05:56 UTC; ripley
+NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2012-12-28 16:23:39
+Date/Publication: 2013-12-15 13:08:06

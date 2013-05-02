@@ -266,8 +266,15 @@ int compare(const void *a, const void *b) {
 	return(*((double*)a)>*((double*)b));
 }
 
-double Phi(double x) {
-	return(.5*erfc(-x/sqrt(2.)));
+//double Phi(double x) {
+	//return(.5*erfc(-x/sqrt(2.)));
+//}
+
+#include <Rmath.h>
+
+double Phi(double x)
+{
+    return dnorm(x, 0., 1., FALSE);
 }
 
 double Probit(double p) {
@@ -531,7 +538,8 @@ double gradSobol(int N, double *x, int j, int p, double& M12, double& MC1, doubl
 }
 
 extern "C" {
-	void setulb_(int* n, int *m, double *x, double *l, double *u, int *nbd, double *f, double *g, double *factr, double *pgtol, double *wa, int *iwa, char *task, int *iprint, char *csave, int *lsave, int *isave, double *dsave);
+#include <R.h>
+	void F77_NAME(setulb)(int* n, int *m, double *x, double *l, double *u, int *nbd, double *f, double *g, double *factr, double *pgtol, double *wa, int *iwa, char *task, int *iprint, char *csave, int *lsave, int *isave, double *dsave);
 }
 
 void estiSobol_bfgs(int N, int j, int p, int *indEchantillons, double *valopti, double signe, bool dump, double *xsave) {
@@ -586,8 +594,9 @@ void estiSobol_bfgs(int N, int j, int p, int *indEchantillons, double *valopti, 
 	int Nrestart=1;
 
 	for(int K=0;K<Nrestart;K++) {
-		memset(task,' ',60);
+		memset(task,' ',60*sizeof(char));
 		task[0]='S';task[1]='T';task[2]='A';task[3]='R';task[4]='T';
+	//	memset(csave,'X',60*sizeof(char));
 
 		lambda=lambda0*signe;
 
@@ -595,7 +604,8 @@ void estiSobol_bfgs(int N, int j, int p, int *indEchantillons, double *valopti, 
 			x[jj]=l[jj]+(u[jj]-l[jj])*double(rand())/double(RAND_MAX);
 
 		do {
-			setulb_(&dim,&m,x,l,u,nbd,valopti,grad,&factr,&pgtol,wa,iwa,task,&iprint,csave,lsave,isave,dsave);
+		//	printf("%s\n", csave);
+			F77_NAME(setulb)(&dim,&m,x,l,u,nbd,valopti,grad,&factr,&pgtol,wa,iwa,task,&iprint,csave,lsave,isave,dsave);
 
 			if(task[0]=='F' && task[1]=='G') {
 				*valopti=signe*calcSobol_bfgs(N,x,j,p,M12,MC1,M1,M2,valSmooth);

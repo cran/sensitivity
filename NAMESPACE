@@ -60,3 +60,5 @@ S3method(print, sb)
 S3method(plot, sb)
 
 export(template.replace)
+
+export(DMBRSI)

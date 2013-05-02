@@ -49,6 +49,7 @@ morris <- function(model = NULL, factors, r, design, binf = 0, bsup = 1, scale =
     if (length(nl) == 1) nl <- rep(nl, p)
     if ("grid.jump" %in% names(design)) {
       jump <- design$grid.jump
+      if (round(jump, 0) != jump) stop("grid.jump must be integer")
       if (length(jump) == 1) jump <- rep(jump, p)
     } else {
       jump <- rep(1, p)

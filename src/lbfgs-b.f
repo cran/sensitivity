@@ -256,7 +256,8 @@ c======================= The end of setulb =============================
      +                  sgo, yg, ygo, index, iwhere, indx2, task,
      +                  iprint, csave, lsave, isave, dsave)
  
-      character*60     task, csave
+      character*60     task
+		character*60     csave
       logical          lsave(4)
       integer          n, m, iprint, nbd(n), index(n),
      +                 iwhere(n), indx2(n), isave(23)

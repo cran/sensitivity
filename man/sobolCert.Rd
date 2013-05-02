@@ -46,6 +46,7 @@ sobolCert(model = NULL, X1=NULL, X2=NULL, nboot = 300, conf = 0.95, lambda0 = 0,
 }
 
 \examples{
+	\dontrun{
 # Test case
 
 n <- 1000
@@ -59,7 +60,7 @@ print(x)
 
 x=sobolCert(model=NULL, X1=NULL, X2=NULL, conf=.95)
 print(x)
-
+}
 }
 
 \keyword{design}

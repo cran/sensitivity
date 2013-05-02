@@ -27,6 +27,9 @@
     Saltelli's so-called "extended-FAST" method (\code{\link{fast99}}).
   }
   
+  It alo implements a new reliability sensitivity analysis method: 
+  the Density Modification Based Reliability Sensitivity Indices (\code{\link{DMBRSI}}).
+  
   Moreover, some utilities are provided: standard test-cases
   (\code{\link{testmodels}}) and template file generation
   (\code{\link{template.replace}}).
@@ -57,6 +60,10 @@
   the decoupled approach and used with external computational codes that rarely
   run on the statistician's computer. See \code{\link{decoupling}}.
 }
+
+\author{Gilles Pujol, Bertrand Iooss, Alexandre Janon. Thanks to Paul Lemaitre for the DMBRSI() function.
+
+(maintainer: Bertrand Iooss \email{biooss@yahoo.fr})}
 
 \references{
 A. Saltelli, K. Chan and E. M. Scott eds, 2000, \emph{Sensitivity

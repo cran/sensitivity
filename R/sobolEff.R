@@ -101,7 +101,13 @@ print.sobolEff <- function(x, ...) {
 
 
 plot.sobolEff <- function(x, ylim = c(0, 1), ...) {
-  if (! is.null(x$y)) {
+	  if(!is.null(x$S$estimStd)) {
+			df=data.frame(pointEstimate=x$S$estim, stdErr=x$S$estimStd, minCI=x$S$CIinf, maxCI=x$S$CIsup)
+			colnames(df)=c("original","std. error","min. c.i.","max. c.i.")
+			nodeplot(df, ylim=ylim)
+  }
+
+  else if (! is.null(x$y)) {
     nodeplot(x$S, ylim = ylim)
   }
 }
