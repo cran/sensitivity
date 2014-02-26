@@ -7,13 +7,13 @@
 \title{Monte Carlo Estimation of Sobol' Indices}
 
 \description{ \code{sobol} implements the Monte Carlo estimation of
-   the Sobol' sensitivity indices. This method allows the estimation of
+   the Sobol' sensitivity indices (standard estimator). This method allows the estimation of
    the indices of the variance decomposition, sometimes referred to as
    functional ANOVA decomposition, up to a given order, at a total cost
    of \eqn{(N+1) \times n}{(N + 1) * n} where \eqn{N}{N} is the number
    of indices to estimate. This function allows also the estimation of
-   the so-called subset indices, i.e. the first-order indices with respect to 
-   single multidimensional inputs.  }
+   the so-called subset (or group) indices, i.e. the first-order indices with respect to 
+   single multidimensional inputs.}
 
 \usage{
 sobol(model = NULL, X1, X2, order = 1, nboot = 0, conf = 0.95, \dots)
@@ -68,7 +68,7 @@ model}, Math. Modelling Comput. Exp., 1, 407--414.
 }
 
 \seealso{
-  \code{\link{sobol2002}, \link{sobol2007}, \link{sobolEff}}
+  \code{\link{sobol2002}, \link{sobol2007}, \link{soboljansen}, \link{sobolEff}, \link{sobolmara}, \link{sobolroalhs}, \link{fast99}, \link{sobolGP}}
 }
 
 \examples{
@@ -76,6 +76,7 @@ model}, Math. Modelling Comput. Exp., 1, 407--414.
 
 # The method of sobol requires 2 samples
 # (there are 8 factors, all following the uniform distribution on [0,1])
+library(boot)
 n <- 1000
 X1 <- data.frame(matrix(runif(8 * n), nrow = n))
 X2 <- data.frame(matrix(runif(8 * n), nrow = n))

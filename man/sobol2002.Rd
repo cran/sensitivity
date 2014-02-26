@@ -10,7 +10,7 @@
   \code{sobol2002} implements the Monte Carlo estimation of
   the Sobol' indices for both first-order and total indices at the same
   time (alltogether \eqn{2p}{2p} indices), at a total cost of \eqn{(p+2)
-    \times n}{(p + 2) * n} model evaluations.
+    \times n}{(p + 2) * n} model evaluations. These are called the Saltelli estimators.
 }
 
 \usage{
@@ -60,6 +60,9 @@ A. Saltelli, 2002, \emph{Making best use of model evaluations to compute
 sensitivity indices}, Computer Physics Communication, 145, 580--297.
 }
 
+\seealso{
+  \code{\link{sobol}, \link{sobol2007}, \link{soboljansen}, \link{sobolEff}, \link{sobolmara}, \link{sobolGP}}
+}
 \examples{
 # Test case : the non-monotonic Sobol g-function
 
@@ -67,6 +70,7 @@ sensitivity indices}, Computer Physics Communication, 145, 580--297.
 # There are 8 factors, all following the uniform distribution
 # on [0,1]
 
+library(boot)
 n <- 1000
 X1 <- data.frame(matrix(runif(8 * n), nrow = n))
 X2 <- data.frame(matrix(runif(8 * n), nrow = n))

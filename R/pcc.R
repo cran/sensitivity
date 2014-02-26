@@ -38,7 +38,7 @@ pcc <- function(X, y, rank = FALSE, nboot = 0, conf = 0.95) {
               call = match.call())
   class(out) <- "pcc"
   if (! rank) {
-    out$PCCC <- pcc
+    out$PCC <- pcc
   } else {
     out$PRCC = pcc
   }

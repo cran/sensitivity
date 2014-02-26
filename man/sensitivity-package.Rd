@@ -14,21 +14,23 @@
     \item Linear regression coefficients: SRC and SRRC
     (\code{\link{src}}), PCC and PRCC (\code{\link{pcc}}).
     \item Morris's "OAT" elementary effects screening method (\code{\link{morris}}).
-    \item Bettonvil's sequential bifurcations (\code{\link{sb}}).
+    \item Bettonvil's sequential bifurcations (Bettonvil and Kleijnen, 1996) (\code{\link{sb}}).
     \item Monte Carlo estimation of Sobol' indices: 
 	  \itemize{
-		  \item Sobol's scheme (1993) to compute the indices given by the variance decomposition up to a specified order (\code{\link{sobol}})
-  		  \item Saltelli's scheme (2002) to compute first order and total indices with a reduced cost (\code{\link{sobol2002}}).
-		  \item Monod's scheme (2006) to compute first order indices with optimal asymptotic variance (\code{\link{sobolEff}}). 
-  	  \item Sobol's scheme (2007) to compute first order and total indices using improved formulas for small indices (\code{\link{sobol2007}}).
-  	  \item Jansen-Sobol's scheme (1999) to compute first order and total indices using improved formulas (\code{\link{soboljansen}}).
+		  \item Sobol' scheme (Sobol, 1993) to compute the indices given by the variance decomposition up to a specified order (\code{\link{sobol}}),
+  		  \item Saltelli's scheme (Saltelli, 2002) to compute first order and total indices with a reduced cost (\code{\link{sobol2002}}), 
+	  	  \item Mauntz-Kucherenko's scheme (Sobol et al., 2007) to compute first order and total indices using improved formulas for small indices (\code{\link{sobol2007}}),
+	  	  \item Jansen-Sobol's scheme (Jansen, 1999) to compute first order and total indices using improved formulas (\code{\link{soboljansen}}),
+	  	  \item Janon-Monod's scheme (Monod et al., 2006; Janon et al., 2013) to compute first order indices with optimal asymptotic variance (\code{\link{sobolEff}}),
+	  	  \item Mara's scheme (Mara and Joseph, 2008) to compute first order indices with a cost independent of the dimension, via a unique-matrix permutations (\code{\link{sobolmara}}),
 	  }
-    \item Estimation of the Sobol' first order and total indices with
-    Saltelli's so-called "extended-FAST" method (\code{\link{fast99}}).
+    \item Estimation of the Sobol' first and second order indices using replicated orthogonal array-based Latin hypecube sample (Tissot and Prieur, 2012) (\code{\link{sobolroalhs}}),
+    \item Estimation of the Sobol' first order and total indices with Saltelli's so-called "extended-FAST" method (Saltelli et al., 1999) (\code{\link{fast99}}),
+    \item Estimation of the Sobol' first order and total indices with kriging-based global sensitivity analysis (Le Gratiet et al., 2014) (\code{\link{sobolGP}}).
   }
   
-  It alo implements a new reliability sensitivity analysis method: 
-  the Density Modification Based Reliability Sensitivity Indices (\code{\link{DMBRSI}}).
+  It also implements a reliability sensitivity analysis method: 
+  the Density Modification Based Reliability Sensitivity Indices (Lemaitre et al., 2014) (\code{\link{DMBRSI}}).
   
   Moreover, some utilities are provided: standard test-cases
   (\code{\link{testmodels}}) and template file generation
@@ -61,13 +63,19 @@
   run on the statistician's computer. See \code{\link{decoupling}}.
 }
 
-\author{Gilles Pujol, Bertrand Iooss, Alexandre Janon. Thanks to Paul Lemaitre for the DMBRSI() function.
+\author{Gilles Pujol, Bertrand Iooss, Alexandre Janon with contributions from Paul Lemaitre for the DMBRSI() function, Laurent Gilquin for the sobolroalhs() function, Loic le Gratiet for the sobolGP() function.
 
 (maintainer: Bertrand Iooss \email{biooss@yahoo.fr})}
 
 \references{
-A. Saltelli, K. Chan and E. M. Scott eds, 2000, \emph{Sensitivity
-  Analysis}, Wiley.
+A. Saltelli, K. Chan and E. M. Scott eds, 2000, \emph{Sensitivity Analysis}, 
+Wiley.
+
+A. Saltelli, P. Annoni, I. Azzini, F. Campolongo, M. Ratto and S. Tarantola, 2010, \emph{Variance based sensitivity analysis of model output. Design and estimator for the total sensitivity index}, Computer Physics Communications 181, 259--270.
+
+R. Faivre, B. Iooss, S. Mahevas, D. Makowski, H. Monod, editors, 2013, 
+\emph{Analyse de sensibilite et exploration de modeles. Applications aux 
+modeles environnementaux}, Editions Quae.
 }
 
 \keyword{package}

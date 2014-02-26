@@ -55,6 +55,7 @@ A. Saltelli, K. Chan and E. M. Scott eds, 2000, \emph{Sensitivity
 #                   X2 ~ U(1.5, 4.5)
 #                   X3 ~ U(4.5, 13.5)
 
+library(boot)
 n <- 100
 X <- data.frame(X1 = runif(n, 0.5, 1.5),
                 X2 = runif(n, 1.5, 4.5),

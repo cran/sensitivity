@@ -45,8 +45,24 @@ S3method(tell, soboljansen)
 S3method(print, soboljansen)
 S3method(plot, soboljansen)
 
+export(sobolmara)
+S3method(tell, sobolmara)
+S3method(print, sobolmara)
+S3method(plot, sobolmara)
+
+export(sobolroalhs)
+S3method(tell, sobolroalhs)
+S3method(print, sobolroalhs)
+S3method(plot, sobolroalhs)
+
 export(sobolCert)
 S3method(print, sobolCert)
+
+export(sobolGP)
+S3method(ask, sobolGP)
+S3method(tell, sobolGP)
+S3method(print, sobolGP)
+S3method(plot, sobolGP)
 
 export(fast99)
 S3method(tell, fast99)
@@ -62,3 +78,8 @@ S3method(plot, sb)
 export(template.replace)
 
 export(DMBRSI)
+
+import(DiceKriging)
+import(boot)
+import(numbers)
+import(rgl)

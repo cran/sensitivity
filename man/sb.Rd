@@ -8,8 +8,7 @@
 \title{Sequential Bifurcations}
 
 \description{ \code{sb} implements the Sequential Bifurcations screening
-  method (Bettonvil and Kleijnen 1996). \strong{This is an alpha version
-    that might strongly evolve in the future}.}
+  method (Bettonvil and Kleijnen 1996).}
 
 \usage{
 sb(p, sign = rep("+", p), interaction = FALSE)

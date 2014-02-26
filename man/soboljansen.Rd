@@ -10,7 +10,7 @@
   \code{soboljansen} implements the Monte Carlo estimation of
   the Sobol' indices for both first-order and total indices at the same
   time (alltogether \eqn{2p}{2p} indices), at a total cost of \eqn{(p+2)
-    \times n}{(p + 2) * n} model evaluations.
+    \times n}{(p + 2) * n} model evaluations. These are called the Jansen estimators.
 }
 
 \usage{
@@ -68,6 +68,10 @@ A. Saltelli, P. Annoni, I. Azzini, F. Campolongo, M. Ratto and S. Tarantola, 201
 total sensitivity index}, Computer Physics Communications 181, 259--270.
 }
 
+\seealso{
+  \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}, \link{sobolEff}, \link{sobolmara}}
+}
+
 \examples{
 # Test case : the non-monotonic Sobol g-function
 
@@ -75,6 +79,7 @@ total sensitivity index}, Computer Physics Communications 181, 259--270.
 # There are 8 factors, all following the uniform distribution
 # on [0,1]
 
+library(boot)
 n <- 1000
 X1 <- data.frame(matrix(runif(8 * n), nrow = n))
 X2 <- data.frame(matrix(runif(8 * n), nrow = n))

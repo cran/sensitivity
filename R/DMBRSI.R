@@ -265,18 +265,18 @@ DMBRSI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
         estimateurdeMYT=function(tau){
           if(tau>1/beta){ print("Warning, the MGF of the truncated gumbel distribution is not defined")}
           if (tau!=0){
-            fctaint=function(y){dgumbel(y,mu,beta)*exp(tau*y)}
+            fctaint=function(y){evd::dgumbel(y,mu,beta)*exp(tau*y)}
             partie_tronquee=simpson_v2(fctaint,-Inf,min,2000)
             MGFgumbel=exp(mu*tau)*gamma(1-beta*tau)
-            res=(MGFgumbel-partie_tronquee)	/ (1-pgumbel(min,mu,beta)) 
+            res=(MGFgumbel-partie_tronquee)	/ (1-evd::pgumbel(min,mu,beta)) 
             return(res)
           } else { return (1)}
         }
         estimateurdeMYTprime=function(tau){
-          fctaint=function(y){y*dgumbel(y,mu,beta)*exp(tau*y)}
+          fctaint=function(y){y*evd::dgumbel(y,mu,beta)*exp(tau*y)}
           partie_tronquee=simpson_v2(fctaint,-Inf,min,2000)
           MGFprimegumbel=exp(mu*tau)*gamma(1-beta*tau)*(mu-beta*digamma(1-beta*tau))
-          Mxp=(MGFprimegumbel-partie_tronquee)/(1-pgumbel(min,mu,beta))
+          Mxp=(MGFprimegumbel-partie_tronquee)/(1-evd::pgumbel(min,mu,beta))
           return(Mxp)
         }
         phi=function(tau){
@@ -342,7 +342,7 @@ DMBRSI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
         # if the input is a Gaussian,solution of equation (3) is given by analytical devlopment
         mu=Loi.Entree[[2]][1]
         sigma=Loi.Entree[[2]][2]
-        phi=function(l){	
+        phi1=function(l){	
           t1=exp(-mu^2/(2*sigma^2))
           t2=exp((mu+sigma^2*l[1])^2/(2*sigma^2*(1-2*sigma^2*l[2])))
           t3=1/sqrt(1-2*sigma^2*l[2])
@@ -357,7 +357,7 @@ DMBRSI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
       
       if (  Loi.Entree[[1]] =="unif"){
         # Details :	First, the constants defining the distribution (a, b) are extracted.
-        #		Then, the function phi is defined, the unknonw integrals are estimated with Simpson's method
+        #		Then, the function phi1 is defined, the unknonw integrals are estimated with Simpson's method
         #		The Hessian of the Lagrange function is then defined (See annex B)
         #		Then, for each perturbated variance, the Lagrange function and its gradient are defined and minimised.
         a=Loi.Entree[[2]][1]
@@ -367,7 +367,7 @@ DMBRSI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
         lambda1=c()
         lambda2=c()
         
-        phi=function(l){ # l is a vector of size 2, resp lambda1, lambda2
+        phi1=function(l){ # l is a vector of size 2, resp lambda1, lambda2
           fctaint=function(y){dunif(y,a,b)*exp(l[1]*y+l[2]*y*y)}
           cste=simpson_v2(fctaint,a,b,2000)
           return(log(cste))
@@ -375,7 +375,7 @@ DMBRSI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
         
         
         hess=function(l){	# the Hessian of the Lagrange function
-          epl=exp(phi(l))
+          epl=exp(phi1(l))
           
           fctaint=function(y){y*dunif(y,a,b)*exp(l[1]*y+l[2]*y*y)}
           cste=simpson_v2(fctaint,a,b,2000)
@@ -403,7 +403,7 @@ DMBRSI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
         for (w in 1:nmbrededeltas){
           
           gr=function(l){	# the gradient of the lagrange function
-            epl=exp(phi(l))
+            epl=exp(phi1(l))
             
             fctaint=function(y){y*dunif(y,a,b)*exp(l[1]*y+l[2]*y*y)}
             cste=simpson_v2(fctaint,a,b,2000)
@@ -418,7 +418,7 @@ DMBRSI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
           
           
           lagrangefun=function(l){
-            res=phi(l)-l[1]*m-l[2]*(deltasvector[w]+m^2)
+            res=phi1(l)-l[1]*m-l[2]*(deltasvector[w]+m^2)
             attr(res, "gradient")=gr(l)
             attr(res, "hessian")=hess(l)
             return(res)
@@ -437,7 +437,7 @@ DMBRSI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
       for (K in 1:nmbrededeltas){
         if(deltasvector[K]!=0){
           res=0
-          pti=phi(c(lambda1[K],lambda2[K]))
+          pti=phi1(c(lambda1[K],lambda2[K]))
           for (j in 1:nmbredefailurepoints){	
             res[j]=exp(lambda1[K]*failurepoints[j,i]+lambda2[K]*failurepoints[j,i]^2-pti) 
           }

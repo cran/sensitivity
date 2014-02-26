@@ -1,7 +1,7 @@
-#PKG_FFLAGS=-fno-bounds-check
-#PKG_FCFLAGS=-fno-bounds-check
+PKG_FFLAGS=-fno-bounds-check
+PKG_FCFLAGS=-fno-bounds-check
 OBJECTS = lbfgs-b.o as.o rglueas.o
-PKG_CPPFLAGS = -I.
+PKG_CPPFLAGS += -I.
 
 all: $(OBJECTS)
 

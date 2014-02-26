@@ -266,15 +266,8 @@ int compare(const void *a, const void *b) {
 	return(*((double*)a)>*((double*)b));
 }
 
-//double Phi(double x) {
-	//return(.5*erfc(-x/sqrt(2.)));
-//}
-
-#include <Rmath.h>
-
-double Phi(double x)
-{
-    return dnorm(x, 0., 1., FALSE);
+double Phi(double x) {
+	return(.5*erfc(-x/sqrt(2.)));
 }
 
 double Probit(double p) {
