@@ -320,6 +320,7 @@ type
 
 		y.predict <- as.numeric(y.predict)
 	
+		ZD <- t(yc[,(m+1):(m+n)])
 		if(!identical(object@noise.var,numeric(0))){
 			ZD <- ZD + matrix(rnorm(nsim*n,0,1),nrow=n)*matrix(rep(sqrt(object@noise.var),nsim),ncol=nsim)
 		}

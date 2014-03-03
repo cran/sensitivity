@@ -1,6 +1,6 @@
 Package: sensitivity
-Version: 1.8-0
-Date: 2014-02-26
+Version: 1.8-1
+Date: 2014-03-03
 Title: Sensitivity Analysis
 Author: Gilles Pujol, Bertrand Iooss, Alexandre Janon with contributions from Laurent Gilquin, Loic Le Gratiet, Paul Lemaitre
 Maintainer: Bertrand Iooss <biooss@yahoo.fr>
@@ -8,7 +8,7 @@ Depends: R (>= 3.0.0)
 Imports: boot, rgl, evd, numbers, DiceKriging
 Description: A collection of functions for factor screening, global sensitivity analysis and reliability sensitivity analysis of  model output.
 License: GPL-2
-Packaged: 2014-02-27 08:54:50 UTC; orlane
+Packaged: 2014-03-03 23:15:44 UTC; orlane
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2014-02-27 11:49:43
+Date/Publication: 2014-03-04 09:23:06

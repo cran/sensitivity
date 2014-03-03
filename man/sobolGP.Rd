@@ -177,7 +177,7 @@ candidate <- data.frame(matrix(runif(d * 100), nrow = 100))
 # Kriging-based Sobol
 #--------------------------------------#
 
-res <- sobolGP (
+res <- sobolGP(
 model = m,
 type="UK",
 MCmethod="sobol",
@@ -194,9 +194,9 @@ max_iter = 1000
 
 res
 plot(res)
-x <- ask(res)
+x <- ask.sobolGP(res)
 y <- branin(x)
-res.new <- tell(res,x,y)
+res.new <- tell.sobolGP(res,y,x)
 res.new
 }
 }
