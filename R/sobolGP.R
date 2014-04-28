@@ -1,3 +1,5 @@
+#library(DiceKriging)
+
 # kriging-based global sensitivity analysis taking into account both 
 # the meta-model and the Monte-Carlo errors.
 # Author : loic le Gratiet, 2014
@@ -224,8 +226,8 @@ if(Tot){
 
     if(sequential){
 	   SumVar <- apply(Svar,1,sum)
-	   output$S$xnew <- candidate[which.max(SumVar),]
-	   output$S$xnewi <- which.max(SumVar)
+	   output$S$xnew <- candidate[which.min(SumVar),]
+	   output$S$xnewi <- which.min(SumVar)
 		rm(list=c("Svar","SumVar"))
     }
    
@@ -234,8 +236,8 @@ if(Tot){
 		rm(list=c("STot"))
 	   if(sequential.tot){
 	   	SumVar <- apply(STotvar,1,sum)
-	   	output$T$xnew <- candidate[which.max(SumVar),]
-	   	output$T$xnewi <- which.max(SumVar)	
+	   	output$T$xnew <- candidate[which.min(SumVar),]
+	   	output$T$xnewi <- which.min(SumVar)	
 		rm(list=c("STotvar","SumVar"))	
 	   }
     }

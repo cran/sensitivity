@@ -38,10 +38,10 @@ sobolGP(
 
 \arguments{
   \item{model}{
-an object of class \code{"km"} specifying the kriging model built from package \code{"DiceKriging"} (see \code{\link{km}}).
+an object of class \code{"km"} specifying the kriging model built from package \code{"DiceKriging"} (see \code{\link[DiceKriging]{km}}).
 }
   \item{type}{
-a character string giving the type of the considered kriging model. \code{"SK"} refers to simple kriging and \code{"UK"} refers to universal kriging (see \code{\link{km}}).
+a character string giving the type of the considered kriging model. \code{"SK"} refers to simple kriging and \code{"UK"} refers to universal kriging (see \code{\link[DiceKriging]{km}}).
 }
   \item{MCmethod}{
 a character string specifying the Monte-Carlo procedure used to estimate the Sobol indices. The avaible methods are : \code{"sobol"}, \code{"sobol2002"}, \code{"sobol2007"}, \code{"sobolEff"} and \code{"soboljansen"}.
@@ -137,7 +137,7 @@ An object of class S3 \code{sobolGP}.
 }
 
 \references{
-Le gratiet, L., Cannamela, C. and Iooss, B. (2014), A Bayesian approach for global sensitivity analysis of (multi-fidelity) computer codes, \emph{ arXiv:1307.2223}
+Le Gratiet, L., Cannamela, C. and Iooss, B. (2014), A Bayesian approach for global sensitivity analysis of (multi-fidelity) computer codes, \emph{ arXiv:1307.2223}
 }
 
 \author{
@@ -146,7 +146,7 @@ Loic Le Gratiet, EDF R&D - CNRS, I3S
 
 
 \seealso{
-\code{\link{sobol}}, \code{\link{sobol2002}}, \code{\link{sobol2007}}, \code{\link{sobolEff}}, \code{\link{soboljansen}}, \code{\link{km}}
+\code{\link{sobol}}, \code{\link{sobol2002}}, \code{\link{sobol2007}}, \code{\link{sobolEff}}, \code{\link{soboljansen}}, \code{\link[DiceKriging]{km}}
 }
 \examples{
 
@@ -194,9 +194,9 @@ max_iter = 1000
 
 res
 plot(res)
-x <- ask.sobolGP(res)
+x <- ask(res)
 y <- branin(x)
-res.new <- tell.sobolGP(res,y,x)
+res.new <- tell(res,y,x)
 res.new
 }
 }

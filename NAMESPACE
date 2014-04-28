@@ -79,7 +79,4 @@ export(template.replace)
 
 export(DMBRSI)
 
-import(DiceKriging)
 import(boot)
-import(numbers)
-import(rgl)

@@ -29,7 +29,8 @@ DMBRSI(failurepoints,failureprobabilityhat,samplesize,deltasvector,
 	  Implemented cases so far:
 	  \itemize{
       \item For a mean perturbation: Gaussian, Uniform, Triangle,
-        Left Trucated Gaussian, Left Truncated Gumbel.
+        Left Trucated Gaussian, Left Truncated Gumbel. Using Gumber
+        requires the package \code{evd}.
 	    \item For a variance perturbation: Gaussian, Uniform.
       }}
 	\item{type}{a character string in which the user will specify the type of 

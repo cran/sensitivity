@@ -1,17 +1,15 @@
-# Implementation of the Sobol's method version introduced by Tissot & Prieur. 
-# This method estimate all first or second order Sobol indices via two replicated latin hypercubes.
-# Author: Laurent Gilquin, INRIA, France
-#
+# library(numbers)
+
+# implementation of the Sobol's method version introduced by Tissot & Prieur. This method estimate all first or second order Sobol indices given two replicated latin hypercubes.
+
 # imputs:
 # q : number of levels of orthogonal array
 # t : strength of orthogonal array
 # alpha : risk of the asymptotical confidence interval
 
 # outputs:
-# S : vector (resp. 2 dimensional matrix) containing the d (resp. d*(d-1)/2) estimations of 
-#          first order (resp. second order) Sobol indices
-# E : vector (resp. 2 dimensional matrix) containing the d (resp. d*(d-1)/2) estimations of 
-#         the radius of the confidence interval for the first order (resp. second order) Sobol indices
+# S : vector (resp. 2 dimensional matrix) containing the d (resp. d*(d-1)/2) estimations of first order (resp. second order) Sobol indices
+# E : vector (resp. 2 dimensional matrix) containing the d (resp. d*(d-1)/2) estimations of the radius of the confidence interval for the first order (resp. second order) Sobol indices
 # V : total variance estimation
 
 
@@ -87,8 +85,8 @@ sobolroalhs=function(model=NULL, factors, levels, order, choice="A", conf=0.95,.
       q <- nextPrime(sqrt(levels))
       warning("the number of levels recquired was not a prime number, the number was replaced by : ",paste(q))
     }
-    if(q<(d-1)^2){
-      q = (d-1)^2 
+    if(q<(d-1)){
+      q <- (d-1)
       warning("the number of levels recquired was not satisfying the constrain, the number was replaced by : ",paste(q))
     }
     n <- q^2
@@ -162,7 +160,7 @@ estim.sobolroalhs=function(x,choice){
   if (choice=="variance"){
    Vs <- 1/n*sum(Ya^2)-(1/n*sum(Ya))^2 # standard total variance estimator
    Veff <- 1/(2*n)*sum(Ya^2+Yb^2)-(1/(2*n)*sum(Ya+Yb))^2 # Monod & Al. total variance estimator
-   L=c(Vs,Veff)
+   L <- c(Vs,Veff)
   }
   
   if (choice=="indices"){
@@ -199,7 +197,7 @@ estim.sobolroalhs=function(x,choice){
        Eff[l] <- (std((Y1-m1)*(Y2-m2)-Seff[l]/2*((Y1-m1)^2+(Y2-m2)^2))/std(Y))^2/sqrt(n)*qnorm(1-alpha/2)
      }
    }
-   L=c(S,Seff,S-E,Seff-Eff,S+E,Seff+Eff)
+   L <- c(S,Seff,S-E,Seff-Eff,S+E,Seff+Eff)
   }
   return(L)
 
@@ -227,11 +225,11 @@ tell.sobolroalhs=function(x, y = NULL, ...){
   M <- matrix(estim.sobolroalhs(x, choice="indices"),ncol=3,dimnames=list(NULL,lab))
   x$S <- as.data.frame(round(M,6))  
   
-  rownames=c()
-  d=x$factors
+  rownames <- c()
+  d <- x$factors
   if (x$order==1){
     for (i in 1:d) {
-      rownames=c(rownames,paste("S",i,sep=""))
+      rownames <- c(rownames,paste("S",i,sep=""))
     }
   }
   if (x$order==2){
@@ -240,10 +238,10 @@ tell.sobolroalhs=function(x, y = NULL, ...){
     for (l in 1:(d*(d-1)/2)) {
       i <- i+(j==d)
       j <- ((j==d)*i + (j<d)*j)+1
-      rownames=c(rownames,paste("S",i,j,sep=""))
+      rownames <- c(rownames,paste("S",i,j,sep=""))
     }
   }
-  rownames(x$S)=c(rownames,gsub("S","Seff",rownames))
+  rownames(x$S) <- c(rownames,gsub("S","Seff",rownames))
   
   x[c(5,9,10,11,15,16)] <- NULL
   assign(id, x, parent.frame())
@@ -252,9 +250,6 @@ tell.sobolroalhs=function(x, y = NULL, ...){
 
 
 print.sobolroalhs <- function(x, ...) {
-  
-  rownames=c()
-  d=x$factors
   
   cat("\nCall:\n", deparse(x$call), "\n", sep = "")
   cat("\nModel runs:", length(x$y), "\n")
@@ -268,7 +263,7 @@ print.sobolroalhs <- function(x, ...) {
       print(x$S)
     }
     if (x$order==2){
-      cat("\nGeneralized second order indices:\n")
+      cat("\nGlobal second order indices:\n")
       print(x$S)
     }
   }
@@ -293,7 +288,7 @@ plot.sobolroalhs <- function(x, ylim = c(0, 1), type="standard", ...) {
       legend(x = "topright", legend = c("First order indices"))
     }
     else{
-      legend(x = "topright", legend = c("Second order subset indices"))      
+      legend(x = "topright", legend = c("Second order subset indices"))    
     }
   }
 }

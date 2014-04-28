@@ -10,7 +10,7 @@
    the first-order Sobol' sensitivity indices using the formula of Mara and Joseph (2008), called the
    Mara estimator.
    This method allows the estimation of all first-order p indices at a cost of 
-   N model calls (the random sample size), then independently of p (the number of inputs). }
+   2N model calls (the random sample size), then independently of p (the number of inputs). }
 
 \usage{
 sobolmara(model = NULL, X1, \dots)
@@ -59,7 +59,7 @@ sobolmara(model = NULL, X1, \dots)
 \examples{
 # Test case : the non-monotonic Sobol g-function
 
-# The method of sobol requires 2 samples
+# The method of sobolmara requires 1 sample
 # (there are 8 factors, all following the uniform distribution on [0,1])
 n <- 1000
 X1 <- data.frame(matrix(runif(8 * n), nrow = n))

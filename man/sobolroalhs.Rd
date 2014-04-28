@@ -7,7 +7,8 @@
 
 \title{Sobol' Indices Estimation Using Replicated OA-based LHS}
 
-\description{\code{sobolroalhs} implements the estimation of the Sobol' sensitivity indices introduced by Tissot & Prieur (2012) using two Orthogonal Array-based Latin Hypercubes. This function allows the estimation of all first-order indices at a total cost of \eqn{2 \times N}{2*N} or all second-order subset indices (containing the sum of the second-order effect between two inputs and the individual effects of each input) at a cost of \eqn{2 \times q^{2}}{2*q^2} where \eqn{q}{q} is a prime number.}
+\description{\code{sobolroalhs} implements the estimation of the Sobol' sensitivity indices introduced by Tissot & Prieur (2012) using two Orthogonal Array-based Latin Hypercubes. This function allows the estimation of all first-order indices at a total cost of \eqn{2 \times N}{2*N} or all second-order subset indices (containing the sum of the second-order effect between two inputs and the individual effects of each input) at a cost of \eqn{2 \times q^{2}}{2*q^2} where \eqn{q}{q} is a prime number.
+Second-order effects require the package \code{numbers}.}
 
 \usage{
 sobolroalhs(model = NULL, factors, levels, order, choice="A", conf=0.95, \dots)

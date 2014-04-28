@@ -149,7 +149,9 @@ x <- morris(model = morris.fun, factors = 20, r = 4,
             design = list(type = "oat", levels = 5, grid.jump = 3))
 print(x)
 plot(x)
-\dontrun{morris.plot3d(x)  # (requires the package 'rgl')}
+\dontrun{
+library(rgl)
+morris.plot3d(x)  # (requires the package 'rgl')}
 }
 
 \keyword{design}

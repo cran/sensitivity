@@ -4,17 +4,16 @@
 \alias{print.sobolEff}
 \alias{plot.sobolEff}
 
-\title{Monte Carlo Estimation of Sobol' Indices (asymptotically efficient formula)}
+\title{Monte Carlo Estimation of Sobol' Indices}
 
 \description{ \code{sobolEff} implements the Monte Carlo estimation of
    the Sobol' sensitivity indices using the asymptotically efficient formulas
-	in section 4.2.4.2 of Monod et al. (2006), which is called the Janon-Monod estimator. 
-  This method allows the estimation
-	of all first-order p indices at a cost of N*(p+1) model calls, where p is
-	the number of inputs and N is the random sample size. }
+		 in section 4.2.4.2 of Monod et al. (2006). This method allows the estimation
+		 of all first-order p indices at a cost of N*(p+1) model calls, where p is
+		 the number of inputs and N is the random sample size, or the estimation of all closed second order indices at a cost of N*(p*(p-1)/2+1) model calls.}
 
 \usage{
-sobolEff(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
+sobolEff(model = NULL, X1, X2, order=1, nboot = 0, conf = 0.95, \dots)
 \method{tell}{sobolEff}(x, y = NULL, \dots)
 \method{print}{sobolEff}(x, \dots)
 \method{plot}{sobolEff}(x, ylim = c(0, 1), \dots)
@@ -25,6 +24,7 @@ sobolEff(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
     defining the model to analyze.}
   \item{X1}{the first random sample.}
   \item{X2}{the second random sample.}
+  \item{order}{an integer specifying the order of the indices (1 or 2).}
   \item{nboot}{the number of bootstrap replicates, or zero to use asymptotic standard deviation estimates given in Janon et al. (2012).}
   \item{conf}{the confidence level for confidence intervals.}
   \item{x}{a list of class \code{"sobolEff"} storing the state of the
@@ -47,17 +47,17 @@ sobolEff(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
 }
 
 \details{
-	The estimator used by sobolEff is defined in Monod et al. (2006), Section 4.2.4.2 and studied under the name T_N in Janon et al. (2014). This estimator is good for large first-order indices.
+		 The estimator used by sobolEff is defined in Monod et al. (2006), Section 4.2.4.2 and studied under the name T_N in Janon et al. (2012). This estimator is good for large first-order indices.
 }
 
 \references{
-	Monod, H., Naud, C., Makowski, D. (2006), Uncertainty and sensitivity analysis for crop models in Working with Dynamic Crop Models: Evaluation, Analysis, Parameterization, and Applications, Elsevier.
+		 Monod, H., Naud, C., Makowski, D. (2006), Uncertainty and sensitivity analysis for crop models in Working with Dynamic Crop Models: Evaluation, Analysis, Parameterization, and Applications, Elsevier.
 
-   Janon, A., Klein T., Lagnoux A., Nodet M., Prieur C. (2014), \emph{Asymptotic normality and efficiency of two Sobol index estimators}, ESAIM: Probability and Statistics, In press
+   Janon, A., Klein T., Lagnoux A., Nodet M., Prieur C. (2012), Asymptotic normality and efficiency of two Sobol index estimators.
 }
 
 \seealso{
-  \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}, \link{soboljansen}, \link{sobolmara}}
+  \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}}
 }
 
 \examples{

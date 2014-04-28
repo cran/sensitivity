@@ -1,9 +1,12 @@
+# library(evd)
+
 DMBRSI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
                 InputDistributions,type="MOY",samedelta=TRUE){
   
   # This function allows the estimation of Density Modification Based Reliability Sensitivity Indices (DMBRSI)
   # Ref : P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss.
-  #       Density modification based reliability sensitivity analysis, submitted, 2012.
+  #       Density modification based reliability sensitivity analysis, 
+  #       Journal od Statistical Computation and Simulation, in press, 2014.
   #       http://hal.archives-ouvertes.fr/hal-00737978.
   #
   #
