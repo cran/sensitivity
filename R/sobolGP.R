@@ -14,18 +14,26 @@ nsim=100,
 nboot=1,
 conf = 0.95,
 sequential = FALSE, 
-candidate, 
+candidate = NULL, 
 sequential.tot=FALSE,
 max_iter = 1000
 ) 
 {
-    ncandidate <- dim(candidate)[1]
-    dcandidate <- dim(candidate)[2]
+    if(sequential){
+    	ncandidate <- dim(candidate)[1]
+    	dcandidate <- dim(candidate)[2]
+    }	
 
     if ((ncol(X1) != ncol(X2)) | (nrow(X1) != nrow(X2))) 
         stop("The samples X1 and X2 must have the same dimensions")
-    if (ncol(X1) != ncol(candidate))
-	  stop("The candidate points, X1 and X2 must have the same dimensions")
+    if(sequential){
+	if(is.null(candidate)){
+	  		stop("The number of candidate points must be greater than zero")
+	}
+    	if (ncol(X1) != ncol(candidate)){
+	  		stop("The candidate points, X1 and X2 must have the same dimensions")
+	}
+    }
     if(MCmethod=="sobol"||MCmethod=="sobolEff"){
 	if(sequential.tot){
 	  stop("Sequential design for total indices is only available for sobol2002, sobol2007 and soboljansen methods")
@@ -64,7 +72,10 @@ if(MCmethod!="sobol2007"){
         Xb[, i] <- X1[, i]
         X <- rbind(X1, Xb)
 	  nX <- dim(X)[1]
+
+	if(sequential){
 	  X <- rbind(X, data.frame(candidate))
+	}
 		
 	rm(list=c("Xb"))
 
@@ -118,7 +129,9 @@ if(MCmethod!="sobol2007"){
 	        Xb[, i] <- X2[, i]
         	X <- rbind(X1, Xb)
 		  nX <- dim(X)[1]
+	  	if(sequential.tot){
 		  X <- rbind(X, data.frame(candidate))
+	  	}
 			
 		rm(list=c("Xb"))
 	
@@ -168,8 +181,11 @@ if(MCmethod=="sobol2007"){
         Xb[, i] <- X2[, i]
         X <- rbind(X1, Xb, X2)
 	nX <- dim(X)[1]
-	X <- rbind(X, data.frame(candidate))
-		
+
+	if(sequential||sequential.tot){
+		X <- rbind(X, data.frame(candidate))
+	}		
+
 	rm(list=c("Xb"))
 
 	  ysimu <- simulateGP.sobol(object = model, nsim = nsim,  newdata=X, 

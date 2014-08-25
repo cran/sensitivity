@@ -66,6 +66,10 @@ DMBRSI(failurepoints,failureprobabilityhat,samplesize,deltasvector,
 Computation and Simulation, in press, 2014. \url{http://hal.archives-ouvertes.fr/hal-00737978}
 }
 
+\author{
+Paul Lemaitre
+}
+
 \examples{
 # Model: Ishigami function with a treshold at -7
 # Failure points are those < -7

@@ -52,6 +52,10 @@ sobolmara(model = NULL, X1, \dots)
 	Mara, T. and Joseph, O.R. (2008), \emph{Comparison of some efficient methods to evaluate the main effect of computer model factors}, Journal of Statistical Computation and Simulation, 78:167--178
 }
 
+\author{
+Bertrand Iooss
+}
+
 \seealso{
   \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}, \link{soboljansen}, \link{sobolEff}}
 }

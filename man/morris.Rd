@@ -143,6 +143,10 @@ G. Pujol, 2009, \emph{Simplex-based screening designs for estimating
   metamodels}, Reliability Engineering and System Safety 94, 1156--1160.
 }
 
+\author{
+Gilles Pujol
+}
+
 \examples{
 # Test case : the non-monotonic function of Morris
 x <- morris(model = morris.fun, factors = 20, r = 4,
@@ -151,7 +155,7 @@ print(x)
 plot(x)
 \dontrun{
 library(rgl)
-morris.plot3d(x)  # (requires the package 'rgl')}
+plot3d.morris(x)  # (requires the package 'rgl')}
 }
 
 \keyword{design}

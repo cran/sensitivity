@@ -1,23 +1,23 @@
-\name{soboljansen}
-\alias{soboljansen}
-\alias{tell.soboljansen}
-\alias{print.soboljansen}
-\alias{plot.soboljansen}
+\name{sobolowen}
+\alias{sobolowen}
+\alias{tell.sobolowen}
+\alias{print.sobolowen}
+\alias{plot.sobolowen}
 
-\title{Monte Carlo Estimation of Sobol' Indices (improved formulas of Jansen (1999) and Saltelli et al. (2010))}
+\title{Monte Carlo Estimation of Sobol' Indices (improved formulas of Owen (2013)}
 
 \description{
-  \code{soboljansen} implements the Monte Carlo estimation of
+  \code{sobolowen} implements the Monte Carlo estimation of
   the Sobol' indices for both first-order and total indices at the same
-  time (alltogether \eqn{2p}{2p} indices), at a total cost of \eqn{(p+2)
-    \times n}{(p + 2) * n} model evaluations. These are called the Jansen estimators.
+  time (alltogether \eqn{2p}{2p} indices). Take as input 3 independent matrices.
+  These are called the Owen estimators.
 }
 
 \usage{
-soboljansen(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
-\method{tell}{soboljansen}(x, y = NULL, return.var = NULL, \dots)
-\method{print}{soboljansen}(x, \dots)
-\method{plot}{soboljansen}(x, ylim = c(0, 1), \dots)
+sobolowen(model = NULL, X1, X2, X3, nboot = 0, conf = 0.95, varest = 2, \dots)
+\method{tell}{sobolowen}(x, y = NULL, return.var = NULL, varest = 2, \dots)
+\method{print}{sobolowen}(x, \dots)
+\method{plot}{sobolowen}(x, ylim = c(0, 1), \dots)
 }
 
 \arguments{
@@ -25,8 +25,12 @@ soboljansen(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
     defining the model to analyze.}
   \item{X1}{the first random sample.}
   \item{X2}{the second random sample.}
+  \item{X3}{the third random sample.}
   \item{nboot}{the number of bootstrap replicates.}
   \item{conf}{the confidence level for bootstrap confidence intervals.}
+  \item{varest}{choice for the variance estimator for the denominator of
+  the Sobol' indices. varest=1 is for a classical estimator.
+  varest=2 (default) is for the estimator proposed in Janon et al. (2012).}
   \item{x}{a list of class \code{"sobol"} storing the state of the
   sensitivity study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
@@ -38,7 +42,7 @@ soboljansen(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
 }
 
 \value{
-  \code{soboljansen} returns a list of class \code{"soboljansen"}, containing all
+  \code{sobolowen} returns a list of class \code{"sobolowen"}, containing all
   the input arguments detailed before, plus the following components:
 
   \item{call}{the matched call.}
@@ -55,31 +59,26 @@ soboljansen(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
   \code{S.boot} and \code{T.boot}).
 }
 
-\details{
-This estimator is good for large first-order indices, and (large and small) total indices.
-}
-
 \references{
-M.J.W. Jansen, 1999, \emph{Analysis of variance designs for model output},
-Computer Physics Communication, 117, 35--43.
+A. Owen, 2013, \emph{Better estimations of small Sobol' sensitivity indices}, 
+ACM Transactions on Modeling and Computer Simulations (TOMACS), 23(2), 11.
 
-A. Saltelli, P. Annoni, I. Azzini, F. Campolongo, M. Ratto and S. Tarantola, 2010,
-\emph{Variance based sensitivity analysis of model output. Design and estimator for the
-total sensitivity index}, Computer Physics Communications 181, 259--270.
+Janon, A., Klein T., Lagnoux A., Nodet M., Prieur C. (2012), Asymptotic 
+normality and efficiency of two Sobol index estimators. Accepted in 
+ESAIM: Probability and Statistics.
 }
 
 \author{
-Bertrand Iooss
+Taieb Touati and Bernardo Ramos
 }
 
 \seealso{
-  \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}, \link{sobolEff}, \link{sobolmara}}
+  \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}, \link{soboljansen}, \link{sobolEff}, \link{sobolmara}, \link{sobolGP}}
 }
-
 \examples{
 # Test case : the non-monotonic Sobol g-function
 
-# The method of sobol requires 2 samples
+# The method of sobolowen requires 3 samples
 # There are 8 factors, all following the uniform distribution
 # on [0,1]
 
@@ -87,12 +86,15 @@ library(boot)
 n <- 1000
 X1 <- data.frame(matrix(runif(8 * n), nrow = n))
 X2 <- data.frame(matrix(runif(8 * n), nrow = n))
+X3 <- data.frame(matrix(runif(8 * n), nrow = n))
 
 # sensitivity analysis
 
-x <- soboljansen(model = sobol.fun, X1, X2, nboot = 100)
+\dontrun{
+x <- sobolowen(model = sobol.fun, X1, X2, X3, nboot = 100)
 print(x)
 plot(x)
+}
 }
 
 \keyword{design}

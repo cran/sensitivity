@@ -55,6 +55,11 @@ S3method(tell, sobolroalhs)
 S3method(print, sobolroalhs)
 S3method(plot, sobolroalhs)
 
+export(sobolowen)
+S3method(tell, sobolowen)
+S3method(print, sobolowen)
+S3method(plot, sobolowen)
+
 export(sobolCert)
 S3method(print, sobolCert)
 
@@ -78,5 +83,17 @@ S3method(plot, sb)
 export(template.replace)
 
 export(DMBRSI)
+
+export(PoincareConstant)
+
+export(sensiFdiv)
+S3method(tell, sensiFdiv)
+S3method(print, sensiFdiv)
+S3method(plot, sensiFdiv)
+
+export(sensiHSIC)
+S3method(tell, sensiHSIC)
+S3method(print, sensiHSIC)
+S3method(plot, sensiHSIC)
 
 import(boot)

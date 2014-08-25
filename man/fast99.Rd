@@ -93,6 +93,10 @@ sensitivity analysis of multiparameter model
 systems}. J. Comput. Phys., 26, 1--42.
 }
 
+\author{
+Gilles Pujol
+}
+
 \examples{
 # Test case : the non-monotonic Ishigami function
 x <- fast99(model = ishigami.fun, factors = 3, n = 1000,

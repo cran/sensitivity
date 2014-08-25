@@ -49,6 +49,10 @@ A. Saltelli, K. Chan and E. M. Scott eds, 2000, \emph{Sensitivity
   Analysis}, Wiley.
 }
 
+\author{
+Gilles Pujol
+}
+
 \examples{
 # a 100-sample with X1 ~ U(0.5, 1.5)
 #                   X2 ~ U(1.5, 4.5)

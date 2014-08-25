@@ -33,4 +33,8 @@ A. Saltelli, K. Chan and E. M. Scott eds, 2000, \emph{Sensitivity
   Analysis}, Wiley.
 }
 
+\author{
+Gilles Pujol
+}
+
 \keyword{misc}

@@ -68,6 +68,11 @@ A. Saltelli, P. Annoni, I. Azzini, F. Campolongo, M. Ratto and S. Tarantola, 201
 \emph{Variance based sensitivity analysis of model output. Design and estimator for the
 total sensitivity index}, Computer Physics Communications 181, 259--270.
 }
+
+\author{
+Bertrand Iooss
+}
+
 \seealso{
   \code{\link{sobol}, \link{sobol2002}, \link{soboljansen}, \link{sobolEff}, \link{sobolmara}}
 }

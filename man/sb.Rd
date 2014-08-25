@@ -67,6 +67,10 @@ factors in simulation models with many factors: sequential
 bifurcations}, European Journal of Operational Research, 96, 180--194.
 }
 
+\author{
+Gilles Pujol
+}
+
 \examples{
 # a model with interactions
 p <- 50

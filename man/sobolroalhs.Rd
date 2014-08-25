@@ -61,6 +61,10 @@ Bootstrap confidence intervals are not available with this method ; the given co
 
 }
 
+\author{
+Laurent Gilquin
+}
+
 \references{
 Tissot, J. Y. and Prieur, C. (2012), \emph{Estimating Sobol's indices combining Monte Carlo integration and Latin hypercube sampling}.
 

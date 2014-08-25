@@ -67,6 +67,10 @@ I. M. Sobol, 1993, \emph{Sensitivity analysis for non-linear mathematical
 model}, Math. Modelling Comput. Exp., 1, 407--414.
 }
 
+\author{
+Gilles Pujol
+}
+
 \seealso{
   \code{\link{sobol2002}, \link{sobol2007}, \link{soboljansen}, \link{sobolEff}, \link{sobolmara}, \link{sobolroalhs}, \link{fast99}, \link{sobolGP}}
 }

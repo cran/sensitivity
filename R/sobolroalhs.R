@@ -81,9 +81,11 @@ sobolroalhs=function(model=NULL, factors, levels, order, choice="A", conf=0.95,.
     
   # case of strength 2
   if (t==2) {
-    if (!isPrime(levels)) {
-      q <- nextPrime(sqrt(levels))
+    if (requireNamespace("numbers", quietly = TRUE)){ 
+      if (!(numbers::isPrime(levels))) {
+      q <- numbers::nextPrime(sqrt(levels))      
       warning("the number of levels recquired was not a prime number, the number was replaced by : ",paste(q))
+      }
     }
     if(q<(d-1)){
       q <- (d-1)

@@ -48,13 +48,16 @@ void mom_delete(moments_t *mom) {
 	delete[] mom->sigmaEst;
 }
 
-void reinit(time_t& germ) {
-	srand(germ);
-}
+#include <R.h>
+#include <Rmath.h>
 
 void sampler(double *x, int p, ival_t *iv) {
+	GetRNGstate();
+
 	for(int i=0 ; i<p ; i++)
-		x[i]=rand()/(double)RAND_MAX;
+		x[i]=runif(0,1);
+
+	PutRNGstate();
 
 	if(iv) 
 		for(int i=0;i<p;i++)
@@ -145,9 +148,10 @@ void estiSobol2_regr(double f(double *,int, double *),
 		memset(maxsigma, 0, p*sizeof(double));
 	}
 
+	GetRNGstate();
 	for(int k=0;k<B;k++) {
 		for(int r=0;r<N;r++) 
-			indEchantillons[r]=(k==0 ? r : rand()*(N/(double)RAND_MAX));
+			indEchantillons[r]=(k==0 ? r : int(runif(0,1)*double(N)));
 
 		double xm=0;
 		double errxm=0;
@@ -199,6 +203,7 @@ void estiSobol2_regr(double f(double *,int, double *),
 			}
 		}
 	}
+	PutRNGstate();
 
 	for(int j=0;j<p;j++) {
 		if(iv && fabs(iv->max[j]-iv->min[j])<DBL_EPSILON) continue;
@@ -334,13 +339,14 @@ void estiSobol2_regr_bc(double f(double*,int,double*), int p, int N, int B, ival
 	double *lminreplis=new double[B*p];
 	double *lmaxreplis=new double[B*p];
 
+	GetRNGstate();
 	for(int k=0;k<B;k++) {
 		unsigned int seedp=k;
 		double *minreplis=new double[p];
 		double *maxreplis=new double[p];
 		int *indEchantillons=new int[N];
 		for(int r=0;r<N;r++) 
-			indEchantillons[r]=(k==0 ? r : rand()*(N/(double)RAND_MAX));
+			indEchantillons[r]=(k==0 ? r : int(runif(0,1)*double(N)));
 
 			estiSobol2_regr_replica(f,p,N,indEchantillons,iv,minreplis,maxreplis);
 			for(int j=0;j<p;j++) {
@@ -355,6 +361,7 @@ void estiSobol2_regr_bc(double f(double*,int,double*), int p, int N, int B, ival
 			delete[] maxreplis;
 			delete[] indEchantillons;
 		}
+	PutRNGstate();
 	
 
 	for(int j=0;j<p;j++) {
@@ -611,6 +618,8 @@ void estiSobol_bfgs(int N, int j, int p, int *indEchantillons, double *valopti, 
 
 	int Nrestart=1;
 
+	GetRNGstate();
+
 	for(int K=0;K<Nrestart;K++) {
 		memset(task,' ',60*sizeof(char));
 		task[0]='S';task[1]='T';task[2]='A';task[3]='R';task[4]='T';
@@ -619,7 +628,7 @@ void estiSobol_bfgs(int N, int j, int p, int *indEchantillons, double *valopti, 
 		lambda=lambda0*signe;
 
 		for(int jj=0;jj<dim;jj++) 
-			x[jj]=l[jj]+(u[jj]-l[jj])*double(rand())/double(RAND_MAX);
+			x[jj]=l[jj]+(u[jj]-l[jj])*runif(0,1);
 
 		do {
 		//	printf("%s\n", csave);
@@ -644,6 +653,7 @@ void estiSobol_bfgs(int N, int j, int p, int *indEchantillons, double *valopti, 
 
 		//debug(*valopti);
 	}
+	PutRNGstate();
 
 	if(dump || (getenv("BFGSDUMP")&&j==atoi(getenv("BFGSDUMP"))) ) {
 		ofstream d("/tmp/dump");
@@ -699,10 +709,11 @@ void estiSobol2_OPTbfgs_bc(double f(double*,int,double*), int p, int N, int B, i
 	mom.sigmaEst=NULL;
 	lminreplis=new double[B*p];
 	lmaxreplis=new double[B*p];
+	GetRNGstate();
 	for(int k=0 ; k<B;k++) {
 	//	if(!(k%10)) 
 	//		printf("\nComputing replication %d out of %d... ", k+1, B);
-		for(int l=0;l<N;l++) indEchantillon[l]=(k==0 ? l : rand()*(N/(double)RAND_MAX)); 
+		for(int l=0;l<N;l++) indEchantillon[l]=(k==0 ? l : int(runif(0,1)*double(N))); 
 		 debug(k);
 		if(k!=0)
 			calcPPVindEch(N,p,indEchantillon);
@@ -729,6 +740,7 @@ void estiSobol2_OPTbfgs_bc(double f(double*,int,double*), int p, int N, int B, i
 				ff << repliMax[j] << endl;
 		}
 	}
+	PutRNGstate();
 	//printf("\n");
 
 	if(mom.sigmaEst) {

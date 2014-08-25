@@ -60,9 +60,14 @@ A. Saltelli, 2002, \emph{Making best use of model evaluations to compute
 sensitivity indices}, Computer Physics Communication, 145, 580--297.
 }
 
+\author{
+Gilles Pujol
+}
+
 \seealso{
   \code{\link{sobol}, \link{sobol2007}, \link{soboljansen}, \link{sobolEff}, \link{sobolmara}, \link{sobolGP}}
 }
+
 \examples{
 # Test case : the non-monotonic Sobol g-function
 

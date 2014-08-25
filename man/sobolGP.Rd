@@ -137,7 +137,7 @@ An object of class S3 \code{sobolGP}.
 }
 
 \references{
-Le Gratiet, L., Cannamela, C. and Iooss, B. (2014), A Bayesian approach for global sensitivity analysis of (multi-fidelity) computer codes, \emph{ arXiv:1307.2223}
+L. Le Gratiet, C. Cannamela and B. Iooss (2014), A Bayesian approach for global sensitivity analysis of (multifidelity) computer codes, SIAM/ASA J. Uncertainty Quantification 2-1, pp. 336-363.
 }
 
 \author{

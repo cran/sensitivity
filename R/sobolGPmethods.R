@@ -29,28 +29,28 @@ if(nboot!=1){
 	data <- data.frame(rbind(sGP$S$varPG,sGP$S$varMC))
 	names(data) <- names(sGP$S)[1:d]
      	barplot(as.matrix(data), angle = c(45,-45), density = 20, col = "black",
-             legend = c("PG variance","MC variance"),ylim=c(0,1.2*max(sGP$S$varPG+sGP$S$varMC)))
+             legend = c("GP variance","MC variance"),ylim=c(0,1.2*max(sGP$S$varPG+sGP$S$varMC)))
      	title(main = list("Variance decomposition of the main effects", font = 4))
 	
 	if(sGP$call$tot){
 		data <- data.frame(rbind(sGP$T$varPG,sGP$T$varMC))
 		names(data) <- names(sGP$T)[1:d]
      		barplot(as.matrix(data), angle = c(45,-45), density = 20, col = "black",
-       		      legend = c("PG variance","MC variance"),ylim=c(0,1.2*max(sGP$T$varPG+sGP$T$varMC)))
+       		      legend = c("GP variance","MC variance"),ylim=c(0,1.2*max(sGP$T$varPG+sGP$T$varMC)))
      		title(main = list("Variance decomposition of the total effects", font = 4))
 	}
 } else {
 	data <- data.frame(sGP$S$varPG)
 	names(data) <- names(sGP$S)[1:d]
      	barplot(as.matrix(data), angle = 45, density = 20, col = "black",
-             legend = c("PG variance"),ylim=c(0,1.2*max(sGP$S$varPG)))
+             legend = c("GP variance"),ylim=c(0,1.2*max(sGP$S$varPG)))
      	title(main = list("Variance of the main effects", font = 4))
 	
 	if(sGP$call$tot){
 		data <- data.frame(sGP$T$varPG)
 		names(data) <- names(sGP$T)[1:d]
      		barplot(as.matrix(data), angle = 45, density = 20, col = "black",
-       		      legend = c("PG variance"),ylim=c(0,1.2*max(sGP$T$varPG)))
+       		      legend = c("GP variance"),ylim=c(0,1.2*max(sGP$T$varPG)))
      		title(main = list("Variance of the total effects", font = 4))
 	}
 }
@@ -183,12 +183,12 @@ prednewdata2 = TRUE)
     if(prednewdata2){
     	y.predict.trend2 <- F.newdata2 %*% beta
     }
-
-    c.newdata1 <- covMat1Mat2(object@covariance, X1 = X, X2 = newdata1, 
+    if (requireNamespace("DiceKriging", quietly = TRUE)){ 
+      c.newdata1 <- DiceKriging::covMat1Mat2(object@covariance, X1 = X, X2 = newdata1, 
         nugget.flag = object@covariance@nugget.flag)
-    c.newdata2 <- covMat1Mat2(object@covariance, X1 = X, X2 = newdata2, 
+      c.newdata2 <- DiceKriging::covMat1Mat2(object@covariance, X1 = X, X2 = newdata2, 
         nugget.flag = object@covariance@nugget.flag)
-
+    }
     Tinv.c.newdata1 <- backsolve(t(T), c.newdata1, upper.tri = FALSE)
     Tinv.c.newdata2 <- backsolve(t(T), c.newdata2, upper.tri = FALSE)
 
@@ -210,8 +210,10 @@ prednewdata2 = TRUE)
 	rm(list=c("y.predict2"))
     }
     
-    C.newdata <- covMat1Mat2(object@covariance, X1 = newdata1, X2 = newdata2, 
-    nugget.flag = object@covariance@nugget.flag)
+	  if (requireNamespace("DiceKriging", quietly = TRUE)){
+      C.newdata <- DiceKriging::covMat1Mat2(object@covariance, X1 = newdata1, X2 = newdata2, 
+      nugget.flag = object@covariance@nugget.flag)
+	  }
 
 	rm(list=c("newdata1","newdata2"))
 
@@ -280,14 +282,16 @@ type
     while((!test&iter<1000)){  
 		a <- sample.int(m+n, size = nsim, replace = FALSE, prob = NULL)
 		ya <- rnorm(nsim,0,1)
-		Cab <- covMat1Mat2(object@covariance, X1 = as.matrix(newdata[a,]), X2 = as.matrix(newdata), 
+		if (requireNamespace("DiceKriging", quietly = TRUE)){
+      Cab <- DiceKriging::covMat1Mat2(object@covariance, X1 = as.matrix(newdata[a,]), X2 = as.matrix(newdata), 
         		nugget.flag = object@covariance@nugget.flag)/object@covariance@sd2
+		}
 		yc <- yc + Cab* (as.matrix(ya-diag(yc[,a]))%*%t(as.matrix(rep(1,m+n))))
 		diag(yc[1:nsim,a]) <- ya
 
 		if(iter%%20==0){
 			Cemp <- var(yc[,sample_test]) 
-			Ctheo <- covMatrix(object@covariance, X = as.matrix(newdata[sample_test,]))[[1]]/
+			Ctheo <- DiceKriging::covMatrix(object@covariance, X = as.matrix(newdata[sample_test,]))[[1]]/
 					object@covariance@sd2 
 			RMSE_C <- sqrt(mean((Cemp-Ctheo)^2))  
 			#RMSE_save <- c(RMSE_save,RMSE_C) #-!!-#
@@ -304,8 +308,10 @@ type
   if (cond){	
 	if(type=="UK"){
 		y.predict.trend <- F.newdata %*% object@trend.coef
-	      c.newdata <- covMat1Mat2(object@covariance, X1 = object@X, X2 = newdata, 
+		if (requireNamespace("DiceKriging", quietly = TRUE)){
+      c.newdata <- DiceKriging::covMat1Mat2(object@covariance, X1 = object@X, X2 = newdata, 
 	          nugget.flag = object@covariance@nugget.flag)
+		}
 
 		rm(list=c("newdata"))	
 
@@ -352,8 +358,10 @@ type
 	}
 	if(type=="SK"){
 		y.predict.trend <- F.newdata %*% object@trend.coef
-	      c.newdata <- covMat1Mat2(object@covariance, X1 = object@X, X2 = newdata, 
+		if (requireNamespace("DiceKriging", quietly = TRUE)){
+      c.newdata <- DiceKriging::covMat1Mat2(object@covariance, X1 = object@X, X2 = newdata, 
 	          nugget.flag = object@covariance@nugget.flag)
+		}
 	      Tinv.c.newdata <- backsolve(t(object@T), c.newdata, upper.tri = FALSE)
 		y.predict.complement <- t(Tinv.c.newdata) %*% object@z
 		y.predict <- y.predict.trend + y.predict.complement

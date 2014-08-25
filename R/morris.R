@@ -181,7 +181,7 @@ plot3d.morris <- function(x, alpha = c(0.2, 0), sphere.size = 1, ...) {
   mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
   sigma <- apply(x$ee, 2, sd)
     
-  open3d()
+  if (requireNamespace("rgl", quietly = TRUE)){ rgl::open3d()}
   
   xmax <- max(mu.star)
   zmax <- max(max(sigma), xmax)
@@ -193,15 +193,15 @@ plot3d.morris <- function(x, alpha = c(0.2, 0), sphere.size = 1, ...) {
                         - xmax * cos(theta[-1])))
   z <- as.numeric(rbind(rep(0, n), xmax * sin(theta[-(n + 1)]),
                         xmax * sin(theta[-1])))
-  triangles3d(x, y, z, color = color, alpha = alpha[1])
-  
-  x <- rep(c(0, xmax, xmax, 0), 2)
-  y <- c(0, -xmax, -xmax, 0, 0, xmax, xmax, 0)
-  z <- c(0, 0, zmax, zmax, 0, 0, zmax, zmax)
-  quads3d(x, y, z, color = color, alpha = alpha[2])
-  
-  plot3d(mu.star, mu, sigma, type = "s", radius = spheres.rad, add = TRUE)
-  
-  axes3d()
-  title3d(xlab="mu*", ylab="mu", zlab="sigma")
+  if (requireNamespace("rgl", quietly = TRUE)){ 
+    rgl::triangles3d(x, y, z, color = color, alpha = alpha[1])
+    x <- rep(c(0, xmax, xmax, 0), 2)
+    y <- c(0, -xmax, -xmax, 0, 0, xmax, xmax, 0)
+    z <- c(0, 0, zmax, zmax, 0, 0, zmax, zmax)
+   
+    rgl::quads3d(x, y, z, color = color, alpha = alpha[2])
+    rgl::plot3d(mu.star, mu, sigma, type = "s", radius = spheres.rad, add = TRUE)
+    rgl::axes3d()
+    rgl::title3d(xlab="mu*", ylab="mu", zlab="sigma")
+  }
 }

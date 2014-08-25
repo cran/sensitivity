@@ -72,6 +72,10 @@ ask(x, \dots)
   \code{ask} returns the set of data to simulate.
 }
 
+\author{
+Gilles Pujol
+}
+
 \examples{
 # Example of use of fast99 with "model = NULL"
 x <- fast99(model = NULL, factors = 3, n = 1000,
