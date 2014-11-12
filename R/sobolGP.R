@@ -1,7 +1,6 @@
-#library(DiceKriging)
+# Kriging-based global sensitivity analysis taking into account both 
+# the meta-model and the Monte-Carlo errors
 
-# kriging-based global sensitivity analysis taking into account both 
-# the meta-model and the Monte-Carlo errors.
 # Author : loic le Gratiet, 2014
 
 sobolGP <- function (

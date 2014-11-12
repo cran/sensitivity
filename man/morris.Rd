@@ -71,8 +71,9 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
   \item{bsup}{either an integer, specifying the maximum value for the
     factors, or a vector for different values for each factor.}
   \item{scale}{logical. If \code{TRUE}, the input design of experiments is
-    scaled before computing the elementary effects so that all factors
-    vary within the range [0,1].}
+    scaled after building the design and before computing the elementary 
+    effects so that all factors vary within the range [0,1]. For each factor, 
+    the scaling is done relatively to its corresponding bsup and binf.}
   \item{x}{a list of class \code{"morris"} storing the state of the
     screening study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}

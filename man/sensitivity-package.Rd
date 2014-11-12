@@ -17,7 +17,7 @@
     \item Poincare constants for Derivative-based Global Sensitivity Measures (DGSM) (Roustant et al., 2014) (\code{\link{PoincareConstant}}).
     \item{Variance-based sensitivity indices (Sobol' indices):
 	  \itemize{
-      \item Monte Carlo estimation of Sobol' indices: 
+      \item Monte Carlo estimation of Sobol' indices (also called pick-freeze method): 
       \itemize{
 		    \item Sobol' scheme (Sobol, 1993) to compute the indices given by the variance decomposition up to a specified order (\code{\link{sobol}}),
   		  \item Saltelli's scheme (Saltelli, 2002) to compute first order and total indices with a reduced cost (\code{\link{sobol2002}}), 
@@ -26,8 +26,9 @@
 	  	  \item Janon-Monod's scheme (Monod et al., 2006; Janon et al., 2013) to compute first order indices with optimal asymptotic variance (\code{\link{sobolEff}}),
 	  	  \item Mara's scheme (Mara and Joseph, 2008) to compute first order indices with a cost independent of the dimension, via a unique-matrix permutations (\code{\link{sobolmara}}),
 		    \item Owen's scheme (Owen, 2013) to compute first order and total indices using improved formulas (via 3 input independent matrices) for small indices (\code{\link{sobolowen}}),
+        \item Total Interaction Indices using Liu-Owen's scheme (Liu and Owen, 2006) (\code{\link{sobolTIIlo}}) and pick-freeze scheme (Fruth et al., 2014) (\code{\link{sobolTIIpf}}),
       }
-      \item Estimation of the Sobol' first and second order indices using replicated orthogonal array-based Latin hypecube sample (Tissot and Prieur, 2012) (\code{\link{sobolroalhs}}),
+      \item Estimation of the Sobol' first order and closed second order indices using replicated orthogonal array-based Latin hypecube sample (Tissot and Prieur, 2012) (\code{\link{sobolroalhs}}),
       \item Estimation of the Sobol' first order and total indices with Saltelli's so-called "extended-FAST" method (Saltelli et al., 1999) (\code{\link{fast99}}),
       \item Estimation of the Sobol' first order and total indices with kriging-based global sensitivity analysis (Le Gratiet et al., 2014) (\code{\link{sobolGP}}).
     }
@@ -67,7 +68,7 @@
 }
 
 
-\author{Gilles Pujol, Bertrand Iooss, Alexandre Janon with contributions from Paul Lemaitre for the \code{\link{DMBRSI}} function, Laurent Gilquin for the \code{\link{sobolroalhs}} function, Loic le Gratiet for the \code{\link{sobolGP}} function, Taieb Touati and Bernardo Ramos fo the \code{\link{sobolowen}} function, Jana Fruth for the \code{\link{PoincareConstant}} function and Sebastien Da veiga for the \code{\link{sensiFdiv}} and \code{\link{sensiHSIC}} functions.
+\author{Gilles Pujol, Bertrand Iooss, Alexandre Janon with contributions from Paul Lemaitre for the \code{\link{DMBRSI}} function, Laurent Gilquin for the \code{\link{sobolroalhs}} function, Loic le Gratiet for the \code{\link{sobolGP}} function, Taieb Touati and Bernardo Ramos fo the \code{\link{sobolowen}} function, Jana Fruth for the \code{\link{PoincareConstant}}, \code{\link{sobolTIIlo}} and \code{\link{sobolTIIpf}} functions, and Sebastien Da veiga for the \code{\link{sensiFdiv}} and \code{\link{sensiHSIC}} functions.
 
 (maintainer: Bertrand Iooss \email{biooss@yahoo.fr})}
 

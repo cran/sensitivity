@@ -1,3 +1,6 @@
+# Sobol' indices estimation by the method of Owen
+#Authors: B. Ramos and T. Touati (2014)
+
 sobolowen <- function(model = NULL, X1, X2, X3, nboot = 0, conf = 0.95, varest = 2, ...) {
   if ((ncol(X1) != ncol(X2)) | (nrow(X1) != nrow(X2)) | (ncol(X2) != ncol(X3)) | (nrow(X2) != nrow(X3)))
     stop("The samples X1, X2 and X3 must have the same dimensions")

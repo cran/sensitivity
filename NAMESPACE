@@ -69,6 +69,18 @@ S3method(tell, sobolGP)
 S3method(print, sobolGP)
 S3method(plot, sobolGP)
 
+export(sobolTIIlo)
+S3method(tell, sobolTIIlo)
+S3method(print, sobolTIIlo)
+S3method(plot, sobolTIIlo)
+export(plotFG.sobolTIIlo)
+
+export(sobolTIIpf)
+S3method(tell, sobolTIIpf)
+S3method(print, sobolTIIpf)
+S3method(plot, sobolTIIpf)
+export(plotFG.sobolTIIpf)
+
 export(fast99)
 S3method(tell, fast99)
 S3method(print, fast99)

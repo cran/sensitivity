@@ -1,5 +1,3 @@
-###########################################################################
-#
 # Poincare Constant computation for Derivative-based Global Sensitivity Measures (DGSM)           
 # Author: Jana Fruth (2014)
 #
@@ -7,7 +5,6 @@
 # O. Roustant, J. Fruth, B. Iooss and S. Kuhnt,
 # Crossed-derivative-based sensitivity measures for interaction screening, 
 # Mathematics and Computers in Simulation, 105:105-118, 2014
-######################################################################################
 
 PoincareConstant <- function(densityfct=dnorm, qfct=qnorm, cdfct, 
                              truncated=FALSE, min=0, max=1, 
