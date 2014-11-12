@@ -37,3 +37,10 @@ response <- function(x, loop = FALSE, ...) {
   x$y <- y
   assign(id, x, parent.frame())
 }
+
+########################################
+# function added in 2014
+
+plotFG <- function(x) 
+  UseMethod("plotFG")
+

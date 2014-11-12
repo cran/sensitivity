@@ -4,6 +4,7 @@
 \alias{print.sobolTIIpf}
 \alias{plot.sobolTIIpf}
 \alias{plotFG.sobolTIIpf}
+\alias{plotFG}
 
 \title{Pick-freeze Estimation of Total Interaction Indices}
 

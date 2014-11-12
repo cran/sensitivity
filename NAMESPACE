@@ -2,6 +2,7 @@ useDynLib(sensitivity)
 
 export(ask)
 export(tell)
+export(plotFG)
 
 importFrom(stats, rnorm)
 export(sobol.fun, ishigami.fun, morris.fun)
@@ -73,13 +74,13 @@ export(sobolTIIlo)
 S3method(tell, sobolTIIlo)
 S3method(print, sobolTIIlo)
 S3method(plot, sobolTIIlo)
-export(plotFG.sobolTIIlo)
+S3method(plotFG, sobolTIIlo)
 
 export(sobolTIIpf)
 S3method(tell, sobolTIIpf)
 S3method(print, sobolTIIpf)
 S3method(plot, sobolTIIpf)
-export(plotFG.sobolTIIpf)
+S3method(plotFG, sobolTIIpf)
 
 export(fast99)
 S3method(tell, fast99)

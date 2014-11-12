@@ -1,8 +1,8 @@
-fa8c78e3a062c83cfa2c5e80e52490a6 *DESCRIPTION
-0c795c5c464efe7a8917ea91b1c26566 *NAMESPACE
+012ac50871fc270099fd36529d348ef4 *DESCRIPTION
+00a190c079b997365a7a398cf8be2804 *NAMESPACE
 0a536d3e0a875dd7553c2eb8e115b501 *R/DMBRSI.R
 4afa329981af528bc8653572cae0faf9 *R/PoincareConstant.R
-777bbea211c5c11305b5f510520c37f0 *R/base.R
+ed0ecdc8f16dcfeddf095fdc60b1fb8e *R/base.R
 82847588a758c48d67df8ea1652b91b3 *R/bootstats.R
 5a3ee2007e13f7334f5372a57e5d8e37 *R/fast99.R
 6030cd802c3fadc65472423ca43d3d77 *R/morris.R
@@ -50,7 +50,7 @@ b51048fbf1010e05300086f65fe01a37 *man/sobol2002.Rd
 5de7bf7cea3296b70c9eb9340ddbb2ea *man/sobolEff.Rd
 f62d9dfa294e54a1106281f47073434a *man/sobolGP.Rd
 f9280ea0d0112ccf0f6db41f2b030e37 *man/sobolTIIlo.Rd
-4cc92507516c56d4adf83df3e473bd6a *man/sobolTIIpf.Rd
+2e39897773df0b68f1cd82c9df073577 *man/sobolTIIpf.Rd
 4bb789b69707975f53e826188e593a18 *man/soboljansen.Rd
 729a2f49cfc5b267dd1c0879acfbf098 *man/sobolmara.Rd
 8dfa92465557ab0ef6b65b68eef2354f *man/sobolowen.Rd
