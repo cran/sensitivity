@@ -70,6 +70,9 @@ Tissot, J. Y. and Prieur, C. (2012), \emph{Estimating Sobol's indices combining 
 A.S. Hedayat, N.J.A. Sloane, John Stufken (1999), \emph{Orthogonal Arrays: Theory and Applications}.
 }
 
+\seealso{
+  \code{\link{sobolmara}}
+}
 
 \examples{
 library(numbers)

@@ -1,13 +1,14 @@
 # library(evd)
 
-DMBRSI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
+PLI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
                 InputDistributions,type="MOY",samedelta=TRUE){
   
-  # This function allows the estimation of Density Modification Based Reliability Sensitivity Indices (DMBRSI)
+  # This function allows the estimation of Density Modification Based Reliability Sensitivity Indices
+  # called PLI (Perturbation Law-based Indices)
   # Ref : P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss.
   #       Density modification based reliability sensitivity analysis, 
-  #       Journal od Statistical Computation and Simulation, in press, 2014.
-  #       http://hal.archives-ouvertes.fr/hal-00737978.
+  #       Journal od Statistical Computation and Simulation, 85:1200-1223, 2015.
+  #       hal.archives-ouvertes.fr/docs/00/73/79/78/PDF/Article_v68.pdf.
   #
   #
   ###################################
@@ -34,7 +35,7 @@ DMBRSI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
   ###################################
   #
   # The output is a list of size 2, including:
-  #	A matrix where the DMBRSI are stored
+  #	A matrix where the PLI are stored
   #		each column corresponds to an input, each line corresponds to a twist of amplitude delta
   #	A matrix where their standard deviation are stored
   
@@ -337,7 +338,7 @@ DMBRSI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
       ### The next part does, for each kind of input distribution
       # 	Solve with respect to lambda the following set of equations :
       #		int (y.f_lambda(y)dy) = int( yf(y)dy)
-      #	 (3)	int (y².f_lambda(y)dy)= V_f + int( yf(y)dy) ^2
+      #	 (3)	int (y^2.f_lambda(y)dy)= V_f + int( yf(y)dy) ^2
       #	One must note that lambda is of size 2.
       #
       # Implemented cases : Gaussian, Uniform

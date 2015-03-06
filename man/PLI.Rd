@@ -1,17 +1,18 @@
-\name{DMBRSI}
-\alias{DMBRSI}
+\name{PLI}
+\alias{PLI}
 
-\title{Density Modification Based Reliability Sensitivity Indices (DMBRSI)}
+\title{Perturbation Law-based Indices (PLI)}
 
 \description{
-  DMBSRI computes the Density Modification Based Reliability
-  Sensitivity Indices (DMBRSI), which are sensitivity indices related to a
-  probability of exceedence of a model output (i.e. a failure probability),
-  estimated by a Monte Carlo method. See Lemaitre et al. (2014).
+  PLI computes the Perturbation Law-based Indices (PLI), also known as the
+  Density Modification Based Reliability Sensitivity Indices (DMBRSI), 
+  which are sensitivity indices related to a probability of exceedence of a 
+  model output (i.e. a failure probability), estimated by a Monte Carlo method. 
+  See Lemaitre et al. (2015).
 }
 
 \usage{
-DMBRSI(failurepoints,failureprobabilityhat,samplesize,deltasvector,
+PLI(failurepoints,failureprobabilityhat,samplesize,deltasvector,
        InputDistributions,type="MOY",samedelta=TRUE)
 }
 
@@ -53,9 +54,9 @@ DMBRSI(failurepoints,failureprobabilityhat,samplesize,deltasvector,
 }
 
 \value{
-  \code{DMBRSI} returns a list of size 2, including:
+  \code{PLI} returns a list of size 2, including:
   \itemize{
-    \item A matrix where the DMBRSI are stored. Each column corresponds to 
+    \item A matrix where the PLI are stored. Each column corresponds to 
       an input, each line corresponds to a twist of amplitude delta.
     \item A matrix where their standard deviation are stored.
   }
@@ -63,7 +64,8 @@ DMBRSI(failurepoints,failureprobabilityhat,samplesize,deltasvector,
 
 \references{P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss.
 \emph{Density modification based reliability sensitivity analysis}, Journal of Statistical 
-Computation and Simulation, in press, 2014. \url{http://hal.archives-ouvertes.fr/hal-00737978}
+Computation and Simulation, 85:1200-1223, 2015. 
+\url{http://hal.archives-ouvertes.fr/hal-00737978}
 }
 
 \author{
@@ -96,7 +98,7 @@ Paul Lemaitre
 # sensitivity indices with perturbation of the mean 
   
 	v_delta = seq(-3,3,1/20) 
-	Toto = DMBRSI(failurepoints=ptsdef,failureprobabilityhat=pdefchap,samplesize=N,
+	Toto = PLI(failurepoints=ptsdef,failureprobabilityhat=pdefchap,samplesize=N,
 		deltasvector=v_delta,InputDistributions=distributionIshigami,type="MOY",
 		samedelta=TRUE)
 	BIshm = Toto[[1]]
@@ -120,7 +122,7 @@ Paul Lemaitre
 # sensitivity indices with perturbation of the variance 
 
 	v_delta = seq(1,5,1/4) # user parameter. (the true variance is 3.29)	
-	Toto = DMBRSI(failurepoints=ptsdef,failureprobabilityhat=pdefchap,samplesize=N,
+	Toto = PLI(failurepoints=ptsdef,failureprobabilityhat=pdefchap,samplesize=N,
 		deltasvector=v_delta,InputDistributions=distributionIshigami,type="VAR",
 		samedelta=TRUE)
 	BIshv=Toto[[1]]

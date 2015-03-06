@@ -4,7 +4,7 @@
 \alias{print.sobolEff}
 \alias{plot.sobolEff}
 
-\title{Monte Carlo Estimation of Sobol' Indices}
+\title{Monte Carlo Estimation of Sobol' Indices (formulas of Janon-Monod)}
 
 \description{ \code{sobolEff} implements the Monte Carlo estimation of
    the Sobol' sensitivity indices using the asymptotically efficient formulas
@@ -70,7 +70,7 @@ Alexandre Janon
 }
 
 \seealso{
-  \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}}
+  \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}, \link{soboljansen}, \link{sobolmartinez}}
 }
 
 \examples{
@@ -83,7 +83,7 @@ X1 <- data.frame(matrix(runif(8 * n), nrow = n))
 X2 <- data.frame(matrix(runif(8 * n), nrow = n))
 
 # sensitivity analysis
-x <- sobolEff(model = sobol.fun, X1 = X1, X2 = X2)
+x <- sobolEff(model = sobol.fun, X1 = X1, X2 = X2, nboot = 0)
 print(x)
 }
 

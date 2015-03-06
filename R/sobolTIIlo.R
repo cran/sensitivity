@@ -16,11 +16,11 @@ sobolTIIlo <- function (model = NULL, X1, X2, conf = 0.95, ...){
     X <- rbind(X, Xb)
   }
   x <- list(model = model, X1 = X1, X2 = X2, X = X, conf = conf, call = match.call())
-  # match.call erinnert sich nur an den ursprünglichen Funktionsaufruf (superliuowen.. usw)
+  # match.call erinnert sich nur an den ursprunglichen Funktionsaufruf (superliuowen.. usw)
   class(x) <- "sobolTIIlo"
   if (!is.null(x$model)) {
     response(x, ...)
-    # response rechnet das Modell an den ganzen x aus und hängt es als y dran
+    # response rechnet das Modell an den ganzen x aus und hangt es als y dran
     tell(x, ...)
   }
   return(x)

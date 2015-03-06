@@ -41,15 +41,15 @@ sobolCert=function(model=NULL, X1=NULL, X2=NULL, nboot=300, conf=0.95, lambda0=0
 	valmin=rep(0,p)
 	valmax=rep(0,p)
 
-	if(lambda0==0) {
+	if(lambda0<1e-5) {
 		sob=.C("Rglue_sobol_regr_bc", as.integer(nboot), Smin=as.double(minn), Smax=as.double(maxn), valmin=as.double(valmin), valmax=as.double(valmax),risque=as.double(1-conf))
 	} else {
 		x$lambda0=lambda0
 		x$h=h
 		sob=.C("Rglue_sobol_BFGS", as.integer(nboot), Smin=as.double(minn), Smax=as.double(maxn), valmin=as.double(valmin), valmax=as.double(valmax),risque=as.double(1-conf))
+		x$penalty=sobolCert.penalty()
 	}
 	x$S=sob
-	x$penalty=sobolCert.penalty()
 	return(x)
 }
 

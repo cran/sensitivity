@@ -609,7 +609,7 @@ void estiSobol_bfgs(int N, int j, int p, int *indEchantillons, double *valopti, 
 	int nmax=dim, mmax=m;
 	double *wa=new double[(2*mmax+4)*nmax+12*mmax*mmax+12*mmax];
 	int *iwa=new int[3*dim];
-	char task[60];
+	char task[61];
 	int iprint=-1;
 	char csave[60];
 	int lsave[4];
@@ -621,7 +621,7 @@ void estiSobol_bfgs(int N, int j, int p, int *indEchantillons, double *valopti, 
 	GetRNGstate();
 
 	for(int K=0;K<Nrestart;K++) {
-		memset(task,' ',60*sizeof(char));
+		memset(task,' ',61*sizeof(char));
 		task[0]='S';task[1]='T';task[2]='A';task[3]='R';task[4]='T';
 	//	memset(csave,'X',60*sizeof(char));
 
@@ -645,7 +645,7 @@ void estiSobol_bfgs(int N, int j, int p, int *indEchantillons, double *valopti, 
 				//debug(task);
 				break;
 			}
-			} while(1);
+		} while(1);
 
 		lambda=0;
 		*valopti=calcSobol_bfgs(N,x,j,p,M12,MC1,M1,M2,valSmooth);

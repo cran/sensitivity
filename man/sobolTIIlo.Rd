@@ -8,7 +8,7 @@
 \title{Liu and Owen Estimation of Total Interaction Indices}
 
 \description{\code{sobolTIIlo} implements the  asymptotically efficient formula of Liu and Owen (2006) for the estimation of total interaction indices as described e.g. in Section 3.4 of Fruth et al. (2014). Total interaction indices (TII) are superset indices of pairs of variables, thus give the total influence of each second-order interaction. The total cost of the method is \eqn{(1+N+\choose(N,2)) \times n} where \eqn{N}{N} is the number
-   of indices to estimate. Asymptotic confidence intervals are provided. Via \code{plotFG}, the TIIs can be visualized in a so-called FANOVA graph as described in section 2.2 of Muehlenstaedt et al. (2012).}
+   of indices to estimate. Asymptotic confidence intervals are provided. Via \code{plotFG} (which uses functions of the package \code{igraph}), the TIIs can be visualized in a so-called FANOVA graph as described in section 2.2 of Muehlenstaedt et al. (2012).}
 
 \usage{
 sobolTIIlo(model = NULL, X1, X2, conf = 0.95, \dots)

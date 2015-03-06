@@ -73,7 +73,7 @@ Taieb Touati and Bernardo Ramos
 }
 
 \seealso{
-  \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}, \link{soboljansen}, \link{sobolEff}, \link{sobolmara}, \link{sobolGP}}
+  \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}, \link{soboljansen}, \link{sobolmartinez}, \link{sobolEff}, \link{sobolmara}, \link{sobolGP}}
 }
 \examples{
 # Test case : the non-monotonic Sobol g-function

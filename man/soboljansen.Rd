@@ -73,7 +73,7 @@ Bertrand Iooss
 }
 
 \seealso{
-  \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}, \link{sobolEff}, \link{sobolmara}}
+  \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}, \link{sobolmartinez}, \link{sobolEff}, \link{sobolmara}}
 }
 
 \examples{

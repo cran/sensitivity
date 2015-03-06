@@ -4,7 +4,7 @@
 \alias{print.sobol2007}
 \alias{plot.sobol2007}
 
-\title{Monte Carlo Estimation of Sobol' Indices (improved formulas of Sobol et al. (2007) and Saltelli et al. (2010))}
+\title{Monte Carlo Estimation of Sobol' Indices (improved formulas of Mauntz: Sobol et al. (2007) and Saltelli et al. (2010))}
 
 \description{
   \code{sobol2007} implements the Monte Carlo estimation of
@@ -57,6 +57,13 @@ sobol2007(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
 
 \details{
 This estimator is good for small first-order and total indices.
+
+BE CAREFUL! This estimator suffers from a conditioning problem when estimating 
+the variances behind the indices computations. This can seriously affect the 
+Sobol' indices estimates in case of largely non-centered output. To avoid this 
+effect, you have to center the model output before applying \code{"sobol2007"}. 
+Functions \code{"sobolEff"}, \code{"soboljansen"} and \code{"sobolmartinez"} 
+do not suffer from this problem.
 }
 
 \references{
@@ -74,7 +81,7 @@ Bertrand Iooss
 }
 
 \seealso{
-  \code{\link{sobol}, \link{sobol2002}, \link{soboljansen}, \link{sobolEff}, \link{sobolmara}}
+  \code{\link{sobol}, \link{sobol2002}, \link{soboljansen}, \link{sobolmartinez}, \link{sobolEff}, \link{sobolmara}}
 }
 
 \examples{

@@ -55,6 +55,15 @@ sobol2002(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
   \code{S.boot} and \code{T.boot}).
 }
 
+\details{
+BE CAREFUL! This estimator suffers from a conditioning problem when estimating 
+the variances behind the indices computations. This can seriously affect the 
+Sobol' indices estimates in case of largely non-centered output. To avoid this 
+effect, you have to center the model output before applying \code{"sobol2002"}. 
+Functions \code{"sobolEff"}, \code{"soboljansen"} and \code{"sobolmartinez"} 
+do not suffer from this problem.
+}
+
 \references{
 A. Saltelli, 2002, \emph{Making best use of model evaluations to compute
 sensitivity indices}, Computer Physics Communication, 145, 580--297.
@@ -65,7 +74,7 @@ Gilles Pujol
 }
 
 \seealso{
-  \code{\link{sobol}, \link{sobol2007}, \link{soboljansen}, \link{sobolEff}, \link{sobolmara}, \link{sobolGP}}
+  \code{\link{sobol}, \link{sobol2007}, \link{soboljansen}, \link{sobolmartinez}, \link{sobolEff}, \link{sobolmara}, \link{sobolGP}}
 }
 
 \examples{

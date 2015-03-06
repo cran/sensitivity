@@ -46,6 +46,11 @@ S3method(tell, soboljansen)
 S3method(print, soboljansen)
 S3method(plot, soboljansen)
 
+export(sobolmartinez)
+S3method(tell, sobolmartinez)
+S3method(print, sobolmartinez)
+S3method(plot, sobolmartinez)
+
 export(sobolmara)
 S3method(tell, sobolmara)
 S3method(print, sobolmara)
@@ -87,6 +92,10 @@ S3method(tell, fast99)
 S3method(print, fast99)
 S3method(plot, fast99)
 
+export(sobolMultOut)
+S3method(print, sobolMultOut)
+S3method(plot, sobolMultOut)
+
 export(sb)
 S3method(ask, sb)
 S3method(tell, sb)
@@ -95,7 +104,13 @@ S3method(plot, sb)
 
 export(template.replace)
 
-export(DMBRSI)
+export(delsa)
+export(parameterSets)
+S3method(tell, delsa)
+S3method(print, delsa)
+S3method(plot, delsa)
+
+export(PLI)
 
 export(PoincareConstant)
 
