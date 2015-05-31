@@ -11,14 +11,14 @@ sobolMultOut <- function(model = NULL, q = 1, X1, X2, MCmethod = "sobol",
                          plotFct=FALSE, ...) 
 {
 # q = dimension of the output vector
-# Mcmethod: limited to the Sobol' estimators with two input matrices
-#     (sobol, sobol2002, sobol2007, soboljansen, sobolmartinez, sobolGP)
+# Mcmethod: limited to the following Sobol' estimators: 
+#   sobol, sobol2002, sobol2007, soboljansen, sobolmartinez, sobolGP, sobolmara
 # PlotFct: plot of the Sobol' indices for each output (for 1D functional output)
 
   # WARNINGS : no bootstrap ; no tell function ; do not work with sobolEff (pb with the output format $V)
   
-  if ((ncol(X1) != ncol(X2)) | (nrow(X1) != nrow(X2))) 
-        stop("The samples X1 and X2 must have the same dimensions")
+#  if ((ncol(X1) != ncol(X2)) | (nrow(X1) != nrow(X2))) 
+#        stop("The samples X1 and X2 must have the same dimensions")
   p <- ncol(X1)
 
   Tot=FALSE
@@ -32,6 +32,7 @@ sobolMultOut <- function(model = NULL, q = 1, X1, X2, MCmethod = "sobol",
   if(MCmethod == "sobolmartinez") x0 <- sobolmartinez(model=NULL, X1, X2, ...)
 #  if(MCmethod == "sobolEff") x0 <- sobolEff(model=NULL, X1, X2, ...)
   if(MCmethod == "sobolGP") x0 <- sobolGP(model=NULL, X1, X2, ...)  
+  if(MCmethod == "sobolmara") x0 <- sobolmara(model=NULL, X1, ...)  
   
   x <- x0
   xx <- as.list(c()) # liste concatenant tous les objets Sobol pour toutes les sorties

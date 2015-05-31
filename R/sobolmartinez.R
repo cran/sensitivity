@@ -13,16 +13,11 @@ sobolmartinez <- function(model = NULL, X1, X2, nboot = 0, conf = 0.95, ...) {
     stop("The samples X1 and X2 must have the same dimensions")
   p <- ncol(X1)
   
-  X <- X1
-  for (i in 1:p) {
-    Xb <- X2
-    Xb[,i] <- X1[,i]
+  X <- rbind(X1,X2)
+    for (i in 1:p) {
+    Xb <- X1
+    Xb[,i] <- X2[,i]
     X <- rbind(X, Xb) 
-  }
-  for (i in 1:p) {
-    Xbt <- X1
-    Xbt[, i] <- X2[, i]
-    X <- rbind(X, Xbt) 
   }
   
   x <- list(model = model, X1 = X1, X2 = X2, nboot = nboot, conf = conf, X = X,
@@ -41,7 +36,7 @@ sobolmartinez <- function(model = NULL, X1, X2, nboot = 0, conf = 0.95, ...) {
 estim.sobolmartinez <- function(data, i = 1 : nrow(data), estimStd=FALSE, conf=0) {
   d <- as.matrix(data[i, ]) # as.matrix for colSums
   n <- nrow(d)
-  p <- (ncol(d)-1)/2
+  p <- ncol(d)-2
   
   V <- var(d[, 1])
   ecor <- rep(0,p) ; ecorcompl <- rep(0,p)
@@ -51,16 +46,16 @@ estim.sobolmartinez <- function(data, i = 1 : nrow(data), estimStd=FALSE, conf=0
     estcorcompl <- matrix(0,nrow=p,ncol=3,dimnames=list((p+2):(2*p+1),c("estim","CIinf","CIsup")))
   }
   for(ii in 1:p) {
-    ecor[ii] <- cor(d[,1],d[,ii+1])
-    ecorcompl[ii] <- cor(d[,1],d[,ii+1+p])
+      ecor[ii] <- cor(d[,2],d[,ii+2],use="pairwise.complete.obs")
+      ecorcompl[ii] <- cor(d[,1],d[,ii+2],use="pairwise.complete.obs")
     
     if(estimStd) {
       estcor[ii,1] <- ecor[ii]
-      confcor <- cor.test(d[,1],d[,ii+1],conf.level=conf)
+      confcor <- cor.test(d[,2],d[,ii+2],conf.level=conf)
       estcor[ii,2] <- confcor$conf.int[1]
       estcor[ii,3] <- confcor$conf.int[2]
       estcorcompl[ii,1] <- ecorcompl[ii]
-      confcor <- cor.test(d[,1],d[,ii+1+p],conf.level=conf)
+      confcor <- cor.test(d[,1],d[,ii+2],conf.level=conf)
       estcorcompl[ii,2] <- confcor$conf.int[2]
       estcorcompl[ii,3] <- confcor$conf.int[1] # on intervertit car apres on prend l'oppose
     }

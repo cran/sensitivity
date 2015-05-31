@@ -10,7 +10,7 @@
   \code{sobolmartinez} implements the Monte Carlo estimation of
   the Sobol' indices for both first-order and total indices using 
   correlation coefficients-based formulas, at a total cost of 
-  \eqn{(2 \times p+1) \times n}{(2p + 2) * n} model evaluations. 
+  \eqn{(p+2) \times n}{(p + 2) * n} model evaluations. 
   These are called the Martinez estimators.
 }
 
@@ -59,6 +59,13 @@ sobolmartinez(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
   \code{S.boot} and \code{T.boot}).
 }
 
+\details{
+This estimator supports missing values (NA or NaN) which can occur during the
+simulation of the model on the design of experiments (due to code failure) 
+even if Sobol' indices are no more rigorous variance-based sensitivity 
+indices if missing values are present. In this case, a warning is displayed. 
+}
+
 \references{
 J-M. Martinez, 2011, \emph{Analyse de sensibilite globale par decomposition 
 de la variance}, Presentation in the meeting of GdR Ondes and GdR MASCOT-NUM, 
@@ -71,7 +78,7 @@ Bertrand Iooss
 
 \seealso{
   \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}, \link{soboljansen}, 
-        \link{sobolEff}, \link{sobolmara}}
+        \link{sobolEff}, \link{sobolmara},\link{sobolMultOut}}
 }
 
 \examples{

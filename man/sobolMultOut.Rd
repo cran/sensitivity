@@ -29,8 +29,8 @@ sobolMultOut(model = NULL, q = 1, X1, X2, MCmethod = "sobol",
   \item{X2}{the second random sample.}
   \item{MCmethod}{a character string specifying the Monte-Carlo procedure used 
   to estimate the Sobol indices. The avaible methods are : \code{"sobol"}, 
-  \code{"sobol2002"}, \code{"sobol2007"}, \code{"soboljansen"}, \code{"sobolmartinez"}
-  and \code{sobolGP}.}
+  \code{"sobol2002"}, \code{"sobol2007"}, \code{"soboljansen"}, \code{sobolmara},
+  \code{"sobolmartinez"} and \code{sobolGP}.}
   \item{plotFct}{if TRUE, 1D functional Sobol indices ares plotted in an external
   window (default=FALSE).}
   \item{x}{a list of class \code{MCmethod} storing the state of the
@@ -56,11 +56,11 @@ sobolMultOut(model = NULL, q = 1, X1, X2, MCmethod = "sobol",
 
 \details{
 For this function, there are several gaps: the bootstrap estimation of confidence 
-intervals is no avalaible and the tell function does not work.
+intervals is not avalaible and the tell function does not work.
 }
 
 \references{
-M. Lamboni,H. Monod and D. Makowski, 2011, emph{Multivariate sensitivity analysis to measure global contribution of input factors in dynamic models}, Reliability Engineering and System Safety, 96:450-459.
+M. Lamboni,H. Monod and D. Makowski, 2011, \emph{Multivariate sensitivity analysis to measure global contribution of input factors in dynamic models}, Reliability Engineering and System Safety, 96:450-459.
 
 F. Gamboa, A. Janon, T. Klein and A. Lagnoux, 2014, \emph{Sensitivity indices for multivariate outputs}, Electronic Journal of Statistics, 8:575-603.
 }
@@ -70,7 +70,8 @@ Bertrand Iooss
 }
 
 \seealso{
-  \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}, \link{soboljansen}, \link{sobolmartinez}, \link{sobolGP}}
+  \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}, \link{soboljansen},
+  \link{sobolmara}, \link{sobolmartinez}, \link{sobolGP}}
 }
 
 \examples{

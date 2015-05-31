@@ -72,7 +72,9 @@ Gilles Pujol
 }
 
 \seealso{
-  \code{\link{sobol2002}, \link{sobol2007}, \link{soboljansen}, \link{sobolmartinez}, \link{sobolEff}, \link{sobolmara}, \link{sobolroalhs}, \link{fast99}, \link{sobolGP}}
+  \code{\link{sobol2002}, \link{sobol2007}, \link{soboljansen}, \link{sobolmartinez},
+  \link{sobolEff}, \link{sobolmara}, \link{sobolroalhs}, \link{fast99}, \link{sobolGP},
+  \link{sobolMultOut}}
 }
 
 \examples{

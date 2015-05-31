@@ -1,6 +1,6 @@
 Package: sensitivity
-Version: 1.11
-Date: 2015-03-06
+Version: 1.11.1
+Date: 2015-05-31
 Title: Sensitivity Analysis
 Author: Gilles Pujol, Bertrand Iooss, Alexandre Janon with contributions from Sebastien Da Veiga, Jana Fruth, Laurent Gilquin, Joseph Guillaume, Loic Le Gratiet, Paul Lemaitre, Bernardo Ramos, Taieb Touati 
 Maintainer: Bertrand Iooss <biooss@yahoo.fr>
@@ -10,7 +10,7 @@ Suggests: DiceDesign, randtoolbox, DiceKriging, fanovaGraph, rgl, evd,
         numbers, ks, igraph, ggplot2, reshape2
 Description: A collection of functions for factor screening, global sensitivity analysis and reliability sensitivity analysis of model output.
 License: GPL-2
-Packaged: 2015-03-06 14:19:34 UTC; F80570
+Packaged: 2015-06-11 21:40:25 UTC; F80570
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2015-03-06 17:47:41
+Date/Publication: 2015-06-12 13:20:55

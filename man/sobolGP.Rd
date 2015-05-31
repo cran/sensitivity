@@ -146,7 +146,7 @@ Loic Le Gratiet, EDF R&D - CNRS, I3S
 
 
 \seealso{
-\code{\link{sobol}}, \code{\link{sobol2002}}, \code{\link{sobol2007}}, \code{\link{sobolEff}}, \code{\link{soboljansen}}, \code{\link[DiceKriging]{km}}
+\code{\link{sobol}}, \code{\link{sobol2002}}, \code{\link{sobol2007}}, \code{\link{sobolEff}}, \code{\link{soboljansen}},\link{sobolMultOut}, \code{\link[DiceKriging]{km}}
 }
 \examples{
 
