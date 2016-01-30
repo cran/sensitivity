@@ -71,11 +71,11 @@ ee.simplex <- function(X, y) {
 # compute the elementary effects for a simplex design
   p <- ncol(X)
   r <- nrow(X) / (p + 1)
-  ee <- matrix(nrow = r, ncol = p)
-  colnames(ee) <- colnames(X)
-  for (i in 1 : r) {
+  comp_ee_i <- function(i){
     j <- ind.rep(i, p)
-    ee[i, ] <- solve(cbind(as.matrix(X[j,]), rep(1, p + 1)), y[j])[1 : p]
+    return(solve(cbind(as.matrix(X[j,]), rep(1, p + 1)), y[j])[1 : p])
   }
+  ee <- vapply(1:r, comp_ee_i, FUN.VALUE = numeric(p))
+  ee <- t(ee)
   return(ee)
 }

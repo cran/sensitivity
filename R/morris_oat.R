@@ -36,14 +36,14 @@ ee.oat <- function(X, y) {
 # compute the elementary effects for a OAT design
   p <- ncol(X)
   r <- nrow(X) / (p + 1)
-  ee <- matrix(nrow = r, ncol = p)
-  colnames(ee) <- colnames(X)
-  for (i in 1 : r) {
+  comp_ee_i <- function(i){
     j <- ind.rep(i, p)
     j1 <- j[1 : p]
     j2 <- j[2 : (p + 1)]
-    #ee[i,] <- (y[j2] - y[j1]) / rowSums(X[j2,] - X[j1,])
-    ee[i,] <- solve(X[j2,] - X[j1,], y[j2] - y[j1])
+    # return((y[j2] - y[j1]) / rowSums(X[j2,] - X[j1,]))
+    return(solve(X[j2,] - X[j1,], y[j2] - y[j1]))
   }
+  ee <- vapply(1:r, comp_ee_i, FUN.VALUE = numeric(p))
+  ee <- t(ee)
   return(ee)
 }
