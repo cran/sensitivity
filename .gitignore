@@ -1,0 +1,9 @@
+# Emacs backup copies
+*~
+# R history files
+.Rhistory
+# RStudio
+*.Rproj
+/.Rproj.user
+.Rbuildignore
+
