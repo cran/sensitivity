@@ -49,7 +49,9 @@ response <- function(x, loop = FALSE, ...) {
     stop("The model isn't a function or does not have a predict method")
   }
   
-  if (class(y) != "numeric") {
+  if (!class(y)[1] %in% c("numeric", "matrix", "array") ||
+      (is.matrix(y) && typeof(y) == "list") ||
+      (is.array(y) && length(dim(y)) > 3)) {
     y <- as.numeric(y)
     warning("Conversion of the response to numeric")
   }
