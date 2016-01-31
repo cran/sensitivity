@@ -16,53 +16,28 @@ response <- function(x, loop = FALSE, ...) {
   if (class(x$model) == "function") {
     if (loop) {
       n <- nrow(x$X)
-      y <- numeric(n)
       y <- sapply(1:n, function(i){
         x$model(x$X[i,], ...)
-      })
+      }, simplify = "array")
       if(is.matrix(y)){
-        # This means the model function returned vectors, so y is a 
-        # (m times n)-matrix (with unknown m). For better consistency with the 
-        # default case that y is a vector of length n, y is transposed to a 
-        # (n times m)-matrix.
-        # (Remark: Per default, sapply creates one column for every element the 
-        # function is applied to.)
-        y <- t(y)
-      } else if(is.list(y)){
-        check_matrices <- vapply(y, function(x) is.matrix(x), 
-                                 FUN.VALUE = logical(1))
-        if(all(check_matrices)){
-          dims <- vapply(y, function(x) dim(x), FUN.VALUE = numeric(2))
-          check_dims <- apply(dims, 1, function(x) length(unique(x)) == 1)
-          if(all(check_dim)){
-            # This means the model function returned matrices of the same sizes.
-            # Let m be the number of rows and z be the number of columns.
-            # For better consistency, results are transposed so that y is a list
-            # of length z containing in each element a (n times m)-matrix.
-            
-            # Number of rows and columns of all matrices:
-            dims <- dims[, 1]
-            # Save the column names for restoring them later:
-            y_colnames <- colnames(y[[1]])
-            # y_mat is a ((n * z) times m)-matrix:
-            y_mat <- t(do.call(cbind, y))
-            # The rownames don't make sense anymore:
-            rownames(y_mat) <- NULL
-            nz <- nrow(y_mat)
-            y <- lapply(1:dims[2], function(j){
-              y_mat[seq(j, nz, dims[2]), , drop = FALSE]
-            })
-            # Restore the original column names (these are now the names of the
-            # elements of y):
-            names(y) <- y_colnames
-          } else{
-            stop("x$model returned a list of matrices, but they are not all",
-                 "of the same dimensions")
-          }
+        if(typeof(y) == "list"){
+          stop("The model function returns a list when applied to a row of x$X")
         } else{
-          stop("x$model returned a list, but not all elements are matrices")
+          # This means the model function returned vectors, so y is a 
+          # (m times n)-matrix (with unknown m). For better consistency with the 
+          # default case (that y is a vector of length n), y is transposed to a 
+          # (n times m)-matrix.
+          y <- t(y)
         }
-      } else{
+      } else if(is.array(y) && length(dim(y)) == 3){
+        # This means the model function returned matrices of the same sizes.
+        # Let m be the number of rows and z be the number of columns.
+        # For better consistency with the other cases (y is a vector or a 
+        # matrix), y is transformed to an array of dimensions c(n, m, z).
+        
+        # Change the order of the dimensions:
+        y <- aperm(y, perm = c(3, 1, 2))
+      } else if(!is.numeric(y)){
         stop("x$model returned an object that can't be handled")
       }
     } else {
@@ -73,12 +48,12 @@ response <- function(x, loop = FALSE, ...) {
   } else {
     stop("The model isn't a function or does not have a predict method")
   }
-
+  
   if (class(y) != "numeric") {
     y <- as.numeric(y)
     warning("Conversion of the response to numeric")
   }
-
+  
   x$y <- y
   assign(id, x, parent.frame())
 }
