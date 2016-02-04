@@ -124,8 +124,8 @@ tell.morris <- function(x, y = NULL, ...) {
     #X <- scale(X)
     #y <- as.numeric(scale(y))
     Binf <- matrix(x$binf, nrow = nrow(X), ncol = length(x$binf), byrow = TRUE)
-	Bsup <- matrix(x$bsup, nrow = nrow(X), ncol = length(x$bsup), byrow = TRUE)
-	X <- (X - Binf) / (Bsup - Binf) 
+    Bsup <- matrix(x$bsup, nrow = nrow(X), ncol = length(x$bsup), byrow = TRUE)
+    X <- (X - Binf) / (Bsup - Binf) 
   }
 
   if (x$design$type == "oat") {
