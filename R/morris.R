@@ -184,14 +184,24 @@ print.morris <- function(x, ...) {
 }
 
 
-plot.morris <- function(x, identify = FALSE, ...) {
-  if (! is.null(x$ee)) {
-    mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
-    sigma <- apply(x$ee, 2, sd)
+plot.morris <- function(x, identify = FALSE, y_col = 1, y_dim3 = 1, ...) {
+  if (!is.null(x$ee)) {
+    if(class(x$y) == "numeric"){
+      mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
+      sigma <- apply(x$ee, 2, sd)
+    } else if(class(x$y) == "matrix"){
+      mu.star <- apply(x$ee[, , y_col, drop = FALSE], 2, 
+                       function(x) mean(abs(x)))
+      sigma <- apply(x$ee[, , y_col, drop = FALSE], 2, sd)
+    } else if(class(x$y) == "array"){
+      mu.star <- apply(x$ee[, , y_col, y_dim3, drop = FALSE], 2, 
+                       function(x) mean(abs(x)))
+      sigma <- apply(x$ee[, , y_col, y_dim3, drop = FALSE], 2, sd)
+    }
     
     plot(mu.star, sigma, pch = 20, xlab = expression(mu^"*"),
          ylab = expression(sigma), ...)
-  
+    
     if (identify) {
       identify(mu.star, sigma, labels = colnames(x$ee))
     } else {
