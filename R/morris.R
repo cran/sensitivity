@@ -212,14 +212,29 @@ plot.morris <- function(x, identify = FALSE, atpen = FALSE,
 }
 
 
-plot3d.morris <- function(x, alpha = c(0.2, 0), sphere.size = 1, ...) {
+plot3d.morris <- function(x, alpha = c(0.2, 0), sphere.size = 1,
+                          y_col = 1, y_dim3 = 1, ...) {
   spheres.rad <- max((apply(x$ee,2,max) - apply(x$ee,2,min)) / 100) * sphere.size
   color = "grey"
   cone.nfaces = 100
   
-  mu <- apply(x$ee, 2, mean)
-  mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
-  sigma <- apply(x$ee, 2, sd)
+  if (!is.null(x$ee)) {
+    if(class(x$y) == "numeric"){
+      mu <- apply(x$ee, 2, mean)
+      mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
+      sigma <- apply(x$ee, 2, sd)
+    } else if(class(x$y) == "matrix"){
+      mu <- apply(x$ee[, , y_col, drop = FALSE], 2, mean)
+      mu.star <- apply(x$ee[, , y_col, drop = FALSE], 2, 
+                       function(x) mean(abs(x)))
+      sigma <- apply(x$ee[, , y_col, drop = FALSE], 2, sd)
+    } else if(class(x$y) == "array"){
+      mu <- apply(x$ee[, , y_col, y_dim3, drop = FALSE], 2, mean)
+      mu.star <- apply(x$ee[, , y_col, y_dim3, drop = FALSE], 2, 
+                       function(x) mean(abs(x)))
+      sigma <- apply(x$ee[, , y_col, y_dim3, drop = FALSE], 2, sd)
+    }
+  }
     
   if (requireNamespace("rgl", quietly = TRUE)){ rgl::open3d()}
   
