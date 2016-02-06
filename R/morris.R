@@ -184,7 +184,8 @@ print.morris <- function(x, ...) {
 }
 
 
-plot.morris <- function(x, identify = FALSE, y_col = 1, y_dim3 = 1, ...) {
+plot.morris <- function(x, identify = FALSE, atpen = FALSE,
+                        y_col = 1, y_dim3 = 1, ...) {
   if (!is.null(x$ee)) {
     if(class(x$y) == "numeric"){
       mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
@@ -203,7 +204,7 @@ plot.morris <- function(x, identify = FALSE, y_col = 1, y_dim3 = 1, ...) {
          ylab = expression(sigma), ...)
     
     if (identify) {
-      identify(mu.star, sigma, labels = colnames(x$ee))
+      identify(mu.star, sigma, labels = colnames(x$ee), atpen = atpen)
     } else {
       text(mu.star, sigma, labels = colnames(x$ee), pos = 4)
     }
