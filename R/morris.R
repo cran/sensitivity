@@ -140,7 +140,7 @@ tell.morris <- function(x, y = NULL, ...) {
 
 print.morris <- function(x, ...) {
   cat("\nCall:\n", deparse(x$call), "\n", sep = "")
-  if (! is.null(x$y)) {
+  if (!is.null(x$y) && class(x$y) == "numeric") {
     cat("\nModel runs:", length(x$y), "\n")
     mu <- apply(x$ee, 2, mean)
     mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
@@ -149,6 +149,35 @@ print.morris <- function(x, ...) {
     out <- data.frame(mu, mu.star, sigma)
     rownames(out) <- colnames(x$ee)
     print(out)
+  } else if (!is.null(x$y) && class(x$y) == "matrix") {
+    cat("\nModel runs:", nrow(x$y), "\n")
+    mu <- apply(x$ee, 3, colMeans)
+    mu.star <- apply(abs(x$ee), 3, colMeans)
+    sigma <- apply(x$ee, 3, function(M){
+      apply(M, 2, sd)
+    })
+    out <- list("mu" = mu, "mu.star" = mu.star, "sigma" = sigma)
+    print.listof(out)
+  } else if (!is.null(x$y) && class(x$y) == "array") {
+    cat("\nModel runs:", dim(x$y)[1], "\n")
+    mu <- lapply(1:dim(x$ee)[4], function(i){
+      apply(x$ee[, , , i], 3, colMeans)
+    })
+    mu.star <- lapply(1:dim(x$ee)[4], function(i){
+      apply(abs(x$ee)[, , , i], 3, colMeans)
+    })
+    sigma <- lapply(1:dim(x$ee)[4], function(i){
+      apply(x$ee[, , , i], 3, function(M){
+        apply(M, 2, sd)
+      })
+    })
+    names(mu) <- names(mu.star) <- names(sigma) <- dimnames(x$ee)[[4]]
+    cat("----------------\nmu:\n")
+    print.listof(mu)
+    cat("----------------\nmu.star:\n")
+    print.listof(mu.star)
+    cat("----------------\nsigma:\n")
+    print.listof(sigma)
   } else {
     cat("(empty)\n")
   }
