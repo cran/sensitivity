@@ -21,10 +21,12 @@
 \usage{
 morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
        scale = FALSE, \dots)
-\method{tell}{morris}(x, y = NULL, \dots)
-\method{print}{morris}(x, \dots)
-\method{plot}{morris}(x, identify = FALSE, \dots)
-\method{plot3d}{morris}(x, alpha = c(0.2, 0), sphere.size = 1, ...)
+\method{tell}{morris}(x, y = NULL)
+\method{print}{morris}(x)
+\method{plot}{morris}(x, identify = FALSE, atpen = FALSE, y_col = 1, 
+  y_dim3 = 1, \dots)
+\method{plot3d}{morris}(x, alpha = c(0.2, 0), sphere.size = 1, y_col = 1, 
+  y_dim3 = 1)
 }
 
 \arguments{
