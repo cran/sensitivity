@@ -56,6 +56,24 @@ response <- function(x, loop = FALSE, ...) {
     warning("Conversion of the response to numeric")
   }
   
+  # Assign column names resp. dimnames if not existing:
+  if(class(y) == "matrix" && 
+     (is.null(colnames(y)) || any(nchar(colnames(y)) == 0))){
+    colnames(y) <- paste0("ycol", 1:ncol(y))
+  } else if(class(y) == "array"){
+    if(is.null(dimnames(y))){
+      dimnames(y) <- list(NULL, paste0("ycol", 1:dim(y)[2]), 
+                          paste0("ydim3_", 1:dim(y)[3]))
+    } else{
+      if(is.null(dimnames(y)[[2]]) || any(nchar(dimnames(y)[[2]]) == 0)){
+        dimnames(y)[[2]] <- paste0("ycol", 1:dim(y)[2])
+      }
+      if(is.null(dimnames(y)[[3]]) || any(nchar(dimnames(y)[[3]]) == 0)){
+        dimnames(y)[[3]] <- paste0("ydim3_", 1:dim(y)[3])
+      }
+    } 
+  }
+  
   x$y <- y
   assign(id, x, parent.frame())
 }
