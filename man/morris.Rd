@@ -124,18 +124,58 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
 
   \item{call}{the matched call.}
   \item{X}{a \code{data.frame} containing the design of experiments.}
-  \item{y}{a vector of model responses.}
-  \item{ee}{a \eqn{r \times p}{r * p} matrix of elementary effects for
-    all the factors.}
+  \item{y}{either a vector, a matrix or a three-dimensional array of model 
+    responses (depends on the output of \code{model}).}
+  \item{ee}{
+    \itemize{
+     \item{if \code{y} is a vector: a \eqn{(r \times p)}{(r * p)} - matrix of 
+       elementary effects for all the factors.}
+     \item{if \code{y} is a matrix: a 
+       \eqn{(r \times p \times ncol(y))}{(r * p * ncol(y))} - array of 
+       elementary effects for all the factors and all columns of \code{y}.}
+     \item{if \code{y} is a three-dimensional array: a 
+       \eqn{(r \times p \times dim(y)[2] \times dim(y)[3])}{(r * p * dim(y)[2] * 
+       dim(y)[3])} - array of elementary effects for all 
+       the factors and all elements of the second and third dimension of 
+       \code{y}.}
+    }
+  }
 
   Notice that the statitics of interest (\eqn{\mu}{mu}, \eqn{\mu^*}{mu*}
   and \eqn{\sigma}{sigma}) are not stored. They can be printed by the
   \code{print} method, but to extract numerical values, one has to
   compute them with the following instructions:
+  
+  If \code{x$y} is a vector:
   \preformatted{
 mu <- apply(x$ee, 2, mean)
 mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
-sigma <- apply(x$ee, 2, sd)}
+sigma <- apply(x$ee, 2, sd)
+}
+  
+  If \code{x$y} is a matrix:
+  \preformatted{
+mu <- apply(x$ee, 3, colMeans)
+mu.star <- apply(abs(x$ee), 3, colMeans)
+sigma <- apply(x$ee, 3, function(M){
+  apply(M, 2, sd)
+})
+}
+
+  If \code{x$y} is a three-dimensional array:
+  \preformatted{
+mu <- lapply(1:dim(x$ee)[4], function(i){
+  apply(x$ee[, , , i, drop = FALSE], 3, colMeans)
+})
+mu.star <- lapply(1:dim(x$ee)[4], function(i){
+  apply(abs(x$ee)[, , , i, drop = FALSE], 3, colMeans)
+})
+sigma <- lapply(1:dim(x$ee)[4], function(i){
+  apply(x$ee[, , , i, drop = FALSE], 3, function(M){
+    apply(M, 2, sd)
+  })
+})
+  }
 
   Contrary to earlier versions of the function, the scaling of factors isn't 
   forced by default. Although, it is highly recommended to use the function with
