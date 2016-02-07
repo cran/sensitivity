@@ -92,7 +92,7 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
 }
 
 \details{
-  \code{plot2d} draws the \eqn{(\mu^*,\sigma)}{(mu*, sigma)} graph.
+  \code{plot.morris} draws the \eqn{(\mu^*,\sigma)}{(mu*, sigma)} graph.
   
   \code{plot3d.morris} draws the \eqn{(\mu, \mu^*,\sigma)}{(mu, mu*,
     sigma)} graph (requires the \pkg{rgl} package). On this graph, the
