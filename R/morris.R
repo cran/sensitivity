@@ -151,8 +151,12 @@ print.morris <- function(x, ...) {
     print(out)
   } else if (!is.null(x$y) && class(x$y) == "matrix") {
     cat("\nModel runs:", nrow(x$y), "\n")
-    mu <- apply(x$ee, 3, colMeans)
-    mu.star <- apply(abs(x$ee), 3, colMeans)
+    mu <- apply(x$ee, 3, function(M){
+      apply(M, 2, mean)
+    })
+    mu.star <- apply(abs(x$ee), 3, function(M){
+      apply(M, 2, mean)
+    })
     sigma <- apply(x$ee, 3, function(M){
       apply(M, 2, sd)
     })
@@ -161,10 +165,14 @@ print.morris <- function(x, ...) {
   } else if (!is.null(x$y) && class(x$y) == "array") {
     cat("\nModel runs:", dim(x$y)[1], "\n")
     mu <- lapply(1:dim(x$ee)[4], function(i){
-      apply(x$ee[, , , i, drop = FALSE], 3, colMeans)
+      apply(x$ee[, , , i, drop = FALSE], 3, function(M){
+        apply(M, 2, mean)
+      })
     })
     mu.star <- lapply(1:dim(x$ee)[4], function(i){
-      apply(abs(x$ee)[, , , i, drop = FALSE], 3, colMeans)
+      apply(abs(x$ee)[, , , i, drop = FALSE], 3, function(M){
+        apply(M, 2, mean)
+      })
     })
     sigma <- lapply(1:dim(x$ee)[4], function(i){
       apply(x$ee[, , , i, drop = FALSE], 3, function(M){
