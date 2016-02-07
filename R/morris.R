@@ -172,11 +172,11 @@ print.morris <- function(x) {
       })
     })
     names(mu) <- names(mu.star) <- names(sigma) <- dimnames(x$ee)[[4]]
-    cat("----------------\nmu:\n")
+    cat("----------------\nmu:\n\n")
     print.listof(mu)
-    cat("----------------\nmu.star:\n")
+    cat("----------------\nmu.star:\n\n")
     print.listof(mu.star)
-    cat("----------------\nsigma:\n")
+    cat("----------------\nsigma:\n\n")
     print.listof(sigma)
   } else {
     cat("(empty)\n")
