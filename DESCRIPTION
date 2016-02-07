@@ -1,6 +1,6 @@
 Package: sensitivity
-Version: 1.12
-Date: 2016-01-30
+Version: 1.12.1
+Date: 2016-02-07
 Title: Sensitivity Analysis
 Author: Gilles Pujol, Bertrand Iooss, Alexandre Janon with contributions from Sebastien Da Veiga, Jana Fruth, Laurent Gilquin, Joseph Guillaume, Loic Le Gratiet, Paul Lemaitre, Bernardo Ramos, Taieb Touati 
 Maintainer: Bertrand Iooss <biooss@yahoo.fr>
