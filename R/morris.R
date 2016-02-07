@@ -108,7 +108,7 @@ morris <- function(model = NULL, factors, r, design, binf = 0, bsup = 1, scale =
 }
 
 
-tell.morris <- function(x, y = NULL, ...) {
+tell.morris <- function(x, y = NULL) {
   id <- deparse(substitute(x))
 
   if (! is.null(y)) {
@@ -138,7 +138,7 @@ tell.morris <- function(x, y = NULL, ...) {
 }
 
 
-print.morris <- function(x, ...) {
+print.morris <- function(x) {
   cat("\nCall:\n", deparse(x$call), "\n", sep = "")
   if (!is.null(x$y) && class(x$y) == "numeric") {
     cat("\nModel runs:", length(x$y), "\n")
@@ -213,7 +213,7 @@ plot.morris <- function(x, identify = FALSE, atpen = FALSE,
 
 
 plot3d.morris <- function(x, alpha = c(0.2, 0), sphere.size = 1,
-                          y_col = 1, y_dim3 = 1, ...) {
+                          y_col = 1, y_dim3 = 1) {
   spheres.rad <- max((apply(x$ee,2,max) - apply(x$ee,2,min)) / 100) * sphere.size
   color = "grey"
   cone.nfaces = 100
