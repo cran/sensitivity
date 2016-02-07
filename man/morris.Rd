@@ -155,8 +155,12 @@ sigma <- apply(x$ee, 2, sd)
   
   If \code{x$y} is a matrix:
   \preformatted{
-mu <- apply(x$ee, 3, colMeans)
-mu.star <- apply(abs(x$ee), 3, colMeans)
+mu <- apply(x$ee, 3, function(M){
+  apply(M, 2, mean)
+})
+mu.star <- apply(abs(x$ee), 3, function(M){
+  apply(M, 2, mean)
+})
 sigma <- apply(x$ee, 3, function(M){
   apply(M, 2, sd)
 })
@@ -165,10 +169,14 @@ sigma <- apply(x$ee, 3, function(M){
   If \code{x$y} is a three-dimensional array:
   \preformatted{
 mu <- lapply(1:dim(x$ee)[4], function(i){
-  apply(x$ee[, , , i, drop = FALSE], 3, colMeans)
+  apply(x$ee[, , , i, drop = FALSE], 3, function(M){
+    apply(M, 2, mean)
+  })
 })
 mu.star <- lapply(1:dim(x$ee)[4], function(i){
-  apply(abs(x$ee)[, , , i, drop = FALSE], 3, colMeans)
+  apply(abs(x$ee)[, , , i, drop = FALSE], 3, function(M){
+    apply(M, 2, mean)
+  })
 })
 sigma <- lapply(1:dim(x$ee)[4], function(i){
   apply(x$ee[, , , i, drop = FALSE], 3, function(M){
