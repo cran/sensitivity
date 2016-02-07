@@ -113,6 +113,9 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
     sigma)} graph (requires the \pkg{rgl} package). On this graph, the
     points are in a domain bounded by a cone and two planes (application
     of the Cauchy-Schwarz inequality).
+    
+  This version of \code{morris} also supports matrices and three-dimensional
+  arrays as output of \code{model}.
   }
 
 \value{
