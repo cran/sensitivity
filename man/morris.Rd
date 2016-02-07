@@ -82,13 +82,28 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
   \item{identify}{logical. If \code{TRUE}, the user selects with the
     mouse the factors to label on the \eqn{(\mu^*,\sigma)}{(mu*, sigma)}
   graph (see \code{identify}).}
-  \item{\dots}{any other arguments for \code{model} which are passed
-    unchanged each time it is called.}
+  \item{atpen}{logical. If \code{TRUE} (and \code{identify = TRUE}), the 
+    user-identified labels (more precisely: their lower-left corners) of the 
+    factors are plotted at the place where the user had clicked (if near enough 
+    to one of the factor points). If \code{FALSE} (and \code{identify = TRUE}), 
+    the labels are automatically adjusted to the lower, left, upper or right 
+    side of the factor point. For further information, see 
+    \code{\link{identify}}. Defaults to \code{FALSE}.}
+  \item{y_col}{an integer defining the index of the column of \code{x$y} to be
+    used for plotting (only applies if \code{x$y} is a matrix or an array).
+    Defaults to 1, so the first column is used for the plot.}
+  \item{y_dim3}{an integer defining the index in the third dimension of 
+    \code{x$y} to be used for plotting (only applies if \code{x$y} is an array).
+    Defaults to 1, so the first element in the third dimension of \code{x$y}
+    is used.}
   \item{alpha}{a vector of three values between 0.0 (fully transparent) and 1.0
     (opaque) (see \code{rgl.material}). The first value is for the
     cone, the second for the planes.}
   \item{sphere.size}{a numeric value, the scale factor for displaying the
     spheres.}
+  \item{\dots}{for \code{morris}: any other arguments for \code{model} which 
+    are passed unchanged each time it is called. For \code{plot.morris}: 
+    Arguments to be passed to \code{plot.default}.}
 }
 
 \details{
