@@ -49,9 +49,18 @@ tell.soboljansen <- function(x, y = NULL, return.var = NULL, ...) {
 
   p <- ncol(x$X1)
   n <- nrow(x$X1)
-
-  data <- matrix(x$y, nrow = n)
-
+  
+  if(class(x$y) == "numeric"){
+    data <- matrix(x$y, nrow = n)
+  } else if(class(x$y) == "matrix"){
+    data <- array(Y, dim = c(n, nrow(x$y) / n, ncol(x$y)), 
+                  dimnames = list(NULL, NULL, colnames(x$y)))
+  } else if(class(x$y) == "array"){
+    data <- array(x$y, dim = c(n, dim(x$y)[1] / n, dim(x$y)[2], dim(x$y)[3]), 
+                  dimnames = list(NULL, NULL, 
+                                  dimnames(x$y)[[2]], dimnames(x$y)[[3]]))
+  }
+  
   # estimation of the partial variances (V, D1 and Dt)
   
   if (x$nboot == 0){
