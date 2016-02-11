@@ -28,13 +28,61 @@ soboljansen <- function(model = NULL, X1, X2, nboot = 0, conf = 0.95, ...) {
 }
 
 
-estim.soboljansen <- function(data, i = 1 : nrow(data)) {
-  d <- as.matrix(data[i, ]) # as.matrix for colSums
-  n <- nrow(d)
-  V <- var(d[, 1])
-  VCE <- V - (colSums((d[,2] - d[, - c(1, 2)])^2) / (2 * n - 1))
-  VCE.compl <- (colSums((d[,1] - d[, - c(1, 2)])^2) / (2 * n - 1))
-  c(V, VCE, VCE.compl)
+estim.soboljansen <- function(data, i = NULL) {
+  if(class(data) == "matrix"){
+    if(is.null(i)) i <- 1:nrow(data)
+    d <- as.matrix(data[i, ]) # as.matrix for colSums
+    n <- nrow(d)
+    V <- var(d[, 1])
+    VCE <- V - (colSums((d[,2] - d[, - c(1, 2)])^2) / (2 * n - 1))
+    VCE.compl <- (colSums((d[,1] - d[, - c(1, 2)])^2) / (2 * n - 1))
+    out_vector <- c(V, VCE, VCE.compl)
+    names(out_vector) <- c("global", 
+                           colnames(x$X1), 
+                           paste("-", colnames(x$X1), sep = ""))
+    return(out_vector)
+  } else if(class(data) == "array"){
+    if(is.null(i)) i <- 1:dim(data)[1]
+    n <- length(i)
+    one_dim3 <- function(data){
+      V <- apply(data, 3, function(d_matrix){
+        var(d_matrix[, 1])
+      })
+      SumSq <- apply(data, 3, function(d_matrix){
+        matrix(c(
+          colSums((d_matrix[, 2] - d_matrix[, - c(1, 2)])^2) / (2 * n - 1),
+          colSums((d_matrix[, 1] - d_matrix[, - c(1, 2)])^2) / (2 * n - 1)), 
+          ncol = 2)
+      })
+      SumSq_compl <- apply(data, 3, function(d_matrix){
+        colSums((d_matrix[, 1] - d_matrix[, - c(1, 2)])^2) / (2 * n - 1)
+      })
+      V_rep <- matrix(rep(V, each = p), ncol = dim(data)[3], 
+                      dimnames = list(NULL, dimnames(data)[[3]]))
+      VCE <- V_rep - SumSq[1:p, ]
+      VCE.compl <- SumSq[(p + 1):(2 * p), ]
+      out_matrix <- rbind(V, VCE, VCE.compl)
+      rownames(out_matrix) <- c("global", 
+                                colnames(x$X1), 
+                                paste("-", colnames(x$X1), sep = ""))
+      return(out_matrix)
+    }
+    if(length(dim(data)) == 3){
+      # This means x$y is a matrix.
+      d <- data[i, , , drop = FALSE]
+      return(one_dim3(d))
+    } else if(length(dim(data)) == 4){
+      # This means x$y is a 3-dimensional array.
+      d <- data[i, , , , drop = FALSE]
+      all_dim3 <- sapply(1:dim(data)[4], function(i){
+        one_dim3(array(data[ , , , i], 
+                       dim = dim(data)[1:3], 
+                       dimnames = dimnames(data)[1:3]))
+      }, simplify = "array")
+      dimnames(all_dim3)[[3]] <- dimnames(data)[[4]]
+      return(all_dim3)
+    }
+  }
 }
 
 
