@@ -101,7 +101,7 @@ tell.soboljansen <- function(x, y = NULL, return.var = NULL, ...) {
   if(class(x$y) == "numeric"){
     data <- matrix(x$y, nrow = n)
   } else if(class(x$y) == "matrix"){
-    data <- array(Y, dim = c(n, nrow(x$y) / n, ncol(x$y)), 
+    data <- array(x$y, dim = c(n, nrow(x$y) / n, ncol(x$y)), 
                   dimnames = list(NULL, NULL, colnames(x$y)))
   } else if(class(x$y) == "array"){
     data <- array(x$y, dim = c(n, dim(x$y)[1] / n, dim(x$y)[2], dim(x$y)[3]), 
