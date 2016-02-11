@@ -113,12 +113,16 @@ tell.soboljansen <- function(x, y = NULL, return.var = NULL, ...) {
   
   if (x$nboot == 0){
     V <- data.frame(original = estim.soboljansen(data))
-  }
-  else{
+  } else{
+    if(class(x$y) %in% c("matrix", "array")){
+      stop("Bootstrap not supported for matrix- or array-output by \"model\"")
+    }
     V.boot <- boot(data, estim.soboljansen, R = x$nboot)
     V <- bootstats(V.boot, x$conf, "basic")
+    rownames(V) <- c("global", 
+                     colnames(x$X1), 
+                     paste("-", colnames(x$X1), sep = ""))
   }
-  rownames(V) <- c("global", colnames(x$X1), paste("-", colnames(x$X1), sep = ""))
 
   # estimation of the Sobol' indices (S1 and St)
 
