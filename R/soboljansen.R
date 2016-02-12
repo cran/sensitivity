@@ -36,14 +36,11 @@ estim.soboljansen <- function(data, i = NULL) {
     V <- var(d[, 1])
     VCE <- V - (colSums((d[,2] - d[, - c(1, 2)])^2) / (2 * n - 1))
     VCE.compl <- (colSums((d[,1] - d[, - c(1, 2)])^2) / (2 * n - 1))
-    out_vector <- c(V, VCE, VCE.compl)
-    names(out_vector) <- c("global", 
-                           colnames(x$X1), 
-                           paste("-", colnames(x$X1), sep = ""))
-    return(out_vector)
+    return(c(V, VCE, VCE.compl))
   } else if(class(data) == "array"){
     if(is.null(i)) i <- 1:dim(data)[1]
     n <- length(i)
+    p <- dim(data)[2] - 2
     one_dim3 <- function(data){
       V <- apply(data, 3, function(d_matrix){
         var(d_matrix[, 1])
@@ -61,11 +58,7 @@ estim.soboljansen <- function(data, i = NULL) {
                       dimnames = list(NULL, dimnames(data)[[3]]))
       VCE <- V_rep - SumSq[1:p, ]
       VCE.compl <- SumSq[(p + 1):(2 * p), ]
-      out_matrix <- rbind(V, VCE, VCE.compl)
-      rownames(out_matrix) <- c("global", 
-                                colnames(x$X1), 
-                                paste("-", colnames(x$X1), sep = ""))
-      return(out_matrix)
+      return(rbind(V, VCE, VCE.compl))
     }
     if(length(dim(data)) == 3){
       # This means x$y is a matrix.
