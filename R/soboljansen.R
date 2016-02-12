@@ -93,49 +93,64 @@ tell.soboljansen <- function(x, y = NULL, return.var = NULL, ...) {
   
   if(class(x$y) == "numeric"){
     data <- matrix(x$y, nrow = n)
-  } else if(class(x$y) == "matrix"){
-    data <- array(x$y, dim = c(n, nrow(x$y) / n, ncol(x$y)), 
-                  dimnames = list(NULL, NULL, colnames(x$y)))
-  } else if(class(x$y) == "array"){
-    data <- array(x$y, dim = c(n, dim(x$y)[1] / n, dim(x$y)[2], dim(x$y)[3]), 
-                  dimnames = list(NULL, NULL, 
-                                  dimnames(x$y)[[2]], dimnames(x$y)[[3]]))
-  }
-  
-  # estimation of the partial variances (V, D1 and Dt)
-  
-  if (x$nboot == 0){
-    V <- data.frame(original = estim.soboljansen(data))
-  } else{
-    if(class(x$y) %in% c("matrix", "array")){
-      stop("Bootstrap not supported for matrix- or array-output by \"model\"")
+    
+    # estimation of the partial variances (V, D1 and Dt)
+    if (x$nboot == 0){
+      V <- data.frame(original = estim.soboljansen(data))
+    } else{
+      V.boot <- boot(data, estim.soboljansen, R = x$nboot)
+      V <- bootstats(V.boot, x$conf, "basic")
     }
-    V.boot <- boot(data, estim.soboljansen, R = x$nboot)
-    V <- bootstats(V.boot, x$conf, "basic")
     rownames(V) <- c("global", 
                      colnames(x$X1), 
                      paste("-", colnames(x$X1), sep = ""))
-  }
-
-  # estimation of the Sobol' indices (S1 and St)
-
-  if (x$nboot == 0) {
-    S <- V[2:(p + 1), 1, drop = FALSE] / V[1,1]
-    T <- V[(p + 2):(2 * p + 1), 1, drop = FALSE] / V[1,1]
-  } else {
-    S.boot <- V.boot
-    S.boot$t0 <- V.boot$t0[2:(p + 1)] / V.boot$t0[1]
-    S.boot$t <- V.boot$t[,2:(p + 1)] / V.boot$t[,1]
-    S <- bootstats(S.boot, x$conf, "basic")
     
-    T.boot <- V.boot
-    T.boot$t0 <- V.boot$t0[(p + 2):(2 * p + 1)] / V.boot$t0[1]
-    T.boot$t <- V.boot$t[,(p + 2):(2 * p + 1)] / V.boot$t[,1]
-    T <- bootstats(T.boot, x$conf, "basic")
+    # estimation of the Sobol' indices (S1 and St)
+    if (x$nboot == 0) {
+      S <- V[2:(p + 1), 1, drop = FALSE] / V[1,1]
+      T <- V[(p + 2):(2 * p + 1), 1, drop = FALSE] / V[1,1]
+      rownames(T) <- colnames(x$X1)
+    } else {
+      S.boot <- V.boot
+      S.boot$t0 <- V.boot$t0[2:(p + 1)] / V.boot$t0[1]
+      S.boot$t <- V.boot$t[,2:(p + 1)] / V.boot$t[,1]
+      S <- bootstats(S.boot, x$conf, "basic")
+      
+      T.boot <- V.boot
+      T.boot$t0 <- V.boot$t0[(p + 2):(2 * p + 1)] / V.boot$t0[1]
+      T.boot$t <- V.boot$t[,(p + 2):(2 * p + 1)] / V.boot$t[,1]
+      T <- bootstats(T.boot, x$conf, "basic")
+      rownames(S) <- colnames(x$X1)
+      rownames(T) <- colnames(x$X1)
+    }
+  } else if(class(x$y) == "matrix"){
+    if (x$nboot != 0) stop("Bootstrapping not supported if x$y is a matrix")
+    data <- array(x$y, dim = c(n, nrow(x$y) / n, ncol(x$y)), 
+                  dimnames = list(NULL, NULL, colnames(x$y)))
+    V <- estim.soboljansen(data)
+    rownames(V) <- c("global", 
+                     colnames(x$X1), 
+                     paste("-", colnames(x$X1), sep = ""))
+    V_global <- matrix(rep(V[1, ], p), nrow = p, byrow = TRUE)
+    # V <- as.data.frame(V)
+    S <- V[2:(p + 1), , drop = FALSE] / V_global
+    T <- V[(p + 2):(2 * p + 1), , drop = FALSE] / V_global
+    rownames(T) <- colnames(x$X1)
+  } else if(class(x$y) == "array"){
+    if (x$nboot != 0) stop("Bootstrapping not supported if x$y is an array")
+    data <- array(x$y, dim = c(n, dim(x$y)[1] / n, dim(x$y)[2:3]), 
+                  dimnames = list(NULL, NULL, 
+                                  dimnames(x$y)[[2]], dimnames(x$y)[[3]]))
+    V <- estim.soboljansen(data)
+    dimnames(V)[[1]] <- c("global", 
+                          colnames(x$X1), 
+                          paste("-", colnames(x$X1), sep = ""))
+    V_global <- array(rep(V[1, , ], each = p), dim = c(p, dim(x$y)[2:3]))
+    S <- V[2:(p + 1), , , drop = FALSE] / V_global
+    T <- V[(p + 2):(2 * p + 1), , , drop = FALSE] / V_global
+    dimnames(T)[[1]] <- colnames(x$X1)
   }
-  rownames(S) <- colnames(x$X1)
-  rownames(T) <- colnames(x$X1)
-
+  
   # return
   x$V <- V
   x$S <- S
