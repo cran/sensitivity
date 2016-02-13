@@ -50,10 +50,12 @@ response <- function(x, loop = FALSE, ...) {
   }
   
   if (!class(y)[1] %in% c("numeric", "matrix", "array") ||
-      (is.matrix(y) && typeof(y) == "list") ||
-      (is.array(y) && length(dim(y)) > 3)) {
+      (is.array(y) && typeof(y) == "list")) {
     y <- as.numeric(y)
     warning("Conversion of the response to numeric")
+  } else if(class(y) == "array" && length(dim(y)) > 3){
+    stop("If the model returns an array, it must not have more ",
+         "than 3 dimensions")
   }
   
   # Assign column names resp. dimnames if not existing:
