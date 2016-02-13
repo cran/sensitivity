@@ -90,12 +90,16 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
     side of the factor point. For further information, see 
     \code{\link{identify}}. Defaults to \code{FALSE}.}
   \item{y_col}{an integer defining the index of the column of \code{x$y} to be
-    used for plotting (only applies if \code{x$y} is a matrix or an array).
+    used for plotting the corresponding Morris statistics \eqn{\mu^*}{mu*}
+    and \eqn{\sigma}{sigma} (only applies if \code{x$y} is a matrix or an 
+    array).
     If set to \code{NULL} (as per default) and \code{x$y} is a matrix or an 
     array, the first column (respectively the first element in
     the second dimension) of \code{x$y} is used (i.e. \code{y_col = 1}).}
   \item{y_dim3}{an integer defining the index in the third dimension of 
-    \code{x$y} to be used for plotting (only applies if \code{x$y} is an array).
+    \code{x$y} to be used for plotting the corresponding Morris statistics 
+    \eqn{\mu^*}{mu*} and \eqn{\sigma}{sigma} (only applies if \code{x$y} is an 
+    array).
     If set to \code{NULL} (as per default) and \code{x$y} is a 
     three-dimensional array, the first element in the third dimension of
     \code{x$y} is used (i.e. \code{y_dim3 = 1}).}
@@ -144,7 +148,7 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
     }
   }
 
-  Notice that the statitics of interest (\eqn{\mu}{mu}, \eqn{\mu^*}{mu*}
+  Notice that the statistics of interest (\eqn{\mu}{mu}, \eqn{\mu^*}{mu*}
   and \eqn{\sigma}{sigma}) are not stored. They can be printed by the
   \code{print} method, but to extract numerical values, one has to
   compute them with the following instructions:
