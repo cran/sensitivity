@@ -42,25 +42,25 @@ estim.soboljansen <- function(data, i = NULL) {
     if(is.null(i)) i <- 1:dim(data)[1]
     n <- length(i)
     p <- dim(data)[2] - 2
-    one_dim3 <- function(data){
-      V <- apply(data, 3, function(d_matrix){
+    
+    # Define a helper function:
+    one_dim3 <- function(d_array){
+      V <- apply(d_array, 3, function(d_matrix){
         var(d_matrix[, 1])
       })
-      SumSq <- apply(data, 3, function(d_matrix){
+      SumSq <- apply(d_array, 3, function(d_matrix){
         matrix(c(
           colSums((d_matrix[, 2] - d_matrix[, - c(1, 2)])^2) / (2 * n - 1),
           colSums((d_matrix[, 1] - d_matrix[, - c(1, 2)])^2) / (2 * n - 1)), 
           ncol = 2)
       })
-      SumSq_compl <- apply(data, 3, function(d_matrix){
-        colSums((d_matrix[, 1] - d_matrix[, - c(1, 2)])^2) / (2 * n - 1)
-      })
-      V_rep <- matrix(rep(V, each = p), ncol = dim(data)[3], 
-                      dimnames = list(NULL, dimnames(data)[[3]]))
-      VCE <- V_rep - SumSq[1:p, ]
-      VCE.compl <- SumSq[(p + 1):(2 * p), ]
-      return(rbind(V, VCE, VCE.compl))
+      V_rep <- matrix(rep(V, each = p), ncol = dim(d_array)[3], 
+                      dimnames = list(NULL, dimnames(d_array)[[3]]))
+      VCE <- V_rep - SumSq[1:p, , drop = FALSE]
+      VCE.compl <- SumSq[(p + 1):(2 * p), , drop = FALSE]
+      return(rbind(V, VCE, VCE.compl, deparse.level = 0))
     }
+    
     if(length(dim(data)) == 3){
       # This means x$y is a matrix.
       d <- data[i, , , drop = FALSE]
