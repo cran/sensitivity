@@ -68,6 +68,12 @@ soboljansen(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
 
 \details{
 This estimator is good for large first-order indices, and (large and small) total indices.
+
+This version of \code{soboljansen} also supports matrices and three-dimensional
+arrays as output of \code{model}. However, bootstrapping is not supported for
+these types of model output. Also, \code{V}, \code{S} and \code{T} are matrices 
+respectively arrays (with dimensions corresponding to those of \code{y}) if the model 
+output is a matrix or an array.
 }
 
 \references{
