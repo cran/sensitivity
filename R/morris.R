@@ -193,16 +193,23 @@ print.morris <- function(x, ...) {
 
 
 plot.morris <- function(x, identify = FALSE, atpen = FALSE,
-                        y_col = 1, y_dim3 = 1, ...) {
+                        y_col = NULL, y_dim3 = NULL, ...) {
   if (!is.null(x$ee)) {
     if(class(x$y) == "numeric"){
       mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
       sigma <- apply(x$ee, 2, sd)
     } else if(class(x$y) == "matrix"){
+      if(is.null(y_col)) y_col <- 1
+      if(!is.null(y_dim3)){
+        warning("Argument \"y_dim3\" is ignored since the model output is ",
+                "a matrix")
+      }
       mu.star <- apply(x$ee[, , y_col, drop = FALSE], 2, 
                        function(x) mean(abs(x)))
       sigma <- apply(x$ee[, , y_col, drop = FALSE], 2, sd)
     } else if(class(x$y) == "array"){
+      if(is.null(y_col)) y_col <- 1
+      if(is.null(y_dim3)) y_dim3 <- 1
       mu.star <- apply(x$ee[, , y_col, y_dim3, drop = FALSE], 2, 
                        function(x) mean(abs(x)))
       sigma <- apply(x$ee[, , y_col, y_dim3, drop = FALSE], 2, sd)
