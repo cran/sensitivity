@@ -17,7 +17,7 @@
 soboljansen(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
 \method{tell}{soboljansen}(x, y = NULL, return.var = NULL, \dots)
 \method{print}{soboljansen}(x, \dots)
-\method{plot}{soboljansen}(x, ylim = c(0, 1), \dots)
+\method{plot}{soboljansen}(x, ylim = c(0, 1), y_col = NULL, y_dim3 = NULL, \dots)
 }
 
 \arguments{
@@ -33,8 +33,19 @@ soboljansen(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
   \item{return.var}{a vector of character strings giving further
     internal variables names to store in  the output object \code{x}.}
   \item{ylim}{y-coordinate plotting limits.}
-  \item{\dots}{any other arguments for \code{model} which are passed
-    unchanged each time it is called}
+  \item{y_col}{an integer defining the index of the column of \code{x$y} to be
+    used for plotting the corresponding sensitivity indices (only applies if 
+    \code{x$y} is a matrix or an array). If set to \code{NULL} (as per default) 
+    and \code{x$y} is a matrix or an array, the first column (respectively the 
+    first element in the second dimension) of \code{x$y} is used (i.e. 
+    \code{y_col = 1}).}
+  \item{y_dim3}{an integer defining the index in the third dimension of 
+    \code{x$y} to be used for plotting the corresponding sensitivity indices 
+    (only applies if \code{x$y} is an array). If set to \code{NULL} (as per 
+    default) and \code{x$y} is a three-dimensional array, the first element in 
+    the third dimension of \code{x$y} is used (i.e. \code{y_dim3 = 1}).}
+  \item{\dots}{for \code{soboljansen}: any other arguments for \code{model} 
+    which are passed unchanged each time it is called.}
 }
 
 \value{
