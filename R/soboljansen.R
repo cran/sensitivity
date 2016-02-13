@@ -30,6 +30,7 @@ soboljansen <- function(model = NULL, X1, X2, nboot = 0, conf = 0.95, ...) {
 
 estim.soboljansen <- function(data, i = NULL) {
   if(class(data) == "matrix"){
+    # This means x$y is a numeric vector.
     if(is.null(i)) i <- 1:nrow(data)
     d <- as.matrix(data[i, ]) # as.matrix for colSums
     n <- nrow(d)
