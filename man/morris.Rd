@@ -23,10 +23,10 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
        scale = FALSE, \dots)
 \method{tell}{morris}(x, y = NULL, ...)
 \method{print}{morris}(x, ...)
-\method{plot}{morris}(x, identify = FALSE, atpen = FALSE, y_col = 1, 
-  y_dim3 = 1, \dots)
-\method{plot3d}{morris}(x, alpha = c(0.2, 0), sphere.size = 1, y_col = 1, 
-  y_dim3 = 1)
+\method{plot}{morris}(x, identify = FALSE, atpen = FALSE, y_col = NULL, 
+  y_dim3 = NULL, \dots)
+\method{plot3d}{morris}(x, alpha = c(0.2, 0), sphere.size = 1, y_col = NULL, 
+  y_dim3 = NULL)
 }
 
 \arguments{
@@ -91,11 +91,14 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
     \code{\link{identify}}. Defaults to \code{FALSE}.}
   \item{y_col}{an integer defining the index of the column of \code{x$y} to be
     used for plotting (only applies if \code{x$y} is a matrix or an array).
-    Defaults to 1, so the first column is used for the plot.}
+    If set to \code{NULL} (as per default) and \code{x$y} is a matrix or an 
+    array, the first column (respectively the first element in
+    the second dimension) of \code{x$y} is used (i.e. \code{y_col = 1}).}
   \item{y_dim3}{an integer defining the index in the third dimension of 
     \code{x$y} to be used for plotting (only applies if \code{x$y} is an array).
-    Defaults to 1, so the first element in the third dimension of \code{x$y}
-    is used.}
+    If set to \code{NULL} (as per default) and \code{x$y} is a 
+    three-dimensional array, the first element in the third dimension of
+    \code{x$y} is used (i.e. \code{y_dim3 = 1}).}
   \item{alpha}{a vector of three values between 0.0 (fully transparent) and 1.0
     (opaque) (see \code{rgl.material}). The first value is for the
     cone, the second for the planes.}
@@ -103,7 +106,7 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
     spheres.}
   \item{\dots}{for \code{morris}: any other arguments for \code{model} which 
     are passed unchanged each time it is called. For \code{plot.morris}: 
-    Arguments to be passed to \code{plot.default}.}
+    arguments to be passed to \code{plot.default}.}
 }
 
 \details{
