@@ -137,7 +137,9 @@ tell.soboljansen <- function(x, y = NULL, return.var = NULL, ...) {
     T <- V[(p + 2):(2 * p + 1), , drop = FALSE] / V_global
     rownames(T) <- colnames(x$X1)
   } else if(class(x$y) == "array"){
-    if (x$nboot != 0) stop("Bootstrapping not supported if x$y is an array")
+    if (x$nboot != 0){
+      stop("Bootstrapping not supported if model output is an array")
+    }
     data <- array(x$y, dim = c(n, dim(x$y)[1] / n, dim(x$y)[2:3]), 
                   dimnames = list(NULL, NULL, 
                                   dimnames(x$y)[[2]], dimnames(x$y)[[3]]))
