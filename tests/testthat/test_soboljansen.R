@@ -47,7 +47,7 @@ test_that("Models with matrix output work correctly", {
     res_vector <- sobol.fun(X)
     cbind(res_vector, 2 * res_vector)
   }
-  x_matrix <- soboljansen(model = sobol.fun_matrix, X1, X2, nboot = 0)
+  x_matrix <- soboljansen(model = sobol.fun_matrix, X1, X2)
   expect_equal(x_matrix$V[, 1], x_orig$V[, "original"], 
                check.attributes = FALSE)
   expect_equal(x_matrix$S[, 1], x_orig$S[, "original"], 
@@ -60,7 +60,7 @@ test_that("Models with matrix output work correctly", {
     res_vector <- sobol.fun(X)
     matrix(res_vector)
   }
-  x_onecol <- soboljansen(model = sobol.fun_onecol, X1, X2, nboot = 0)
+  x_onecol <- soboljansen(model = sobol.fun_onecol, X1, X2)
   expect_equal(drop(x_onecol$V), x_orig$V[, "original"], 
                check.attributes = FALSE)
   expect_equal(drop(x_onecol$S), x_orig$S[, "original"], 
@@ -81,7 +81,7 @@ test_that("Models with array output work correctly", {
     array(data = c(res_matrix, 5 * res_matrix), 
           dim = c(length(res_vector), 2, 2))
   }
-  x_array <- soboljansen(model = sobol.fun_array, X1, X2, nboot = 0)
+  x_array <- soboljansen(model = sobol.fun_array, X1, X2)
   expect_equal(x_array$V[, 1, 1], x_orig$V[, "original"], 
                check.attributes = FALSE)
   expect_equal(x_array$S[, 1, 1], x_orig$S[, "original"], 
@@ -96,7 +96,7 @@ test_that("Models with array output work correctly", {
     res_matrix <- cbind(res_vector, 2 * res_vector)
     array(data = res_matrix, dim = c(length(res_vector), 2, 1))
   }
-  x_onedim3 <- soboljansen(model = sobol.fun_onedim3, X1, X2, nboot = 0)
+  x_onedim3 <- soboljansen(model = sobol.fun_onedim3, X1, X2)
   expect_equal(x_onedim3$V[, 1, 1], x_orig$V[, "original"], 
                check.attributes = FALSE)
   expect_equal(x_onedim3$S[, 1, 1], x_orig$S[, "original"], 
@@ -111,14 +111,26 @@ test_that("Models with array output work correctly", {
     res_matrix <- matrix(res_vector)
     array(data = res_matrix, dim = c(length(res_vector), 1, 1))
   }
-  x_onecol_onedim3 <- soboljansen(model = sobol.fun_onecol_onedim3, X1, X2, 
-                                  nboot = 0)
+  x_onecol_onedim3 <- soboljansen(model = sobol.fun_onecol_onedim3, X1, X2)
   expect_equal(x_onecol_onedim3$V[, 1, 1], x_orig$V[, "original"], 
                check.attributes = FALSE)
   expect_equal(x_onecol_onedim3$S[, 1, 1], x_orig$S[, "original"], 
                check.attributes = FALSE)
   expect_equal(x_onecol_onedim3$T[, 1, 1], x_orig$T[, "original"], 
                check.attributes = FALSE)
+  
+  # A model function returning an array with more than 3 dimensions should
+  # throw an error:
+  sobol.fun_dim4 <- function(X){
+    res_vector <- sobol.fun(X)
+    res_matrix <- cbind(res_vector, 2 * res_vector)
+    array(data = rep(c(res_matrix, 5 * res_matrix), 3), 
+          dim = c(length(res_vector), 2, 2, 3))
+  }
+  expect_error(soboljansen(model = sobol.fun_dim4, X1, X2))
+  
+  # A model function returning a list should throw an error:
+  expect_error(soboljansen(model = function(X) list(sobol.fun(X)), X1, X2))
   
   # Trying to perform a bootstrap should fail:
   expect_error(soboljansen(model = sobol.fun_array, X1, X2, nboot = 100))
