@@ -54,7 +54,8 @@ soboljansen(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
 
   \item{call}{the matched call.}
   \item{X}{a \code{data.frame} containing the design of experiments.}
-  \item{y}{the response used}
+  \item{y}{either a vector, a matrix or a three-dimensional array of model 
+    responses (depends on the output of \code{model}).}
   \item{V}{the estimations of Variances of the Conditional Expectations
     (VCE) with respect to each factor and also with respect to the
   complementary set of each factor ("all but \eqn{X_i}{Xi}").}
