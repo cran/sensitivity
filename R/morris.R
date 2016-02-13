@@ -228,7 +228,7 @@ plot.morris <- function(x, identify = FALSE, atpen = FALSE,
 
 
 plot3d.morris <- function(x, alpha = c(0.2, 0), sphere.size = 1,
-                          y_col = 1, y_dim3 = 1) {
+                          y_col = NULL, y_dim3 = NULL) {
   spheres.rad <- max((apply(x$ee,2,max) - apply(x$ee,2,min)) / 100) * sphere.size
   color = "grey"
   cone.nfaces = 100
@@ -239,11 +239,18 @@ plot3d.morris <- function(x, alpha = c(0.2, 0), sphere.size = 1,
       mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
       sigma <- apply(x$ee, 2, sd)
     } else if(class(x$y) == "matrix"){
+      if(is.null(y_col)) y_col <- 1
+      if(!is.null(y_dim3)){
+        warning("Argument \"y_dim3\" is ignored since the model output is ",
+                "a matrix")
+      }
       mu <- apply(x$ee[, , y_col, drop = FALSE], 2, mean)
       mu.star <- apply(x$ee[, , y_col, drop = FALSE], 2, 
                        function(x) mean(abs(x)))
       sigma <- apply(x$ee[, , y_col, drop = FALSE], 2, sd)
     } else if(class(x$y) == "array"){
+      if(is.null(y_col)) y_col <- 1
+      if(is.null(y_dim3)) y_dim3 <- 1
       mu <- apply(x$ee[, , y_col, y_dim3, drop = FALSE], 2, mean)
       mu.star <- apply(x$ee[, , y_col, y_dim3, drop = FALSE], 2, 
                        function(x) mean(abs(x)))
