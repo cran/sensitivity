@@ -126,41 +126,69 @@ tell.sobolmartinez <- function(x, y = NULL, return.var = NULL, ...) {
 
   p <- ncol(x$X1)
   n <- nrow(x$X1)
-
-  data <- matrix(x$y, nrow = n)
-
-  # estimation of the partial variances (V, D1 and Dt)
   
-  if (x$nboot == 0){
-    V <- data.frame(original = estim.sobolmartinez(data, 1:n, TRUE, x$conf))
-    colnames(V) <- c("original","min. c.i.","max. c.i.")
-  }
-  else{
-    V.boot <- boot(data, estim.sobolmartinez, R = x$nboot)
-    V <- bootstats(V.boot, x$conf, "basic")
-    rownames(V) <- c("global", colnames(x$X1), paste("-", colnames(x$X1), sep = ""))
-  }
-  
-
-  # estimation of the Sobol' indices (S1 and St)
-
-  if (x$nboot == 0) {
-   S <- V[2:(p + 1), 1:3, drop = FALSE]
-   T <- 1 - V[(p + 2):(2 * p + 1), 1:3, drop = FALSE]
-   
-  } else {
-    S.boot <- V.boot
-    S.boot$t0 <- V.boot$t0[2:(p + 1)]
-    S.boot$t <- V.boot$t[,2:(p + 1)]
-    S <- bootstats(S.boot, x$conf, "basic")
+  if(class(x$y) == "numeric"){
+    data <- matrix(x$y, nrow = n)
     
-    T.boot <- V.boot
-    T.boot$t0 <- 1 - V.boot$t0[(p + 2):(2 * p + 1)]
-    T.boot$t <- 1 - V.boot$t[,(p + 2):(2 * p + 1)]
-    T <- bootstats(T.boot, x$conf, "basic")
+    # estimation of the partial variances (V, D1 and Dt)
+    if (x$nboot == 0){
+      V <- data.frame(original = estim.sobolmartinez(data, 1:n, TRUE, x$conf))
+      colnames(V) <- c("original", "min. c.i.", "max. c.i.")
+    }
+    else{
+      V.boot <- boot(data, estim.sobolmartinez, R = x$nboot)
+      V <- bootstats(V.boot, x$conf, "basic")
+      rownames(V) <- c("global", 
+                       colnames(x$X1), 
+                       paste("-", colnames(x$X1), sep = ""))
+    }
+    
+    # estimation of the Sobol' indices (S1 and St)
+    if (x$nboot == 0) {
+      S <- V[2:(p + 1), 1:3, drop = FALSE]
+      T <- 1 - V[(p + 2):(2 * p + 1), 1:3, drop = FALSE]
+      
+    } else {
+      S.boot <- V.boot
+      S.boot$t0 <- V.boot$t0[2:(p + 1)]
+      S.boot$t <- V.boot$t[,2:(p + 1)]
+      S <- bootstats(S.boot, x$conf, "basic")
+      
+      T.boot <- V.boot
+      T.boot$t0 <- 1 - V.boot$t0[(p + 2):(2 * p + 1)]
+      T.boot$t <- 1 - V.boot$t[,(p + 2):(2 * p + 1)]
+      T <- bootstats(T.boot, x$conf, "basic")
+    }
+    rownames(S) <- colnames(x$X1)
+    rownames(T) <- colnames(x$X1)
+  } else if(class(x$y) == "matrix"){
+    if(x$nboot != 0){
+      stop("Bootstrapping not supported if model output is a matrix")
+    }
+    data <- array(x$y, dim = c(n, nrow(x$y) / n, ncol(x$y)), 
+                  dimnames = list(NULL, NULL, colnames(x$y)))
+    V <- estim.sobolmartinez(data, 1:n, estimStd = FALSE)
+    rownames(V) <- c("global", 
+                     colnames(x$X1), 
+                     paste("-", colnames(x$X1), sep = ""))
+    S <- V[2:(p + 1), , drop = FALSE]
+    T <- 1 - V[(p + 2):(2 * p + 1), , drop = FALSE]
+    rownames(T) <- colnames(x$X1)
+  } else if(class(x$y) == "array"){
+    if(x$nboot != 0){
+      stop("Bootstrapping not supported if model output is an array")
+    }
+    data <- array(x$y, dim = c(n, dim(x$y)[1] / n, dim(x$y)[2:3]), 
+                  dimnames = list(NULL, NULL, 
+                                  dimnames(x$y)[[2]], dimnames(x$y)[[3]]))
+    V <- estim.sobolmartinez(data, 1:n, estimStd = FALSE)
+    dimnames(V)[[1]] <- c("global", 
+                          colnames(x$X1), 
+                          paste("-", colnames(x$X1), sep = ""))
+    S <- V[2:(p + 1), , , drop = FALSE]
+    T <- 1 - V[(p + 2):(2 * p + 1), , , drop = FALSE]
+    dimnames(T)[[1]] <- colnames(x$X1)
   }
-  rownames(S) <- colnames(x$X1)
-  rownames(T) <- colnames(x$X1)
 
   # return
   x$V <- V
