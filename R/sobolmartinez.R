@@ -33,37 +33,47 @@ sobolmartinez <- function(model = NULL, X1, X2, nboot = 0, conf = 0.95, ...) {
 }
 
 
-estim.sobolmartinez <- function(data, i = 1 : nrow(data), estimStd=FALSE, conf=0) {
-  d <- as.matrix(data[i, ]) # as.matrix for colSums
-  n <- nrow(d)
-  p <- ncol(d)-2
-  
-  V <- var(d[, 1])
-  ecor <- rep(0,p) ; ecorcompl <- rep(0,p)
-  if(estimStd) {
-    VV <- matrix(V,nrow=1,ncol=3,dimnames=list(1,c("estim","CIinf","CIsup")))
-    estcor <- matrix(0,nrow=p,ncol=3,dimnames=list(2:(p+1),c("estim","CIinf","CIsup")))
-    estcorcompl <- matrix(0,nrow=p,ncol=3,dimnames=list((p+2):(2*p+1),c("estim","CIinf","CIsup")))
-  }
-  for(ii in 1:p) {
-      ecor[ii] <- cor(d[,2],d[,ii+2],use="pairwise.complete.obs")
-      ecorcompl[ii] <- cor(d[,1],d[,ii+2],use="pairwise.complete.obs")
+estim.sobolmartinez <- function(data, i = NULL, estimStd = FALSE, conf = 0){
+  if(class(data) == "matrix"){
+    # This means x$y is a numeric vector.
+    if(is.null(i)) i <- 1:nrow(data)
+    d <- as.matrix(data[i, ]) # as.matrix for colSums
+    n <- nrow(d)
+    p <- ncol(d)-2
     
-    if(estimStd) {
-      estcor[ii,1] <- ecor[ii]
-      confcor <- cor.test(d[,2],d[,ii+2],conf.level=conf)
-      estcor[ii,2] <- confcor$conf.int[1]
-      estcor[ii,3] <- confcor$conf.int[2]
-      estcorcompl[ii,1] <- ecorcompl[ii]
-      confcor <- cor.test(d[,1],d[,ii+2],conf.level=conf)
-      estcorcompl[ii,2] <- confcor$conf.int[2]
-      estcorcompl[ii,3] <- confcor$conf.int[1] # on intervertit car apres on prend l'oppose
+    V <- var(d[, 1])
+    ecor <- rep(0, p)
+    ecorcompl <- rep(0, p)
+    if(estimStd){
+      VV <- matrix(V, nrow = 1, ncol = 3, 
+                   dimnames = list(1, c("estim", "CIinf", "CIsup")))
+      estcor <- matrix(0, nrow = p, ncol = 3, 
+                       dimnames = list(2:(p + 1), c("estim", "CIinf", "CIsup")))
+      estcorcompl <- matrix(0, nrow = p, ncol = 3, 
+                            dimnames = list((p + 2):(2*p + 1), 
+                                            c("estim", "CIinf", "CIsup")))
+    }
+    for(ii in 1:p){
+      ecor[ii] <- cor(d[, 2], d[, ii + 2], use = "pairwise.complete.obs")
+      ecorcompl[ii] <- cor(d[, 1],d[, ii + 2], use = "pairwise.complete.obs")
+      
+      if(estimStd){
+        estcor[ii, 1] <- ecor[ii]
+        confcor <- cor.test(d[, 2],d[, ii + 2], conf.level = conf)
+        estcor[ii, 2] <- confcor$conf.int[1]
+        estcor[ii, 3] <- confcor$conf.int[2]
+        estcorcompl[ii, 1] <- ecorcompl[ii]
+        confcor <- cor.test(d[, 1], d[, ii + 2], conf.level = conf)
+        estcorcompl[ii, 2] <- confcor$conf.int[2]
+        estcorcompl[ii, 3] <- confcor$conf.int[1] # on intervertit car apres on prend l'oppose
+      }
+    }
+    if(estimStd){
+      return(rbind(VV, estcor, estcorcompl))
+    } else{
+      return(c(V, ecor, ecorcompl))
     }
   }
-  if(estimStd) 
-    { return(rbind(VV, estcor, estcorcompl))}
-  else 
-    { return(c(V, ecor, ecorcompl))}
 }
 
 
