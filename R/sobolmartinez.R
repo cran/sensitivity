@@ -39,39 +39,77 @@ estim.sobolmartinez <- function(data, i = NULL, estimStd = FALSE, conf = 0){
     if(is.null(i)) i <- 1:nrow(data)
     d <- as.matrix(data[i, ]) # as.matrix for colSums
     n <- nrow(d)
-    p <- ncol(d)-2
+    p <- ncol(d) - 2
     
     V <- var(d[, 1])
-    ecor <- rep(0, p)
-    ecorcompl <- rep(0, p)
+    ecor <- sapply(1:p, function(ii){
+      cor(d[, 2], d[, ii + 2], use = "pairwise.complete.obs")
+    })
+    ecorcompl <- sapply(1:p, function(ii){
+      cor(d[, 1], d[, ii + 2], use = "pairwise.complete.obs")
+    })
     if(estimStd){
       VV <- matrix(V, nrow = 1, ncol = 3, 
                    dimnames = list(1, c("estim", "CIinf", "CIsup")))
-      estcor <- matrix(0, nrow = p, ncol = 3, 
-                       dimnames = list(2:(p + 1), c("estim", "CIinf", "CIsup")))
-      estcorcompl <- matrix(0, nrow = p, ncol = 3, 
-                            dimnames = list((p + 2):(2*p + 1), 
-                                            c("estim", "CIinf", "CIsup")))
-    }
-    for(ii in 1:p){
-      ecor[ii] <- cor(d[, 2], d[, ii + 2], use = "pairwise.complete.obs")
-      ecorcompl[ii] <- cor(d[, 1],d[, ii + 2], use = "pairwise.complete.obs")
-      
-      if(estimStd){
-        estcor[ii, 1] <- ecor[ii]
+      est_matrix <- sapply(1:p, function(ii){
         confcor <- cor.test(d[, 2],d[, ii + 2], conf.level = conf)
-        estcor[ii, 2] <- confcor$conf.int[1]
-        estcor[ii, 3] <- confcor$conf.int[2]
-        estcorcompl[ii, 1] <- ecorcompl[ii]
+        estcor <- c(ecor[ii], 
+                    confcor$conf.int[1], 
+                    confcor$conf.int[2])
         confcor <- cor.test(d[, 1], d[, ii + 2], conf.level = conf)
-        estcorcompl[ii, 2] <- confcor$conf.int[2]
-        estcorcompl[ii, 3] <- confcor$conf.int[1] # on intervertit car apres on prend l'oppose
-      }
-    }
-    if(estimStd){
+        estcorcompl <- c(ecorcompl[ii], 
+                         confcor$conf.int[2], 
+                         confcor$conf.int[1]) # on intervertit car apres on prend l'oppose
+        return(c(estcor, estcorcompl))
+      })
+      estcor <- t(est_matrix[1:3, ])
+      estcorcompl <- t(est_matrix[4:6, ])
+      dimnames(estcor) <- list(2:(p + 1), c("estim", "CIinf", "CIsup"))
+      dimnames(estcorcompl) <- list((p + 2):(2*p + 1), 
+                                    c("estim", "CIinf", "CIsup"))
       return(rbind(VV, estcor, estcorcompl))
     } else{
       return(c(V, ecor, ecorcompl))
+    }
+  } else if(class(data) == "array"){
+    if(estimStd){
+      stop("Confidence intervals not supported if \"data\" is an array")
+    }
+    if(is.null(i)) i <- 1:dim(data)[1]
+    n <- length(i)
+    p <- dim(data)[2] - 2
+    
+    # Define a helper function:
+    one_dim3 <- function(d_array){
+      V <- apply(d_array, 3, function(d_matrix){
+        var(d_matrix[, 1])
+      })
+      ematrix <- apply(d_array, 3, function(d_matrix){
+        ecor <- sapply(1:p, function(ii){
+          cor(d_matrix[, 2], d_matrix[, ii + 2], use = "pairwise.complete.obs")
+        })
+        ecorcompl <- sapply(1:p, function(ii){
+          cor(d_matrix[, 1], d_matrix[, ii + 2], use = "pairwise.complete.obs")
+        })
+        c(ecor, ecorcompl)
+      })
+      return(rbind(V, ematrix, deparse.level = 0))
+    }
+    
+    if(length(dim(data)) == 3){
+      # This means x$y is a matrix.
+      d <- data[i, , , drop = FALSE]
+      return(one_dim3(d))
+    } else if(length(dim(data)) == 4){
+      # This means x$y is a 3-dimensional array.
+      d <- data[i, , , , drop = FALSE]
+      all_dim3 <- sapply(1:dim(data)[4], function(i){
+        one_dim3(array(data[ , , , i], 
+                       dim = dim(data)[1:3], 
+                       dimnames = dimnames(data)[1:3]))
+      }, simplify = "array")
+      dimnames(all_dim3)[[3]] <- dimnames(data)[[4]]
+      return(all_dim3)
     }
   }
 }
