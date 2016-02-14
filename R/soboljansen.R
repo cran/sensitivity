@@ -125,7 +125,9 @@ tell.soboljansen <- function(x, y = NULL, return.var = NULL, ...) {
       rownames(T) <- colnames(x$X1)
     }
   } else if(class(x$y) == "matrix"){
-    if (x$nboot != 0) stop("Bootstrapping not supported if x$y is a matrix")
+    if(x$nboot != 0){
+      stop("Bootstrapping not supported if model output is a matrix")
+    }
     data <- array(x$y, dim = c(n, nrow(x$y) / n, ncol(x$y)), 
                   dimnames = list(NULL, NULL, colnames(x$y)))
     V <- estim.soboljansen(data)
@@ -138,7 +140,7 @@ tell.soboljansen <- function(x, y = NULL, return.var = NULL, ...) {
     T <- V[(p + 2):(2 * p + 1), , drop = FALSE] / V_global
     rownames(T) <- colnames(x$X1)
   } else if(class(x$y) == "array"){
-    if (x$nboot != 0){
+    if(x$nboot != 0){
       stop("Bootstrapping not supported if model output is an array")
     }
     data <- array(x$y, dim = c(n, dim(x$y)[1] / n, dim(x$y)[2:3]), 
