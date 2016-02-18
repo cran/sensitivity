@@ -208,21 +208,9 @@ print.sobolmartinez <- function(x, ...) {
   if (!is.null(x$y)) {
     cat("\nModel runs:", length(x$y), "\n")
     cat("\nFirst order indices:\n")
-    if(!is.null(x$S$original.CIinf)) {
-      df=data.frame(pointEstimate=x$S[,1],  minCI=x$S[,2], maxCI=x$S[,3])
-      colnames(df)=c("estimate","min. c.i.","max. c.i.")
-      print(df)
-    } else {
-      print(x$S)
-    }
+    print(x$S)
     cat("\nTotal indices:\n")
-    if(!is.null(x$T$original.CIinf)) {
-      df=data.frame(pointEstimate=x$T[,1], minCI=x$T[,2], maxCI=x$T[,3])
-      colnames(df)=c("estimate","min. c.i.","max. c.i.")
-      print(df)
-    } else {
-      print(x$T)
-    }
+    print(x$T)
   }
 }
 
