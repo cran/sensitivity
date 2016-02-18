@@ -241,6 +241,7 @@ morris.fun_matrix <- function(X){
 x <- morris(model = morris.fun_matrix, factors = 20, r = 4,
             design = list(type = "oat", levels = 5, grid.jump = 3))
 plot(x, y_col = 2)
+title(main = "y_col = 2")
 
 # Also only for demonstration purposes: a model function returning a
 # three-dimensional array
@@ -253,6 +254,7 @@ morris.fun_array <- function(X){
 x <- morris(model = morris.fun_array, factors = 20, r = 4,
             design = list(type = "simplex", scale.factor = 1))
 plot(x, y_col = 2, y_dim3 = 2)
+title(main = "y_col = 2, y_dim3 = 2")
 }
 
 \keyword{design}

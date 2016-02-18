@@ -119,6 +119,7 @@ sobol.fun_matrix <- function(X){
 }
 x_matrix <- soboljansen(model = sobol.fun_matrix, X1, X2)
 plot(x_matrix, y_col = 2)
+title(main = "y_col = 2")
 
 # Also only for demonstration purposes: a model function returning a
 # three-dimensional array
@@ -130,6 +131,7 @@ sobol.fun_array <- function(X){
 }
 x_array <- soboljansen(model = sobol.fun_array, X1, X2)
 plot(x_array, y_col = 2, y_dim3 = 2)
+title(main = "y_col = 2, y_dim3 = 2")
 }
 
 \keyword{design}
