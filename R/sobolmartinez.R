@@ -206,13 +206,19 @@ tell.sobolmartinez <- function(x, y = NULL, return.var = NULL, ...) {
 print.sobolmartinez <- function(x, ...) {
   cat("\nCall:\n", deparse(x$call), "\n", sep = "")
   if (!is.null(x$y)) {
-    cat("\nModel runs:", length(x$y), "\n")
+    if (class(x$y) == "numeric") {
+      cat("\nModel runs:", length(x$y), "\n")
+    } else if (class(x$y) == "matrix") {
+      cat("\nModel runs:", nrow(x$y), "\n")
+    } else if (class(x$y) == "array") {
+      cat("\nModel runs:", dim(x$y)[1], "\n")
+    }
     cat("\nFirst order indices:\n")
     print(x$S)
     cat("\nTotal indices:\n")
     print(x$T)
   } else {
-    cat("(empty)\n")
+    cat("\n(empty)\n")
   }
 }
 
