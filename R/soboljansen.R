@@ -184,7 +184,7 @@ print.soboljansen <- function(x, ...) {
     cat("\nTotal indices:\n")
     print(x$T)
   } else {
-    cat("\n(empty)\n")
+    cat("(empty)\n")
   }
 }
 

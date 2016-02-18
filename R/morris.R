@@ -187,7 +187,7 @@ print.morris <- function(x, ...) {
     cat("----------------\nsigma:\n\n")
     print.listof(sigma)
   } else {
-    cat("\n(empty)\n")
+    cat("(empty)\n")
   }
 }
 
