@@ -223,13 +223,29 @@ print.sobolmartinez <- function(x, ...) {
 }
 
 
-plot.sobolmartinez <- function(x, ylim = c(0, 1), ...) {
+plot.sobolmartinez <- function(x, ylim = c(0, 1), 
+                               y_col = NULL, y_dim3 = NULL, ...) {
   if (!is.null(x$y)) {
     p <- ncol(x$X1)
     pch = c(21, 24)
-    nodeplot(x$S, xlim = c(1, p + 1), ylim = ylim, pch = pch[1])
-    nodeplot(x$T, xlim = c(1, p + 1), ylim = ylim, labels = FALSE,
-             pch = pch[2], at = (1:p)+.3, add = TRUE)
+    if(class(x$y) == "numeric"){
+      nodeplot(x$S, xlim = c(1, p + 1), ylim = ylim, pch = pch[1])
+      nodeplot(x$T, xlim = c(1, p + 1), ylim = ylim, labels = FALSE,
+               pch = pch[2], at = (1:p)+.3, add = TRUE)
+    } else if(class(x$y) %in% c("matrix", "array")){
+      if(is.null(y_col)) y_col <- 1
+      if(class(x$y) == "matrix" && !is.null(y_dim3)){
+        y_dim3 <- NULL
+        warning("Argument \"y_dim3\" is ignored since the model output is ",
+                "a matrix")
+      }
+      if(class(x$y) == "array" && is.null(y_dim3)) y_dim3 <- 1
+      nodeplot(x$S, xlim = c(1, p + 1), ylim = ylim, pch = pch[1], 
+               y_col = y_col, y_dim3 = y_dim3)
+      nodeplot(x$T, xlim = c(1, p + 1), ylim = ylim, labels = FALSE,
+               pch = pch[2], at = (1:p)+.3, add = TRUE, 
+               y_col = y_col, y_dim3 = y_dim3)
+    }
     legend(x = "topright", legend = c("main effect", "total effect"), pch = pch)
   }
 }
