@@ -72,9 +72,9 @@ This estimator is good for large first-order indices, and (large and small) tota
 
 This version of \code{soboljansen} also supports matrices and three-dimensional
 arrays as output of \code{model}. However, bootstrapping is not supported for
-these types of model output. Also, \code{V}, \code{S} and \code{T} are matrices 
-respectively arrays (with dimensions corresponding to those of \code{y}) if the model 
-output is a matrix or an array.
+these types of model output. Also, if the model output is a matrix or an array, 
+\code{V}, \code{S} and \code{T} are matrices respectively arrays with 
+dimensions corresponding to those of \code{y}.
 }
 
 \references{
