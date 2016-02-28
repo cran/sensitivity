@@ -69,7 +69,8 @@ test_that("Models with matrix output work correctly", {
                check.attributes = FALSE)
   
   # Trying to perform a bootstrap should fail:
-  expect_error(soboljansen(model = sobol.fun_matrix, X1, X2, nboot = 100))
+  expect_error(soboljansen(model = sobol.fun_matrix, X1, X2, nboot = 100),
+               "Bootstrapping not supported if model output is a matrix")
 })
 
 test_that("Models with array output work correctly", {
@@ -127,11 +128,13 @@ test_that("Models with array output work correctly", {
     array(data = rep(c(res_matrix, 5 * res_matrix), 3), 
           dim = c(length(res_vector), 2, 2, 3))
   }
-  expect_error(soboljansen(model = sobol.fun_dim4, X1, X2))
+  expect_error(soboljansen(model = sobol.fun_dim4, X1, X2),
+               "If the model returns an array, it must not have")
   
   # A model function returning a list should throw an error:
   expect_error(soboljansen(model = function(X) list(sobol.fun(X)), X1, X2))
   
   # Trying to perform a bootstrap should fail:
-  expect_error(soboljansen(model = sobol.fun_array, X1, X2, nboot = 100))
+  expect_error(soboljansen(model = sobol.fun_array, X1, X2, nboot = 100),
+               "Bootstrapping not supported if model output is an array")
 })
