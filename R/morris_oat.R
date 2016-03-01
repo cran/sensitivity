@@ -12,7 +12,7 @@ random.oat <- function(p, r, binf = rep(0, p), bsup = rep(0, p), nl, design.step
     X <- matrix(nrow = r * (p + 1), ncol = p)
     for (j in 1 : r) {
         # directions matrix D
-        D <- diag(sample(c(-1, 1), size = p, replace = TRUE))
+        D <- diag(sample(c(-1, 1), size = p, replace = TRUE), nrow = p)
         # permutation matrix P
         perm <- sample(p)
         P <- matrix(0, nrow = p, ncol = p)
@@ -24,7 +24,8 @@ random.oat <- function(p, r, binf = rep(0, p), bsup = rep(0, p), nl, design.step
         for (i in 1 : p) {
             x.base[,i] <- ((sample(nl[i] - design.step[i], size = 1) - 1) / (nl[i] - 1))
         }
-        X[ind.rep(j,p),] <- 0.5 * (B %*% P %*% D + 1) %*% diag(delta) + x.base
+        X[ind.rep(j,p),] <- 0.5 * (B %*% P %*% D + 1) %*% 
+          diag(delta, nrow = p) + x.base
     }
     for (i in 1 : p) {
         X[,i] <- X[,i] * (bsup[i] - binf[i]) + binf[i]
@@ -69,17 +70,25 @@ ee.oat <- function(X, y) {
       ee_per_3rd_dim <- sapply(1:(dim(y)[3]), function(idx_3rd_dim){
         y_j2_matrix <- y[j2, , idx_3rd_dim]
         y_j1_matrix <- y[j1, , idx_3rd_dim]
-        # Correction needed if "dim(y)[2] == 1", so "y_j2_matrix" and 
-        # "y_j1_matrix" have been dropped to vectors:
-        if(class(y_j2_matrix) == "numeric"){
-          y_j2_matrix <- matrix(y_j2_matrix)
-          y_j1_matrix <- matrix(y_j1_matrix)
-        }
-        # Here, the result of "solve(...)" is a (p times dim(y)[2])-matrix:
+        # Here, the result of "solve(...)" is a (p times dim(y)[2])-matrix or
+        # a vector of length dim(y)[2] (if p == 1):
         solve(X[j2,] - X[j1,], y_j2_matrix - y_j1_matrix)
       }, simplify = "array")
-      # "ee_per_3rd_dim" is an array of dimensions c(p, dim(y)[2], dim(y)[3]).
-      # Assign the corresponding names for the third dimension:
+      if(dim(y)[2] == 1){
+        # Correction needed if dim(y)[2] == 1, so "y_j2_matrix" and
+        # "y_j1_matrix" have been dropped to matrices (or even vectors, if also
+        # p == 1):
+        ee_per_3rd_dim <- array(ee_per_3rd_dim, 
+                                dim = c(p, dim(y)[2], dim(y)[3]))
+      } else if(p == 1){
+        # Correction needed if p == 1 (and dim(y)[2] > 1), so "y_j2_matrix" and
+        # "y_j1_matrix" have been dropped to matrices:
+        ee_per_3rd_dim <- array(ee_per_3rd_dim, 
+                                dim = c(1, dim(y)[2], dim(y)[3]))
+      }
+      # "ee_per_3rd_dim" is now an array of dimensions 
+      # c(p, dim(y)[2], dim(y)[3]). Assign the corresponding names for the 
+      # third dimension:
       dimnames(ee_per_3rd_dim)[[3]] <- dimnames(y)[[3]]
       return(ee_per_3rd_dim)
     }
