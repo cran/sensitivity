@@ -5,7 +5,7 @@
 
 nodeplot <- function(x, xlim = NULL, ylim = NULL, labels = TRUE,
                      col = par("col"), pch = 21, bg = "white",
-                     add = FALSE, at = NULL, ...) {
+                     add = FALSE, at = NULL, y_col = NULL, y_dim3 = NULL, ...) {
   n <- nrow(x)
   if (is.null(xlim)) {
     xlim <- c(1, n)
@@ -38,15 +38,21 @@ nodeplot <- function(x, xlim = NULL, ylim = NULL, labels = TRUE,
 
   # bias
 
-  if ("bias" %in% colnames(x)) {
+  if ("bias" %in% dimnames(x)[[2]]) {
     xx <- x[["original"]] - x[["bias"]]
   } else {
-    xx <- x[["original"]]
+    if(is.null(y_col) && is.null(y_dim3)){
+      xx <- x[["original"]]
+    } else if(!is.null(y_col) && is.null(y_dim3)){
+      xx <- x[, y_col]
+    } else if(!is.null(y_col) && !is.null(y_dim3)){
+      xx <- x[, y_col, y_dim3]
+    }
   }
   
   # confidence intervals
 
-  if (("min. c.i." %in% colnames(x)) & "max. c.i." %in% colnames(x)) {
+  if (("min. c.i." %in% dimnames(x)[[2]]) & "max. c.i." %in% dimnames(x)[[2]]) {
     for (i in 1 : n) {
       lines(c(at[i], at[i]), c(x[["min. c.i."]][i], x[["max. c.i."]][i]),
             col = col)

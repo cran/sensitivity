@@ -124,8 +124,8 @@ tell.morris <- function(x, y = NULL, ...) {
     #X <- scale(X)
     #y <- as.numeric(scale(y))
     Binf <- matrix(x$binf, nrow = nrow(X), ncol = length(x$binf), byrow = TRUE)
-	Bsup <- matrix(x$bsup, nrow = nrow(X), ncol = length(x$bsup), byrow = TRUE)
-	X <- (X - Binf) / (Bsup - Binf) 
+    Bsup <- matrix(x$bsup, nrow = nrow(X), ncol = length(x$bsup), byrow = TRUE)
+    X <- (X - Binf) / (Bsup - Binf) 
   }
 
   if (x$design$type == "oat") {
@@ -140,7 +140,7 @@ tell.morris <- function(x, y = NULL, ...) {
 
 print.morris <- function(x, ...) {
   cat("\nCall:\n", deparse(x$call), "\n", sep = "")
-  if (! is.null(x$y)) {
+  if (!is.null(x$y) && class(x$y) == "numeric") {
     cat("\nModel runs:", length(x$y), "\n")
     mu <- apply(x$ee, 2, mean)
     mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
@@ -149,22 +149,77 @@ print.morris <- function(x, ...) {
     out <- data.frame(mu, mu.star, sigma)
     rownames(out) <- colnames(x$ee)
     print(out)
+  } else if (!is.null(x$y) && class(x$y) == "matrix") {
+    cat("\nModel runs:", nrow(x$y), "\n")
+    mu <- apply(x$ee, 3, function(M){
+      apply(M, 2, mean)
+    })
+    mu.star <- apply(abs(x$ee), 3, function(M){
+      apply(M, 2, mean)
+    })
+    sigma <- apply(x$ee, 3, function(M){
+      apply(M, 2, sd)
+    })
+    out <- list("mu" = mu, "mu.star" = mu.star, "sigma" = sigma)
+    print.listof(out)
+  } else if (!is.null(x$y) && class(x$y) == "array") {
+    cat("\nModel runs:", dim(x$y)[1], "\n")
+    mu <- lapply(1:dim(x$ee)[4], function(i){
+      apply(x$ee[, , , i, drop = FALSE], 3, function(M){
+        apply(M, 2, mean)
+      })
+    })
+    mu.star <- lapply(1:dim(x$ee)[4], function(i){
+      apply(abs(x$ee)[, , , i, drop = FALSE], 3, function(M){
+        apply(M, 2, mean)
+      })
+    })
+    sigma <- lapply(1:dim(x$ee)[4], function(i){
+      apply(x$ee[, , , i, drop = FALSE], 3, function(M){
+        apply(M, 2, sd)
+      })
+    })
+    names(mu) <- names(mu.star) <- names(sigma) <- dimnames(x$ee)[[4]]
+    cat("----------------\nmu:\n\n")
+    print.listof(mu)
+    cat("----------------\nmu.star:\n\n")
+    print.listof(mu.star)
+    cat("----------------\nsigma:\n\n")
+    print.listof(sigma)
   } else {
-    cat("(empty)\n")
+    cat("\n(empty)\n")
   }
 }
 
 
-plot.morris <- function(x, identify = FALSE, ...) {
-  if (! is.null(x$ee)) {
-    mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
-    sigma <- apply(x$ee, 2, sd)
+plot.morris <- function(x, identify = FALSE, atpen = FALSE,
+                        y_col = NULL, y_dim3 = NULL, ...) {
+  if (!is.null(x$ee)) {
+    if(class(x$y) == "numeric"){
+      mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
+      sigma <- apply(x$ee, 2, sd)
+    } else if(class(x$y) == "matrix"){
+      if(is.null(y_col)) y_col <- 1
+      if(!is.null(y_dim3)){
+        warning("Argument \"y_dim3\" is ignored since the model output is ",
+                "a matrix")
+      }
+      mu.star <- apply(x$ee[, , y_col, drop = FALSE], 2, 
+                       function(x) mean(abs(x)))
+      sigma <- apply(x$ee[, , y_col, drop = FALSE], 2, sd)
+    } else if(class(x$y) == "array"){
+      if(is.null(y_col)) y_col <- 1
+      if(is.null(y_dim3)) y_dim3 <- 1
+      mu.star <- apply(x$ee[, , y_col, y_dim3, drop = FALSE], 2, 
+                       function(x) mean(abs(x)))
+      sigma <- apply(x$ee[, , y_col, y_dim3, drop = FALSE], 2, sd)
+    }
     
     plot(mu.star, sigma, pch = 20, xlab = expression(mu^"*"),
          ylab = expression(sigma), ...)
-  
+    
     if (identify) {
-      identify(mu.star, sigma, labels = colnames(x$ee))
+      identify(mu.star, sigma, labels = colnames(x$ee), atpen = atpen)
     } else {
       text(mu.star, sigma, labels = colnames(x$ee), pos = 4)
     }
@@ -172,14 +227,36 @@ plot.morris <- function(x, identify = FALSE, ...) {
 }
 
 
-plot3d.morris <- function(x, alpha = c(0.2, 0), sphere.size = 1, ...) {
+plot3d.morris <- function(x, alpha = c(0.2, 0), sphere.size = 1,
+                          y_col = NULL, y_dim3 = NULL) {
   spheres.rad <- max((apply(x$ee,2,max) - apply(x$ee,2,min)) / 100) * sphere.size
   color = "grey"
   cone.nfaces = 100
   
-  mu <- apply(x$ee, 2, mean)
-  mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
-  sigma <- apply(x$ee, 2, sd)
+  if (!is.null(x$ee)) {
+    if(class(x$y) == "numeric"){
+      mu <- apply(x$ee, 2, mean)
+      mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
+      sigma <- apply(x$ee, 2, sd)
+    } else if(class(x$y) == "matrix"){
+      if(is.null(y_col)) y_col <- 1
+      if(!is.null(y_dim3)){
+        warning("Argument \"y_dim3\" is ignored since the model output is ",
+                "a matrix")
+      }
+      mu <- apply(x$ee[, , y_col, drop = FALSE], 2, mean)
+      mu.star <- apply(x$ee[, , y_col, drop = FALSE], 2, 
+                       function(x) mean(abs(x)))
+      sigma <- apply(x$ee[, , y_col, drop = FALSE], 2, sd)
+    } else if(class(x$y) == "array"){
+      if(is.null(y_col)) y_col <- 1
+      if(is.null(y_dim3)) y_dim3 <- 1
+      mu <- apply(x$ee[, , y_col, y_dim3, drop = FALSE], 2, mean)
+      mu.star <- apply(x$ee[, , y_col, y_dim3, drop = FALSE], 2, 
+                       function(x) mean(abs(x)))
+      sigma <- apply(x$ee[, , y_col, y_dim3, drop = FALSE], 2, sd)
+    }
+  }
     
   if (requireNamespace("rgl", quietly = TRUE)){ rgl::open3d()}
   
