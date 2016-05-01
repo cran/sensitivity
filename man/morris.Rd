@@ -10,7 +10,7 @@
 \description{
   
   \code{morris} implements the Morris's elementary effects screening
-  method (Morris 1992). This method, based on design of experiments,
+  method (Morris 1991). This method, based on design of experiments,
   allows to identify the few important factors at a cost of \eqn{r
   \times (p+1)}{r * (p + 1)} simulations (where \eqn{p}{p} is the number
   of factors). This implementation includes some improvements of the
@@ -20,11 +20,13 @@
 
 \usage{
 morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
-       scale = FALSE, \dots)
-\method{tell}{morris}(x, y = NULL, \dots)
-\method{print}{morris}(x, \dots)
-\method{plot}{morris}(x, identify = FALSE, \dots)
-\method{plot3d}{morris}(x, alpha = c(0.2, 0), sphere.size = 1, ...)
+       scale = TRUE, \dots)
+\method{tell}{morris}(x, y = NULL, ...)
+\method{print}{morris}(x, ...)
+\method{plot}{morris}(x, identify = FALSE, atpen = FALSE, y_col = NULL, 
+  y_dim3 = NULL, \dots)
+\method{plot3d}{morris}(x, alpha = c(0.2, 0), sphere.size = 1, y_col = NULL, 
+  y_dim3 = NULL)
 }
 
 \arguments{
@@ -43,7 +45,7 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
   \item{design}{a list specifying the design type and its
     parameters:
     \itemize{
-      \item \code{type = "oat"} for Morris's OAT design (Morris 1992),
+      \item \code{type = "oat"} for Morris's OAT design (Morris 1991),
       with the parameters:
       \itemize{
 	\item \code{levels} : either an integer specifying the number of
@@ -58,7 +60,7 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
 	\eqn{\texttt{levels} / 2}{levels / 2}.
       }
       \item \code{type = "simplex"} for simplex-based design (Pujol
-      2008), with the parameter:
+      2009), with the parameter:
       \itemize{
 	\item \code{scale.factor} : a numeric value, the homothety factor of
 	the (isometric) simplexes. Edges equal one with a scale factor
@@ -80,22 +82,47 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
   \item{identify}{logical. If \code{TRUE}, the user selects with the
     mouse the factors to label on the \eqn{(\mu^*,\sigma)}{(mu*, sigma)}
   graph (see \code{identify}).}
-  \item{\dots}{any other arguments for \code{model} which are passed
-    unchanged each time it is called.}
+  \item{atpen}{logical. If \code{TRUE} (and \code{identify = TRUE}), the 
+    user-identified labels (more precisely: their lower-left corners) of the 
+    factors are plotted at the place where the user had clicked (if near enough 
+    to one of the factor points). If \code{FALSE} (and \code{identify = TRUE}), 
+    the labels are automatically adjusted to the lower, left, upper or right 
+    side of the factor point. For further information, see 
+    \code{\link{identify}}. Defaults to \code{FALSE}.}
+  \item{y_col}{an integer defining the index of the column of \code{x$y} to be
+    used for plotting the corresponding Morris statistics \eqn{\mu^*}{mu*}
+    and \eqn{\sigma}{sigma} (only applies if \code{x$y} is a matrix or an 
+    array).
+    If set to \code{NULL} (as per default) and \code{x$y} is a matrix or an 
+    array, the first column (respectively the first element in
+    the second dimension) of \code{x$y} is used (i.e. \code{y_col = 1}).}
+  \item{y_dim3}{an integer defining the index in the third dimension of 
+    \code{x$y} to be used for plotting the corresponding Morris statistics 
+    \eqn{\mu^*}{mu*} and \eqn{\sigma}{sigma} (only applies if \code{x$y} is an 
+    array).
+    If set to \code{NULL} (as per default) and \code{x$y} is a 
+    three-dimensional array, the first element in the third dimension of
+    \code{x$y} is used (i.e. \code{y_dim3 = 1}).}
   \item{alpha}{a vector of three values between 0.0 (fully transparent) and 1.0
     (opaque) (see \code{rgl.material}). The first value is for the
     cone, the second for the planes.}
   \item{sphere.size}{a numeric value, the scale factor for displaying the
     spheres.}
+  \item{\dots}{for \code{morris}: any other arguments for \code{model} which 
+    are passed unchanged each time it is called. For \code{plot.morris}: 
+    arguments to be passed to \code{plot.default}.}
 }
 
 \details{
-  \code{plot2d} draws the \eqn{(\mu^*,\sigma)}{(mu*, sigma)} graph.
+  \code{plot.morris} draws the \eqn{(\mu^*,\sigma)}{(mu*, sigma)} graph.
   
   \code{plot3d.morris} draws the \eqn{(\mu, \mu^*,\sigma)}{(mu, mu*,
     sigma)} graph (requires the \pkg{rgl} package). On this graph, the
     points are in a domain bounded by a cone and two planes (application
     of the Cauchy-Schwarz inequality).
+    
+  This version of \code{morris} also supports matrices and three-dimensional
+  arrays as output of \code{model}.
   }
 
 \value{
@@ -104,22 +131,69 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
 
   \item{call}{the matched call.}
   \item{X}{a \code{data.frame} containing the design of experiments.}
-  \item{y}{a vector of model responses.}
-  \item{ee}{a \eqn{r \times p}{r * p} matrix of elementary effects for
-    all the factors.}
+  \item{y}{either a vector, a matrix or a three-dimensional array of model 
+    responses (depends on the output of \code{model}).}
+  \item{ee}{
+    \itemize{
+     \item{if \code{y} is a vector: a \eqn{(r \times p)}{(r * p)} - matrix of 
+       elementary effects for all the factors.}
+     \item{if \code{y} is a matrix: a 
+       \eqn{(r \times p \times ncol(y))}{(r * p * ncol(y))} - array of 
+       elementary effects for all the factors and all columns of \code{y}.}
+     \item{if \code{y} is a three-dimensional array: a 
+       \eqn{(r \times p \times dim(y)[2] \times dim(y)[3])}{(r * p * dim(y)[2] * 
+       dim(y)[3])} - array of elementary effects for all 
+       the factors and all elements of the second and third dimension of 
+       \code{y}.}
+    }
+  }
 
-  Notice that the statitics of interest (\eqn{\mu}{mu}, \eqn{\mu^*}{mu*}
+  Notice that the statistics of interest (\eqn{\mu}{mu}, \eqn{\mu^*}{mu*}
   and \eqn{\sigma}{sigma}) are not stored. They can be printed by the
   \code{print} method, but to extract numerical values, one has to
   compute them with the following instructions:
+  
+  If \code{x$y} is a vector:
   \preformatted{
 mu <- apply(x$ee, 2, mean)
 mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
-sigma <- apply(x$ee, 2, sd)}
+sigma <- apply(x$ee, 2, sd)
+}
+  
+  If \code{x$y} is a matrix:
+  \preformatted{
+mu <- apply(x$ee, 3, function(M){
+  apply(M, 2, mean)
+})
+mu.star <- apply(abs(x$ee), 3, function(M){
+  apply(M, 2, mean)
+})
+sigma <- apply(x$ee, 3, function(M){
+  apply(M, 2, sd)
+})
+}
 
-  Contrary to earlier versions of the function, the scaling of factors isn't 
-  forced by default. Although, it is highly recommended to use the function with
-  the argument \code{scale = TRUE} to avoid an uncorrect interpretation of factors that
+  If \code{x$y} is a three-dimensional array:
+  \preformatted{
+mu <- sapply(1:dim(x$ee)[4], function(i){
+  apply(x$ee[, , , i, drop = FALSE], 3, function(M){
+    apply(M, 2, mean)
+  })
+}, simplify = "array")
+mu.star <- sapply(1:dim(x$ee)[4], function(i){
+  apply(abs(x$ee)[, , , i, drop = FALSE], 3, function(M){
+    apply(M, 2, mean)
+  })
+}, simplify = "array")
+sigma <- sapply(1:dim(x$ee)[4], function(i){
+  apply(x$ee[, , , i, drop = FALSE], 3, function(M){
+    apply(M, 2, sd)
+  })
+}, simplify = "array")
+  }
+
+  It is highly recommended to use the function with the argument 
+  \code{scale = TRUE} to avoid an uncorrect interpretation of factors that
   would have different orders of magnitude.
 }
 
@@ -145,7 +219,7 @@ G. Pujol, 2009, \emph{Simplex-based screening designs for estimating
 }
 
 \author{
-Gilles Pujol
+Gilles Pujol, with contributions from Frank Weber (2016)
 }
 
 \examples{
@@ -157,6 +231,29 @@ plot(x)
 \dontrun{
 library(rgl)
 plot3d.morris(x)  # (requires the package 'rgl')}
+
+# Only for demonstration purposes: a model function returning a matrix
+morris.fun_matrix <- function(X){
+  res_vector <- morris.fun(X)
+  cbind(res_vector, 2 * res_vector)
+}
+x <- morris(model = morris.fun_matrix, factors = 20, r = 4,
+            design = list(type = "oat", levels = 5, grid.jump = 3))
+plot(x, y_col = 2)
+title(main = "y_col = 2")
+
+# Also only for demonstration purposes: a model function returning a
+# three-dimensional array
+morris.fun_array <- function(X){
+  res_vector <- morris.fun(X)
+  res_matrix <- cbind(res_vector, 2 * res_vector)
+  array(data = c(res_matrix, 5 * res_matrix), 
+        dim = c(length(res_vector), 2, 2))
+}
+x <- morris(model = morris.fun_array, factors = 20, r = 4,
+            design = list(type = "simplex", scale.factor = 1))
+plot(x, y_col = 2, y_dim3 = 2)
+title(main = "y_col = 2, y_dim3 = 2")
 }
 
 \keyword{design}

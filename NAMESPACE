@@ -1,11 +1,23 @@
 useDynLib(sensitivity)
 
+import(boot)
+
+importFrom("grDevices", "dev.interactive", "dev.new", "devAskNewPage")
+importFrom("graphics", "abline", "axis", "barplot", "box", "legend",
+           "lines", "par", "plot", "points", "polygon", "segments",
+           "text", "title")
+importFrom("stats", "coefficients", "cor", "cor.test", "cov", "dist",
+           "dnorm", "dunif", "fft", "fitted", "formula", "lm",
+           "model.matrix", "nlm", "optimize", "pnorm", "predict",
+           "qnorm", "quantile", "rnorm", "runif", "sd", "update", 
+           "var")
+importFrom("utils", "combn", "methods")
+
 export(ask)
 export(tell)
 export(plotFG)
 
-importFrom(stats, rnorm)
-export(sobol.fun, ishigami.fun, morris.fun)
+export(sobol.fun, ishigami.fun, morris.fun, atantemp.fun, campbell1D.fun)
 
 export(src)
 S3method(print, src)
@@ -50,6 +62,11 @@ export(sobolmartinez)
 S3method(tell, sobolmartinez)
 S3method(print, sobolmartinez)
 S3method(plot, sobolmartinez)
+
+export(soboltouati)
+S3method(tell, soboltouati)
+S3method(print, soboltouati)
+S3method(plot, soboltouati)
 
 export(sobolmara)
 S3method(tell, sobolmara)
@@ -114,6 +131,8 @@ export(PLI)
 
 export(PoincareConstant)
 
+export(support)
+
 export(sensiFdiv)
 S3method(tell, sensiFdiv)
 S3method(print, sensiFdiv)
@@ -123,5 +142,3 @@ export(sensiHSIC)
 S3method(tell, sensiHSIC)
 S3method(print, sensiHSIC)
 S3method(plot, sensiHSIC)
-
-import(boot)

@@ -18,7 +18,7 @@
 sobolmartinez(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
 \method{tell}{sobolmartinez}(x, y = NULL, return.var = NULL, \dots)
 \method{print}{sobolmartinez}(x, \dots)
-\method{plot}{sobolmartinez}(x, ylim = c(0, 1), \dots)
+\method{plot}{sobolmartinez}(x, ylim = c(0, 1), y_col = NULL, y_dim3 = NULL, \dots)
 }
 
 \arguments{
@@ -36,8 +36,19 @@ sobolmartinez(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
   \item{return.var}{a vector of character strings giving further
     internal variables names to store in  the output object \code{x}.}
   \item{ylim}{y-coordinate plotting limits.}
-  \item{\dots}{any other arguments for \code{model} which are passed
-    unchanged each time it is called}
+  \item{y_col}{an integer defining the index of the column of \code{x$y} to be
+    used for plotting the corresponding sensitivity indices (only applies if 
+    \code{x$y} is a matrix or an array). If set to \code{NULL} (as per default) 
+    and \code{x$y} is a matrix or an array, the first column (respectively the 
+    first element in the second dimension) of \code{x$y} is used (i.e. 
+    \code{y_col = 1}).}
+  \item{y_dim3}{an integer defining the index in the third dimension of 
+    \code{x$y} to be used for plotting the corresponding sensitivity indices 
+    (only applies if \code{x$y} is an array). If set to \code{NULL} (as per 
+    default) and \code{x$y} is a three-dimensional array, the first element in 
+    the third dimension of \code{x$y} is used (i.e. \code{y_dim3 = 1}).}
+  \item{\dots}{for \code{sobolmartinez}: any other arguments for \code{model} 
+    which are passed unchanged each time it is called}
 }
 
 \value{
@@ -47,7 +58,8 @@ sobolmartinez(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
 
   \item{call}{the matched call.}
   \item{X}{a \code{data.frame} containing the design of experiments.}
-  \item{y}{the response used}
+  \item{y}{either a vector, a matrix or a three-dimensional array of model 
+    responses (depends on the output of \code{model}).}
   \item{V}{the estimations of normalized variances of the Conditional 
     Expectations (VCE) with respect to each factor and also with respect 
     to the complementary set of each factor ("all but \eqn{X_i}{Xi}").}
@@ -63,7 +75,15 @@ sobolmartinez(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
 This estimator supports missing values (NA or NaN) which can occur during the
 simulation of the model on the design of experiments (due to code failure) 
 even if Sobol' indices are no more rigorous variance-based sensitivity 
-indices if missing values are present. In this case, a warning is displayed. 
+indices if missing values are present. In this case, a warning is displayed.
+
+This version of \code{sobolmartinez} also supports matrices and 
+three-dimensional arrays as output of \code{model}. However, bootstrapping is 
+not supported for these types of model output and unlike in the standard case 
+where \code{y} is a numeric vector, \code{S} and \code{T} don't contain 
+confidence intervals for the point estimates. Also, if the model output is a 
+matrix or an array, \code{V}, \code{S} and \code{T} are matrices respectively 
+arrays with dimensions corresponding to those of \code{y}.
 }
 
 \references{
@@ -73,12 +93,12 @@ January, 13th, 2011, Institut Henri Poincare, Paris, France.
 }
 
 \author{
-Bertrand Iooss
+Bertrand Iooss, with contributions from Frank Weber (2016)
 }
 
 \seealso{
   \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}, \link{soboljansen}, 
-        \link{sobolEff}, \link{sobolmara},\link{sobolMultOut}}
+        \link{soboltouati}, \link{sobolEff}, \link{sobolmara},\link{sobolMultOut}}
 }
 
 \examples{
@@ -98,6 +118,29 @@ X2 <- data.frame(matrix(runif(8 * n), nrow = n))
 x <- sobolmartinez(model = sobol.fun, X1, X2, nboot = 0)
 print(x)
 plot(x)
+
+\dontrun{
+# Only for demonstration purposes: a model function returning a matrix
+sobol.fun_matrix <- function(X){
+  res_vector <- sobol.fun(X)
+  cbind(res_vector, 2 * res_vector)
+}
+x_matrix <- sobolmartinez(model = sobol.fun_matrix, X1, X2)
+plot(x_matrix, y_col = 2)
+title(main = "y_col = 2")
+
+# Also only for demonstration purposes: a model function returning a
+# three-dimensional array
+sobol.fun_array <- function(X){
+  res_vector <- sobol.fun(X)
+  res_matrix <- cbind(res_vector, 2 * res_vector)
+  array(data = c(res_matrix, 5 * res_matrix), 
+        dim = c(length(res_vector), 2, 2))
+}
+x_array <- sobolmartinez(model = sobol.fun_array, X1, X2)
+plot(x_array, y_col = 2, y_dim3 = 2)
+title(main = "y_col = 2, y_dim3 = 2")
+}
 }
 
 \keyword{design}

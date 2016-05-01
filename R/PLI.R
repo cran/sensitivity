@@ -4,7 +4,7 @@ PLI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
                 InputDistributions,type="MOY",samedelta=TRUE){
   
   # This function allows the estimation of Density Modification Based Reliability Sensitivity Indices
-  # called PLI (Perturbation Law-based Indices)
+  # called PLI (Perturbed-Law based sensitivity Indices)
   # Ref : P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss.
   #       Density modification based reliability sensitivity analysis, 
   #       Journal od Statistical Computation and Simulation, 85:1200-1223, 2015.

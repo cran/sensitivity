@@ -1,10 +1,10 @@
 \name{PLI}
 \alias{PLI}
 
-\title{Perturbation Law-based Indices (PLI)}
+\title{Perturbed-Law based sensitivity Indices (PLI)}
 
 \description{
-  PLI computes the Perturbation Law-based Indices (PLI), also known as the
+  PLI computes the Perturbed-Law based Indices (PLI), also known as the
   Density Modification Based Reliability Sensitivity Indices (DMBRSI), 
   which are sensitivity indices related to a probability of exceedence of a 
   model output (i.e. a failure probability), estimated by a Monte Carlo method. 
@@ -62,10 +62,14 @@ PLI(failurepoints,failureprobabilityhat,samplesize,deltasvector,
   }
 }
 
-\references{P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss.
+\references{
+P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss.
 \emph{Density modification based reliability sensitivity analysis}, Journal of Statistical 
 Computation and Simulation, 85:1200-1223, 2015. 
 \url{http://hal.archives-ouvertes.fr/hal-00737978}
+
+E. Borgonovo and B. Iooss. \emph{Moment independent importance measures and a common rationale.}
+In: \emph{Springer Handbook on UQ}, R. Ghanem, D. Higdon and H. Owhadi (Eds), in press.
 }
 
 \author{
@@ -73,6 +77,8 @@ Paul Lemaitre
 }
 
 \examples{
+\dontrun{
+
 # Model: Ishigami function with a treshold at -7
 # Failure points are those < -7
 
@@ -154,4 +160,5 @@ Paul Lemaitre
 	legend(2.5,-10,legend=c("X1","X2","X3"),col=c("darkgreen","black","red"),
 		pch=c(15,19,17),cex=1.5)
   
+  }
 }
