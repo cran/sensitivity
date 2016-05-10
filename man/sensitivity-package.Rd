@@ -75,7 +75,7 @@
 }
 
 
-\author{Gilles Pujol, Bertrand Iooss, Alexandre Janon with contributions from Paul Lemaitre for the \code{\link{PLI}} function, Laurent Gilquin for the \code{\link{sobolroalhs}} function, Loic le Gratiet for the \code{\link{sobolGP}} function, Khalid Boumhaout, Taieb Touati and Bernardo Ramos for the \code{\link{sobolowen}} function, Jana Fruth for the \code{\link{PoincareConstant}} and \code{\link{support}} functions, \code{\link{sobolTIIlo}} and \code{\link{sobolTIIpf}} functions, Sebastien Da veiga for the \code{\link{sensiFdiv}} and \code{\link{sensiHSIC}} functions, Joseph Guillaume for the \code{\link{delsa}} and \code{\link{parameterSets}} functions, Frank Weber.
+\author{Gilles Pujol, Bertrand Iooss, Alexandre Janon with contributions from Paul Lemaitre for the \code{\link{PLI}} function, Laurent Gilquin for the \code{\link{sobolroalhs}} function, Loic le Gratiet for the \code{\link{sobolGP}} function, Khalid Boumhaout, Taieb Touati and Bernardo Ramos for the \code{\link{sobolowen}} and \code{\link{soboltouati}} functions, Jana Fruth for the \code{\link{PoincareConstant}} and \code{\link{support}} functions, \code{\link{sobolTIIlo}} and \code{\link{sobolTIIpf}} functions, Sebastien Da veiga for the \code{\link{sensiFdiv}} and \code{\link{sensiHSIC}} functions, Joseph Guillaume for the \code{\link{delsa}} and \code{\link{parameterSets}} functions, Frank Weber.
 
 (maintainer: Bertrand Iooss \email{biooss@yahoo.fr})}
 

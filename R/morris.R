@@ -30,7 +30,7 @@ morris <- function(model = NULL, factors, r, design, binf = 0, bsup = 1, scale =
   } else {
     stop("invalid argument \'factors\', waiting for a scalar (number) or a character string vector (names)")
   }
-
+  
   # argument checking: number of repetitions
   if (length(r) == 1) {
     r.max <- r
@@ -38,7 +38,7 @@ morris <- function(model = NULL, factors, r, design, binf = 0, bsup = 1, scale =
     r.max <- r[2]
     r <- r[1]
   }
-
+  
   # argument checking: design parameters
   if (! "type" %in% names(design)) {
     design$type <- "oat"
@@ -68,7 +68,7 @@ morris <- function(model = NULL, factors, r, design, binf = 0, bsup = 1, scale =
   } else {
     stop("invalid argument design$type, waiting for \"oat\" or \"simplex\"")
   }
-    
+  
   # argument checking: domain boundaries
   if (length(binf) == 1) binf <- rep(binf, p)
   if (length(bsup) == 1) bsup <- rep(bsup, p)
@@ -90,41 +90,41 @@ morris <- function(model = NULL, factors, r, design, binf = 0, bsup = 1, scale =
     warning(paste("keeping", r.unique, "repetitions out of", r.max))
   }
   r.max <- r.unique
-
+  
   # optimization of the design
   if (r < r.max) {
     ind <- morris.maximin(X, r)
     X <- X[sapply(ind, function(i) ind.rep(i, p)),]
   }
-
+  
   # object of class "morris"
   x <- list(model = model, factors = factors, r = r, design = design,
             binf = binf, bsup = bsup, scale = scale, X = X, call =
-            match.call())
+              match.call())
   class(x) <- "morris"
-
+  
   # computing the response if the model is given
   if (!is.null(x$model)) {
-    response(x, ...)
+    response(x, other_types_allowed = TRUE, ...)
     tell(x)
   }
-   
+  
   return(x)
 }
 
 
 tell.morris <- function(x, y = NULL, ...) {
   id <- deparse(substitute(x))
-
+  
   if (! is.null(y)) {
     x$y <- y
   } else if (is.null(x$y)) {
     stop("y not found")
   }
-
+  
   X <- x$X
   y <- x$y
-
+  
   if (x$scale) {
     #X <- scale(X)
     #y <- as.numeric(scale(y))
@@ -132,13 +132,13 @@ tell.morris <- function(x, y = NULL, ...) {
     Bsup <- matrix(x$bsup, nrow = nrow(X), ncol = length(x$bsup), byrow = TRUE)
     X <- (X - Binf) / (Bsup - Binf) 
   }
-
+  
   if (x$design$type == "oat") {
     x$ee <- ee.oat(X, y)
   } else if (x$design$type == "simplex") {
     x$ee <- ee.simplex(X, y)
   }
-
+  
   assign(id, x, parent.frame())
 }
 
@@ -262,7 +262,7 @@ plot3d.morris <- function(x, alpha = c(0.2, 0), sphere.size = 1,
       sigma <- apply(x$ee[, , y_col, y_dim3, drop = FALSE], 2, sd)
     }
   }
-    
+  
   if (requireNamespace("rgl", quietly = TRUE)){ rgl::open3d()}
   
   xmax <- max(mu.star)
@@ -280,7 +280,7 @@ plot3d.morris <- function(x, alpha = c(0.2, 0), sphere.size = 1,
     x <- rep(c(0, xmax, xmax, 0), 2)
     y <- c(0, -xmax, -xmax, 0, 0, xmax, xmax, 0)
     z <- c(0, 0, zmax, zmax, 0, 0, zmax, zmax)
-   
+    
     rgl::quads3d(x, y, z, color = color, alpha = alpha[2])
     rgl::plot3d(mu.star, mu, sigma, type = "s", radius = spheres.rad, add = TRUE)
     rgl::axes3d()

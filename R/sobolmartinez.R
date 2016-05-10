@@ -15,7 +15,7 @@ sobolmartinez <- function(model = NULL, X1, X2, nboot = 0, conf = 0.95, ...) {
   p <- ncol(X1)
   
   X <- rbind(X1,X2)
-    for (i in 1:p) {
+  for (i in 1:p) {
     Xb <- X1
     Xb[,i] <- X2[,i]
     X <- rbind(X, Xb) 
@@ -26,7 +26,7 @@ sobolmartinez <- function(model = NULL, X1, X2, nboot = 0, conf = 0.95, ...) {
   class(x) <- "sobolmartinez"
   
   if (!is.null(x$model)) {
-    response(x, ...)
+    response(x, other_types_allowed = TRUE, ...)
     tell(x)
   }
   
@@ -118,13 +118,13 @@ estim.sobolmartinez <- function(data, i = NULL, estimStd = FALSE, conf = 0){
 
 tell.sobolmartinez <- function(x, y = NULL, return.var = NULL, ...) {
   id <- deparse(substitute(x))
-
+  
   if (! is.null(y)) {
     x$y <- y
   } else if (is.null(x$y)) {
     stop("y not found")
   }
-
+  
   p <- ncol(x$X1)
   n <- nrow(x$X1)
   
@@ -139,7 +139,9 @@ tell.sobolmartinez <- function(x, y = NULL, return.var = NULL, ...) {
     else{
       V.boot <- boot(data, estim.sobolmartinez, R = x$nboot)
       V <- bootstats(V.boot, x$conf, "basic")
-      rownames(V) <- c("global", colnames(x$X1), paste("-", colnames(x$X1), sep = ""))
+      rownames(V) <- c("global", 
+                       colnames(x$X1), 
+                       paste("-", colnames(x$X1), sep = ""))
     }
     
     # estimation of the Sobol' indices (S1 and St)
@@ -161,43 +163,108 @@ tell.sobolmartinez <- function(x, y = NULL, return.var = NULL, ...) {
     rownames(S) <- colnames(x$X1)
     rownames(T) <- colnames(x$X1)
   } else if(class(x$y) == "matrix"){
-    if(x$nboot != 0){
-      stop("Bootstrapping not supported if model output is a matrix")
-    }
     data <- array(x$y, dim = c(n, nrow(x$y) / n, ncol(x$y)), 
                   dimnames = list(NULL, NULL, colnames(x$y)))
-    V <- estim.sobolmartinez(data, 1:n, estimStd = FALSE)
-    rownames(V) <- c("global", 
-                     colnames(x$X1), 
-                     paste("-", colnames(x$X1), sep = ""))
-    S <- V[2:(p + 1), , drop = FALSE]
-    T <- 1 - V[(p + 2):(2 * p + 1), , drop = FALSE]
-    rownames(T) <- colnames(x$X1)
-  } else if(class(x$y) == "array"){
-    if(x$nboot != 0){
-      stop("Bootstrapping not supported if model output is an array")
+    if(x$nboot == 0){
+      V <- estim.sobolmartinez(data, 1:n, estimStd = FALSE)
+      rownames(V) <- c("global", 
+                       colnames(x$X1), 
+                       paste("-", colnames(x$X1), sep = ""))
+      S <- V[2:(p + 1), , drop = FALSE]
+      T <- 1 - V[(p + 2):(2 * p + 1), , drop = FALSE]
+      rownames(T) <- colnames(x$X1)
+    } else{
+      V.boot <- lapply(1:ncol(x$y), function(col_idx){
+        boot(as.matrix(data[, , col_idx]), estim.sobolmartinez, R = x$nboot)
+      })
+      V <- sapply(1:length(V.boot), function(col_idx){
+        as.matrix(bootstats(V.boot[[col_idx]], x$conf, "basic"))
+      }, simplify = "array")
+      dimnames(V) <- list(
+        c("global", colnames(x$X1), paste("-", colnames(x$X1), sep = "")),
+        dimnames(V)[[2]],
+        colnames(x$y))
+      S <- sapply(1:length(V.boot), function(col_idx){
+        S.boot_col <- V.boot[[col_idx]]
+        S.boot_col$t0 <- V.boot[[col_idx]]$t0[2:(p + 1)]
+        S.boot_col$t <- V.boot[[col_idx]]$t[, 2:(p + 1)]
+        as.matrix(bootstats(S.boot_col, x$conf, "basic"))
+      }, simplify = "array")
+      T <- sapply(1:length(V.boot), function(col_idx){
+        T.boot_col <- V.boot[[col_idx]]
+        T.boot_col$t0 <- 1 - V.boot[[col_idx]]$t0[(p + 2):(2 * p + 1)]
+        T.boot_col$t <- 1 - V.boot[[col_idx]]$t[, (p + 2):(2 * p + 1)]
+        as.matrix(bootstats(T.boot_col, x$conf, "basic"))
+      }, simplify = "array")
+      dimnames(S) <- dimnames(T) <- list(colnames(x$X1),
+                                         dimnames(V)[[2]],
+                                         colnames(x$y))
     }
+  } else if(class(x$y) == "array"){
     data <- array(x$y, dim = c(n, dim(x$y)[1] / n, dim(x$y)[2:3]), 
                   dimnames = list(NULL, NULL, 
                                   dimnames(x$y)[[2]], dimnames(x$y)[[3]]))
-    V <- estim.sobolmartinez(data, 1:n, estimStd = FALSE)
-    dimnames(V)[[1]] <- c("global", 
-                          colnames(x$X1), 
-                          paste("-", colnames(x$X1), sep = ""))
-    S <- V[2:(p + 1), , , drop = FALSE]
-    T <- 1 - V[(p + 2):(2 * p + 1), , , drop = FALSE]
-    dimnames(T)[[1]] <- colnames(x$X1)
+    if(x$nboot == 0){
+      V <- estim.sobolmartinez(data, 1:n, estimStd = FALSE)
+      dimnames(V)[[1]] <- c("global", 
+                            colnames(x$X1), 
+                            paste("-", colnames(x$X1), sep = ""))
+      S <- V[2:(p + 1), , , drop = FALSE]
+      T <- 1 - V[(p + 2):(2 * p + 1), , , drop = FALSE]
+      dimnames(T)[[1]] <- colnames(x$X1)
+    } else{
+      V.boot <- lapply(1:dim(x$y)[[3]], function(dim3_idx){
+        lapply(1:dim(x$y)[[2]], function(dim2_idx){
+          boot(as.matrix(data[, , dim2_idx, dim3_idx]), estim.sobolmartinez, R = x$nboot)
+        })
+      })
+      V <- sapply(1:dim(x$y)[[3]], function(dim3_idx){
+        sapply(1:dim(x$y)[[2]], function(dim2_idx){
+          as.matrix(bootstats(V.boot[[dim3_idx]][[dim2_idx]], x$conf, "basic"))
+        }, simplify = "array")
+      }, simplify = "array")
+      dimnames(V) <- list(c("global", 
+                            colnames(x$X1), 
+                            paste("-", colnames(x$X1), sep = "")),
+                          dimnames(V)[[2]],
+                          dimnames(x$y)[[2]],
+                          dimnames(x$y)[[3]])
+      S <- sapply(1:dim(x$y)[[3]], function(dim3_idx){
+        sapply(1:dim(x$y)[[2]], function(dim2_idx){
+          S.boot_dim2 <- V.boot[[dim3_idx]][[dim2_idx]]
+          S.boot_dim2$t0 <- 
+            V.boot[[dim3_idx]][[dim2_idx]]$t0[2:(p + 1)]
+          S.boot_dim2$t <- 
+            V.boot[[dim3_idx]][[dim2_idx]]$t[, 2:(p + 1)]
+          as.matrix(bootstats(S.boot_dim2, x$conf, "basic"))
+        }, simplify = "array")
+      }, simplify = "array")
+      T <- sapply(1:dim(x$y)[[3]], function(dim3_idx){
+        sapply(1:dim(x$y)[[2]], function(dim2_idx){
+          T.boot_dim2 <- V.boot[[dim3_idx]][[dim2_idx]]
+          T.boot_dim2$t0 <- 
+            1 - V.boot[[dim3_idx]][[dim2_idx]]$t0[(p + 2):(2 * p + 1)]
+          T.boot_dim2$t <- 
+            1 - V.boot[[dim3_idx]][[dim2_idx]]$t[, (p + 2):(2 * p + 1)]
+          as.matrix(bootstats(T.boot_dim2, x$conf, "basic"))
+        }, simplify = "array")
+      }, simplify = "array")
+      dimnames(S) <- dimnames(T) <- list(colnames(x$X1),
+                                         dimnames(V)[[2]],
+                                         dimnames(x$y)[[2]],
+                                         dimnames(x$y)[[3]])
+    }
   }
-
+  
   # return
   x$V <- V
   x$S <- S
   x$T <- T
-
+  
   for (i in return.var) {
     x[[i]] <- get(i)
   }
-
+  
   assign(id, x, parent.frame())
 }
 

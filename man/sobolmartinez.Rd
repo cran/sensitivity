@@ -78,12 +78,16 @@ even if Sobol' indices are no more rigorous variance-based sensitivity
 indices if missing values are present. In this case, a warning is displayed.
 
 This version of \code{sobolmartinez} also supports matrices and 
-three-dimensional arrays as output of \code{model}. However, bootstrapping is 
-not supported for these types of model output and unlike in the standard case 
-where \code{y} is a numeric vector, \code{S} and \code{T} don't contain 
-confidence intervals for the point estimates. Also, if the model output is a 
-matrix or an array, \code{V}, \code{S} and \code{T} are matrices respectively 
-arrays with dimensions corresponding to those of \code{y}.
+three-dimensional arrays as output of \code{model}. Bootstrapping (including 
+bootstrap confidence intervals) is also supported for matrix or array output. 
+However, theoretical confidence intervals (for \code{nboot = 0}) are only 
+supported for vector output. If the model output is a matrix or an array, 
+\code{V}, \code{S} and \code{T} are matrices or arrays as well (depending on the
+type of \code{y} and the value of \code{nboot}).
+
+The bootstrap outputs \code{V.boot}, \code{S.boot} and \code{T.boot} can only be
+returned if the model output is a vector (using argument \code{return.var}). For
+matrix or array output, these objects can't be returned.
 }
 
 \references{
@@ -119,7 +123,6 @@ x <- sobolmartinez(model = sobol.fun, X1, X2, nboot = 0)
 print(x)
 plot(x)
 
-\dontrun{
 # Only for demonstration purposes: a model function returning a matrix
 sobol.fun_matrix <- function(X){
   res_vector <- sobol.fun(X)
@@ -140,7 +143,6 @@ sobol.fun_array <- function(X){
 x_array <- sobolmartinez(model = sobol.fun_array, X1, X2)
 plot(x_array, y_col = 2, y_dim3 = 2)
 title(main = "y_col = 2, y_dim3 = 2")
-}
 }
 
 \keyword{design}

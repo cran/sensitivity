@@ -35,33 +35,6 @@ sobolowen <- function(model = NULL, X1, X2, X3, nboot = 0, conf = 0.95, varest =
   return(x)
 }
 
-response <- function(x, loop = FALSE, ...) {
-  id <- deparse(substitute(x))
-  if (class(x$model) == "function") {
-    if (loop) {
-      n <- nrow(x$X)
-      y <- numeric(n)
-      for (i in 1:n) {
-        y[i] <- x$model(x$X[i,], ...)
-      }
-    } else {
-      y <- x$model(x$X, ...)
-    }
-  } else if (TRUE %in% (paste("predict.", class(x$model), sep="") %in% methods(predict))) {
-    y <- predict(x$model, x$X, ...)
-  } else {
-    stop("The model isn't a function or does not have a predict method")
-  }
-  
-  if (class(y) != "numeric") {
-    y <- as.numeric(y)
-    warning("Conversion of the response to numeric")
-  }
-  
-  x$y <- y
-  assign(id, x, parent.frame())
-} 
-
 estim.sobolowen <- function(data, i=1:nrow(data), varest=2) {
   d <- as.matrix(data[i, ]) # as.matrix for colSums
   n <- nrow(d)
@@ -162,80 +135,4 @@ plot.sobolowen <- function(x, ylim = c(0, 1), ...) {
              pch = pch[2], at = (1:p)+.3, add = TRUE)
     legend(x = "topright", legend = c("main effect", "total effect"), pch = pch)
   }
-}
-
-
-nodeplot <- function (x, xlim = NULL, ylim = NULL, labels = TRUE, col = par("col"), 
-                      pch = 21, bg = "white", add = FALSE, at = NULL, ...) 
-{
-  n <- nrow(x)
-  if (is.null(xlim)) {
-    xlim <- c(1, n)
-  }
-  if (is.null(ylim)) {
-    ylim <- c(min(x), max(x))
-  }
-  if (is.null(at)) {
-    at <- 1:n
-  }
-  if (add) {
-    par(new = TRUE)
-  }
-  plot(0, xlim = xlim, ylim = ylim, axes = FALSE, xlab = "", 
-       ylab = "", type = "n", ...)
-  if (class(labels) == "logical") {
-    if (labels) {
-      axis(side = 1, at = at, labels = rownames(x))
-    }
-    else {
-      axis(side = 1, at = at, labels = FALSE, tick = FALSE)
-    }
-  }
-  else if (class(labels) == "character") {
-    axis(side = 1, at = at, labels = labels)
-  }
-  axis(side = 2)
-  box()
-  if ("bias" %in% colnames(x)) {
-    xx <- x[["original"]] - x[["bias"]]
-  }
-  else {
-    xx <- x[["original"]]
-  }
-  if (("min. c.i." %in% colnames(x)) & "max. c.i." %in% colnames(x)) {
-    for (i in 1:n) {
-      lines(c(at[i], at[i]), c(x[["min. c.i."]][i], x[["max. c.i."]][i]), 
-            col = col)
-    }
-  }
-  points(at, xx, col = col, pch = pch, bg = bg)
-}
-
-#SOBOLOWEN
-bootstats <- function (b, conf = 0.95, type = "norm") 
-{
-  p <- length(b$t0)
-  lab <- c("original", "bias", "std. error", "min. c.i.", "max. c.i.")
-  out <- as.data.frame(matrix(nrow = p, ncol = length(lab), 
-                              dimnames = list(NULL, lab)))
-  for (i in 1:p) {
-    out[i, "original"] <- b$t0[i]
-    out[i, "bias"] <- mean(b$t[, i]) - b$t0[i]
-    out[i, "std. error"] <- sd(b$t[, i])
-    if (type == "norm") {
-      ci <- boot.ci(b, index = i, type = "norm", conf = conf)
-      if (!is.null(ci)) {
-        out[i, "min. c.i."] <- ci$norm[2]
-        out[i, "max. c.i."] <- ci$norm[3]
-      }
-    }
-    else if (type == "basic") {
-      ci <- boot.ci(b, index = i, type = "basic", conf = conf)
-      if (!is.null(ci)) {
-        out[i, "min. c.i."] <- ci$basic[4]
-        out[i, "max. c.i."] <- ci$basic[5]
-      }
-    }
-  }
-  return(out)
 }

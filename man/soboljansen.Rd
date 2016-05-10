@@ -72,8 +72,12 @@ This estimator is good for large first-order indices, and (large and small) tota
 
 This version of \code{soboljansen} also supports matrices and three-dimensional
 arrays as output of \code{model}. If the model output is a matrix or an array, 
-\code{V}, \code{S} and \code{T} are matrices respectively arrays with 
-dimensions corresponding to those of \code{y}.
+\code{V}, \code{S} and \code{T} are matrices or arrays as well (depending on the
+type of \code{y} and the value of \code{nboot}).
+
+The bootstrap outputs \code{V.boot}, \code{S.boot} and \code{T.boot} can only be
+returned if the model output is a vector (using argument \code{return.var}). For
+matrix or array output, these objects can't be returned.
 }
 
 \references{
@@ -131,7 +135,6 @@ sobol.fun_array <- function(X){
 x_array <- soboljansen(model = sobol.fun_array, X1, X2)
 plot(x_array, y_col = 2, y_dim3 = 2)
 title(main = "y_col = 2, y_dim3 = 2")
-
 }
 
 \keyword{design}
