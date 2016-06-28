@@ -1,4 +1,4 @@
-6e60ceb76d458da66f597ac673c75bfd *DESCRIPTION
+783601b6ff716cde0007529cccfe6f48 *DESCRIPTION
 e1ac7576cda2277eee8da4e9de0356f2 *NAMESPACE
 c20cc77b4c44f554ad8e12950c95a811 *R/PLI.R
 4afa329981af528bc8653572cae0faf9 *R/PoincareConstant.R
@@ -70,7 +70,7 @@ df505f6c08bf3ee66355d11eef45ea3b *man/src.Rd
 8dc0627a9bc09ce1fb984558cf34becd *man/support.Rd
 52789e61c355afde932e8579222c9ef4 *man/template_replace.Rd
 d70aa80d3f78dc1cabafbae99526ffee *man/testmodels.Rd
-5c5799afbaf9ccac15ab82da3acaba5d *src/Makevars
+521ae80f00054be340d6cd3e9add4ac6 *src/Makevars
 fcbe9281cd06f696dc430448a6a952d5 *src/as.cpp
 0c8a4478e4f9942b7ea5903db7612ed3 *src/as.h
 447ac77df240f624d522bdb82c3c1870 *src/lbfgs-b.f
