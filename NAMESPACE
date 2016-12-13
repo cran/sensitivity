@@ -5,13 +5,14 @@ import(boot)
 importFrom("grDevices", "dev.interactive", "dev.new", "devAskNewPage")
 importFrom("graphics", "abline", "axis", "barplot", "box", "legend",
            "lines", "par", "plot", "points", "polygon", "segments",
-           "text", "title")
+           "text", "title", "arrows")
 importFrom("stats", "coefficients", "cor", "cor.test", "cov", "dist",
            "dnorm", "dunif", "fft", "fitted", "formula", "lm",
            "model.matrix", "nlm", "optimize", "pnorm", "predict",
            "qnorm", "quantile", "rnorm", "runif", "sd", "update", 
-           "var")
-importFrom("utils", "combn", "methods")
+           "var", "dbeta", "dexp", "dgamma", "dlnorm", "dweibull",
+           "integrate")
+importFrom("utils", "combn", "methods") 
 
 export(ask)
 export(tell)
@@ -128,8 +129,10 @@ S3method(print, delsa)
 S3method(plot, delsa)
 
 export(PLI)
+export(PLIquantile)
 
 export(PoincareConstant)
+export(PoincareOptimal)
 
 export(support)
 
@@ -142,3 +145,13 @@ export(sensiHSIC)
 S3method(tell, sensiHSIC)
 S3method(print, sensiHSIC)
 S3method(plot, sensiHSIC)
+
+export(sobolSalt)
+S3method(tell, sobolSalt)
+S3method(print, sobolSalt)
+S3method(plot, sobolSalt)
+
+export(sobolroauc)
+S3method(tell, sobolroauc)
+S3method(print, sobolroauc)
+S3method(plot, sobolroauc)

@@ -5,6 +5,10 @@
 # Presentation a la journee des GdR Ondes et MASCOT-NUM, 13 janvier 2011, 
 # Institut Henri Poincare, Paris, France.
 #
+# M. Baudin, K. Boumhaout, T. Delage, B. Iooss and J-M. Martinez, 2016, 
+# Numerical stability of Sobol' indices estimation formula, 
+# Proceedings of the SAMO 2016 Conference, Reunion Island, France, December 2016
+
 # Bertrand Iooss (2015)
 # Modified by Frank Weber (2016)
 

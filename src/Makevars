@@ -1,4 +1,4 @@
-OBJECTS = lbfgs-b.o as.o rglueas.o
+OBJECTS = LG_estimator.o LG_Rowsort.o lbfgs-b.o as.o rglueas.o
 PKG_CPPFLAGS = -I.
 
 all: $(OBJECTS)

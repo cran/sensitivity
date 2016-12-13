@@ -68,8 +68,8 @@ J-M. Martinez, 2011, \emph{Analyse de sensibilite globale par decomposition
 de la variance}, Presentation in the meeting of GdR Ondes and GdR MASCOT-NUM, 
 January, 13th, 2011, Institut Henri Poincare, Paris, France.
 
-T. Touati, 2016, Confidence intervals for Sobol' indices. Submitted to the 
-SAMO 2016 Conference, Reunion Island.
+T. Touati, 2016, Confidence intervals for Sobol' indices. 
+Proceedings of the SAMO 2016 Conference, Reunion Island, France, December 2016.
 
 T. Touati, 2016, \emph{Proprietes asymptotiques du coefficient de correlation 
 empirique}, draft.
@@ -80,7 +80,7 @@ Taieb Touati, Khalid Boumhaout
 }
 
 \seealso{
-  \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}, \link{soboljansen}, 
+  \code{\link{sobol}, \link{sobol2002}, \link{sobolSalt}, \link{sobol2007}, \link{soboljansen}, 
         \link{sobolEff}, \link{sobolmara}, \link{sobolmartinez}}
 }
 

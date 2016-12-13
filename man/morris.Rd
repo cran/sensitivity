@@ -37,7 +37,7 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
   \item{r}{either an integer giving the number of repetitions of the design,
     i.e. the number of elementary effect computed per factor, or a
     vector of two integers \code{c(r1, r2)} for the space-filling
-    improvement (Campolongo et al.). In this case, \code{r1} is the
+    improvement (Campolongo et al. 2007). In this case, \code{r1} is the
     wanted design size, and \code{r2} (\eqn{> \code{r1}}{> \code{r1}})
     is the size of the (bigger) population in which is extracted the
     design (this can throw a warning, see below).
@@ -121,6 +121,12 @@ morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
     points are in a domain bounded by a cone and two planes (application
     of the Cauchy-Schwarz inequality).
     
+  When using the space-filling improvement (Campolongo et al. 2007) of the 
+  Morris design, we recommend to install before the "pracma" R package: 
+  its "distmat"" function makes running the function with a large number of 
+  initial estimates (r2) significantly faster (by accelerating the 
+  inter-point distances calculations).
+  
   This version of \code{morris} also supports matrices and three-dimensional
   arrays as output of \code{model}.
   }

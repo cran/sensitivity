@@ -1,7 +1,7 @@
 \name{PLI}
 \alias{PLI}
 
-\title{Perturbed-Law based sensitivity Indices (PLI)}
+\title{Perturbed-Law based sensitivity Indices (PLI) for failure probability}
 
 \description{
   PLI computes the Perturbed-Law based Indices (PLI), also known as the
@@ -63,17 +63,20 @@ PLI(failurepoints,failureprobabilityhat,samplesize,deltasvector,
 }
 
 \references{
-P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss.
+P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss,
 \emph{Density modification based reliability sensitivity analysis}, Journal of Statistical 
-Computation and Simulation, 85:1200-1223, 2015. 
-\url{http://hal.archives-ouvertes.fr/hal-00737978}
+Computation and Simulation, 85:1200-1223. 
 
-E. Borgonovo and B. Iooss. \emph{Moment independent importance measures and a common rationale.}
-In: \emph{Springer Handbook on UQ}, R. Ghanem, D. Higdon and H. Owhadi (Eds), in press.
+E. Borgonovo and B. Iooss, 2017, \emph{Moment independent importance measures and a common rationale},
+In: \emph{Springer Handbook on UQ}, R. Ghanem, D. Higdon and H. Owhadi (Eds).
 }
 
 \author{
 Paul Lemaitre
+}
+
+\seealso{
+  \code{\link{PLIquantile}}
 }
 
 \examples{

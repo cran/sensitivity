@@ -60,7 +60,7 @@ intervals is not avalaible and the tell function does not work.
 }
 
 \references{
-M. Lamboni,H. Monod and D. Makowski, 2011, \emph{Multivariate sensitivity analysis to measure global contribution of input factors in dynamic models}, Reliability Engineering and System Safety, 96:450-459.
+M. Lamboni, H. Monod and D. Makowski, 2011, \emph{Multivariate sensitivity analysis to measure global contribution of input factors in dynamic models}, Reliability Engineering and System Safety, 96:450-459.
 
 F. Gamboa, A. Janon, T. Klein and A. Lagnoux, 2014, \emph{Sensitivity indices for multivariate outputs}, Electronic Journal of Statistics, 8:575-603.
 }

@@ -38,9 +38,9 @@ sobolCert(model = NULL, X1=NULL, X2=NULL, nboot = 300, conf = 0.95, lambda0 = 0,
 }
 
 \references{
-	Janon, A., Nodet M., Prieur C. (2011) Uncertainties assessment in global 
-  sensitivity indices estimation from metamodels. 
-  To appear in International Journal for Uncertainty Quantification. 
+	Janon, A., Nodet M., Prieur C. (2014), \emph{Uncertainties assessment in global 
+  sensitivity indices estimation from metamodels},
+  International Journal for Uncertainty Quantification, 4(1), 21--36 
 }
 
 \author{

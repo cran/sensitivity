@@ -341,7 +341,7 @@ void estiSobol2_regr_bc(double f(double*,int,double*), int p, int N, int B, ival
 
 	GetRNGstate();
 	for(int k=0;k<B;k++) {
-		unsigned int seedp=k;
+//		unsigned int seedp=k;
 		double *minreplis=new double[p];
 		double *maxreplis=new double[p];
 		int *indEchantillons=new int[N];
@@ -531,7 +531,7 @@ double regularite(int N, int j, double *x, double *valSmooth) {
 	return(calcIntLap(2*N, j, PPV, iPPV, distPPV, x, valSmooth));
 }
 
-static double mu=1;
+// static double mu=1;
 
 double calcSobol_bfgs(int N, double *x, int j, int p, double& M12, double& MC1, double& M1, double& M2, double *valSmooth) {
 	M12=MC1=M1=M2=0;
@@ -746,7 +746,7 @@ void estiSobol2_OPTbfgs_bc(double f(double*,int,double*), int p, int N, int B, i
 	if(mom.sigmaEst) {
 		for(int j=0;j<p;j++) {
 			if(iv && iv->max[j]-iv->min[j]<DBL_EPSILON) continue;
-			double minn, maxn;
+//			double minn, maxn;
 			min[j]=valmin[j]-2*mom.sigmaEst[j];
 			max[j]=valmax[j]+2*mom.sigmaEst[j];
 		}

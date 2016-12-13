@@ -12,7 +12,7 @@ joint probability distribution and the product of their marginals when they are
 embedded in a Reproducing Kernel Hilbert Space (RKHS). This distance corresponds
 to the Hilbert-Schmidt Independence Criterion (HSIC) proposed by Gretton et al.
 (2005) and serves as a dependence measure between random variables, see Da Veiga
-(2014) for an illustration in the context of sensitivity analysis.}
+(2015) for an illustration in the context of sensitivity analysis.}
 
 \usage{
   sensiHSIC(model = NULL, X, kernelX = "rbf", paramX = NA, 
@@ -78,9 +78,8 @@ to the Hilbert-Schmidt Independence Criterion (HSIC) proposed by Gretton et al.
 }
 \references{
   
-  Da Veiga S. (2014), \emph{Global sensitivity analysis with dependence measures},
-  Journal of Statistical Computation and Simulation, in press. 
-  \url{http://hal.archives-ouvertes.fr/hal-00903283}
+  Da Veiga S. (2015), \emph{Global sensitivity analysis with dependence measures},
+  Journal of Statistical Computation and Simulation, 85(7), 1283--1305. 
   
   Gretton A., Bousquet O., Smola A., Scholkopf B. (2005), 
   \emph{Measuring statistical dependence with hilbert-schmidt norms}, 

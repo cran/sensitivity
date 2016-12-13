@@ -6,12 +6,7 @@
 
 \title{Monte Carlo Estimation of Sobol' Indices (formulas of Janon-Monod)}
 
-\description{ \code{sobolEff} implements the Monte Carlo estimation of
-   the Sobol' sensitivity indices using the asymptotically efficient formulas
-		 in section 4.2.4.2 of Monod et al. (2006). This method allows the estimation
-		 of all first-order p indices at a cost of N*(p+1) model calls, where p is
-		 the number of inputs and N is the random sample size, or the estimation of 
-     all closed second order indices at a cost of N*(p*(p-1)/2+1) model calls.}
+\description{ \code{sobolEff} implements the Monte Carlo estimation of the Sobol' sensitivity indices using the asymptotically efficient formulas in section 4.2.4.2 of Monod et al. (2006). Either all first-order indices or all total-effect indices are estimated at a cost of \eqn{N \times (p+1)}{N*(p+1)} model calls or all closed second-order indices are estimated at a cost of \eqn{N \times p \choose 2)}{N*(p*(p-1)/2+1)} model calls.}
 
 \usage{
 sobolEff(model = NULL, X1, X2, order=1, nboot = 0, conf = 0.95, \dots)
@@ -25,7 +20,7 @@ sobolEff(model = NULL, X1, X2, order=1, nboot = 0, conf = 0.95, \dots)
     defining the model to analyze.}
   \item{X1}{the first random sample.}
   \item{X2}{the second random sample.}
-  \item{order}{an integer specifying the order of the indices (1 or 2).}
+  \item{order}{an integer specifying the indices to estimate: 0 for total effect indices,1 for first-order indices and 2 for closed second-order indices.}
   \item{nboot}{the number of bootstrap replicates, or zero to use asymptotic 
   standard deviation estimates given in Janon et al. (2012).}
   \item{conf}{the confidence level for confidence intervals.}
@@ -59,18 +54,16 @@ sobolEff(model = NULL, X1, X2, order=1, nboot = 0, conf = 0.95, \dots)
      analysis for crop models in Working with Dynamic Crop Models: Evaluation, 
      Analysis, Parameterization, and Applications, Elsevier.
 
-   Janon, A., Klein T., Lagnoux A., Nodet M., Prieur C. (2012), Asymptotic 
-   normality and efficiency of two Sobol index estimators. Accepted in 
-   ESAIM: Probability and Statistics.
+A. Janon, T. Klein, A. Lagnoux, M. Nodet, C. Prieur (2014), \emph{Asymptotic normality and efficiency of two Sobol index estimators}, ESAIM: Probability and Statistics, 18:342-364.
 
 }
 
 \author{
-Alexandre Janon
+Alexandre Janon, Laurent Gilquin
 }
 
 \seealso{
-  \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}, \link{soboljansen}, \link{sobolmartinez}}
+  \code{\link{sobol}, \link{sobol2002}, \link{sobolSalt}, \link{sobol2007}, \link{soboljansen}, \link{sobolmartinez}}
 }
 
 \examples{

@@ -94,6 +94,8 @@ matrix or array output, these objects can't be returned.
 J-M. Martinez, 2011, \emph{Analyse de sensibilite globale par decomposition 
 de la variance}, Presentation in the meeting of GdR Ondes and GdR MASCOT-NUM, 
 January, 13th, 2011, Institut Henri Poincare, Paris, France.
+
+M. Baudin, K. Boumhaout, T. Delage, B. Iooss and J-M. Martinez, 2016, Numerical stability of Sobol' indices estimation formula, Proceedings of the SAMO 2016 Conference, Reunion Island, France, December 2016
 }
 
 \author{
@@ -101,7 +103,7 @@ Bertrand Iooss, with contributions from Frank Weber (2016)
 }
 
 \seealso{
-  \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}, \link{soboljansen}, 
+  \code{\link{sobol}, \link{sobol2002}, \link{sobolSalt}, \link{sobol2007}, \link{soboljansen}, 
         \link{soboltouati}, \link{sobolEff}, \link{sobolmara},\link{sobolMultOut}}
 }
 

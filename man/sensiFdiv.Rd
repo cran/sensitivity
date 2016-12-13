@@ -55,15 +55,14 @@ sensiFdiv(model = NULL, X, fdiv = "TV", nboot = 0, conf = 0.95, ...)
     already been studied in the context of sensitivity analysis.
 	In particular, "TV" leads to the importance measure proposed by Borgonovo (2007) 
   (up to a constant), "KL" corresponds to the mutual information (Krzykacz-Hausmann 2001) and 
-	"Chi2" produces the squared-loss mutual information. See Da Veiga (2014) for details.
+	"Chi2" produces the squared-loss mutual information. See Da Veiga (2015) for details.
 }
 \references{
 Borgonovo E. (2007), \emph{A new uncertainty importance measure}, 
 Reliability Engineering and System Safety 92(6), 771--784.
 
-Da Veiga S. (2014), \emph{Global sensitivity analysis with dependence measures}, 
-Journal of Statistical Computation and Simulation, in press. 
-\url{http://hal.archives-ouvertes.fr/hal-00903283}
+Da Veiga S. (2015), \emph{Global sensitivity analysis with dependence measures},
+Journal of Statistical Computation and Simulation, 85(7), 1283--1305. 
 
 Krzykacz-Hausmann B. (2001), \emph{Epistemic sensitivity analysis based on the 
 concept of entropy}, Proceedings of SAMO2001, 53--57.

@@ -1,4 +1,4 @@
-# Asymptotically efficient Sobol' indices estimation (Monod 2006, Janon et al. 2012)
+# Asymptotically efficient Sobol' indices estimation (Monod 2006, Janon et al. 2014)
 #
 # Alexandre Janon 2012
 # Laurent Gilquin 2014
@@ -19,6 +19,10 @@ sobolEff <- function(model = NULL, X1, X2, order=1, nboot = 0, conf = 0.95, ...)
     stop("The samples X1 and X2 must be matrices or data frames")
   }
   
+  if(!(order!=0 | order!=1 | order!=2)){
+    stop("invalid argument 'order', waiting for value 0, 1 or 2.")
+  }
+  
   #creation of the DoE
   
   #cas order 1
@@ -26,6 +30,14 @@ sobolEff <- function(model = NULL, X1, X2, order=1, nboot = 0, conf = 0.95, ...)
     p <- ncol(X1)
     X0 <- matrix(c(X1,rep(X2,p)),ncol=(p+1)*p)
     X0[,(p+1)*seq(1,p)]=X1[,seq(1,p)]
+    X <- matrix(X0[,c(outer(seq(1,(p+1)*p,by=p),seq(0,p-1),'+'))],ncol=p)
+  }
+  
+  #cas total
+  if(order==0){
+    p <- ncol(X1)
+    X0 <- matrix(rep(X1,p+1),ncol=(p+1)*p)
+    X0[,(p+1)*seq(1,p)]=X2[,seq(1,p)]
     X <- matrix(X0[,c(outer(seq(1,(p+1)*p,by=p),seq(0,p-1),'+'))],ncol=p)
   }
   
@@ -67,14 +79,23 @@ estim.sobolEff <- function(data, i=1:nrow(data), estimStd, conf) {
   Mean <- colMeans(Y)
   MeanY <- Mean[1]
   MeanY2 <- (MeanY+Mean[-1])/2
-  term1 <- Y[,1]-MeanY
+  
+  p <- ncol(data)
+  a <- rep(0,p-1)
+  b <- rep(0,p-1)
+  c <- rep(0,p-1)
+  out <- rep(0,p-1)
   
   #Sobol' indices
-  S <- colSums(outer(Y[,1],MeanY2,'-')*(t(t(Y[,-1])-MeanY2)))/(colSums(t(t((Y[,1]+Y[,-1])/sqrt(2))-(sqrt(2)+1)*MeanY2)^2)-colSums(Y[,1]*Y[,-1]))
+  ind <- rep(1,p-1)
+  ind2 <- 2:p
+  S <- .C("LG_estimator",as.double(Y),as.double(MeanY2),as.integer(p-1),as.integer(n),as.integer(ind),as.integer(ind2),as.double(a),as.double(b),as.double(c),as.double(out))[[10]]
+  #S <- colSums(outer(Y[,1],MeanY2,'-')*(t(t(Y[,-1])-MeanY2)))/(colSums(t(t((Y[,1]+Y[,-1])/sqrt(2))-(sqrt(2)+1)*MeanY2)^2)-colSums(Y[,1]*Y[,-1]))
   res <- S
   
   #estimation of the standard deviation of the Sobol' indice estimators
   if(estimStd){
+    term1 <- Y[,1]-MeanY
     term2 <- Y[,-1]-MeanY
     U <- term1*term2-1/2*t(S*t(term1^2+term2^2))
     std <- (n/(n-1))*apply(U,2,var)/(var(Y[,1])^2)
@@ -110,23 +131,16 @@ tell.sobolEff <- function(x, y = NULL, ...) {
     S.boot <- boot(data, estim.sobolEff, estimStd=FALSE, R = x$nboot)
     x$S <- bootstats(S.boot, x$conf, "basic")
   }
+  if(x$order==0){
+    x$S[c("original","min. c.i.","max. c.i.")] <- 1-x$S[c("original","max. c.i.","min. c.i.")]
+  }
   
-  
-  rownames <- c()
   d <- ncol(x$X1)
-  if (x$order==1){
-    for (i in 1:d) {
-      rownames <- c(rownames,paste("S",i,sep=""))
-    }
+  if (x$order==1 | x$order==0){
+    rownames <- paste("X",1:d,sep="")
   }
   if (x$order==2){
-    i <- 1
-    j <- 1
-    for (l in 1:(d*(d-1)/2)) {
-      i <- i+(j==d)
-      j <- ((j==d)*i + (j<d)*j)+1
-      rownames <- c(rownames,paste("S",i,j,sep=""))
-    }
+    rownames <- paste("X",apply(t(combn(d,2)),1,paste,collapse=""),sep= "")
   }
   rownames(x$S) <- rownames
   

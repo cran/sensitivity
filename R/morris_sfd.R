@@ -2,9 +2,11 @@
 # simplex-based. (See main file morris.R)
 #
 # Gilles Pujol 2007
+# Roelof Oomen 2016 (integration of pracma::distmat fct)
 
 
-haussdorf.distance <- function(x, set1, set2) {
+hausdorff.distance <- function(x, set1, set2) {
+# Hausdorff distance function
 # x: matrix of points.
 # set1: indices of points (in x) of the first group.
 # set2: indices of points (in x) of the second group.
@@ -17,6 +19,18 @@ haussdorf.distance <- function(x, set1, set2) {
       d[i1,i2] <- sqrt(sum((x[set1[i1],] - x[set2[i2],])^2))
     }
   }
+  return(max(mean(apply(d, 1, min)), mean(apply(d, 2, min))))
+}
+
+
+hausdorff.distance2 <- function(x, set1, set2) {
+# Hausdorff distance function
+#   using Euclidian distance function from package pracma
+# x: matrix of points.
+# set1: indices of points (in x) of the first group.
+# set2: indices of points (in x) of the second group.
+# returns: the Haussdorf distance between the two sets of points.
+  d <- pracma::distmat(x[set1,], x[set2,])
   return(max(mean(apply(d, 1, min)), mean(apply(d, 2, min))))
 }
 
@@ -45,9 +59,17 @@ morris.maximin <- function(x, r) {
   p <- ncol(x)
   R <- nrow(x) / (p + 1)
   d <- matrix(0, nrow = R, ncol = R)
-  for (i in 1 : (R - 1)) {
-    for (j in (i + 1) : R) {
-      d[i,j] <- d[j,i] <- haussdorf.distance(x, ind.rep(i, p), ind.rep(j, p))
+  if (requireNamespace("pracma", quietly = TRUE)) {
+    for (i in 1 : (R - 1)) {
+      for (j in (i + 1) : R) {
+        d[i,j] <- d[j,i] <- hausdorff.distance2(x, ind.rep(i, p), ind.rep(j, p))
+      }
+    }
+  } else {
+    for (i in 1 : (R - 1)) {
+      for (j in (i + 1) : R) {
+        d[i,j] <- d[j,i] <- hausdorff.distance(x, ind.rep(i, p), ind.rep(j, p))
+      }
     }
   }
   kennard.stone(d, r)

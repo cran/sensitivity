@@ -89,8 +89,71 @@ response <- function(x, loop = FALSE, other_types_allowed = FALSE, ...) {
 }
 
 ########################################
-# function added in 2014
+# function added in 2014 (for sobolTIIlo() and sobolTIIpf())
 
 plotFG <- function(x) 
   UseMethod("plotFG")
+
+########################################
+# function added in 2016 (tests of PoincareConstant())
+
+# *********************************************************************
+# Functions for the Truncated Normal Distribution
+
+# density
+dtnorm <- function(x, mean = 0, sd = 1, min = -1e6, max = 1e6){
+  out = dnorm(x, mean, sd) / (pnorm(max, mean, sd) - pnorm(min, mean, sd))
+  out[(x < min) | (x > max)] = 0
+  return(out)
+}
+
+# distribution function
+ptnorm <- function(q, mean = 0, sd = 1, min = -1e6, max = 1e6){
+  out = (pnorm(q, mean, sd) - pnorm(min, mean, sd)) /
+    (pnorm(max, mean, sd) - pnorm(min, mean, sd))
+  out[q < min] = 0
+  out[q > max] = 1
+  return(out)
+}
+
+# quantile function
+qtnorm <- function(p, mean = 0, sd = 1, min = -1e6, max = 1e6){
+  return(qnorm((1 - p) * pnorm(min, mean, sd) + p * pnorm(max, mean, sd),
+               mean, sd))
+}
+
+# random generation
+rtnorm <- function(n, mean = 0, sd = 1, min = -1e6, max = 1e6){
+  return(qtnorm(runif(n), mean, sd, min, max))
+}
+
+# ***************************************
+# Functions for the Truncated Gumbel Distribution
+
+# density
+dtgumbel <- function(x, loc = 0, scale = 1, min = -1e6, max = 1e6){
+  out = evd::dgumbel(x, loc, scale) / (evd::pgumbel(max, loc, scale) - evd::pgumbel(min, loc, scale))
+  out[(x < min) | (x > max)] = 0
+  return(out)
+}
+
+# distribution function
+ptgumbel <- function(q, loc = 0, scale = 1, min = -1e6, max = 1e6){
+  out = (evd::pgumbel(q, loc, scale) - evd::pgumbel(min, loc, scale)) /
+    (evd::pgumbel(max, loc, scale) - evd::pgumbel(min, loc, scale))
+  out[q < min] = 0
+  out[q > max] = 1
+  return(out)
+}
+
+# quantile function
+qtgumbel <- function(p, loc = 0, scale = 1, min = -1e6, max = 1e6){
+  return(evd::qgumbel((1 - p) * evd::pgumbel(min, loc, scale) + p * evd::pgumbel(max, loc, scale),
+                 loc, scale))
+}
+
+# random generation
+rtgumbel <- function(n, loc = 0, scale = 1, min = -1e6, max = 1e6){
+  return(qtgumbel(runif(n), loc, scale, min, max))
+}
 

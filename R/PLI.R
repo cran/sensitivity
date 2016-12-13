@@ -4,7 +4,8 @@ PLI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
                 InputDistributions,type="MOY",samedelta=TRUE){
   
   # This function allows the estimation of Density Modification Based Reliability Sensitivity Indices
-  # called PLI (Perturbed-Law based sensitivity Indices)
+  # called PLI (Perturbed-Law based sensitivity Indices) for a failure probability
+  # Author: Paul Lemaitre
   # Ref : P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss.
   #       Density modification based reliability sensitivity analysis, 
   #       Journal od Statistical Computation and Simulation, 85:1200-1223, 2015.
@@ -19,7 +20,7 @@ PLI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
   # failureprobabilityhat is the estimation of the failure probability P through rough MC method.
   # samplesize is the size of the sample used to estimate P. One must have Pchap=dim(failurepoints)[1]/samplesize
   # deltasvector is a vector containing the values of delta for which the indices will be computed
-  # InputDistributions is a list of list. Each list contains contains, as a list, the name of the distribution to be used and the parameters.
+  # InputDistributions is a list of list. Each list contains, as a list, the name of the distribution to be used and the parameters.
   #	Implemented cases so far:
   #		for a mean perturbation: Gaussian, Uniform, Triangle, Left Trucated Gaussian, Left Truncated Gumbel
   #		for a variance perturbation: Gaussian, Uniform

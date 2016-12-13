@@ -7,30 +7,29 @@
 
 \title{Sobol' Indices Estimation Using Replicated OA-based LHS}
 
-\description{\code{sobolroalhs} implements the estimation of the Sobol' sensitivity indices introduced by Tissot & Prieur (2012) using two Orthogonal Array-based Latin Hypercubes. This function allows the estimation of all first-order indices or all closed second-order indices (containing the sum of the second-order effect between two inputs and the individual effects of each input) at a total cost of \eqn{2 \times N}{2*N}. For closed second-order indices \eqn{N=q^{2}}{N=q^2} where \eqn{q \geq d-1}{q >= d-1} is a prime number denoting the number of levels of the orthogonal array, and where \eqn{d}{d} is the number of factors.}
+\description{\code{sobolroalhs} implements the estimation of the Sobol' sensitivity indices introduced by Tissot & Prieur (2015) using two replicated designs (Latin hypercubes or orthogonal arrays). This function estimates either all first-order indices or all closed second-order indices at a total cost of \eqn{2 \times N}{2*N} model evaluations. For closed second-order indices \eqn{N=q^{2}}{N=q^2} where \eqn{q \geq d-1}{q >= d-1} is a prime number corresponding to the number of levels of the orthogonal array, and where \eqn{d}{d} indicates the number of factors.}
 
 \usage{
-sobolroalhs(model = NULL, factors, runs, order, conf=0.95, tail=TRUE, na.rm=FALSE, \dots)
+sobolroalhs(model = NULL, factors, N, p=1, order, tail=TRUE, conf=0.95, nboot=0, \dots)
 \method{tell}{sobolroalhs}(x, y = NULL, \dots)
 \method{print}{sobolroalhs}(x, \dots)
-\method{plot}{sobolroalhs}(x, ylim = c(0,1), type="standard", \dots)
+\method{plot}{sobolroalhs}(x, ylim = c(0,1), \dots)
 }
 
 \arguments{
   \item{model}{a function, or a model with a \code{predict} method,
     defining the model to analyze.}
-  \item{factors}{an integer specifying the number of factors, or a vector of
-    character strings giving their names.}
-  \item{runs}{an integer specifying the number \eqn{N}{N} of model runs.}
-  \item{order}{an integer specifying the order of the indices (1 or 2).}
+  \item{factors}{an integer giving the number of factors, or a vector of character strings giving their names.}
+  \item{N}{an integer giving the size of each replicated design (for a total of \eqn{2 \times N}{2*N} model evaluations).}
+  \item{p}{an integer giving the number of model outputs.}
+  \item{order}{an integer giving the order of the indices (1 or 2).}
+  \item{tail}{a boolean specifying the method used to choose the number of levels of the orthogonal array (see "Warning messages").}
   \item{conf}{the confidence level for confidence intervals.}
-  \item{tail}{a boolean specifying the method used to choose the number of levels of the orthogonal array (see first Warning messages).}
-  \item{na.rm}{a boolean specifying if the response of the model contains \code{NA} values.}
+  \item{nboot}{the number of bootstrap replicates.}
   \item{x}{a list of class \code{"sobolroalhs"} storing the state of the
   sensitivity study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
-  \item{ylim}{coordinate plotting limits for the indices values.}
-  \item{type}{a character specifying the type of estimator to plot (\code{standard} for the basic estimator or \code{monod} for the Janon-Monod estimator.)}
+  \item{ylim}{y-coordinate plotting limits.}
   \item{\dots}{any other arguments for \code{model} which are passed
     unchanged each time it is called.}
 }
@@ -40,80 +39,96 @@ sobolroalhs(model = NULL, factors, runs, order, conf=0.95, tail=TRUE, na.rm=FALS
   the input arguments detailed before, plus the following components:
 
   \item{call}{the matched call.}
-  \item{X}{a \code{matrix} containing the design of experiments.}
+  \item{X}{a \code{data.frame} containing the design of experiments (row concatenation of the two replicated designs).}
+  \item{y}{the responses used.}
   \item{OA}{the orthogonal array constructed (\code{NULL} if \code{order}=1).}
-  \item{levels}{the number of levels of the orthogonal array constructed (\code{NULL} if \code{order}=1).}
-  \item{y}{a vector of model responses.}
-  \item{V}{a data.frame containing the estimations of the variance (\code{Vs} for the standard variance and \code{Veff} for the Janon-Monod variance).}
-  \item{S}{a data.frame containing the estimations of the Sobol' sensitivity indices (\code{S} for the standard estimator and \code{Seff} for the Janon-Monod estimator).}
+  \item{V}{the estimations of Variances of the Conditional Expectations (VCE) with respect to each factor.}
+  \item{S}{the estimations of the Sobol' indices.}
 
 }
 
 \details{
 
-The method used by sobolroalhs only considers models whose inputs follow uniform distributions on [0,1]. The transformations of each input (between its initial distribution and a U[0,1] distribution) have therefore to be realized before the call to sobolroalhs().
+\code{sobolroalhs} automatically assigns a uniform distribution on [0,1] to each input. Transformations of distributions (between U[0,1] and the wanted distribution) have to be realized before the call to tell() (see "Examples").
 
-Bootstrap confidence intervals are not available with this method ; the given confidence intervals come from asymptotical formula.
+Missing values (i.e \code{NA} values) in outputs are automatically handled by the function.
+
+This function also supports multidimensional outputs (matrices in \code{y} or as output of \code{model}).
+In this case, aggregated Sobol' indices are returned (\code{see sobolMultOut}).
 }
 
 \section{Warning messages}{
   \describe{
-    \item{"The number of model evaluations (runs) you entered is not the square of a prime number. It has been replaced by : "}{when \code{order}\eqn{=2}, the number of levels of the orthogonal array must be a prime number. If the number of runs specified is not a square of a prime number then this warning message indicates that the number of runs was replaced depending on the value of \code{tail}. If \code{tail=TRUE} (resp. \code{tail=FALSE}) the new number of runs is equals to the square of the prime number preceding (resp. following) the square root of \code{runs}.}
+    \item{"The value entered for \code{N} is not the square of a prime number. It has been replaced by: "}{when \code{order}\eqn{=2}, the number of levels of the orthogonal array must be a prime number. If \code{N} is not a square of a prime number, then this warning message indicates that it was replaced depending on the value of \code{tail}. If \code{tail=TRUE} (resp. \code{tail=FALSE}) the new value of \code{N} is equal to the square of the prime number preceding (resp. following) the square root of \code{N}.}
     
-    \item{"The number of model evaluations (runs) you entered is not satisfying the constraint \eqn{n \geq (d-1)^2}{n >= (d-1)^2}. It has been replaced by : "}{when \code{order}\eqn{=2}, the number of runs must satisfied the constraint \eqn{N \geq (d-1)^{2}}{N \ge (d-1)^2} where \eqn{d}{d} is the number of factors. This warning message indicates that the number of runs was replaced by the square of the prime number following (or equals to) \eqn{d-1}.}}
+    \item{"The value entered for \code{N} is not satisfying the constraint \eqn{N \geq (d-1)^2}{N >= (d-1)^2}. It has been replaced by: "}{when \code{order}\eqn{=2}, the following constraint must be satisfied \eqn{N \geq (d-1)^{2}}{N \ge (d-1)^2} where \eqn{d}{d} is the number of factors. This warning message indicates that \code{N} was replaced by the square of the prime number following (or equals to) \eqn{d-1}.}}
 
 }
 
 \references{
-Tissot, J. Y. and Prieur, C. (2012), \emph{Estimating Sobol's indices combining Monte Carlo integration and Latin hypercube sampling} \url{http://hal.archives-ouvertes.fr/hal-00743964}.
+A.S. Hedayat, N.J.A. Sloane and J. Stufken, 1999, \emph{Orthogonal Arrays: Theory and Applications}, Springer Series in Statistics.
 
-A.S. Hedayat, N.J.A. Sloane, John Stufken (1999), \emph{Orthogonal Arrays: Theory and Applications}.
+F. Gamboa, A. Janon, T. Klein and A. Lagnoux, 2014, \emph{Sensitivity indices for multivariate outputs}, Electronic Journal of Statistics, 8:575-603.
+
+J.Y. Tissot and C. Prieur, 2015, \emph{Estimating Sobol's indices combining Monte Carlo integration and Latin hypercube sampling}, J. Statist. Comput. Simulation, 85:1358-1381.
+}
+
+\author{
+Laurent Gilquin
 }
 
 \seealso{
-  \code{\link{sobolmara}}
+  \code{\link{sobolmara}},
+  \code{\link{sobolroauc}},
+  \code{\link{sobolMultOut}}
 }
 
 \examples{
+library(boot)
 library(numbers)
 
-# Test case : the non-monotonic Sobol g-function
+####################
+# Test case: the non-monotonic Sobol g-function
 
 # The method of sobol requires 2 samples
 # (there are 8 factors, all following the uniform distribution on [0,1])
 
 # first-order sensitivity indices
-x <- sobolroalhs(model = sobol.fun, factors = 8, runs = 1000, order = 1)
+x <- sobolroalhs(model = sobol.fun, factors = 8, N = 1000, order = 1, nboot=100)
 print(x)
 plot(x)
 
 # closed second-order sensitivity indices
-x <- sobolroalhs(model = sobol.fun, factors = 8, runs = 1000, order = 2)
+x <- sobolroalhs(model = sobol.fun, factors = 8, N = 1000, order = 2, nboot=100)
 print(x)
 plot(x)
 
-# Test case : the Ishigami function
+####################
+# Test case: dealing with non-uniform distributions
 
-# New function because sobolroalhs() works with U[0,1] inputs
-ishigami1.fun=function(x) ishigami.fun(x*2*pi-pi)
+x <- sobolroalhs(model = NULL, factors = 3, N = 1000, order =1, nboot=0)
 
-# first-order sensitivity indices
-x <- sobolroalhs(model = ishigami1.fun, factors = 3, runs = 100000, order = 1)
+# X1 follows a log-normal distribution:
+x$X[,1] <- qlnorm(x$X[,1])
+
+# X2 follows a standard normal distribution:
+x$X[,2] <- qnorm(x$X[,2])
+
+# X3 follows a gamma distribution:
+x$X[,3] <- qgamma(x$X[,3],shape=0.5)
+
+# toy example
+toy <- function(x){rowSums(x)}
+y <- toy(x$X)
+tell(x, y)
 print(x)
 plot(x)
 
-# closed second-order sensitivity indices
-x <- sobolroalhs(model = ishigami1.fun, factors = 3, runs = 100000, order = 2)
-print(x)
-plot(x)
+####################
+# Test case : multidimensional outputs
 
-# dealing with NA values
-x <- sobolroalhs(model = NULL, factors = 3, runs = 100000, order =1,na.rm=TRUE)
-y <- ishigami1.fun(x$X)
-# we randomly insert NA values in y
-pos <- sample(length(y),100)
-y[pos] <- NA
-tell(x,y)
+toy <- function(x){cbind(x[,1]+x[,2]+x[,1]*x[,2],2*x[,1]+3*x[,1]*x[,2]+x[,2])}
+x <- sobolroalhs(model = toy, factors = 3, N = 1000, p=2, order =1, nboot=100)
 print(x)
 plot(x)
 }
