@@ -1,15 +1,16 @@
 Package: sensitivity
-Version: 1.13.0
+Version: 1.14.0
 Title: Global Sensitivity Analysis of Model Outputs
-Author: Gilles Pujol, Bertrand Iooss, Alexandre Janon with contributions from Khalid Boumhaout, Sebastien Da Veiga, Jana Fruth, Laurent Gilquin, Joseph Guillaume, Loic Le Gratiet, Paul Lemaitre, Bernardo Ramos, Olivier Roustant, Taieb Touati, Frank Weber, Roelof Oomen, Thibault Delage 
+Author: Gilles Pujol, Bertrand Iooss, Alexandre Janon with contributions from Khalid Boumhaout, Sebastien Da Veiga, Thibault Delage, Jana Fruth, Laurent Gilquin, Joseph Guillaume, Loic Le Gratiet, Paul Lemaitre, Barry L. Nelson, Filippo Monari, Roelof Oomen, Bernardo Ramos, Olivier Roustant, Eunhye Song, Jeremy Staum, Taieb Touati, Frank Weber 
 Maintainer: Bertrand Iooss <biooss@yahoo.fr>
 Depends: R (>= 3.0.0)
-Imports: boot
-Suggests: DiceDesign, randtoolbox, DiceKriging, fanovaGraph, rgl, evd,
-        numbers, ks, igraph, ggplot2, reshape2, pracma
+Imports: boot, methods
+Suggests: condMVNorm, DiceDesign, DiceKriging, evd, fanovaGraph,
+        ggplot2, gtools, igraph, ks, mc2d, mvtnorm, numbers, parallel,
+        pracma, randtoolbox, reshape2, rgl
 Description: A collection of functions for factor screening, global sensitivity analysis and reliability sensitivity analysis. Most of the functions have to be applied on model with scalar output, but several functions support multi-dimensional outputs.
 License: GPL-2
 NeedsCompilation: yes
 Repository: CRAN
-Packaged: 2016-12-12 22:14:44 UTC; F80570
-Date/Publication: 2016-12-13 07:57:17
+Packaged: 2017-02-10 22:49:14 UTC; F80570
+Date/Publication: 2017-02-11 00:12:49

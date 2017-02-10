@@ -68,7 +68,7 @@ numerical tests, Mathematics and Computers in Simulation, 87:45-54, 2013.
 
 O. Roustant, F. Barthe and B. Iooss,
 Poincare inequalities on intervals - application to sensitivity analysis, 
-Submitted, 2016. \url{https://hal.archives-ouvertes.fr/hal-01388758}
+Submitted, 2016. 
 
 O. Roustant, J. Fruth, B. Iooss and S. Kuhnt,
 Crossed-derivative-based sensitivity measures for interaction screening, 

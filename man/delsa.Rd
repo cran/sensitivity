@@ -74,7 +74,7 @@ based on original R code by Oldrich Rakovec
 Rakovec, O., M. C. Hill, M. P. Clark, A. H. Weerts, A. J. Teuling, R. Uijlenhoet (2014), 
 Distributed 
 Evaluation of Local Sensitivity Analysis (DELSA), with application to hydrologic models, 
-Water Resour. Res., 50, 1-18, doi:\href{http://dx.doi.org/10.1002/2013WR014063}{10.1002/2013WR014063}
+Water Resour. Res., 50, 1-18
 }
 \seealso{
   \code{\link{parameterSets}} which is used to generate points, \code{\link{sensitivity}} 

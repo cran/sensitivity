@@ -1,0 +1,8 @@
+
+Changes in version 1.14.0:
+
+    o   Added functions for calculating Shapley indices: shapleyPermEx()
+    and shapleyPermRand()
+
+    o   Added function for calculating first order Sobol' indices via
+    smoothing technique: sobolSmthSpl()
