@@ -1,4 +1,18 @@
 
+Changes in version 1.15.0:
+
+    o   Function "sobolCert.R" has been (temporarily) suppressed
+    (compilation bug unresolved)
+    
+    o   Function "support.R" has been changed by O. Roustant (new plotting
+    functionalities are available, as the function "scatterplot")
+    
+    o   Resolved bug about "sobolmartinez" method (now suppressed) in 
+    the sobolMultOut() function
+
+    o   sobolMultOut() now returns the functional Sobol' indices via
+    the attributes "Sfct" and "Tfct" of the output object
+
 Changes in version 1.14.0:
 
     o   Added functions for calculating Shapley indices: shapleyPermEx()

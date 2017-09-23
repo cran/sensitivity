@@ -157,3 +157,9 @@ rtgumbel <- function(n, loc = 0, scale = 1, min = -1e6, max = 1e6){
   return(qtgumbel(runif(n), loc, scale, min, max))
 }
 
+########################################
+# function added in 2017 (for support())
+
+scatterplot <- function(x, i, xprob = FALSE, p = NULL, p.arg = NULL, cex = 1, cex.lab = 1, ...)
+  UseMethod("scatterplot")
+

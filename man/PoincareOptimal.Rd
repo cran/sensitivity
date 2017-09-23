@@ -6,11 +6,11 @@
 \description{
   A DGSM is a sensitivity index relying on the integral (over the space domain of the input variables) 
   of the squared derivatives of a model output with respect to one model input variable. 
-  The product between a DGSM and a Poincare Constant (Roustant et al., 2014: Roustant et al., 2016),
+  The product between a DGSM and a Poincare Constant (Roustant et al., 2014: Roustant et al., 2017),
   on the type of probability distribution of the input variable, gives an   upper bound of the total 
   Sobol' index corresponding to the same input (Lamboni et al., 2013; Kucherenko and Iooss, 2016).
   
-  This function provides the optimal Poincare constant as explained in Roustant et al. (2016).
+  This function provides the optimal Poincare constant as explained in Roustant et al. (2017).
   It solves numerically the spectral problem corresponding to the Poincare inequality, with 
   Neumann conditions. The differential equation is  f'' - V'f'= - lambda f with f'(a) = f'(b) = 0.
   In addition, all the spectral decomposition can be returned by the function. The information
@@ -57,7 +57,8 @@ For the uniform, normal, triangular and Gumbel distributions, the optimal consta
 \references{
 O. Roustant, F. Barthe and B. Iooss, 
 Poincare inequalities on intervals - application to sensitivity analysis,
-Submitted, 2016. 
+Electronic Journal of Statistics, Vol. 11, No. 2, 3081-3119, 2017, 
+\url{https://hal.archives-ouvertes.fr/hal-01388758}. 
 }
 
 \author{

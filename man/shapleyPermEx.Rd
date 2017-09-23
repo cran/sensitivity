@@ -10,10 +10,10 @@
 \description{
   \code{shapleyPermEx} implements the Monte Carlo estimation of
   the Shapley effects (Owen, 2014) by examining all permutations of inputs 
-  (Song et al., 2016). It also estimates first order 
-  and total Sobol' indices. The function also allows
-  the estimations of all these sensitivity indices in case of dependent inputs.
-  The total cost of this algorithm is \eqn{Nv + d! \times (d-1) \times No 
+  (Song et al., 2016). It also estimates full first order 
+  and independent total Sobol' indices (Mara et al., 2015). The function also 
+  allows the estimations of all these sensitivity indices in case of dependent
+  inputs. The total cost of this algorithm is \eqn{Nv + d! \times (d-1) \times No 
   \times Ni}{Nv + d! * (d - 1) * No * Ni} model evaluations. 
 }
 
@@ -60,8 +60,8 @@ shapleyPermEx(model = NULL, Xall, Xset, d, Nv, No, Ni = 3, colnames = NULL, \dot
   \item{E}{the estimation of the ouput mean.}
   \item{V}{the estimation of the ouput variance.}
   \item{Shapley}{the estimations of the Shapley effects.}
-  \item{SobolS}{the estimations of the first-order Sobol' indices.}
-  \item{SobolT}{the estimations of the total sensitivity Sobol' indices.}
+  \item{SobolS}{the estimations of the full first-order Sobol' indices.}
+  \item{SobolT}{the estimations of the independent total sensitivity Sobol' indices.}
   
   Users can ask more ouput variables with the argument \code{return.var}
   (for example, the list of permutations \code{perms}).
@@ -78,19 +78,23 @@ shapleyPermEx(model = NULL, Xall, Xset, d, Nv, No, Ni = 3, colnames = NULL, \dot
 }
 
 \references{
-B. Iooss and C. Prieur, 2017, \emph{Analyse de sensibilite avec entrees dependantes :
-estimation par echantillonnage et par metamodeles des indices de Shapley}, 
-Submitted to 49emes Journees de la SFdS, Avignon, France, May 2017.
+B. Iooss and C. Prieur, 2017, \emph{Shapley effects for sensitivity analysis with 
+dependent inputs: comparisons with Sobol' indices, numerical estimation and 
+applications}, 2017, \url{https://hal.inria.fr/hal-01556303}.
 
 S. Kucherenko, S. Tarantola, and P. Annoni, 2012, \emph{Estimation of global  
 sensitivity indices for models with dependent variables},
 Computer Physics Communications, 183, 937--946.
 
+T. Mara, S. Tarantola, P. Annoni, 2015, \emph{Non-parametric methods for global 
+sensitivity analysis of model output with dependent inputs}, Environmental
+Modeling & Software 72, 173--183.
+
 A.B. Owen, 2014, \emph{Sobol' indices and Shapley value}, SIAM/ASA 
 Journal of Uncertainty Quantification, 2, 245--251.
 
 A.B. Owen and C. Prieur, 2016, \emph{On Shapley value for measuring importance
-of dependent inputs}, submitted.
+of dependent inputs}, SIAM/ASA Journal of Uncertainty Quantification, 5, 986--1002.
 
 E. Song, B.L. Nelson, and J. Staum, 2016, \emph{Shapley effects for 
 global sensitivity analysis: Theory and computation}, SIAM/ASA Journal 

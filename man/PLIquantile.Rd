@@ -6,9 +6,7 @@
 \description{
   PLIquantile computes the Perturbed-Law based Indices (PLI) for quantile, 
   which are sensitivity indices related to a quantile of a 
-  model output, estimated by a Monte Carlo method, See Sueur et al. (2016).
-  
-  WARNING: This a draft program which is not working yet.
+  model output, estimated by a Monte Carlo method, See Sueur et al. (2016, 2017).
 }
 
 \usage{
@@ -66,6 +64,9 @@ R. Sueur, N. Bousquet, B. Iooss and J. Bect, 2016,
 \emph{Perturbed-Law based sensitivity Indices for sensitivity analysis in structural reliability},
 Proceedings of the SAMO 2016 Conference, Reunion Island, France, December 2016.
 
+R. Sueur, B. Iooss and T. Delage, 2017,
+\emph{Sensitivity analysis using perturbed-law based indices for quantiles and application to an industrial case}, 
+10th International Conference on Mathematical Methods in Reliability (MMR 2017), Grenoble, France, July 2017.
 }
 
 \author{

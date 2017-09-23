@@ -1,3 +1,4 @@
+%Documentation for sobolSmthSpl.
 \name{sobolSmthSpl}
 \alias{sobolSmthSpl}
 \title{Estimation of Sobol' First Order Indices with B-spline Smoothing}
@@ -12,11 +13,16 @@
 	\item{X}{matrix having as rows the input vectors corresponding to the responses in Y.}	
 }
 \value{
-	A matrix with columns:
-	\item{Si}{the estimated first order Sobol' indices.}
-	\item{Si.e}{the standard errors for the estimated first order Sobol' indices.}
-	\item{q0.05}{the 0.05 quantiles assuming for the Si indices Normal distributions centred on the 
-		Si estimates and with standard deviations the calculated standard errors}
+	sobolSmthSpl returns a list of class "sobolSmthSpl" containing the following components:
+	\item{call:}{the matched call.}
+	\item{X:}{the provided input matrix.}
+	\item{Y:}{the provided matrix of model responses.}
+	\item{S:}{a matrix having the following columns:
+		Si (the estimated first order Sobol' indices), 
+		Si.e (the standard errors for the estimated first order Sobol' indices) and
+		q0.05 (the 0.05 quantiles assuming for the Si indices Normal distributions centred on the 
+			Si estimates and with standard deviations the calculated standard errors)
+	}
 }
 \author{
 	Filippo Monari
@@ -39,4 +45,3 @@
 	sa = sobolSmthSpl(Y, X)
 	plot(sa)
 }
-

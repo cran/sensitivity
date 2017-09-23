@@ -6,7 +6,7 @@
 \description{
   A DGSM is a sensitivity index relying on the integral (over the space domain of the input variables) 
   of the squared derivatives of a model output with respect to one model input variable. 
-  The product between a DGSM and a Poincare Constant (Roustant et al., 2014: Roustant et al., 2016) 
+  The product between a DGSM and a Poincare Constant (Roustant et al., 2014: Roustant et al., 2017) 
   gives an upper bound of the total Sobol' index corresponding to the same input 
   (Lamboni et al., 2013; Kucherenko and Iooss, 2016).
   
@@ -15,7 +15,7 @@
   double-exponential transport by the way of the median value (Lamboni et al., 2013). For truncated 
   log-concave distributions, different formulas are available (Roustant et al., 2014). For general 
   distributions (truncated or not), some Poincare constants can be computed via a relatively simple
-  optimization process using different formula coming from transport inequalities (Roustant et al., 2016).
+  optimization process using different formula coming from transport inequalities (Roustant et al., 2017).
   
   Notice that the analytical formula based on the log-concave law cases is a subcase of the 
   double-exponential transport. In all cases, with this function, the smallest constant is obtained using
@@ -66,9 +66,10 @@ M. Lamboni, B. Iooss, A-L. Popelin and F. Gamboa,
 Derivative-based global sensitivity measures: General links with Sobol' indices and 
 numerical tests, Mathematics and Computers in Simulation, 87:45-54, 2013.
 
-O. Roustant, F. Barthe and B. Iooss,
-Poincare inequalities on intervals - application to sensitivity analysis, 
-Submitted, 2016. 
+O. Roustant, F. Barthe and B. Iooss, 
+Poincare inequalities on intervals - application to sensitivity analysis,
+Electronic Journal of Statistics, Vol. 11, No. 2, 3081-3119, 2017, 
+\url{https://hal.archives-ouvertes.fr/hal-01388758}. 
 
 O. Roustant, J. Fruth, B. Iooss and S. Kuhnt,
 Crossed-derivative-based sensitivity measures for interaction screening, 

@@ -1,4 +1,4 @@
-useDynLib(sensitivity)
+useDynLib(sensitivity,.registration=TRUE)
 
 import(boot)
 
@@ -11,13 +11,14 @@ importFrom("stats", "coefficients", "cor", "cor.test", "cov", "dist",
            "model.matrix", "nlm", "optimize", "pnorm", "predict",
            "qnorm", "quantile", "rnorm", "runif", "sd", "update", 
            "var", "dbeta", "dexp", "dgamma", "dlnorm", "dweibull",
-           "integrate","smooth.spline")
+           "integrate","smooth.spline","ecdf")
 importFrom("utils", "combn", "methods") 
 importFrom("methods", "is")
 
 export(ask)
 export(tell)
 export(plotFG)
+export(scatterplot)
 
 export(sobol.fun, ishigami.fun, morris.fun, atantemp.fun, campbell1D.fun)
 
@@ -85,9 +86,6 @@ S3method(tell, sobolowen)
 S3method(print, sobolowen)
 S3method(plot, sobolowen)
 
-export(sobolCert)
-S3method(print, sobolCert)
-
 export(sobolGP)
 S3method(ask, sobolGP)
 S3method(tell, sobolGP)
@@ -136,6 +134,8 @@ export(PoincareConstant)
 export(PoincareOptimal)
 
 export(support)
+S3method(plot, support)
+S3method(scatterplot, support)
 
 export(sensiFdiv)
 S3method(tell, sensiFdiv)

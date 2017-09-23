@@ -11,7 +11,7 @@
 #
 #O. Roustant, F. Barthe and B. Iooss,
 #Poincare inequalities on intervals - application to sensitivity analysis, 
-#Submitted, 2016 - https://hal.archives-ouvertes.fr/hal-01388758
+#Electronic Journal of Statistics, Vol. 11, No. 2, 3081-3119, 2017
 
 PoincareConstant <- function(dfct=dnorm, qfct=qnorm, pfct=pnorm, 
                              logconcave=FALSE, transport="logistic", optimize.interval=c(-100, 100), 

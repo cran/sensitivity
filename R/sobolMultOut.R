@@ -21,15 +21,15 @@ sobolMultOut <- function(model = NULL, q = 1, X1, X2, MCmethod = "sobol",
 #        stop("The samples X1 and X2 must have the same dimensions")
   p <- ncol(X1)
 
-  Tot=FALSE
+  Tot <- FALSE
   if(MCmethod=="sobol2002"||MCmethod=="sobol2007"||MCmethod=="soboljansen"
-     ||MCmethod=="sobolmartinez"||MCmethod=="sobolGP") Tot=TRUE
+     ||MCmethod=="sobolGP") Tot=TRUE
 
   if(MCmethod == "sobol") x0 <- sobol(model=NULL, X1, X2, ...)
   if(MCmethod == "sobol2002") x0 <- sobol2002(model=NULL, X1, X2, ...)
   if(MCmethod == "sobol2007") x0 <- sobol2007(model=NULL, X1, X2, ...)
   if(MCmethod == "soboljansen") x0 <- soboljansen(model=NULL, X1, X2, ...)
-  if(MCmethod == "sobolmartinez") x0 <- sobolmartinez(model=NULL, X1, X2, ...)
+#  if(MCmethod == "sobolmartinez") x0 <- sobolmartinez(model=NULL, X1, X2, ...)
 #  if(MCmethod == "sobolEff") x0 <- sobolEff(model=NULL, X1, X2, ...)
   if(MCmethod == "sobolGP") x0 <- sobolGP(model=NULL, X1, X2, ...)  
   if(MCmethod == "sobolmara") x0 <- sobolmara(model=NULL, X1, ...)  
@@ -66,10 +66,13 @@ sobolMultOut <- function(model = NULL, q = 1, X1, X2, MCmethod = "sobol",
       plot(0,ylim=c(0,1),xlim=c(1,q),main="First order Sobol indices",ylab="")
       for (i in 1:p) lines(S[,i],col=i)
       legend(x = "topright", legend = dimnames(X1)[[2]], lty=1, col=1:p, cex=0.6)
+      x$Sfct <- S
+        
       if (Tot == T){
         plot(0,ylim=c(0,1),xlim=c(1,q),main="Total Sobol indices",ylab="")
         for (i in 1:p) lines(ST[,i],col=i)
         legend(x = "topright", legend = dimnames(X1)[[2]], lty=1, col=1:p, cex=0.6)
+        x$Tfct <- ST
       }
     }
   }

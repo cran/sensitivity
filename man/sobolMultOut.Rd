@@ -8,7 +8,7 @@
 \description{
   \code{sobolMultOut} implements the aggregated Sobol' indices for 
   multiple outputs. It consists in averaging all the Sobol indices weighted
-  by the variance of their corresponding output. Moreover, this function plots
+  by the variance of their corresponding output. Moreover, this function computes and plots
   the functional (unidimensional) Sobol' indices for functional (unidimensional)
   model output. Sobol' indices for both first-order and total indices are estimated 
   by Monte Carlo formulas.
@@ -29,10 +29,10 @@ sobolMultOut(model = NULL, q = 1, X1, X2, MCmethod = "sobol",
   \item{X2}{the second random sample.}
   \item{MCmethod}{a character string specifying the Monte-Carlo procedure used 
   to estimate the Sobol indices. The avaible methods are : \code{"sobol"}, 
-  \code{"sobol2002"}, \code{"sobol2007"}, \code{"soboljansen"}, \code{sobolmara},
-  \code{"sobolmartinez"} and \code{sobolGP}.}
-  \item{plotFct}{if TRUE, 1D functional Sobol indices ares plotted in an external
-  window (default=FALSE).}
+  \code{"sobol2002"}, \code{"sobol2007"}, \code{"soboljansen"}, \code{sobolmara}
+  and \code{sobolGP}.}
+  \item{plotFct}{if TRUE, 1D functional Sobol indices are computed and plotted 
+  in an external window (default=FALSE).}
   \item{x}{a list of class \code{MCmethod} storing the state of the
   sensitivity study (parameters, data, estimates).}
   \item{ylim}{y-coordinate plotting limits.}
@@ -52,6 +52,10 @@ sobolMultOut(model = NULL, q = 1, X1, X2, MCmethod = "sobol",
   complementary set of each factor ("all but \eqn{X_i}{Xi}").}
   \item{S}{the estimations of the aggregated Sobol' first-order indices.}
   \item{T}{the estimations of the aggregated Sobol' total sensitivity indices.}
+  \item{Sfct}{the estimations of the functional Sobol' first-order indices 
+  (if PlotFct=TRUE).}
+  \item{Tfct}{the estimations of the functional Sobol' total sensitivity indices
+  (if PlotFct=TRUE).}
 }
 
 \details{
@@ -71,7 +75,7 @@ Bertrand Iooss
 
 \seealso{
   \code{\link{sobol}, \link{sobol2002}, \link{sobol2007}, \link{soboljansen},
-  \link{sobolmara}, \link{sobolmartinez}, \link{sobolGP}}
+  \link{sobolmara}, \link{sobolGP}}
 }
 
 \examples{

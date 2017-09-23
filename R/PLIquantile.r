@@ -355,7 +355,7 @@ for (i in 1:nmbredevariables){		# loop for each variable
       # Details :	First, the constants defining the distribution (a, b) are extracted.
       #		Then, the function phi1 is defined, the unknonw integrals are estimated with Simpson's method
       #		The Hessian of the Lagrange function is then defined (See annex B)
-      #		Then, for each perturbated variance, the Lagrange function and its gradient are defined and minimised.
+      #		Then, for each perturbed variance, the Lagrange function and its gradient are defined and minimised.
       a=Loi.Entree[[2]][1]
       b=Loi.Entree[[2]][2]
       m=(a+b)/2

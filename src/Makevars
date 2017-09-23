@@ -1,8 +1,0 @@
-OBJECTS = LG_estimator.o LG_Rowsort.o lbfgs-b.o as.o rglueas.o
-PKG_CPPFLAGS = -I.
-
-all: $(OBJECTS)
-
-clean:
-	rm $(OBJECTS) sensitivity.so
-
