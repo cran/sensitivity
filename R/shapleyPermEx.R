@@ -7,8 +7,8 @@ shapleyPermEx <- function(model = NULL, Xall, Xset, d, Nv, No, Ni = 3, colnames 
   #################################################################################
   
   #################################################################################
-  # This function implements Algorithm 1 to calculate the Shapley effects
-  # by examining all permutations of inputs.
+  # This function implements Algorithm 1 to calculate the Shapley effects and
+  # their standard errors by examining all permutations of inputs.
   # It also estimates First order and total Sobol' indices 
   #
   # List of inputs to this function:
@@ -87,9 +87,9 @@ tell.shapleyPermEx <- function(x, y = NULL, return.var = NULL, ...) {
   Sh <- rep(0, d) ; Sh2 <- rep(0, d)
   
   # Initialize main and total (Sobol) effects for all players
-  Vsob <- rep(0, d) ; Vsob2 <- rep(0, d)
-  Tsob <- rep(0, d) ; Tsob2 <- rep(0, d)
-  
+  Vsob <- rep(0, d) ;   Tsob <- rep(0, d)
+#  Vsob2 <- rep(0, d) ; Tsob2 <- rep(0, d)
+
   # Estimate Var[Y] 
   Y <- y[1:x$Nv] ; y <- y[-(1:x$Nv)]
   EY <- mean(Y)
@@ -108,7 +108,7 @@ tell.shapleyPermEx <- function(x, y = NULL, return.var = NULL, ...) {
         Chat <- VarY
         del <- Chat - prevC
         Vsob[pi[j]] <- Vsob[pi[j]] + prevC # first order effect
-        Vsob2[pi[j]] <- Vsob2[pi[j]] + prevC^2
+#        Vsob2[pi[j]] <- Vsob2[pi[j]] + prevC^2
       }
       else
       {
@@ -120,42 +120,48 @@ tell.shapleyPermEx <- function(x, y = NULL, return.var = NULL, ...) {
         }
         Chat <- mean(cVar)
         del <- Chat - prevC
+ #       del2 <- mean((cVar-prevC)^2) # new
+        del2 <- mean((cVar-prevC)^2) - del^2 # extranew
       }
       
       Sh[pi[j]] <- Sh[pi[j]] + del
-      Sh2[pi[j]] <- Sh2[pi[j]] + del^2
+#      Sh2[pi[j]] <- Sh2[pi[j]] + del^2 #old
+      Sh2[pi[j]] <- Sh2[pi[j]] + del2 # new
       
       prevC <- Chat
       
       if (j == 1){
         Tsob[pi[j]] <- Tsob[pi[j]] + Chat # Total effect
-        Tsob2[pi[j]] <- Tsob2[pi[j]] + Chat^2
+#        Tsob2[pi[j]] <- Tsob2[pi[j]] + Chat^2
       }
     }
   }
   Sh <- Sh / m / VarY
   Sh2 <- Sh2 / m / VarY^2
-  ShSE <- sqrt((Sh2 - Sh^2) / m)
+#  ShSE <- sqrt((Sh2 - Sh^2) / m ) # old
+#  ShSE <- sqrt((Sh2 - Sh^2) / (x$No) ) # new
+  ShSE <- sqrt(Sh2 / (x$No) ) # extranew
   
   Vsob <- Vsob / (m/d) / VarY # averaging by number of permutations with j=d-1
-  Vsob2 <- Vsob2 / (m/d) / VarY^2
-  VsobSE <- sqrt((Vsob2 - Vsob^2) / (m/d))
+#  Vsob2 <- Vsob2 / (m/d) / VarY^2
+#  VsobSE <- sqrt((Vsob2 - Vsob^2) / (m/d))
   Vsob <- 1 - Vsob 
-  Vsob2 <- 1 - Vsob2 
+#  Vsob2 <- 1 - Vsob2 
   
   Tsob <- Tsob / (m/d) / VarY # averaging by number of permutations with j=1
-  Tsob2 <- Tsob2 / (m/d) / VarY^2
-  TsobSE <- sqrt((Tsob2 - Tsob^2) / (m/d))
+#  Tsob2 <- Tsob2 / (m/d) / VarY^2
+#  TsobSE <- sqrt((Tsob2 - Tsob^2) / (m/d))
   
-  Shapley <- data.frame(Sh,row.names=x$colnames)
-  names(Shapley) <- c("original")
+#  Shapley <- data.frame(Sh,row.names=x$colnames)
+#  names(Shapley) <- c("original")
+  Shapley <- data.frame(cbind(Sh,ShSE,Sh-1.96*ShSE,Sh+1.96*ShSE),row.names=x$colnames)
+  names(Shapley) <- c("original","std. error", "min. c.i.", "max. c.i.")
   Vsobol <- data.frame(Vsob,row.names=x$colnames)
   names(Vsobol) <- c("original")
   Tsobol <- data.frame(Tsob,row.names=x$colnames)
   names(Tsobol) <- c("original")
-  # Following lines are commented because standard deviation estimates are incorrect
-  #Shapley <- data.frame(cbind(Sh,ShSE,Sh-2*ShSE,Sh+2*ShSE),row.names=x$colnames)
-  #names(Shapley) <- c("original","std. error", "min. c.i.", "max. c.i.")
+  
+# Following lines are commented because standard deviation estimates are incorrect
   #Vsobol <- data.frame(cbind(Vsob,VsobSE,Vsob-2*VsobSE,Vsob+2*VsobSE),row.names=x$colnames)
   #names(Vsobol) <- c("original","std. error", "min. c.i.", "max. c.i.")
   #Tsobol <- data.frame(cbind(Tsob,TsobSE,Tsob-2*TsobSE,Tsob+2*TsobSE),row.names=x$colnames)

@@ -1,4 +1,8 @@
 
+Changes in version 1.15.1:
+
+    o   Functions shapleyPermEx() corrected (confidence intrevals)
+
 Changes in version 1.15.0:
 
     o   Function "sobolCert.R" has been (temporarily) suppressed

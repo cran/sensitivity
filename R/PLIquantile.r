@@ -10,10 +10,10 @@ PLIquantile = function(order,x,y,quantilehat,deltasvector,
   #        Density modification based reliability sensitivity analysis, 
   #        Journal od Statistical Computation and Simulation, 85:1200-1223, 2015.
   #        hal.archives-ouvertes.fr/docs/00/73/79/78/PDF/Article_v68.pdf.
-  #   
-  #        R. Sueur, N. Bousquet, B. Iooss and J. Bect.
-  #        Perturbed-Law based sensitivity Indices for sensitivity analysis in structural reliability,
-  #        Proceedings of the SAMO 2016 Conference, Reunion Island, France, December 2016.
+  #
+  #        R. Sueur, B. Iooss and T. Delage. 
+  #        Sensitivity analysis using perturbed-law based indices for quantiles and application to an industrial case}, 
+  #        10th International Conference on Mathematical Methods in Reliability (MMR 2017), Grenoble, France, July 2017.
   #
   ###################################
   ## Description of input parameters

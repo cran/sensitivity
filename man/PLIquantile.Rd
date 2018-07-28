@@ -56,6 +56,10 @@ PLIquantile(order,x,y,quantilehat,deltasvector,
 }
 
 \references{
+T. Delage, R. Sueur and B. Iooss, 2018, \emph{Robustness analysis of epistemic uncertainties 
+propagation studies in LOCA assessment thermal-hydraulic model}, 
+ANS Best Estimate Plus Uncertainty International Conference (BEPU 2018), Lucca, Italy, May 13-19, 2018.
+
 P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss, 2015, 
 \emph{Density modification based reliability sensitivity analysis}, Journal of Statistical 
 Computation and Simulation, 85:1200-1223. 
@@ -70,7 +74,7 @@ R. Sueur, B. Iooss and T. Delage, 2017,
 }
 
 \author{
-Paul Lemaitre, Bertrand Iooss and Thibault Delage
+Paul Lemaitre, Bertrand Iooss, Thibault Delage and Roman Sueur
 }
 
 \seealso{

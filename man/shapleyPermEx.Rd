@@ -9,12 +9,13 @@
 
 \description{
   \code{shapleyPermEx} implements the Monte Carlo estimation of
-  the Shapley effects (Owen, 2014) by examining all permutations of inputs 
-  (Song et al., 2016). It also estimates full first order 
-  and independent total Sobol' indices (Mara et al., 2015). The function also 
-  allows the estimations of all these sensitivity indices in case of dependent
-  inputs. The total cost of this algorithm is \eqn{Nv + d! \times (d-1) \times No 
-  \times Ni}{Nv + d! * (d - 1) * No * Ni} model evaluations. 
+  the Shapley effects (Owen, 2014) and their standard errors by examining all
+  permutations of inputs (Song et al., 2016; Iooss and Prieur, 2018). It also 
+  estimates full first order and independent total Sobol' indices 
+  (Mara et al., 2015). The function also allows the estimations of all these 
+  sensitivity indices in case of dependent inputs. The total cost of this 
+  algorithm is \eqn{Nv + d! \times (d-1) \times No \times Ni}{Nv + d! * (d - 1) * No * Ni} 
+  model evaluations. 
 }
 
 \usage{
@@ -70,17 +71,21 @@ shapleyPermEx(model = NULL, Xall, Xset, d, Nv, No, Ni = 3, colnames = NULL, \dot
 \details{
   This function requires R package "gtools".
 
-  The computations of the standard errors (and then the confidence intervals)
-  is not realized with this function.
-  
   The default values Ni = 3 is the optimal one obtained by the theoretical
   analysis of Song et al., 2016.
+  
+  The computations of the standard errors (and then the confidence intervals)
+  come from Iooss and prieur (2018). Based on the outer Monte carlo loop 
+  (calculation of expectation of conditional variance), the variance of the 
+  Monte carlo estimate is divided by No. the standard error is then averaged 
+  over the exact permutation loop. The confidence intervals at 95\% correspond 
+  to +- 1.96 standard deviations.
 }
 
 \references{
-B. Iooss and C. Prieur, 2017, \emph{Shapley effects for sensitivity analysis with 
-dependent inputs: comparisons with Sobol' indices, numerical estimation and 
-applications}, 2017, \url{https://hal.inria.fr/hal-01556303}.
+B. Iooss and C. Prieur, 2018, \emph{Shapley effects for sensitivity analysis with 
+correlated inputs: comparisons with Sobol' indices, numerical estimation and 
+applications}, \url{https://hal.inria.fr/hal-01556303}.
 
 S. Kucherenko, S. Tarantola, and P. Annoni, 2012, \emph{Estimation of global  
 sensitivity indices for models with dependent variables},

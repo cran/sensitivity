@@ -71,8 +71,8 @@ January, 13th, 2011, Institut Henri Poincare, Paris, France.
 T. Touati, 2016, Confidence intervals for Sobol' indices. 
 Proceedings of the SAMO 2016 Conference, Reunion Island, France, December 2016.
 
-T. Touati, 2016, \emph{Proprietes asymptotiques du coefficient de correlation 
-empirique}, draft.
+T. Touati, 2017, \emph{Intervalles de confiance pour les indices de Sobol},
+49emes Journees de la SFdS, Avignon, France, Juin 2017.
 }
 
 \author{

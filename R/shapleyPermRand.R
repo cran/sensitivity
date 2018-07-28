@@ -151,9 +151,9 @@ tell.shapleyPermRand <- function(x, y = NULL, return.var = NULL, ...) {
   
   Shapley <- data.frame(cbind(Sh,ShSE,Sh-2*ShSE,Sh+2*ShSE),row.names=x$colnames)
   names(Shapley) <- c("original","std. error", "min. c.i.", "max. c.i.")
-  Vsobol <- data.frame(cbind(Vsob,VsobSE,Vsob-2*VsobSE,Vsob+2*VsobSE),row.names=x$colnames)
+  Vsobol <- data.frame(cbind(Vsob,VsobSE,Vsob-1.96*VsobSE,Vsob+1.96*VsobSE),row.names=x$colnames)
   names(Vsobol) <- c("original","std. error", "min. c.i.", "max. c.i.")
-  Tsobol <- data.frame(cbind(Tsob,TsobSE,Tsob-2*TsobSE,Tsob+2*TsobSE),row.names=x$colnames)
+  Tsobol <- data.frame(cbind(Tsob,TsobSE,Tsob-1.96*TsobSE,Tsob+1.96*TsobSE),row.names=x$colnames)
   names(Tsobol) <- c("original","std. error", "min. c.i.", "max. c.i.")
   
   x$Shapley <- Shapley

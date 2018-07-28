@@ -72,19 +72,19 @@ shapleyPermRand(model = NULL, Xall, Xset, d, Nv, m, No = 1, Ni = 3, colnames = N
 \details{
   This function requires R package "gtools".
 
+  The default values No = 1 and Ni = 3 are the optimal ones obtained by the
+  theoretical analysis of Song et al., 2016.
+  
   The computations of the standard errors do not consider the samples to estimate 
   expectation of conditional variances. They are only made regarding the random 
   permutations and are based on the variance of the Monte carlo estimates divided 
-  by m. The confidence intervals at 95\% correspond to +- 2 standard deviations.
-  
-  The default values No = 1 and Ni = 3 are the optimal ones obtained by the
-  theoretical analysis of Song et al., 2016.
+  by m. The confidence intervals at 95\% correspond to +- 1.96 standard deviations.
 }
 
 \references{
-B. Iooss and C. Prieur, 2017, \emph{Shapley effects for sensitivity analysis with 
-dependent inputs: comparisons with Sobol' indices, numerical estimation and 
-applications}, 2017, \url{https://hal.inria.fr/hal-01556303}.
+B. Iooss and C. Prieur, 2018, \emph{Shapley effects for sensitivity analysis with 
+correlated inputs: comparisons with Sobol' indices, numerical estimation and 
+applications}, \url{https://hal.inria.fr/hal-01556303}.
 
 S. Kucherenko, S. Tarantola, and P. Annoni, 2012, \emph{Estimation of global  
 sensitivity indices for models with dependent variables},

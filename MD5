@@ -1,8 +1,8 @@
-f1ea3e0b950e0fe0290656416455554f *DESCRIPTION
+bcc8c2a3f81c27e1083e379a2ec5d42b *DESCRIPTION
 8e00d74839e0928ac220eb10b96f7e30 *NAMESPACE
-a83147703bb7d6c76764952d50526103 *NEWS
+3a3f0b5a9e6c489c1452740a387a9489 *NEWS
 2614c0aff379c8436ebdb31061d8447e *R/PLI.R
-9d1253fe984cfd8a231a0f6dd588d2f3 *R/PLIquantile.r
+1197c8f4b180761cbebe5c1935e3376b *R/PLIquantile.r
 fcaf012f6675614a937f16a076b9297b *R/PoincareConstant.R
 e28ff563e16f9dd65a9759aa108b180a *R/PoincareOptimal.R
 8e93fcd6f809f91930b7a721c8254fe3 *R/base.R
@@ -19,8 +19,8 @@ babe1927cc69dece681ea7026c80f342 *R/morris_sfd.R
 6addcf31e36ff488ede6de7e9c448984 *R/sb.R
 ee27a88485dc734edd4d6102ebd7c4cb *R/sensiFdiv.R
 063ef50d6e0c7a19bf205fd4f0a0bb8b *R/sensiHSIC.R
-ce3c6d169716e54e8bd7a263d4438cb2 *R/shapleyPermEx.R
-42d15c2b64d57d8116d598e7a5618571 *R/shapleyPermRand.R
+422ee34a389a562f78abeae264a14886 *R/shapleyPermEx.R
+625e4bd904894f25b2368cca825a8b4d *R/shapleyPermRand.R
 2c5e212420028428b5b0d359fbb221be *R/simplex.R
 045f7866fad04884791e6f17a72dce71 *R/sobol.R
 16f82ea84e11c601ffb79983ca648a5d *R/sobol2002.R
@@ -48,7 +48,7 @@ a2ac0a184f42ca17c8be61cd829a22e0 *R/template_replace.R
 9f24684b6c21e460c2ce071395270945 *R/testmodels.R
 b27760ea75c37792b9e943a71af986d1 *inst/COPYRIGHT
 cc8f1cff93a52942d45964d101a69511 *man/PLI.Rd
-978fc1e91e1d9bf6497a74674e4c64f7 *man/PLIquantile.Rd
+150bc2b83843e9898f9612270f6ed0db *man/PLIquantile.Rd
 263e1127fdfac8c8455468597dd30cdd *man/PoincareConstant.Rd
 68f4ab8c4bf9e8efbe0e982925c20d4c *man/PoincareOptimal.Rd
 79e1de6fcfd569fc1e4244c4c374fc9e *man/decoupling.Rd
@@ -61,9 +61,9 @@ e6156c20d9279692832e2c6374e7f2af *man/pcc.Rd
 bd467cd43c0d5394e94a48dbbdc87c1e *man/sb.Rd
 94c309a1988de5249ce7da4efc5e1f23 *man/sensiFdiv.Rd
 5cc6a1193a622357eee963e135cc2eb4 *man/sensiHSIC.Rd
-c9513e3e6ee44e4a886cee23e78473b5 *man/sensitivity-package.Rd
-32f13731c467f395b862b14483590979 *man/shapleyPermEx.Rd
-69c077970e7a993357f306a823324d6f *man/shapleyPermRand.Rd
+b9ca44b38f8bbafc918a01341b55abeb *man/sensitivity-package.Rd
+586e84a3752fc207dde218de7ee030c1 *man/shapleyPermEx.Rd
+7a320e25a18ef2369b65ab66ea5b70b3 *man/shapleyPermRand.Rd
 793c41a2398033e11a26a0e1a1b7356b *man/sobol.Rd
 fe7955181e7c12506297b33b867bc137 *man/sobol2002.Rd
 95a38386813ab73aa5d6d4ba20568b3b *man/sobol2007.Rd
@@ -80,9 +80,9 @@ cf93dc606935f0e0a0927b9c633ab723 *man/sobolSmthSpl.Rd
 d0a8fb31158fe080966138b448a02ecf *man/sobolowen.Rd
 33bc2483efd6862b1f95236f7a824f71 *man/sobolroalhs.Rd
 93ee96c3cd7cafc5ff8c700e2e9bec27 *man/sobolroauc.Rd
-7adda4f6bb84be5075009a367d4f6b60 *man/soboltouati.Rd
+401d6e0666450dd5438e4177fddae282 *man/soboltouati.Rd
 df505f6c08bf3ee66355d11eef45ea3b *man/src.Rd
-6ddc7b0e1a8940fe13a6221c71493179 *man/support.Rd
+4495cfe086dd70fce221253cd9f2a491 *man/support.Rd
 52789e61c355afde932e8579222c9ef4 *man/template_replace.Rd
 d70aa80d3f78dc1cabafbae99526ffee *man/testmodels.Rd
 f34effc60317f50f195f08d994c20d45 *src/LG_Rowsort.cpp
