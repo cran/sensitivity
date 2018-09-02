@@ -24,7 +24,8 @@
   
   IMPORTANT: This program is useless for the two following input variable distributions:
   \itemize{
-    \item uniform on \eqn{[min,max]}{[min,max]} interval: The optimal Poincare constant is \eqn{\frac{(max-min)^2}{pi^2}}{(max-min)^2/(pi^2)}.
+    \item uniform on \eqn{[min,max]}{[min,max]} interval: The optimal Poincare constant is 
+    \eqn{\frac{(max-min)^2}{pi^2}}{(max-min)^2/(pi^2)}.
     \item normal with a standard deviation \eqn{sd}{sd}: The optimal Poincare constant is \eqn{sd^2}{sd^2}.
   }
 }
@@ -39,9 +40,13 @@ PoincareConstant(dfct=dnorm, qfct=qnorm, pfct=pnorm,
   \item{dfct}{the probability density function of the input variable}
   \item{qfct}{the quantile function of the input variable}
   \item{pfct}{the distribution function of the input variable}
-  \item{logconcave}{logical value: TRUE for a log-concave distribution (analyical formula will be used). Requires argument 'dfct' and 'qfct'. FALSE (default value) means that the calculations will be performed using transport-based formulas (applicable for log-concave and non-log concave cases)}
-  \item{transport}{If logconcave=FALSE, choice of the transport inequalities to be used: "double_exp" (default value) for double exponential transport and "logistic" for logistic transport". Requires argument 'dfct' and 'pfct'}
-  \item{optimize.interval}{In the transport-based case (logconcave=FALSE), a vector containing the end-points of the interval to be searched for the maximum of the function to be optimized}
+  \item{logconcave}{logical value: TRUE for a log-concave distribution (analyical formula will be used). 
+  Requires argument 'dfct' and 'qfct'. FALSE (default value) means that the calculations will be performed 
+  using transport-based formulas (applicable for log-concave and non-log concave cases)}
+  \item{transport}{If logconcave=FALSE, choice of the transport inequalities to be used: "double_exp" (default value) 
+  for double exponential transport and "logistic" for logistic transport". Requires argument 'dfct' and 'pfct'}
+  \item{optimize.interval}{In the transport-based case (logconcave=FALSE), a vector containing the end-points 
+  of the interval to be searched for the maximum of the function to be optimized}
   \item{truncated}{logical value: TRUE for a truncated distribution. Default value is FALSE}
   \item{min}{the minimal bound in the case of a truncated distribution}
   \item{max}{the maximal bound in the case of a truncated distribution}
@@ -53,7 +58,10 @@ PoincareConstant(dfct=dnorm, qfct=qnorm, pfct=pnorm,
 }
 
 \details{
-	In the case of truncated distributions (truncated=TRUE), in addition to the min and max arguments: - the truncated distribution name has to be passed in the 'dfct' and 'pfct' arguments if logconcave=FALSE, - the non-truncated distribution name has to be passed in the 'dfct' and 'qfct' arguments if logconcave=TRUE. Moreover, if min and max are finite, optimize.interval is required to be defined as c(min,max).
+	In the case of truncated distributions (truncated=TRUE), in addition to the min and max arguments: 
+	- the truncated distribution name has to be passed in the 'dfct' and 'pfct' arguments if logconcave=FALSE, 
+	- the non-truncated distribution name has to be passed in the 'dfct' and 'qfct' arguments if logconcave=TRUE.
+	Moreover, if min and max are finite, optimize.interval is required to be defined as c(min,max).
 }
 
 \references{
@@ -95,7 +103,7 @@ PoincareConstant(dfct=dexp,qfct=NULL,pfct=pexp,rate=1,optimize.interval=c(0, 15)
 PoincareConstant(dfct=dweibull,qfct=NULL,pfct=pweibull,optimize.interval=c(0, 15),shape=1,scale=1) 
           # logistic transport approach
 
-\dontrun{
+\donttest{
 # Triangular law (log-concave)
 library(triangle)
 PoincareConstant(dfct=dtriangle, qfct=qtriangle, pfct=NULL, a=-1, b=1, c=0, logconcave=TRUE) 
@@ -108,11 +116,12 @@ PoincareConstant(dfct=dtriangle, qfct=NULL, pfct=ptriangle, a=-1, b=1, c=0,
 # Normal N(0,1) law truncated on [-1.87,+infty]
 PoincareConstant(dfct=dnorm, qfct=qnorm, pfct=pnorm, mean=0, sd=1, logconcave=TRUE, 
   transport="double_exp", truncated=TRUE, min=-1.87, max=999) # log-concave assumption
-PoincareConstant(dfct=dtnorm, qfct=qtnorm, pfct=ptnorm, mean=0, sd=1, truncated=TRUE, 
-  min=-1.87, max=999,   transport="double_exp", optimize.interval=c(-1.87,20)) 
-            # Double-exponential transport approach
-PoincareConstant(dfct=dtnorm, qfct=qtnorm, pfct=ptnorm, mean=0, sd=1, truncated=TRUE, 
-  min=-1.87, max=999, optimize.interval=c(-1.87,20)) # Logistic transport approach
+PoincareConstant(dfct=dnorm.trunc, qfct=qnorm.trunc, pfct=pnorm.trunc, mean=0, sd=1, 
+# Double-exponential transport approach
+  truncated=TRUE, min=-1.87, max=999,   transport="double_exp", optimize.interval=c(-1.87,20)) 
+# Logistic transport approach
+PoincareConstant(dfct=dnorm.trunc, qfct=qnorm.trunc, pfct=pnorm.trunc, mean=0, sd=1, 
+  truncated=TRUE, min=-1.87, max=999, optimize.interval=c(-1.87,20)) 
 
 
 # Gumbel law (log-concave)
@@ -125,13 +134,14 @@ PoincareConstant(dfct=dgumbel, qfct=qgumbel, pfct=pgumbel, loc=0, scale=1,
   optimize.interval=c(-3,20)) # Logistic transport approach
 
 # Truncated Gumbel law (log-concave)
+# Double-exponential transport approach
 PoincareConstant(dfct=dgumbel, qfct=qgumbel, pfct=pgumbel, loc=0, scale=1, logconcave=TRUE, 
   transport="double_exp", truncated=TRUE, min=-0.92, max=3.56) # log-concave assumption
-PoincareConstant(dfct=dtgumbel, qfct=NULL, pfct=ptgumbel, loc=0, scale=1, truncated=TRUE, 
-  min=-0.92, max=3.56, transport="double_exp", optimize.interval=c(-0.92,3.56)) 
-            # Double-exponential transport approach
-PoincareConstant(dfct=dtgumbel, qfct=qtgumbel, pfct=ptgumbel, loc=0, scale=1, truncated=TRUE, 
-  min=-0.92, max=3.56, optimize.interval=c(-0.92,3.56)) # Logistic transport approach
+PoincareConstant(dfct=dgumbel.trunc, qfct=NULL, pfct=pgumbel.trunc, loc=0, scale=1, 
+  truncated=TRUE, min=-0.92, max=3.56, transport="double_exp", optimize.interval=c(-0.92,3.56))
+# Logistic transport approach
+PoincareConstant(dfct=dgumbel.trunc, qfct=qgumbel.trunc, pfct=pgumbel.trunc, loc=0, scale=1, 
+  truncated=TRUE, min=-0.92, max=3.56, optimize.interval=c(-0.92,3.56)) 
   
 }
 

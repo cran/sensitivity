@@ -117,7 +117,7 @@ Bertrand Iooss, Eunhye Song, Barry L. Nelson, Jeremy Staum
 
 \examples{
 
-\dontrun{
+\donttest{
 
 ##################################
 # Test case : the Ishigami function (3 uniform independent inputs)

@@ -77,7 +77,7 @@ Sebastien Da Veiga, Snecma
 }
 
 \examples{
-\dontrun{
+\donttest{
 library(ks)
 
 # Test case : the non-monotonic Sobol g-function

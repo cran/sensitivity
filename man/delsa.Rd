@@ -85,7 +85,7 @@ Water Resour. Res., 50, 1-18
 # Test case : the non-monotonic Sobol g-function
 # (there are 8 factors, all following the uniform distribution on [0,1])
 
-\dontrun{
+\donttest{
 library(randtoolbox)
 x <- delsa(model=sobol.fun,
            par.ranges=replicate(8,c(0,1),simplify=FALSE),

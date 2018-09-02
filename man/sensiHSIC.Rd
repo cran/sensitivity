@@ -104,7 +104,7 @@ to the Hilbert-Schmidt Independence Criterion (HSIC) proposed by Gretton et al.
 }
 
 \examples{
- \dontrun{ 
+ \donttest{ 
   # Test case : the non-monotonic Sobol g-function
   # Only one kernel is provided with default hyperparameter value
   n <- 100

@@ -80,7 +80,7 @@ Paul Lemaitre
 }
 
 \examples{
-\dontrun{
+\donttest{
 
 # Model: Ishigami function with a treshold at -7
 # Failure points are those < -7

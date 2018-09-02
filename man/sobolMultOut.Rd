@@ -79,7 +79,7 @@ Bertrand Iooss
 }
 
 \examples{
-\dontrun{
+\donttest{
 # Functional toy function: Arctangent temporal function (Auder, 2011)
 # X: input matrix (in [-7,7]^2)
 # q: number of discretization steps of [0,2pi] interval
@@ -117,7 +117,7 @@ X2 <- data.frame(matrix(runif(2*n,-7,7), nrow = n))
 
 x11()
 sa <- sobolMultOut(model=atantemp, q=100, X1, X2, 
-                   MCmethod="soboljansen", plotFct=T)
+                   MCmethod="soboljansen", plotFct=TRUE)
 print(sa)
 x11()
 plot(sa)

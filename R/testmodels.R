@@ -1,9 +1,9 @@
 # Test models for sensitivity analysis 
 #
 # Gilles Pujol 2006
-# Bertrand Iooss (2016)
+# Bertrand Iooss (2016-2018)
 
-
+##################################################################
 # The non-monotonic Sobol g-function (Saltelli 2000)
 
 sobol.fun <- function(X) {
@@ -16,6 +16,7 @@ sobol.fun <- function(X) {
 }
 
 
+##################################################################
 # The non-monotonic Ishigami function (Saltelli 2000)
 
 ishigami.fun <- function(X) {
@@ -25,6 +26,7 @@ ishigami.fun <- function(X) {
 }
 
 
+##################################################################
 # The non-monotonic function of Morris (Saltelli 2000)
 
 morris.fun <- function(X) {
@@ -76,6 +78,8 @@ assign("b2", b2, envir = environment(morris.fun))
 assign("b3", b3, envir = environment(morris.fun))
 assign("b4", b4, envir = environment(morris.fun))
 
+
+##################################################################
 # Functional toy function: Arctangent temporal function (Auder, 2011)
 # B. Auder, Classification et modelisation de sorties fonctionnelles de codes de calcul, 
 #   These de l'Universite Paris VI, 2011.
@@ -95,6 +99,8 @@ atantemp.fun <- function(X, q = 100){
   
 }
 
+
+##################################################################
 # Functional toy function 
 # Inspired from Campbell K, McKay M,Williams B. 2006. 
 #      Sensitivity analysis when model outputs are functions. 
@@ -114,3 +120,16 @@ campbell1D.fun <- function(X,theta=-90:90){
 }
 
 
+##################################################################
+# LINKLETTER ET AL. (2006) DECREASING COEFFICIENTS FUNCTION
+
+linkletter.fun <- function(X){
+  
+  t1 <- 0.2*X[,1] + (0.2/2)*X[,2]
+  t2 <- (0.2/4)*X[,3] + (0.2/8)*X[,4]
+  t3 <- (0.2/16)*X[,5] + (0.2/32)*X[,6]
+  t4 <- (0.2/64)*X[,7] + (0.2/128)*X[,8]
+  
+  y <- t1 + t2 + t3 + t4
+  return(y)
+}

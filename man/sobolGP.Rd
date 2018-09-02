@@ -29,7 +29,7 @@ sobolGP(
 
 \method{ask}{sobolGP}(x, tot = FALSE, \dots)
 
-\method{tell}{sobolGP}(x,y=NULL,xpoint=NULL,newcandidate=NULL, \dots)
+\method{tell}{sobolGP}(x, y=NULL, xpoint=NULL, newcandidate=NULL, \dots)
 
 \method{print}{sobolGP}(x, \dots)
 
@@ -150,7 +150,7 @@ Loic Le Gratiet, EDF R&D - CNRS, I3S
 }
 \examples{
 
-\dontrun{
+\donttest{
 library(DiceKriging)
 
 #--------------------------------------#
@@ -196,8 +196,10 @@ res
 plot(res)
 x <- ask(res)
 y <- branin(x)
-res.new <- tell(res,y,x)
-res.new
+# The following line doesn't work (uncorrected bug: 
+#     unused argument in km(), passed by update(), eval(), tell.sobolGP() ??)
+#res.new <- tell(res,y,x)
+#res.new
 }
 }
 

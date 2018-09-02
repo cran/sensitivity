@@ -53,7 +53,7 @@ X.innergrid<-parameterSets(par.ranges=list(V1=c(1,1000),V2=c(1,4)),
                           samples=c(10,10),method="innergrid")
 points(X.innergrid,col="red")
 
-\dontrun{
+\donttest{
 library(randtoolbox)
 X.sobol<-parameterSets(par.ranges=list(V1=c(1,1000),V2=c(1,4)),
                            samples=100,method="sobol")

@@ -14,10 +14,10 @@
 }
 \value{
 	sobolSmthSpl returns a list of class "sobolSmthSpl" containing the following components:
-	\item{call:}{the matched call.}
-	\item{X:}{the provided input matrix.}
-	\item{Y:}{the provided matrix of model responses.}
-	\item{S:}{a matrix having the following columns:
+	\item{call}{the matched call.}
+	\item{X}{the provided input matrix.}
+	\item{Y}{the provided matrix of model responses.}
+	\item{S}{a matrix having the following columns:
 		Si (the estimated first order Sobol' indices), 
 		Si.e (the standard errors for the estimated first order Sobol' indices) and
 		q0.05 (the 0.05 quantiles assuming for the Si indices Normal distributions centred on the 

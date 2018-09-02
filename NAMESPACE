@@ -15,12 +15,13 @@ importFrom("stats", "coefficients", "cor", "cor.test", "cov", "dist",
 importFrom("utils", "combn", "methods") 
 importFrom("methods", "is")
 
-export(ask)
-export(tell)
+export(ask,tell)
 export(plotFG)
 export(scatterplot)
+export(dnorm.trunc,pnorm.trunc,qnorm.trunc,rnorm.trunc)
+export(dgumbel.trunc,pgumbel.trunc,qgumbel.trunc,rgumbel.trunc)
 
-export(sobol.fun, ishigami.fun, morris.fun, atantemp.fun, campbell1D.fun)
+export(sobol.fun, ishigami.fun, morris.fun, atantemp.fun, campbell1D.fun, linkletter.fun)
 
 export(src)
 S3method(print, src)
@@ -35,6 +36,9 @@ S3method(tell, morris)
 S3method(print, morris)
 S3method(plot, morris)
 export(plot3d.morris)
+
+export(morrisMultOut)
+S3method(tell, morrisMultOut)
 
 export(sobol)
 S3method(tell, sobol)

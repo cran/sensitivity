@@ -53,8 +53,7 @@ sobolroalhs(model = NULL, factors, N, p=1, order, tail=TRUE, conf=0.95, nboot=0,
 
 Missing values (i.e \code{NA} values) in outputs are automatically handled by the function.
 
-This function also supports multidimensional outputs (matrices in \code{y} or as output of \code{model}).
-In this case, aggregated Sobol' indices are returned (\code{see sobolMultOut}).
+This function also supports multidimensional outputs (matrices in \code{y} or as output of \code{model}). In this case, aggregated Sobol' indices are returned (\code{see sobolMultOut}).
 }
 
 \section{Warning messages}{

@@ -1,7 +1,31 @@
 
+Changes in version 1.15.2:
+
+    o   Added functions for Morris method for multidimensional outputs:
+    morrisMultOut()
+    
+    o   Added the toy functions linkletter.fun()
+    
+    o   Change the names of the fcts (dtnorm, ..., dtgumbel, ...) by 
+    (dnorm.trunc, ...) (reverse dependency pb with ATmet package).
+    Export now the fcts, documentation entries in truncateddistrib.Rd
+    
+    o   Corrected bug: Replace \dontrun by \donttest in all Rd-files
+    
+    o   Corrected bug: package triangle is suggested and called in 
+    PoincareOptimal.Rd
+    
+    o Function in sobolGPmethods.R and sobolpickfreeze.R have been 
+    integrated in sobolGP.R
+    
+    o   Detected bug (not corrected) in tell.sobolGP() 
+    Unused argument in km(), passed by eval(), update(), tell.sobolGP() ??)
+
+    => comment in the example of sobolGP.Rd
+    
 Changes in version 1.15.1:
 
-    o   Functions shapleyPermEx() corrected (confidence intrevals)
+    o   Functions shapleyPermEx() corrected (confidence intervals)
 
 Changes in version 1.15.0:
 

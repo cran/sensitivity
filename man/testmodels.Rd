@@ -5,6 +5,7 @@
 \alias{morris.fun}
 \alias{atantemp.fun}
 \alias{campbell1D.fun}
+\alias{linkletter.fun}
 
 \title{Test Models for Sensitivity Analysis}
 
@@ -14,7 +15,8 @@
   \itemize{
     \item the g-function of Sobol' with 8 inputs, X ~ U[0,1];
     \item the function  of Ishigami with 3 inputs, X ~ U[-pi,pi];
-    \item the function of Morris with 20 inputs, X ~ U[0,1].
+    \item the function of Morris with 20 inputs, X ~ U[0,1];
+    \item the Linkletter et al. (2006) decreasing coefficients function, X ~ U[0,1].
   }
   For functional output cases:
   \itemize{
@@ -31,6 +33,7 @@ ishigami.fun(X)
 morris.fun(X)
 atantemp.fun(X, q = 100)
 campbell1D.fun(X, theta = -90:90)
+linkletter.fun(X)
 }
 
 \arguments{
@@ -45,16 +48,15 @@ campbell1D.fun(X, theta = -90:90)
 }
 
 \references{
-A. Saltelli, K. Chan and E. M. Scott eds, 2000, \emph{Sensitivity
-  Analysis}, Wiley.
+A. Saltelli, K. Chan and E. M. Scott eds, 2000, \emph{Sensitivity   Analysis}, Wiley.
 }
 
 \author{
-Gilles Pujol
+Gilles Pujol and Bertrand Iooss
 }
 
 \examples{
-\dontrun{
+\donttest{
 
 # Examples for the functional toy fonctions
 

@@ -75,7 +75,7 @@ print(x)
 # plot of tiis and FANOVA graph
 plot(x)
 
-\dontrun{
+\donttest{
 library(igraph)
 plotFG(x)
 }

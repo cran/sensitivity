@@ -82,7 +82,7 @@ Paul Lemaitre, Bertrand Iooss, Thibault Delage and Roman Sueur
 }
 
 \examples{
-\dontrun{
+\donttest{
 
 # Model: 3D function 
 

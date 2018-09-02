@@ -80,16 +80,18 @@ print(out$opt)
 out <- PoincareOptimal(distr=dnorm, min=-1, max=1, plot=TRUE, only.values=FALSE)
 print(out$opt)
 
-\dontrun{
+\donttest{
 # truncated standard normal on [-1.87, +infty]
 out <- PoincareOptimal(distr=list("norm",0,1), min=-1.87, max=5, method="integral", n=500)
 print(out$opt)
 
 # truncated Gumbel(0,1) on [-0.92, 3.56]
+library(evd)
 out <- PoincareOptimal(distr=list("gumbel",0,1), min=-0.92, max=3.56, method="integral", n=500)
 print(out$opt)
 
 # symetric triangular [-1,1]
+library(triangle)
 out <- PoincareOptimal(distr=list("triangle",-1,1,0), min=NULL, max=NULL)
 print(out$opt)
 

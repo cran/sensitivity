@@ -21,8 +21,8 @@
 \usage{
 morris(model = NULL, factors, r, design, binf = 0, bsup = 1,
        scale = TRUE, \dots)
-\method{tell}{morris}(x, y = NULL, ...)
-\method{print}{morris}(x, ...)
+\method{tell}{morris}(x, y = NULL, \dots)
+\method{print}{morris}(x, \dots)
 \method{plot}{morris}(x, identify = FALSE, atpen = FALSE, y_col = NULL, 
   y_dim3 = NULL, \dots)
 \method{plot3d}{morris}(x, alpha = c(0.2, 0), sphere.size = 1, y_col = NULL, 
@@ -228,13 +228,17 @@ G. Pujol, 2009, \emph{Simplex-based screening designs for estimating
 Gilles Pujol, with contributions from Frank Weber (2016)
 }
 
+\seealso{
+  \code{\link{morrisMultOut}}
+}
+
 \examples{
 # Test case : the non-monotonic function of Morris
 x <- morris(model = morris.fun, factors = 20, r = 4,
             design = list(type = "oat", levels = 5, grid.jump = 3))
 print(x)
 plot(x)
-\dontrun{
+\donttest{
 library(rgl)
 plot3d.morris(x)  # (requires the package 'rgl')}
 
