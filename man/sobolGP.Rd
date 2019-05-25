@@ -141,7 +141,7 @@ L. Le Gratiet, C. Cannamela and B. Iooss (2014), A Bayesian approach for global 
 }
 
 \author{
-Loic Le Gratiet, EDF R&D - CNRS, I3S
+Loic Le Gratiet, EDF R&D
 }
 
 

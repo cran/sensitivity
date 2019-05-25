@@ -1,21 +1,21 @@
-\name{PLIquantile}
-\alias{PLIquantile}
+\name{PLIsuperquantile}
+\alias{PLIsuperquantile}
 
-\title{Perturbed-Law based sensitivity Indices (PLI) for quantile}
+\title{Perturbed-Law based sensitivity Indices (PLI) for superquantile}
 
 \description{
-  PLIquantile computes the Perturbed-Law based Indices (PLI) for quantile, 
-  which are sensitivity indices related to a quantile of a 
-  model output, estimated by a Monte Carlo method, See Sueur et al. (2016, 2017).
+  PLIsuperquantile computes the Perturbed-Law based Indices (PLI) for superquantile, 
+  which are sensitivity indices related to a superquantile of a 
+  model output, estimated by a Monte Carlo method.
 }
 
 \usage{
-PLIquantile(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=TRUE,
+PLIsuperquantile(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=TRUE,
             percentage=FALSE,nboot=0,conf=0.9)
 }
 
 \arguments{
-  \item{order}{the order of the quantile to estimate.}
+  \item{order}{the order of the superquantile to estimate.}
   \item{x}{the matrix of simulation points coordinates, 
     one column per variable.}
     \item{y}{the vector of model outputs.}
@@ -52,22 +52,22 @@ PLIquantile(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=TRUE,
       \item If it is set at FALSE, the classical formula used in the bibliographical 
       references is used.
       \item If not (set as TRUE), the PLI is given in percentage of variation 
-      of the quantile (even if it is negative).
+      of the superquantile (even if it is negative).
         }}
   \item{nboot}{the number of bootstrap replicates.}
   \item{conf}{the confidence level for bootstrap confidence intervals.}
 }
 
 \value{
-  \code{PLIquantile} returns a list of matrix (each column corresponds to an input, 
+  \code{PLIsuperquantile} returns a list of matrix (each column corresponds to an input, 
   each line corresponds to a twist of amplitude delta) 
   containing the following components:
   \item{PLI}{the PLI.}
   \item{PLICIinf}{the bootstrap lower confidence interval values of the PLI.}
   \item{PLICIsup}{the bootstrap upper confidence interval values of the PLI.}
-  \item{quantile}{the perturbed quantile.}
-  \item{quantileCIinf}{the bootstrap lower confidence interval values of the perturbed quantile.}
-  \item{quantileCIsup}{the bootstrap upper confidence interval values of the perturbed quantile.}
+  \item{superquantile}{the perturbed superquantile.}
+  \item{superquantileCIinf}{the bootstrap lower confidence interval values of the perturbed superquantile.}
+  \item{superquantileCIsup}{the bootstrap upper confidence interval values of the perturbed superquantile.}
 }
 
 \references{
@@ -79,21 +79,17 @@ P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss, 2015,
 \emph{Density modification based reliability sensitivity analysis}, Journal of Statistical 
 Computation and Simulation, 85:1200-1223. 
 
-R. Sueur, N. Bousquet, B. Iooss and J. Bect, 2016,
-\emph{Perturbed-Law based sensitivity Indices for sensitivity analysis in structural reliability},
-Proceedings of the SAMO 2016 Conference, Reunion Island, France, December 2016.
-
 R. Sueur, B. Iooss and T. Delage, 2017,
 \emph{Sensitivity analysis using perturbed-law based indices for quantiles and application to an industrial case}, 
 10th International Conference on Mathematical Methods in Reliability (MMR 2017), Grenoble, France, July 2017.
 }
 
 \author{
-Paul Lemaitre, Bertrand Iooss, Thibault Delage and Roman Sueur
+Bertrand Iooss
 }
 
 \seealso{
-  \code{\link{PLI}, \link{PLIsuperquantile} \link{PLIquantile_multivar}}
+  \code{\link{PLI}, \link{PLIquantile}}
 }
 
 \examples{
@@ -112,16 +108,17 @@ Paul Lemaitre, Bertrand Iooss, Thibault Delage and Roman Sueur
      
 	Y = 2 * X[,1] + X[,2] + X[,3]/2
 	q95 = quantile(Y,0.95)
+  sq95a <- mean(Y*(Y>q95)/(1-0.95)) ; sq95b <- mean(Y[Y>q95])
 	
 # sensitivity indices with perturbation of the mean 
   
 	v_delta = seq(-1,1,1/10) 
-	toto = PLIquantile(0.95,X,Y,deltasvector=v_delta,
+	toto = PLIsuperquantile(0.95,X,Y,deltasvector=v_delta,
 	  InputDistributions=distribution,type="MOY",samedelta=TRUE,nboot=200)
 
 # Plotting the PLI
   x11() ; par(mar=c(4,5,1,1))
-	plot(v_delta,toto$PLI[,2],ylim=c(-1.5,1.5),xlab=expression(delta),
+	plot(v_delta,toto$PLI[,2],ylim=c(-0.5,0.5),xlab=expression(delta),
 		ylab=expression(hat(S[i*delta])),pch=19,cex=1.5)
 	points(v_delta,toto$PLI[,1],col="darkgreen",pch=15,cex=1.5)
 	points(v_delta,toto$PLI[,3],col="red",pch=17,cex=1.5)
@@ -132,31 +129,31 @@ Paul Lemaitre, Bertrand Iooss, Thibault Delage and Roman Sueur
 	lines(v_delta,toto$PLICIinf[,3],col="red")
 	lines(v_delta,toto$PLICIsup[,3],col="red")
 	abline(h=0,lty=2)
-	legend(0.8,1.5,legend=c("X1","X2","X3"),
+	legend(-1,0.5,legend=c("X1","X2","X3"),
 		col=c("darkgreen","black","red"),pch=c(15,19,17),cex=1.5)
   
-# Plotting the perturbed quantiles
+# Plotting the perturbed superquantiles
   x11() ; par(mar=c(4,5,1,1))
-	plot(v_delta,toto$quantile[,2],ylim=c(1.5,6.5),xlab=expression(delta),
+	plot(v_delta,toto$superquantile[,2],ylim=c(3,7),xlab=expression(delta),
 		ylab=expression(hat(q[i*delta])),pch=19,cex=1.5)
-	points(v_delta,toto$quantile[,1],col="darkgreen",pch=15,cex=1.5)
-	points(v_delta,toto$quantile[,3],col="red",pch=17,cex=1.5)
-	lines(v_delta,toto$quantileCIinf[,2],col="black")
-	lines(v_delta,toto$quantileCIsup[,2],col="black")
-	lines(v_delta,toto$quantileCIinf[,1],col="darkgreen")
-	lines(v_delta,toto$quantileCIsup[,1],col="darkgreen")
-	lines(v_delta,toto$quantileCIinf[,3],col="red")
-	lines(v_delta,toto$quantileCIsup[,3],col="red")
+	points(v_delta,toto$superquantile[,1],col="darkgreen",pch=15,cex=1.5)
+	points(v_delta,toto$superquantile[,3],col="red",pch=17,cex=1.5)
+	lines(v_delta,toto$superquantileCIinf[,2],col="black")
+	lines(v_delta,toto$superquantileCIsup[,2],col="black")
+	lines(v_delta,toto$superquantileCIinf[,1],col="darkgreen")
+	lines(v_delta,toto$superquantileCIsup[,1],col="darkgreen")
+	lines(v_delta,toto$superquantileCIinf[,3],col="red")
+	lines(v_delta,toto$superquantileCIsup[,3],col="red")
 	abline(h=q95,lty=2)
-	legend(0.5,2.4,legend=c("X1","X2","X3"),
+	legend(-1,7,legend=c("X1","X2","X3"),
 		col=c("darkgreen","black","red"),pch=c(15,19,17),cex=1.5)
 		
 # Plotting the PLI in percentage
-	toto = PLIquantile(0.95,X,Y,deltasvector=v_delta,
+	toto = PLIsuperquantile(0.95,X,Y,deltasvector=v_delta,
 	  InputDistributions=distribution,type="MOY",samedelta=TRUE,percentage=TRUE,nboot=200)
 	  
   x11() ; par(mar=c(4,5,1,1))
-	plot(v_delta,toto$PLI[,2],ylim=c(-0.6,0.6),xlab=expression(delta),
+	plot(v_delta,toto$PLI[,2],ylim=c(-0.4,0.5),xlab=expression(delta),
 		ylab=expression(hat(S[i*delta])),pch=19,cex=1.5)
 	points(v_delta,toto$PLI[,1],col="darkgreen",pch=15,cex=1.5)
 	points(v_delta,toto$PLI[,3],col="red",pch=17,cex=1.5)
@@ -167,7 +164,7 @@ Paul Lemaitre, Bertrand Iooss, Thibault Delage and Roman Sueur
 	lines(v_delta,toto$PLICIinf[,3],col="red")
 	lines(v_delta,toto$PLICIsup[,3],col="red")
 	abline(h=0,lty=2)
-	legend(0.,1.,legend=c("X1","X2","X3"),
+	legend(-1,0.5,legend=c("X1","X2","X3"),
 		col=c("darkgreen","black","red"),pch=c(15,19,17),cex=1.5)
   
 }

@@ -111,7 +111,7 @@ Bertrand Iooss, Eunhye Song, Barry L. Nelson, Jeremy Staum
 }
 
 \seealso{
-  \code{\link{shapleyPermEx}}
+  \code{\link{shapleyPermEx}, \link{shapleySubsetMc}}
 }
 
 \examples{

@@ -44,10 +44,11 @@
 	  \itemize{
 	    \item Estimation by examining all permutations of inputs (Song et al., 2016) (\code{\link{shapleyPermEx}})
 	    \item Estimation by randomly sampling permutations of inputs (Song et al., 2016) (\code{\link{shapleyPermRand}})
+	    \item Estimation of Shapley effects from data using nearest neighbors method (Broto et al., 2018) (\code{\link{shapleySubsetMc}})
 	  }
     \item Support index functions (\code{\link{support}}) of Fruth et al. (2016);
     \item Sensitivity Indices based on Csiszar f-divergence (\code{\link{sensiFdiv}}) (particular cases: Borgonovo's indices and mutual-information based indices) and Hilbert-Schmidt Independence Criterion (\code{\link{sensiHSIC}}) of Da Veiga (2015);
-    \item Reliability sensitivity analysis by the Perturbed-Law based Indices (\code{\link{PLI}}) of Lemaitre et al. (2015) and (\code{\link{PLIquantile}}) of Sueur et al. (2017);
+    \item Reliability sensitivity analysis by the Perturbed-Law based Indices (\code{\link{PLI}}) of Lemaitre et al. (2015), (\code{\link{PLIquantile}}) of Sueur et al. (2017), and extension as (\code{\link{PLIquantile_multivar}}) and (\code{\link{PLIsuperquantile}}) ;
     \item Extensions to multidimensional outputs for:
 	  \itemize{
 	    \item Sobol' indices (\code{\link{sobolMultOut}}): Aggregated Sobol' indices (Lamboni et al., 2011; Gamboa et al., 2014) and functional (1D) Sobol' indices;
@@ -85,7 +86,7 @@
 }
 
 
-\author{Bertrand Iooss, Alexandre Janon and Gilles Pujol with contributions from Paul Lemaitre for the \code{\link{PLI}} function, Thibault Delage and Roman Sueur for the \code{\link{PLIquantile}} function, Laurent Gilquin for the \code{\link{sobolroalhs}}, \code{\link{sobolroauc}} and \code{\link{sobolSalt}} functions, Loic le Gratiet for the \code{\link{sobolGP}} function, Khalid Boumhaout, Taieb Touati and Bernardo Ramos for the \code{\link{sobolowen}} and \code{\link{soboltouati}} functions, Jana Fruth for the \code{\link{PoincareConstant}}, \code{\link{sobolTIIlo}} and \code{\link{sobolTIIpf}} functions, Sebastien Da veiga for the \code{\link{sensiFdiv}} and \code{\link{sensiHSIC}} functions, Joseph Guillaume and Oldrich Rakovec for the \code{\link{delsa}} and \code{\link{parameterSets}} functions, Olivier Roustant for the \code{\link{PoincareOptimal}} and \code{\link{support}} functions, Eunhye Song, Barry L. Nelson and Jeremy Staum for the \code{\link{shapleyPermEx}} and \code{\link{shapleyPermRand}} functions, Filippo Monari for the (\code{\link{sobolSmthSpl}}) and (\code{\link{morrisMultOut}}) functions, Frank Weber and Roelof Oomen.
+\author{Bertrand Iooss, Alexandre Janon and Gilles Pujol with contributions from Paul Lemaitre for the \code{\link{PLI}} function, Thibault Delage and Roman Sueur for the \code{\link{PLIquantile}} function, Laurent Gilquin for the \code{\link{sobolroalhs}}, \code{\link{sobolroauc}} and \code{\link{sobolSalt}} functions, Loic le Gratiet for the \code{\link{sobolGP}} function, Khalid Boumhaout, Taieb Touati and Bernardo Ramos for the \code{\link{sobolowen}} and \code{\link{soboltouati}} functions, Jana Fruth for the \code{\link{PoincareConstant}}, \code{\link{sobolTIIlo}} and \code{\link{sobolTIIpf}} functions, Sebastien Da veiga for the \code{\link{sensiFdiv}} and \code{\link{sensiHSIC}} functions, Joseph Guillaume and Oldrich Rakovec for the \code{\link{delsa}} and \code{\link{parameterSets}} functions, Olivier Roustant for the \code{\link{PoincareOptimal}} and \code{\link{support}} functions, Eunhye Song, Barry L. Nelson and Jeremy Staum for the \code{\link{shapleyPermEx}} and \code{\link{shapleyPermRand}} functions, Baptiste Broto for the \code{\link{shapleySubsetMc}} function, Filippo Monari for the (\code{\link{sobolSmthSpl}}) and (\code{\link{morrisMultOut}}) functions, Frank Weber and Roelof Oomen.
 
 (maintainer: Bertrand Iooss \email{biooss@yahoo.fr})}
 

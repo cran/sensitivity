@@ -1,7 +1,7 @@
 # Test models for sensitivity analysis 
 #
 # Gilles Pujol 2006
-# Bertrand Iooss (2016-2018)
+# Bertrand Iooss (2016-2019)
 
 ##################################################################
 # The non-monotonic Sobol g-function (Saltelli 2000)
@@ -133,3 +133,17 @@ linkletter.fun <- function(X){
   y <- t1 + t2 + t3 + t4
   return(y)
 }
+
+
+##################################################################
+# fonction heterdisc - d=4 sur U[0,20]
+heterdisc.fun <- function(x){
+  y <- rep(0,dim(x)[1])
+  for (i in 1:dim(x)[1]){
+    if (x[i,1] < 10) y[i] <- sin(pi*x[i,1]/5)+0.2*cos(4*pi*x[i,1]/5)+ 0.01*(x[i,2]-10)*x[i,3]
+    else y[i] <- 0.01*(x[i,2]-10)*x[i,3]+0.1*(x[i,4]-20)
+  }
+  y
+}
+
+##################################################################

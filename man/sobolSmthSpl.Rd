@@ -24,6 +24,9 @@
 			Si estimates and with standard deviations the calculated standard errors)
 	}
 }
+\details{
+WARNING: This function can give bad results for reasons that have not been yet investigated.
+}
 \author{
 	Filippo Monari
 }

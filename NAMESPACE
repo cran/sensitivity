@@ -21,7 +21,7 @@ export(scatterplot)
 export(dnorm.trunc,pnorm.trunc,qnorm.trunc,rnorm.trunc)
 export(dgumbel.trunc,pgumbel.trunc,qgumbel.trunc,rgumbel.trunc)
 
-export(sobol.fun, ishigami.fun, morris.fun, atantemp.fun, campbell1D.fun, linkletter.fun)
+export(sobol.fun, ishigami.fun, morris.fun, atantemp.fun, campbell1D.fun, linkletter.fun, heterdisc.fun)
 
 export(src)
 S3method(print, src)
@@ -133,6 +133,8 @@ S3method(plot, delsa)
 
 export(PLI)
 export(PLIquantile)
+export(PLIsuperquantile)
+export(PLIquantile_multivar)
 
 export(PoincareConstant)
 export(PoincareOptimal)
@@ -170,6 +172,9 @@ export(shapleyPermRand)
 S3method(tell, shapleyPermRand)
 S3method(print, shapleyPermRand)
 S3method(plot, shapleyPermRand)
+
+export(shapleySubsetMc)
+S3method(plot, shapleySubsetMc)
 
 export(sobolSmthSpl)
 S3method(print, sobolSmthSpl)

@@ -1,9 +1,13 @@
 # library(evd)
 
-PLIquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=TRUE,percentage=FALSE,nboot=0,conf=0.9){
+PLIsuperquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=TRUE,percentage=FALSE,nboot=0,conf=0.9){
+  
+  # Deux manieres d'estimer un superquantile d'ordre p a partir d'un quantile q d'ordre p et d'un echantillon x :
+  #   sq <- mean(x[x>q])
+  #   sq <- mean(x*(x>q)/(1-p))
   
   # This function allows the estimation of Density Modification Based Reliability Sensitivity Indices
-  # called PLI (Perturbed-Law based sensitivity Indices) for a quantile
+  # called PLI (Perturbed-Law based sensitivity Indices) for a superquantile
   # Author: Paul Lemaitre, Bertrand Iooss, Thibault Delage and Roman Sueur
   #
   # Refs : P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss.
@@ -19,7 +23,7 @@ PLIquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",same
   ## Description of input parameters
   ###################################
   #  
-  # order is the order of the quantile to estimate.
+  # order is the order of the superquantile to estimate.
   # x is the matrix of simulation points coordinates (one column per variable).
   # y is the vector of model outputs.
   # deltasvector is a vector containing the values of delta for which the indices will be computed
@@ -34,7 +38,7 @@ PLIquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",same
   # samedelta is a boolean used with the value "MOY" for type. If it is set at TRUE, the mean perturbation will be the same for all the variables. 
   #   If not, the mean perturbation will be new_mean = mean+sigma*delta where mean, sigma are parameters defined in InputDistributions and delta is a value of deltasvector. See subsection 4.3.3 of the reference for an exemple of use. 
   # percentage defines the formula used for the PLI. If percentage=FALSE, the classical formula used in the bibliographic references is used.
-  #   If percentage=TRUE, the PLI is given in percentage of variation of the quantile (even if it is negative).
+  #   If percentage=TRUE, the PLI is given in percentage of variation of the superquantile (even if it is negative).
   # nboot is the number of bootstrap replicates
   # conf is the required bootstrap confidence interval
   # 
@@ -93,9 +97,11 @@ PLIquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",same
   ########################################
   
   quantilehat <- quantile(y,order) # quantile estimate
+  sqhat <- mean( y[y > quantilehat] ) # superquantile estimate
+  
   ys = sort(y,index.return=T) # ordered output
   xs = x[ys$ix,] # inputs ordered by increasing output
-  
+
 for (i in 1:nmbredevariables){		# loop for each variable
   ## definition of local variables
   Loi.Entree=InputDistributions[[i]]
@@ -103,7 +109,7 @@ for (i in 1:nmbredevariables){		# loop for each variable
   
   if (nboot > 0){
     lqidb=matrix(0,nrow=nmbrededeltas,ncol=nboot) # pour bootstrap 
-    quantilehatb=NULL
+    sqhatb=NULL
   }
   
   if (type=="MOY"){
@@ -330,10 +336,11 @@ for (i in 1:nmbredevariables){		# loop for each variable
           res1 = res1 + res[kid]
           res2 = res1/sum_res
         }
-        lqid[K] = ys$x[kid]
-      } else lqid[K] = quantilehat
+#        lqid[K] = mean(y * (y > ys$x[kid] ) / (1-order)) # gros probleme avec cette formulation, pourquoi ?
+        lqid[K] = mean(y[y > ys$x[kid]]) # ys$x[kid] = quantile 
+      } else lqid[K] = sqhat
     }
-    
+
     ###############################################################
     ##########              BOOTSTRAP                ###############
     ###############################################################
@@ -344,7 +351,9 @@ for (i in 1:nmbredevariables){		# loop for each variable
         xb <- x[ib,]
         yb <- y[ib]
     
-        quantilehatb <- c(quantilehatb, quantile(yb,order)) # quantile estimate
+        quantilehatb <- quantile(yb,order) # quantile estimate
+        sqhatb <- c(sqhatb, mean( yb * (yb > quantilehatb) / ( 1 - order ))) # superquantile estimate
+        
         ysb = sort(yb,index.return=T) # ordered output
         xsb = xb[ysb$ix,] # inputs ordered by increasing output
       
@@ -364,8 +373,8 @@ for (i in 1:nmbredevariables){		# loop for each variable
               res1 = res1 + res[kid]
               res2 = res1/sum_res
             }
-            lqidb[K,b] = ysb$x[kid]
-          } else lqidb[K,b] = quantilehatb[b]
+            lqidb[K,b] = mean(yb[yb > ysb$x[kid]] )
+          } else lqidb[K,b] = sqhatb[b]
         }
       } # end of bootstrap loop
     }  
@@ -494,8 +503,8 @@ for (i in 1:nmbredevariables){		# loop for each variable
           res1 = res1 + res[kid]
           res2 = res1/sum_res
         }
-        lqid[K] = ys$x[kid]
-      } else lqid[K] = quantilehat
+        lqid[K] = mean(y[y > ys$x[kid]] ) # ys$x[kid] = quantile
+      } else lqid[K] = sqhat
     }
     
     ###############################################################
@@ -508,7 +517,9 @@ for (i in 1:nmbredevariables){		# loop for each variable
         xb <- x[ib,]
         yb <- y[ib]
         
-        quantilehatb <- c(quantilehatb, quantile(yb,order)) # quantile estimate
+        quantilehatb <- quantile(yb,order) # quantile estimate
+        sqhatb <- c(sqhatb, mean( yb * (yb > quantilehatb) / ( 1 - order ))) # superquantile estimate
+
         ysb = sort(yb,index.return=T) # ordered output
         xsb = xb[ysb$ix,] # inputs ordered by increasing output
         
@@ -528,8 +539,8 @@ for (i in 1:nmbredevariables){		# loop for each variable
               res1 = res1 + res[kid]
               res2 = res1/sum_res
             }
-            lqidb[K,b] = ysb$x[kid]
-          } else lqidb[K,b] = quantilehatb[b]
+            lqidb[K,b] = mean(yb[yb > ysb$x[kid]] )
+          } else lqidb[K,b] = sqhatb[b]
         }
       } # end of bootstrap loop
     }  
@@ -542,50 +553,50 @@ for (i in 1:nmbredevariables){		# loop for each variable
   
   for (j in 1:length(lqid)){
     if (percentage==FALSE){
-      if(lqid[j]>quantilehat){
-        I[j,i]=lqid[j]/quantilehat-1
+      if(lqid[j]>sqhat){
+        I[j,i]=lqid[j]/sqhat-1
         J[j,i]=lqid[j]
       } else {
-        I[j,i]=-quantilehat/lqid[j]+1
+        I[j,i]=-sqhat/lqid[j]+1
         J[j,i]=lqid[j]
       }
     } else{
-      I[j,i]=lqid[j]/quantilehat-1
+      I[j,i]=lqid[j]/sqhat-1
       J[j,i]=lqid[j]
     }
     
     if (nboot > 0){
-      qinf <- quantile(lqidb[j,],(1-conf)/2)
-      qsup <- quantile(lqidb[j,],(1+conf)/2)
-      qb <- mean(quantilehatb)
+      sqinf <- quantile(lqidb[j,],(1-conf)/2)
+      sqsup <- quantile(lqidb[j,],(1+conf)/2)
+      sqb <- mean(sqhatb)
       if (percentage==FALSE){
-        if(qinf>qb){
-          ICIinf[j,i]=qinf/qb-1
-          JCIinf[j,i]=qinf
+        if(sqinf>sqb){
+          ICIinf[j,i]=sqinf/sqb-1
+          JCIinf[j,i]=sqinf
         } else {
-          ICIinf[j,i]=-qb/qinf+1
-          JCIinf[j,i]=qinf
+          ICIinf[j,i]=-sqb/sqinf+1
+          JCIinf[j,i]=sqinf
         }
-        if(qsup>quantilehat){
-          ICIsup[j,i]=qsup/qb-1
-          JCIsup[j,i]=qsup
+        if(sqsup>sqhat){
+          ICIsup[j,i]=sqsup/sqb-1
+          JCIsup[j,i]=sqsup
         } else {
-          ICIsup[j,i]=-qb/qsup+1
-          JCIsup[j,i]=qsup
+          ICIsup[j,i]=-sqb/sqsup+1
+          JCIsup[j,i]=sqsup
         }
       }
       else {
-        ICIinf[j,i]=qinf/qb-1
-        JCIinf[j,i]=qinf
-        ICIsup[j,i]=qsup/qb-1
-        JCIsup[j,i]=qsup
+        ICIinf[j,i]=sqinf/sqb-1
+        JCIinf[j,i]=sqinf
+        ICIsup[j,i]=sqsup/sqb-1
+        JCIsup[j,i]=sqsup
       }
     }
   }
   
   }	# End for each input
   
-  res <- list(PLI = I, PLICIinf = ICIinf, PLICIsup = ICIsup, quantile = J, quantileCIinf = JCIinf, quantileCIsup = JCIsup)
+  res <- list(PLI = I, PLICIinf = ICIinf, PLICIsup = ICIsup, superquantile = J, superquantileCIinf = JCIinf, superquantileCIsup = JCIsup)
   
   return(res)
 }

@@ -1,10 +1,25 @@
 
+Changes in version 1.16.0:
+
+    o   Added functions for calculating Shapley indices from data: 
+    shapleySubsetMC()
+    
+    o   Added functions for calculating PLI: PLIsuperquantile() and
+    PLIquantile_multivar()
+    
+    o In the 3 PLI functions related to quantiles:
+      - new arguments in order to have the PLI in percentage
+      - the result also contains the perturbed quantiles values
+      - bootstrap confidence intervals can be obtained
+    
+    o   Added the toy function heterdisc.fun()
+    
 Changes in version 1.15.2:
 
     o   Added functions for Morris method for multidimensional outputs:
     morrisMultOut()
     
-    o   Added the toy functions linkletter.fun()
+    o   Added the toy function linkletter.fun()
     
     o   Change the names of the fcts (dtnorm, ..., dtgumbel, ...) by 
     (dnorm.trunc, ...) (reverse dependency pb with ATmet package).

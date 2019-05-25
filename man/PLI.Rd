@@ -30,7 +30,7 @@ PLI(failurepoints,failureprobabilityhat,samplesize,deltasvector,
 	  Implemented cases so far:
 	  \itemize{
       \item For a mean perturbation: Gaussian, Uniform, Triangle,
-        Left Trucated Gaussian, Left Truncated Gumbel. Using Gumber
+        Left Trucated Gaussian, Left Truncated Gumbel. Using Gumbel
         requires the package \code{evd}.
 	    \item For a variance perturbation: Gaussian, Uniform.
       }}
@@ -76,7 +76,7 @@ Paul Lemaitre
 }
 
 \seealso{
-  \code{\link{PLIquantile}}
+  \code{\link{PLIquantile}, \link{PLIquantile_multivar}, \link{PLIsuperquantile}}
 }
 
 \examples{

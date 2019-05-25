@@ -112,7 +112,7 @@ Bertrand Iooss, Eunhye Song, Barry L. Nelson, Jeremy Staum
 }
 
 \seealso{
-  \code{\link{shapleyPermRand}}
+  \code{\link{shapleyPermRand}\link{shapleyPermEx}}
 }
 
 \examples{
