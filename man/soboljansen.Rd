@@ -3,6 +3,7 @@
 \alias{tell.soboljansen}
 \alias{print.soboljansen}
 \alias{plot.soboljansen}
+\alias{ggplot.soboljansen}
 
 \title{Monte Carlo Estimation of Sobol' Indices (improved formulas of Jansen (1999) and Saltelli et al. (2010))}
 
@@ -18,6 +19,7 @@ soboljansen(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
 \method{tell}{soboljansen}(x, y = NULL, return.var = NULL, \dots)
 \method{print}{soboljansen}(x, \dots)
 \method{plot}{soboljansen}(x, ylim = c(0, 1), y_col = NULL, y_dim3 = NULL, \dots)
+\method{ggplot}{soboljansen}(x, ylim = c(0, 1), y_col = NULL, y_dim3 = NULL, \dots)
 }
 
 \arguments{
@@ -114,6 +116,9 @@ X2 <- data.frame(matrix(runif(8 * n), nrow = n))
 x <- soboljansen(model = sobol.fun, X1, X2, nboot = 100)
 print(x)
 plot(x)
+
+library(ggplot2)
+ggplot(x)
 
 # Only for demonstration purposes: a model function returning a matrix
 sobol.fun_matrix <- function(X){

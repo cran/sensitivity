@@ -3,6 +3,7 @@
 \alias{tell.soboltouati}
 \alias{print.soboltouati}
 \alias{plot.soboltouati}
+\alias{ggplot.soboltouati}
 
 \title{Monte Carlo Estimation of Sobol' Indices (formulas of Martinez (2011) and Touati (2016))}
 
@@ -21,6 +22,7 @@ soboltouati(model = NULL, X1, X2, conf = 0.95, \dots)
 \method{tell}{soboltouati}(x, y = NULL, return.var = NULL, \dots)
 \method{print}{soboltouati}(x, \dots)
 \method{plot}{soboltouati}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{soboltouati}(x, ylim = c(0, 1), \dots)
 }
 
 \arguments{
@@ -101,6 +103,9 @@ X2 <- data.frame(matrix(runif(8 * n), nrow = n))
 x <- soboltouati(model = sobol.fun, X1, X2)
 print(x)
 plot(x)
+
+library(ggplot2)
+ggplot(x)
 }
 
 \keyword{design}

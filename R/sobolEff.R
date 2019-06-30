@@ -177,3 +177,17 @@ plot.sobolEff <- function(x, ylim = c(0, 1), ...) {
     }
   }
 }
+
+ggplot.sobolEff <- function(x, ylim = c(0, 1), ...) {
+  
+  if (! is.null(x$y)) {
+    if (x$order==1){
+      title <- "First order indices"
+    }
+    else{
+      title <- "Second order subset indices"   
+    }
+    nodeggplot(listx = list(x$S), xname = title, title = title, ylim = ylim)
+  }
+}
+

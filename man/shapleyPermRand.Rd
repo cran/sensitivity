@@ -3,6 +3,7 @@
 \alias{tell.shapleyPermRand}
 \alias{print.shapleyPermRand}
 \alias{plot.shapleyPermRand}
+\alias{ggplot.shapleyPermRand}
 
 \title{Estimation of Shapley effects by random permutations of inputs 
 (Agorithm of Song et al, 2016), in cases of independent or dependent inputs}
@@ -23,6 +24,7 @@ shapleyPermRand(model = NULL, Xall, Xset, d, Nv, m, No = 1, Ni = 3, colnames = N
 \method{tell}{shapleyPermRand}(x, y = NULL, return.var = NULL, \dots)
 \method{print}{shapleyPermRand}(x, \dots)
 \method{plot}{shapleyPermRand}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{shapleyPermRand}(x, ylim = c(0, 1), \dots)
 }
 
 \arguments{
@@ -132,10 +134,14 @@ x <- shapleyPermRand(model = ishigami.fun, Xall=Xall, Xset=Xset, d=d, Nv=1e4, m=
 print(x)
 plot(x)
 
+library(ggplot2)
+ggplot(x)
+
 ##################################
 # Test case : Linear model (3 Gaussian inputs including 2 dependent)
 # See Iooss and Prieur (2017)
 
+library(ggplot2)
 library(gtools)
 library(mvtnorm) # Multivariate Gaussian variables
 library(condMVNorm) # Conditional multivariate Gaussian variables
@@ -159,12 +165,13 @@ Xset <- function(n, Sj, Sjc, xjc){
 
 x <- shapleyPermRand(model = modlin, Xall=Xall, Xset=Xset, d=d, Nv=1e3, m = 1e4, No = 1, Ni = 3)
 print(x)
-plot(x)
+ggplot(x)
 
 #############################""
 # Test case : Multiserver queue model (6 Pert inputs including two dependent pairs)
 # See Song, Nelson and Staum (2016)
  
+library(ggplot2)
 library(gtools)
 library(mc2d) # To generate Pert random variables
 
@@ -321,7 +328,7 @@ Xset <- function(n, Sj, Sjc, xjc)
 
 x <- shapleyPermRand(model = model, Xall=Xall, Xset=Xset, d=d, Nv=1e3, m = 1e4, No = 1, Ni = 3)
 print(x)
-plot(x)
+ggplot(x)
 
 }
 

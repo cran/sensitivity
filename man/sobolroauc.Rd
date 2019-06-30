@@ -3,6 +3,7 @@
 \alias{tell.sobolroauc}
 \alias{print.sobolroauc}
 \alias{plot.sobolroauc}
+\alias{ggplot.sobolroauc}
 
 
 \title{Sobol' Indices estimation under inequality constraints}
@@ -15,6 +16,7 @@ sobolroauc(model = NULL, factors, constraints = NULL, N, p = 1, order,
 \method{tell}{sobolroauc}(x, y = NULL, \dots)
 \method{print}{sobolroauc}(x, \dots)
 \method{plot}{sobolroauc}(x, ylim = c(0,1), \dots)
+\method{ggplot}{sobolroauc}(x, ylim = c(0,1), \dots)
 }
 
 \arguments{
@@ -102,11 +104,14 @@ x <- sobolroauc(model = sobol.fun, factors = 8, constraints = list(c(1,3),c(4,6)
 print(x)
 plot(x)
 
+library(ggplot2)
+ggplot(x)
+
 # closed second-order sensitivity indices
 x <- sobolroauc(model = sobol.fun, factors = 8, constraints = list(c(1,3),c(4,6)), 
                 N = 1000, order = 2, nboot=100)
 print(x)
-plot(x)
+ggplot(x)
 
 }
 \keyword{design}

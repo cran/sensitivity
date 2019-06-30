@@ -2,6 +2,7 @@
 \alias{sobolMultOut}
 \alias{print.sobolMultOut}
 \alias{plot.sobolMultOut}
+\alias{ggplot.sobolMultOut}
 
 \title{Monte Carlo Estimation of Aggregated Sobol' Indices for multiple and functional outputs}
 
@@ -19,6 +20,7 @@ sobolMultOut(model = NULL, q = 1, X1, X2, MCmethod = "sobol",
                          plotFct=FALSE, \dots)
 \method{print}{sobolMultOut}(x, \dots)
 \method{plot}{sobolMultOut}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{sobolMultOut}(x, ylim = c(0, 1), \dots)
 }
 
 \arguments{
@@ -107,6 +109,8 @@ print(sa)
 x11()
 plot(sa)
 
+library(ggplot2)
+ggplot(sa)
 }
 }
 

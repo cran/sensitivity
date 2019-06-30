@@ -105,3 +105,9 @@ plot.sobolEff2 <- function(x, ylim = c(0, 1), ...) {
     nodeplot(x$S, ylim = ylim)
   }
 }
+
+gglot.sobolEff2 <- function(x, ylim = c(0, 1), ...) {
+  if (! is.null(x$y)) {
+    nodeggplot(listx = list(x$S), xname="",ylim = ylim)
+  }
+}

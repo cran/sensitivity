@@ -3,6 +3,7 @@
 \alias{tell.sensiHSIC}
 \alias{print.sensiHSIC}
 \alias{plot.sensiHSIC}
+\alias{ggplot.sensiHSIC}
 
 \title{Sensitivity Indices based on Hilbert-Schmidt Independence Criterion (HSIC)}
 
@@ -20,6 +21,7 @@ to the Hilbert-Schmidt Independence Criterion (HSIC) proposed by Gretton et al.
   \method{tell}{sensiHSIC}(x, y = NULL, \dots)
   \method{print}{sensiHSIC}(x, \dots)
   \method{plot}{sensiHSIC}(x, ylim = c(0, 1), \dots)
+  \method{ggplot}{sensiHSIC}(x, ylim = c(0, 1), \dots)
 }
 
 \arguments{
@@ -107,11 +109,14 @@ to the Hilbert-Schmidt Independence Criterion (HSIC) proposed by Gretton et al.
  \donttest{ 
   # Test case : the non-monotonic Sobol g-function
   # Only one kernel is provided with default hyperparameter value
+  library(ggplot2)
+  
   n <- 100
   X <- data.frame(matrix(runif(8 * n), nrow = n))
   x <- sensiHSIC(model = sobol.fun, X, kernelX = "raquad", kernelY = "rbf")
   print(x)
-  
+  ggplot(x)
+
   # Test case : the Ishigami function
   # A list of kernels is given with default hyperparameter value
   n <- 100
@@ -119,11 +124,13 @@ to the Hilbert-Schmidt Independence Criterion (HSIC) proposed by Gretton et al.
   x <- sensiHSIC(model = ishigami.fun, X, kernelX = c("rbf","matern3","dcov"), 
                   kernelY = "rbf")
   print(x)
-  
+  ggplot(x)
+
   # A combination of kernels is given and a dummy value is passed for 
   # the first hyperparameter
   x <- sensiHSIC(model = ishigami.fun, X, kernelX = c("ssanova1","matern3","dcov"), 
                   paramX = c(1,2,1), kernelY = "ssanova1")
   print(x)
+  ggplot(x)
  }
 }

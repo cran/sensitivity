@@ -65,3 +65,12 @@ plot.pcc <- function(x, ylim = c(-1,1), ...) {
     nodeplot(x$PRCC, ylim = ylim, main = "PRRC")
   }
 }
+
+ggplot.pcc <- function(x, ylim = c(-1,1), ...) {  
+  if ("PCC" %in% names(x)) {
+    nodeggplot(listx = list(x$PCC), xname = "PCC", ylim = ylim, title = "PCC")
+  }else if ("PRCC" %in% names(x)) {
+    nodeggplot(listx = list(x$PRCC), xname = "PRRCC", ylim = ylim, title = "PCC")
+  }
+}
+

@@ -3,6 +3,7 @@
 \alias{tell.sobolTIIpf}
 \alias{print.sobolTIIpf}
 \alias{plot.sobolTIIpf}
+\alias{ggplot.sobolTIIpf}
 \alias{plotFG.sobolTIIpf}
 \alias{plotFG}
 
@@ -15,6 +16,7 @@ sobolTIIpf(model = NULL, X1, X2, \dots)
 \method{tell}{sobolTIIpf}(x, y = NULL, \dots)
 \method{print}{sobolTIIpf}(x, \dots)
 \method{plot}{sobolTIIpf}(x, ylim = NULL, \dots)
+\method{ggplot}{sobolTIIpf}(x, ylim = NULL, \dots)
 \method{plotFG}{sobolTIIpf}(x)
 }
 
@@ -73,6 +75,9 @@ print(x)
 
 # plot of tiis and FANOVA graph
 plot(x)
+
+library(ggplot2)
+ggplot(x)
 
 \donttest{
 library(igraph)

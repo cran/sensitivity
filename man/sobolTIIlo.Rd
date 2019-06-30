@@ -3,6 +3,7 @@
 \alias{tell.sobolTIIlo}
 \alias{print.sobolTIIlo}
 \alias{plot.sobolTIIlo}
+\alias{ggplot.sobolTIIlo}
 \alias{plotFG.sobolTIIlo}
 
 \title{Liu and Owen Estimation of Total Interaction Indices}
@@ -15,6 +16,7 @@ sobolTIIlo(model = NULL, X1, X2, conf = 0.95, \dots)
 \method{tell}{sobolTIIlo}(x, y = NULL, \dots)
 \method{print}{sobolTIIlo}(x, \dots)
 \method{plot}{sobolTIIlo}(x, ylim = NULL, \dots)
+\method{ggplot}{sobolTIIlo}(x, ylim = NULL, \dots)
 \method{plotFG}{sobolTIIlo}(x)
 }
 
@@ -74,6 +76,9 @@ print(x)
 
 # plot of tiis and FANOVA graph
 plot(x)
+
+library(ggplot2)
+ggplot(x)
 
 \donttest{
 library(igraph)

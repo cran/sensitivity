@@ -59,3 +59,11 @@ plot.src <- function(x, ylim = c(-1,1), ...) {
     nodeplot(x$SRRC, ylim = ylim, main = "SRRC")
   }
 }
+
+ggplot.src <- function(x, ylim = c(-1,1), ...) {  
+  if ("SRC" %in% names(x)) {
+    nodeggplot(listx = list(x$SRC), xname = "SRC", ylim = ylim, title = "SRC")
+  } else if ("SRRC" %in% names(x)) {
+    nodeggplot(listx = list(x$SRRC), xname = "SRRC", ylim = ylim, title = "SRRC")
+  }
+}

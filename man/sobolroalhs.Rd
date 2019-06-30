@@ -3,6 +3,7 @@
 \alias{tell.sobolroalhs}
 \alias{print.sobolroalhs}
 \alias{plot.sobolroalhs}
+\alias{ggplot.sobolroalhs}
 
 
 \title{Sobol' Indices Estimation Using Replicated OA-based LHS}
@@ -14,6 +15,7 @@ sobolroalhs(model = NULL, factors, N, p=1, order, tail=TRUE, conf=0.95, nboot=0,
 \method{tell}{sobolroalhs}(x, y = NULL, \dots)
 \method{print}{sobolroalhs}(x, \dots)
 \method{plot}{sobolroalhs}(x, ylim = c(0,1), \dots)
+\method{ggplot}{sobolroalhs}(x, ylim = c(0,1), \dots)
 }
 
 \arguments{
@@ -97,10 +99,13 @@ x <- sobolroalhs(model = sobol.fun, factors = 8, N = 1000, order = 1, nboot=100)
 print(x)
 plot(x)
 
+library(ggplot2)
+ggplot(x)
+
 # closed second-order sensitivity indices
 x <- sobolroalhs(model = sobol.fun, factors = 8, N = 1000, order = 2, nboot=100)
 print(x)
-plot(x)
+ggplot(x)
 
 ####################
 # Test case: dealing with non-uniform distributions
@@ -121,7 +126,7 @@ toy <- function(x){rowSums(x)}
 y <- toy(x$X)
 tell(x, y)
 print(x)
-plot(x)
+ggplot(x)
 
 ####################
 # Test case : multidimensional outputs
@@ -129,7 +134,7 @@ plot(x)
 toy <- function(x){cbind(x[,1]+x[,2]+x[,1]*x[,2],2*x[,1]+3*x[,1]*x[,2]+x[,2])}
 x <- sobolroalhs(model = toy, factors = 3, N = 1000, p=2, order =1, nboot=100)
 print(x)
-plot(x)
+ggplot(x)
 }
 \keyword{design}
 

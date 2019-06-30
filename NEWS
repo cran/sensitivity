@@ -1,4 +1,20 @@
 
+Changes in version 1.16.1:
+
+    o   New function nodeggplot() (in order to ebautify the plots) 
+    
+    o   ggplot functions for the following functions:
+    pcc, src, sensiFdiv, sensiHSIC, shapleyPermEx, shapleyPermrand,
+    sobol, sobol2002, sobol2007, sobolEff, soboljansen, sobolmara, 
+    sobolmartinez, sobolMultOut, sobolowen, sobolroalhs, sobolroauc,
+    sobolsalt, sobolTIIlo, sobolTIIpf, soboltouati
+    o   Functions sobolroalhs() and sobolSalt(): Modifications of 
+    plot functions in order to have "XiXj" instead of "Xij""
+
+    o   New output of function delsa(): Brute values of derivatives
+
+    o   Test case corrected in pcc.Rd
+
 Changes in version 1.16.0:
 
     o   Added functions for calculating Shapley indices from data: 

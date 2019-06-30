@@ -3,6 +3,7 @@
 \alias{tell.sensiFdiv}
 \alias{print.sensiFdiv}
 \alias{plot.sensiFdiv}
+\alias{ggplot.sensiFdiv}
 
 \title{Sensitivity Indices based on Csiszar f-divergence}
 
@@ -19,6 +20,7 @@ sensiFdiv(model = NULL, X, fdiv = "TV", nboot = 0, conf = 0.95, ...)
 \method{tell}{sensiFdiv}(x, y = NULL, \dots)
 \method{print}{sensiFdiv}(x, \dots)
 \method{plot}{sensiFdiv}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{sensiFdiv}(x, ylim = c(0, 1), \dots)
 }
 
 \arguments{
@@ -87,6 +89,9 @@ X <- data.frame(matrix(runif(8 * n), nrow = n))
 # Density-based sensitivity analysis
 x <- sensiFdiv(model = sobol.fun, X = X, fdiv = c("TV","KL"), nboot=30)
 print(x)
+
+library(ggplot2)
+ggplot(x)
 }
 }
 

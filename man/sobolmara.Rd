@@ -3,6 +3,7 @@
 \alias{tell.sobolmara}
 \alias{print.sobolmara}
 \alias{plot.sobolmara}
+\alias{ggplot.sobolmara}
 
 \title{Monte Carlo Estimation of Sobol' Indices via matrix permutations}
 
@@ -17,6 +18,7 @@ sobolmara(model = NULL, X1, \dots)
 \method{tell}{sobolmara}(x, y = NULL, return.var = NULL, \dots)
 \method{print}{sobolmara}(x, \dots)
 \method{plot}{sobolmara}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{sobolmara}(x, ylim = c(0, 1), \dots)
 }
 
 \arguments{
@@ -72,6 +74,9 @@ X1 <- data.frame(matrix(runif(8 * n), nrow = n))
 x <- sobolmara(model = sobol.fun, X1 = X1)
 print(x)
 plot(x)
+
+library(ggplot2)
+ggplot(x)
 }
 
 \keyword{design}

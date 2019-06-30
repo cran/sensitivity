@@ -11,6 +11,9 @@
 ## Converted to functions compatible with sensitivity package
 ## Joseph Guillaume, josephguillaume@gmail.com, 23/5/2014
 ##
+## Modified in order to recover brute values of derivatives
+## Bertrand Iooss, 19/06/2019
+##
 ## Calling a model from R
 ##
 ## obj <- delsa(model=sobol.fun,par.ranges=replicate(8,c(0,1),simplify=FALSE),samples=100,method="sobol")
@@ -117,8 +120,10 @@ tell.delsa<-function(x,y=NULL,...){
   }## End loop over parameter sets
   
   colnames(delsafirst)=colnames(x$X)
+  colnames(deriv)=colnames(x$X)
   
   x$delsafirst=delsafirst
+  x$deriv=deriv
   assign(id, x, parent.frame()) 
 }
 

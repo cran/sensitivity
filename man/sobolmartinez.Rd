@@ -3,6 +3,7 @@
 \alias{tell.sobolmartinez}
 \alias{print.sobolmartinez}
 \alias{plot.sobolmartinez}
+\alias{ggplot.sobolmartinez}
 
 \title{Monte Carlo Estimation of Sobol' Indices (formulas of Martinez (2011))}
 
@@ -19,6 +20,7 @@ sobolmartinez(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
 \method{tell}{sobolmartinez}(x, y = NULL, return.var = NULL, \dots)
 \method{print}{sobolmartinez}(x, \dots)
 \method{plot}{sobolmartinez}(x, ylim = c(0, 1), y_col = NULL, y_dim3 = NULL, \dots)
+\method{ggplot}{sobolmartinez}(x, ylim = c(0, 1), y_col = NULL, y_dim3 = NULL, \dots)
 }
 
 \arguments{
@@ -124,6 +126,9 @@ X2 <- data.frame(matrix(runif(8 * n), nrow = n))
 x <- sobolmartinez(model = sobol.fun, X1, X2, nboot = 0)
 print(x)
 plot(x)
+
+library(ggplot2)
+ggplot(x)
 
 # Only for demonstration purposes: a model function returning a matrix
 sobol.fun_matrix <- function(X){

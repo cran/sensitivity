@@ -186,3 +186,17 @@ plot.sensiFdiv <- function(x, ylim = c(0, 1), ...) {
     }
   }
 }
+
+ggplot.sensiFdiv <- function(x, ylim = c(0, 1), ...) {
+  
+  if (! is.null(x$y)) {
+    nf <- length(x$fdiv)
+    if (nf==1){
+      nodeggplot(list(x$S), ylim = ylim, xname = paste("Csiszar f-divergence indices with", x$fdiv,sep=" "), title = paste("Csiszar f-divergence indices with", x$fdiv,sep=" "))
+    }
+    else {
+      nodeggplot(x$S, ylim = ylim, xname = paste("Csiszar f-divergence indices with", x$fdiv,sep=" "),pch=20+1:nf)
+    }
+  }
+}
+

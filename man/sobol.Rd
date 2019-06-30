@@ -3,6 +3,7 @@
 \alias{tell.sobol}
 \alias{print.sobol}
 \alias{plot.sobol}
+\alias{ggplot.sobol}
 
 \title{Monte Carlo Estimation of Sobol' Indices}
 
@@ -20,6 +21,7 @@ sobol(model = NULL, X1, X2, order = 1, nboot = 0, conf = 0.95, \dots)
 \method{tell}{sobol}(x, y = NULL, return.var = NULL, \dots)
 \method{print}{sobol}(x, \dots)
 \method{plot}{sobol}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{sobol}(x, ylim = c(0, 1), \dots)
 }
 
 \arguments{
@@ -91,6 +93,9 @@ X2 <- data.frame(matrix(runif(8 * n), nrow = n))
 x <- sobol(model = sobol.fun, X1 = X1, X2 = X2, order = 2, nboot = 100)
 print(x)
 #plot(x)
+
+library(ggplot2)
+ggplot(x)
 }
 
 \keyword{design}

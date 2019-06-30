@@ -3,6 +3,7 @@
 \alias{tell.sobolEff}
 \alias{print.sobolEff}
 \alias{plot.sobolEff}
+\alias{ggplot.sobolEff}
 
 \title{Monte Carlo Estimation of Sobol' Indices (formulas of Janon-Monod)}
 
@@ -13,6 +14,7 @@ sobolEff(model = NULL, X1, X2, order=1, nboot = 0, conf = 0.95, \dots)
 \method{tell}{sobolEff}(x, y = NULL, \dots)
 \method{print}{sobolEff}(x, \dots)
 \method{plot}{sobolEff}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{sobolEff}(x, ylim = c(0, 1), \dots)
 }
 
 \arguments{
@@ -79,6 +81,9 @@ X2 <- data.frame(matrix(runif(8 * n), nrow = n))
 # sensitivity analysis
 x <- sobolEff(model = sobol.fun, X1 = X1, X2 = X2, nboot = 0)
 print(x)
+
+library(ggplot2)
+ggplot(x)
 }
 
 \keyword{design}

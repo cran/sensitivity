@@ -106,6 +106,16 @@ plot.sobolTIIpf <- function(x, ylim = NULL, ...)
   }
 }
 
+ggplot.sobolTIIpf <- function(x, ylim = NULL, ...)
+{
+  if (is.null(ylim)){
+    ylim <- range(x$tii.scaled[,1])
+  }
+  if (!is.null(x$y)) {
+    nodeggplot(listx = list(x$tii.scaled), xname="",ylim = ylim)
+  }
+}
+
 plotFG.sobolTIIpf <- function (x) 
 {
   if (!is.null(x$y)) {

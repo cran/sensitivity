@@ -3,6 +3,7 @@
 \alias{tell.sobolowen}
 \alias{print.sobolowen}
 \alias{plot.sobolowen}
+\alias{ggplot.sobolowen}
 
 \title{Monte Carlo Estimation of Sobol' Indices (improved formulas of Owen (2013)}
 
@@ -18,6 +19,7 @@ sobolowen(model = NULL, X1, X2, X3, nboot = 0, conf = 0.95, varest = 2, \dots)
 \method{tell}{sobolowen}(x, y = NULL, return.var = NULL, varest = 2, \dots)
 \method{print}{sobolowen}(x, \dots)
 \method{plot}{sobolowen}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{sobolowen}(x, ylim = c(0, 1), \dots)
 }
 
 \arguments{
@@ -95,6 +97,9 @@ X3 <- data.frame(matrix(runif(8 * n), nrow = n))
 x <- sobolowen(model = sobol.fun, X1, X2, X3, nboot = 100)
 print(x)
 plot(x)
+
+library(ggplot2)
+ggplot(x)
 }
 }
 

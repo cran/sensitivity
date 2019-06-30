@@ -257,11 +257,13 @@ tell.sobolroalhs=function(x, y = NULL, ...){
   
   if(x$order==1){
     loop_index <- matrix(1:d,ncol=1)
+    rownames <- paste("X",apply(loop_index,1,paste,collapse=""),sep= "")
+
   } else {
     loop_index <- t(combn(d,2))
+    rownames <- paste("X",apply(loop_index,1,paste,collapse="X"),sep= "")
   }
   
-  rownames <- paste("X",apply(loop_index,1,paste,collapse=""),sep= "")
   rownames(x$S) <- rownames
   rownames(x$V) <- c("global",gsub("S","V",rownames))
   
@@ -308,5 +310,18 @@ plot.sobolroalhs <- function(x, ylim = c(0, 1), ...) {
     else{
       legend(x = "topright", legend = c("Closed second-order indices"))    
     }
+  }
+}
+
+ggplot.sobolroalhs <- function(x, ylim = c(0, 1), ...) {
+  
+  if (!is.null(x$y)) {
+    if (x$order==1){
+      title <- "First-order indices"
+    }
+    else{
+      title <- "Closed second-order indices"   
+    }
+    nodeggplot(listx = list(x$S), xname = title, ylim = ylim, title = title)
   }
 }

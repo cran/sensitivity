@@ -3,6 +3,7 @@
 \alias{tell.shapleyPermEx}
 \alias{print.shapleyPermEx}
 \alias{plot.shapleyPermEx}
+\alias{ggplot.shapleyPermEx}
 
 \title{Estimation of Shapley effects by examining all permutations of inputs 
 (Agorithm of Song et al, 2016), in cases of independent or dependent inputs}
@@ -23,6 +24,7 @@ shapleyPermEx(model = NULL, Xall, Xset, d, Nv, No, Ni = 3, colnames = NULL, \dot
 \method{tell}{shapleyPermEx}(x, y = NULL, return.var = NULL, \dots)
 \method{print}{shapleyPermEx}(x, \dots)
 \method{plot}{shapleyPermEx}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{shapleyPermEx}(x, ylim = c(0, 1), \dots)
 }
 
 \arguments{
@@ -133,10 +135,14 @@ x <- shapleyPermEx(model = ishigami.fun, Xall=Xall, Xset=Xset, d=d, Nv=1e4, No =
 print(x)
 plot(x)
 
+library(ggplot2)
+ggplot(x)
+
 ##################################
 # Test case : Linear model (3 Gaussian inputs including 2 dependent)
 # See Iooss and Prieur (2017)
 
+library(ggplot2)
 library(gtools)
 library(mvtnorm) # Multivariate Gaussian variables
 library(condMVNorm) # Conditional multivariate Gaussian variables
@@ -160,7 +166,7 @@ Xset <- function(n, Sj, Sjc, xjc){
 
 x <- shapleyPermEx(model = modlin, Xall=Xall, Xset=Xset, d=d, Nv=1e4, No = 1e3, Ni = 3)
 print(x)
-plot(x)
+ggplot(x)
 }
 
 }

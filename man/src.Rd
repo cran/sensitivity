@@ -2,6 +2,7 @@
 \alias{src}
 \alias{print.src}
 \alias{plot.src}
+\alias{ggplot.src}
 
 \title{Standardized Regression Coefficients}
 
@@ -16,6 +17,7 @@
 src(X, y, rank = FALSE, nboot = 0, conf = 0.95)
 \method{print}{src}(x, \dots)
 \method{plot}{src}(x, ylim = c(-1,1), \dots)
+\method{ggplot}{src}(x, ylim = c(-1,1), \dots)
 }
 
 \arguments{
@@ -74,6 +76,9 @@ y <- with(X, X1 + X2 + X3)
 x <- src(X, y, nboot = 100)
 print(x)
 plot(x)
+
+library(ggplot2)
+ggplot(x)
 }
 
 \seealso{

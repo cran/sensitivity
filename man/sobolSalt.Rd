@@ -3,6 +3,7 @@
 \alias{tell.sobolSalt}
 \alias{print.sobolSalt}
 \alias{plot.sobolSalt}
+\alias{ggplot.sobolSalt}
 
 \title{Monte Carlo Estimation of Sobol' Indices based on Saltelli schemes}
 
@@ -17,6 +18,7 @@ sobolSalt(model = NULL, X1, X2, scheme="A", nboot = 0, conf = 0.95, \dots)
 \method{tell}{sobolSalt}(x, y = NULL, \dots)
 \method{print}{sobolSalt}(x, \dots)
 \method{plot}{sobolSalt}(x, ylim = c(0, 1), choice, \dots)
+\method{ggplot}{sobolSalt}(x, ylim = c(0, 1), choice, \dots)
 }
 
 \arguments{
@@ -87,6 +89,9 @@ X2 <- data.frame(matrix(runif(8 * n), nrow = n))
 x <- sobolSalt(model = sobol.fun, X1, X2, scheme="A", nboot = 100)
 print(x)
 plot(x, choice=1)
+
+library(ggplot2)
+ggplot(x, choice=1)
 }
 
 \keyword{design}

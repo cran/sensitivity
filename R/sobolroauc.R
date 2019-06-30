@@ -381,3 +381,16 @@ plot.sobolroauc <- function(x, ylim = c(0, 1), ...) {
     }
   }
 }
+
+ggplot.sobolroauc <- function(x, ylim = c(0, 1), ...) {
+  
+  if (!is.null(x$y)) {
+    if (x$order==1){
+      title <- "First-order indices"
+    }
+    else{
+      title <- "Closed second-order indices"   
+    }
+    nodeggplot(listx = list(x$S), xname = title, ylim = ylim, title = title)
+  }
+}

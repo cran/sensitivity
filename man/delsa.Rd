@@ -57,7 +57,8 @@ each parameter, and may be a vector.}
   \item{call}{the matched call.}
   \item{X}{a \code{data.frame} containing the design of experiments.}
   \item{y}{a vector of model responses.}
-  \item{delsafirst}{the first order indices for each location in \code{X0}}
+  \item{delsafirst}{the first order indices for each location in \code{X0}.}
+  \item{deriv}{the values of derivatives for each location in \code{X0}}
 }
 \details{
 \code{print} shows summary of the first order indices across parameter space.

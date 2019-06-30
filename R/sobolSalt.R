@@ -189,7 +189,7 @@ tell.sobolSalt <- function(x, y = NULL, ...) {
   
   # output purpose
   rownames <- paste("X",1:p,sep="")
-  rownames2 <- paste("X",apply(t(combn(p,2)),1,paste,collapse=""),sep= "")
+  rownames2 <- paste("X",apply(t(combn(p,2)),1,paste,collapse="X"),sep= "")
   
   x$V <- (n-1)/n*var(data[,1])
   
@@ -240,21 +240,36 @@ print.sobolSalt <- function(x, ...) {
   }
 }
 
-
 plot.sobolSalt <- function(x, ylim = c(0, 1), choice, ...) {
   
   if (! is.null(x$y)) {
-      p <- ncol(x$X)
-      pch = c(21, 24)
-      if(choice==1){
-        nodeplot(x$S, xlim = c(1, p + 1), ylim = ylim, pch = pch[1])
-        nodeplot(x$T, xlim = c(1, p + 1), ylim = ylim, labels = FALSE,
-                 pch = pch[2], at = (1:p)+.3, add = TRUE)
-        legend(x = "topright", legend = c("first-order", "total effect"), pch = pch)
-      }
-      if(x$scheme=="B" & choice==2){
-        nodeplot(x$S2, ylim = ylim)
-        legend(x = "topright", legend = c("second-order indices"))   
-      }
+    p <- ncol(x$X)
+    pch = c(21, 24)
+    if(choice==1){
+      nodeplot(x$S, xlim = c(1, p + 1), ylim = ylim, pch = pch[1])
+      nodeplot(x$T, xlim = c(1, p + 1), ylim = ylim, labels = FALSE,
+               pch = pch[2], at = (1:p)+.3, add = TRUE)
+      legend(x = "topright", legend = c("first-order", "total effect"), pch = pch)
+    }
+    if(x$scheme=="B" & choice==2){
+      nodeplot(x$S2, ylim = ylim)
+      legend(x = "topright", legend = c("second-order indices"))   
+    }
   }
 }
+
+ggplot.sobolSalt <- function(x, ylim = c(0, 1), choice, ...) {
+  
+  if (! is.null(x$y)) {
+    p <- ncol(x$X)
+    pch = c(21, 24)
+    if(choice==1){
+      g <- nodeggplot(listx = list(x$S,x$T), xname = c("First-order", "Total effect"), ylim = ylim, pch = pch)
+    }
+    if(x$scheme=="B" & choice==2){
+      g <- nodeggplot(listx = list(x$S2), xname = "Second-order indices", ylim = ylim)
+    }
+    return(g)
+  }
+}
+

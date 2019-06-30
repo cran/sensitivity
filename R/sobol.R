@@ -174,3 +174,9 @@ plot.sobol <- function(x, ylim = c(0, 1), ...) {
     nodeplot(x$S, ylim = ylim)
   }
 }
+
+ggplot.sobol <- function(x, ylim = c(0, 1), ...) {
+  if (! is.null(x$y)) {
+    nodeggplot(listx = list(x$S), xname="",ylim = ylim)
+  }
+}

@@ -255,3 +255,10 @@ plot.sensiHSIC <- function(x, ylim = c(0, 1), ...) {
     legend(x = "topright", legend = "HSIC indices")
   }
 }
+
+ggplot.sensiHSIC <- function(x, ylim = c(0, 1), ...) {
+  
+  if (! is.null(x$y)) {
+    nodeggplot(list(x$S), xname = "HSIC indices", ylim = ylim)
+  }
+}

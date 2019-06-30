@@ -2,6 +2,7 @@
 \alias{pcc}
 \alias{print.pcc}
 \alias{plot.pcc}
+\alias{ggplot.pcc}
 
 \title{Partial Correlation Coefficients}
 
@@ -16,6 +17,7 @@
 pcc(X, y, rank = FALSE, nboot = 0, conf = 0.95)
 \method{print}{pcc}(x, \dots)
 \method{plot}{pcc}(x, ylim = c(-1,1), \dots)
+\method{ggplot}{pcc}(x, ylim = c(-1,1), \dots)
 }
 
 \arguments{
@@ -63,13 +65,13 @@ X <- data.frame(X1 = runif(n, 0.5, 1.5),
                 X2 = runif(n, 1.5, 4.5),
                 X3 = runif(n, 4.5, 13.5))
 
-# linear model : Y = X1 + X2 + X3
-y <- with(X, X1 + X2 + X3)
+# linear model : Y = X1^2 + X2 + X3
+y <- with(X, X1^2 + X2 + X3)
 
 # sensitivity analysis
 x <- pcc(X, y, nboot = 100)
 print(x)
-#plot(x) # TODO: find another example...
+plot(x)
 }
 
 \seealso{

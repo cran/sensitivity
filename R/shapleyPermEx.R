@@ -207,3 +207,10 @@ plot.shapleyPermEx <- function(x, ylim = c(0, 1), ...) {
   }
 }
 
+ggplot.shapleyPermEx <- function(x, ylim = c(0, 1), ...) {
+  if (!is.null(x$y)) {
+    pch = c(21, 24, 25)
+    nodeggplot(list(x$Shapley,x$SobolS,x$SobolT), xname=c("Shapley effect","First Sobol' index", "Total Sobol' index"), ylim = ylim, pch = pch)
+  }
+}
+

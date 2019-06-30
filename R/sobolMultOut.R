@@ -106,3 +106,11 @@ plot.sobolMultOut <- function(x, ylim = c(0, 1), ...) {
     legend(x = "topright", legend = c("main effect", "total effect"), pch = pch)
   }
 }
+
+ggplot.sobolMultOut <- function(x, ylim = c(0, 1), ...) {
+  if (!is.null(x$y)) {
+    p <- ncol(x$X1)
+    pch = c(21, 24)
+    nodeggplot(listx = list(x$S,x$T), xname = c("Main effet","Total effect"), ylim = ylim, pch = pch)
+  }
+}

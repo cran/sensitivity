@@ -3,6 +3,7 @@
 \alias{tell.sobol2002}
 \alias{print.sobol2002}
 \alias{plot.sobol2002}
+\alias{ggplot.sobol2002}
 
 \title{Monte Carlo Estimation of Sobol' Indices (scheme by Saltelli 2002)}
 
@@ -18,6 +19,7 @@ sobol2002(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
 \method{tell}{sobol2002}(x, y = NULL, return.var = NULL, \dots)
 \method{print}{sobol2002}(x, \dots)
 \method{plot}{sobol2002}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{sobol2002}(x, ylim = c(0, 1), \dots)
 }
 
 \arguments{
@@ -94,6 +96,9 @@ X2 <- data.frame(matrix(runif(8 * n), nrow = n))
 x <- sobol2002(model = sobol.fun, X1, X2, nboot = 100)
 print(x)
 plot(x)
+
+library(ggplot2)
+ggplot(x)
 }
 
 \keyword{design}

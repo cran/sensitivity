@@ -319,3 +319,24 @@ plot.sobolmartinez <- function(x, ylim = c(0, 1),
     legend(x = "topright", legend = c("main effect", "total effect"), pch = pch)
   }
 }
+
+ggplot.sobolmartinez <- function(x, ylim = c(0, 1), 
+                               y_col = NULL, y_dim3 = NULL, ...) {
+  if (!is.null(x$y)) {
+    p <- ncol(x$X1)
+    pch = c(21, 24)
+    if(class(x$y) == "numeric"){
+      nodeggplot(listx = list(x$S,x$T), xname = c("Main effet","Total effect"), ylim = ylim, pch = pch)
+    } else if(class(x$y) %in% c("matrix", "array")){
+      if(is.null(y_col)) y_col <- 1
+      if(class(x$y) == "matrix" && !is.null(y_dim3)){
+        y_dim3 <- NULL
+        warning("Argument \"y_dim3\" is ignored since the model output is ",
+                "a matrix")
+      }
+      if(class(x$y) == "array" && is.null(y_dim3)) y_dim3 <- 1
+      nodeggplot(listx = list(x$S,x$T), xname = c("Main effet","Total effect"), ylim = ylim, pch = pch, y_col = y_col, y_dim3 = y_dim3)
+    }
+  }
+}
+
