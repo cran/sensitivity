@@ -48,9 +48,9 @@ Normalized support index functions can be plotted with the S3 method \code{plot}
 
 
 \references{
-J. Fruth, O. Roustant, S. Kuhnt, 2018, \emph{Support indices: Measuring the effects 
+J. Fruth, O. Roustant, S. Kuhnt, 2019, \emph{Support indices: Measuring the effects 
 of input variables over their support}, Reliability Engineering and System Safety,
-In Press, \url{https://hal.archives-ouvertes.fr/hal-01113555}.
+187:17-27.
 }
 
 \author{

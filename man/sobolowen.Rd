@@ -75,7 +75,7 @@ Taieb Touati and Bernardo Ramos
 }
 
 \seealso{
-  \code{\link{sobol}, \link{sobol2002}, \link{sobolSalt}, \link{sobol2007}, \link{soboljansen}, \link{sobolmartinez}, \link{sobolEff}, \link{sobolmara}, \link{sobolGP}}
+  \code{\link{sobol}, \link{sobol2002}, \link{sobolSalt}, \link{sobol2007}, \link{soboljansen}, \link{sobolmartinez}, \link{sobolEff}}
 }
 
 \examples{

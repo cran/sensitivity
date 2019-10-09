@@ -168,7 +168,7 @@ plot.sb <- function(x, ...) {
 
     xmax <- max(T[, c(1, 2)])
     ymax <- max(T[, 3])
-    plot(0, type = "n", xlim = c(1, xmax), ylim = c(0, ymax), axes = FALSE)
+    plot(0, type = "n", xlim = c(1, xmax), ylim = c(0, ymax), axes = FALSE, xlab="Inputs", ylab="Effects")
     axis(1, at = 1 : xmax)
     axis(2)
     box()

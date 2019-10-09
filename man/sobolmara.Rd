@@ -59,7 +59,7 @@ Bertrand Iooss
 }
 
 \seealso{
-  \code{\link{sobolroalhs}, \link{sobol}, \link{sobol2002}, \link{sobolSalt}, \link{sobol2007}, \link{soboljansen}, \link{sobolmartinez}, \link{sobolEff},\link{sobolMultOut}}
+  \code{\link{sobolroalhs}, \link{sobol}, \link{sobolMultOut}}
 }
 
 \examples{

@@ -13,11 +13,18 @@ joint probability distribution and the product of their marginals when they are
 embedded in a Reproducing Kernel Hilbert Space (RKHS). This distance corresponds
 to the Hilbert-Schmidt Independence Criterion (HSIC) proposed by Gretton et al.
 (2005) and serves as a dependence measure between random variables, see Da Veiga
-(2015) for an illustration in the context of sensitivity analysis.}
+(2015) for an illustration in the context of sensitivity analysis. The use of universal 
+kernels ensures equivalence between HSIC nullity and independence of X and Y. In this 
+case, a statistical test of independence with HSIC measure as statistic can be built. 
+H0 is "X and Y are independent", against H1: X and Y are dependent. P-value can be 
+computed either with asymptotic approximation (Gamma approximation), either with 
+permutation method. See Meynaoui et al. (2019) for details.}
 
 \usage{
   sensiHSIC(model = NULL, X, kernelX = "rbf", paramX = NA, 
-            kernelY = "rbf", paramY = NA, nboot = 0, conf = 0.95, ...)
+            kernelY = "rbf", paramY = NA, nboot = 0, conf = 0.95, 
+            estimator.type = "V-stat", test.method = "Asymptotic", 
+            B = 1000, ...)
   \method{tell}{sensiHSIC}(x, y = NULL, \dots)
   \method{print}{sensiHSIC}(x, \dots)
   \method{plot}{sensiHSIC}(x, ylim = c(0, 1), \dots)
@@ -34,7 +41,7 @@ to the Hilbert-Schmidt Independence Criterion (HSIC) proposed by Gretton et al.
   (exponential), "dcov" (distance covariance, see details), "raquad" (rationale
   quadratic), "invmultiquad" (inverse multiquadratic), "linear" (Euclidean scalar
   product), "matern3" (Matern 3/2), "matern5" (Matern 5/2), "ssanova1" (kernel of
-  Sobolev space of order 1) and "ssanova2" (kernel of Sobolev space of order 2).}
+  Sobolev space of order 1) and "ssanova2" (kernel of Sobolev space of order 2)}
   \item{paramX}{a scalar or a vector of hyperparameters to be used in the input
   variable kernels. If only one scalar is provided, it is replicated for all input
   variables. By default \code{paramX} is equal to the standard deviation of the
@@ -42,7 +49,7 @@ to the Hilbert-Schmidt Independence Criterion (HSIC) proposed by Gretton et al.
   "matern5" and to \code{1} for "dcov". Kernels "linear", "ssanova1" and "ssanova2"
   do not involve hyperparameters. If \code{kernelX} is a combination of kernels
   with and without hyperparameters, \code{paramX} must have a (dummy) value for the
-  hyperparameter-free kernels, see examples below.}
+  hyperparameter-free kernels, see examples below}
   \item{kernelY}{a string specifying the reproducing kernel to be used for the
   output variable. Available choices are "rbf" (Gaussian), "laplace" (exponential),
   "dcov" (distance covariance, see details), "raquad" (rationale quadratic),
@@ -52,9 +59,23 @@ to the Hilbert-Schmidt Independence Criterion (HSIC) proposed by Gretton et al.
   \item{paramY}{a scalar to be used in the output variable kernel. By default
   \code{paramY} is equal to the standard deviation of the output variable for "rbf",
   "laplace", "raquad", "invmultiquad", "matern3" and "matern5" and to \code{1} for "dcov".
-  Kernels "linear", "ssanova1" and "ssanova2" do not involve hyperparameters.}
+  Kernels "linear", "ssanova1" and "ssanova2" do not involve hyperparameters}
   \item{nboot}{the number of bootstrap replicates}
-  \item{conf}{the confidence level for confidence intervals.}
+  \item{conf}{the confidence level for confidence intervals}
+  \item{estimator.type}{a string specifying the type of HSIC estimator. Two types of 
+  estimators are available, V-statistic of U-statistic. If estimator.type = "V-stat" 
+  (default value), the HSIC is estimated with a biased (but asymptotically unbiased) 
+  estimator, more practical for numerical implementation. If estimator.type = "U-stat", 
+  the unbiased estimator is used. The variance is of order o(1/n) for both estimators 
+  (n being the sample size, i.e. number of rows of X). More details in Meynaoui et al., 2019}
+  \item{test.method}{a string specifying the method used to compute the p-value of the 
+  HSIC-based independence test. If test.method = "Asymptotic" (default value), an asympotic 
+  approximation with Gamma distribution is used. If test.method = "Permutation", a 
+  permutation method based on B boostrap samples is used to estimate the p-value in a 
+  non-asymptotic framework. Permutation-test are recommened for low sample size n. 
+  More details in Meynaoui et al., 2019}
+  \item{B}{number of boostrap samples used in the permutation method for the estimation of 
+  P-values in independence test. B is used only if test.method is "Permutation"}
   \item{x}{a list of class \code{"sensiHSIC"} storing the state of the
            sensitivity study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
@@ -68,15 +89,22 @@ to the Hilbert-Schmidt Independence Criterion (HSIC) proposed by Gretton et al.
   the input arguments detailed before, plus the following components:
     
     \item{call}{the matched call.}
-  \item{X}{a \code{data.frame} containing the design of experiments.}
-  \item{y}{a vector of model responses.}
-  \item{S}{the estimations of HSIC sensitivity indices.}
+  \item{X}{a \code{data.frame} containing the design of experiments}
+  \item{y}{a vector of model responses}
+  \item{S}{the estimations of normalized HSIC sensitivity indices (also denoted R2HSIC)}
+  \item{HSICXY}{the estimation of HSIC sensitivity indices (numerator in S formula)}
+  \item{Pvalue}{the estimation of P-value of the independence test based on HSIC statistic}
+
 }
 
 \details{
-  The HSIC sensitivity indices are obtained as a normalized version of the Hilbert-Schmidt independence criterion: \deqn{S_i^{HSIC} = \frac{HSIC(X_i,Y)}{\sqrt{HSIC(X_i,X_i)}\sqrt{HSIC(Y,Y)}},}{%
+  The HSIC sensitivity indices are obtained as a normalized version of the Hilbert-Schmidt 
+  independence criterion: 
+  \deqn{S_i^{HSIC} = R^2_{HSIC} = \frac{HSIC(X_i,Y)}{\sqrt{HSIC(X_i,X_i)}\sqrt{HSIC(Y,Y)}},}{%
   Si = HSIC(Xi,Y) / (\sqrt HSIC(Xi,Xi) \sqrt HSIC(Y,Y)),} see Da Veiga (2014) for details.
-  When \code{kernelX="dcov"} and \code{kernelY="dcov"}, the kernel is given by \eqn{k(u,u')=1/2(||u||+||u'||-||u-u'||)} and the sensitivity index is equal to the distance correlation introduced by Szekely et al. (2007) as was recently proven by Sejdinovic et al. (2013).
+  When \code{kernelX="dcov"} and \code{kernelY="dcov"}, the kernel is given by 
+  \eqn{k(u,u')=1/2(||u||+||u'||-||u-u'||)} and the sensitivity index is equal to the distance 
+  correlation introduced by Szekely et al. (2007) as was recently proven by Sejdinovic et al. (2013).
 }
 \references{
   
@@ -88,6 +116,10 @@ to the Hilbert-Schmidt Independence Criterion (HSIC) proposed by Gretton et al.
   Jain S, Simon H, Tomita E, editors: Algorithmic learning theory, 
   Lecture Notes in Computer Science, Vol. 3734, Berlin: Springer, 63--77.
   
+  Meynaoui, A., Marrel, A., and Laurent, B. (2019). 
+  \emph{New statistical methodology for secondlevel global sensitivity analysis},
+  Preprint, ArXiv 1902.07030.
+  
   Sejdinovic D., Sriperumbudur B., Gretton A., Fukumizu K., (2013), 
   \emph{Equivalence of distance-based and RKHS-based statistics in hypothesis
   testing}, Annals of Statistics 41(5), 2263--2291.
@@ -98,7 +130,7 @@ to the Hilbert-Schmidt Independence Criterion (HSIC) proposed by Gretton et al.
 }
 
 \author{
-  Sebastien Da Veiga, Snecma
+  Sebastien Da Veiga (SafranTech), Amandine Marrel (CEA), Anouar Meynaoui (CEA)
 }
 
 \seealso{
@@ -107,17 +139,32 @@ to the Hilbert-Schmidt Independence Criterion (HSIC) proposed by Gretton et al.
 
 \examples{
  \donttest{ 
+  library(ggplot2)
+  library(boot)
+  
   # Test case : the non-monotonic Sobol g-function
   # Only one kernel is provided with default hyperparameter value
-  library(ggplot2)
   
   n <- 100
   X <- data.frame(matrix(runif(8 * n), nrow = n))
-  x <- sensiHSIC(model = sobol.fun, X, kernelX = "raquad", kernelY = "rbf")
+  x <- sensiHSIC(model = sobol.fun, X, kernelX = "raquad", kernelY = "rbf", 
+    nboot = 100, test.method = "Asymptotic")
+  print(x)
+  ggplot(x)
+  
+  x <- sensiHSIC(model = sobol.fun, X, kernelX = "rbf", kernelY = "rbf", 
+    estimator.type = "U-stat", test.method = "Permutation")
+  print(x)
+  attributes(x)
+  x$estimator.type
+
+  x <- sensiHSIC(model = sobol.fun, X, kernelX = "raquad", kernelY = "rbf", 
+    nboot = 100, test.method = "Permutation", B=2000)
   print(x)
   ggplot(x)
 
   # Test case : the Ishigami function
+  
   # A list of kernels is given with default hyperparameter value
   n <- 100
   X <- data.frame(matrix(-pi+2*pi*runif(3 * n), nrow = n))
@@ -132,5 +179,6 @@ to the Hilbert-Schmidt Independence Criterion (HSIC) proposed by Gretton et al.
                   paramX = c(1,2,1), kernelY = "ssanova1")
   print(x)
   ggplot(x)
+  
  }
 }

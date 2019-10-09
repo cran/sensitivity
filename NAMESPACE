@@ -11,7 +11,7 @@ importFrom("stats", "coefficients", "cor", "cor.test", "cov", "dist",
            "model.matrix", "nlm", "optimize", "pnorm", "predict",
            "qnorm", "quantile", "rnorm", "runif", "sd", "update", 
            "var", "dbeta", "dexp", "dgamma", "dlnorm", "dweibull",
-           "integrate","smooth.spline","ecdf")
+           "integrate", "smooth.spline", "ecdf", "pgamma")
 importFrom("utils", "combn", "methods") 
 importFrom("methods", "is")
 importFrom("ggplot2","ggplot", "position_dodge","aes","geom_point",

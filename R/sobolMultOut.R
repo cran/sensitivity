@@ -63,13 +63,13 @@ sobolMultOut <- function(model = NULL, q = 1, X1, X2, MCmethod = "sobol",
       }
       
       if (Tot == T) par(mfrow=c(2,1))
-      plot(0,ylim=c(0,1),xlim=c(1,q),main="First order Sobol indices",ylab="")
+      plot(0,ylim=c(0,1),xlim=c(1,q),main="First order Sobol indices",ylab="",xlab="",type="n")
       for (i in 1:p) lines(S[,i],col=i)
       legend(x = "topright", legend = dimnames(X1)[[2]], lty=1, col=1:p, cex=0.6)
       x$Sfct <- S
         
       if (Tot == T){
-        plot(0,ylim=c(0,1),xlim=c(1,q),main="Total Sobol indices",ylab="")
+        plot(0,ylim=c(0,1),xlim=c(1,q),main="Total Sobol indices",ylab="",xlab="",type="n")
         for (i in 1:p) lines(ST[,i],col=i)
         legend(x = "topright", legend = dimnames(X1)[[2]], lty=1, col=1:p, cex=0.6)
         x$Tfct <- ST

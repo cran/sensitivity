@@ -57,8 +57,7 @@ For the uniform, normal, triangular and Gumbel distributions, the optimal consta
 \references{
 O. Roustant, F. Barthe and B. Iooss, 
 Poincare inequalities on intervals - application to sensitivity analysis,
-Electronic Journal of Statistics, Vol. 11, No. 2, 3081-3119, 2017, 
-\url{https://hal.archives-ouvertes.fr/hal-01388758}. 
+Electronic Journal of Statistics, Vol. 11, No. 2, 3081-3119, 2017.
 }
 
 \author{

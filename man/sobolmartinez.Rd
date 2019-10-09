@@ -105,8 +105,7 @@ Bertrand Iooss, with contributions from Frank Weber (2016)
 }
 
 \seealso{
-  \code{\link{sobol}, \link{sobol2002}, \link{sobolSalt}, \link{sobol2007}, \link{soboljansen}, 
-        \link{soboltouati}, \link{sobolEff}, \link{sobolmara},\link{sobolMultOut}}
+  \code{\link{sobol}, \link{sobol2002}, \link{sobolSalt}, \link{sobol2007}, \link{soboljansen}, \link{soboltouati}, \link{sobolMultOut}}
 }
 
 \examples{

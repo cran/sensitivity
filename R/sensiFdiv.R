@@ -126,10 +126,7 @@ tell.sensiFdiv <- function(x, y = NULL, ...) {
   }
   
   
-  rownames <- c()
-  for (i in 1:p) {
-    rownames <- c(rownames,paste("S",i,sep=""))
-  }
+  rownames <- paste("X",1:p,sep="")
   if (nf ==1) {
     rownames(x$S) <- rownames
   }

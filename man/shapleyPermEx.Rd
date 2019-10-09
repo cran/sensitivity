@@ -85,9 +85,9 @@ shapleyPermEx(model = NULL, Xall, Xset, d, Nv, No, Ni = 3, colnames = NULL, \dot
 }
 
 \references{
-B. Iooss and C. Prieur, 2018, \emph{Shapley effects for sensitivity analysis with 
+B. Iooss and C. Prieur, 2019, \emph{Shapley effects for sensitivity analysis with 
 correlated inputs: comparisons with Sobol' indices, numerical estimation and 
-applications}, \url{https://hal.inria.fr/hal-01556303}.
+applications}, International Journal of Uncertainty Quantification, In press.
 
 S. Kucherenko, S. Tarantola, and P. Annoni, 2012, \emph{Estimation of global  
 sensitivity indices for models with dependent variables},

@@ -4,7 +4,7 @@
 
 if (getRversion() >= "2.15.1") utils::globalVariables(c("x","y","id"))
 
-nodeggplot <- function(listx, xname, ylim = NULL, labels = TRUE, title = NULL, 
+nodeggplot <- function(listx, xname, xlim = NULL, ylim = NULL, labels = TRUE, title = NULL, 
                        col = par("col"), pch = 21, at = NULL, y_col = NULL, y_dim3 = NULL, ...) {
   
   ngraphs <- length(listx)

@@ -39,9 +39,9 @@ WARNING: This function can give bad results for reasons that have not been yet i
 	
 }
 \seealso{
-	 \code{\link{sobol2002}, \link{sobol2007}, \link{soboljansen}, \link{sobolmartinez}, \link{sobolEff},
-     \link{sobolmara}, \link{sobolroalhs}, \link{fast99}, \link{sobolGP}, \link{sobolMultOut}}
-} 
+	 \code{\link{sobol}, \link{sobolEff}, \link{sobolGP}}
+}
+
 \examples{
 	X = matrix(runif(10000), ncol = 10)
 	Y = sobol.fun(X)

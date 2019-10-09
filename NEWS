@@ -1,4 +1,14 @@
 
+Changes in version 1.16.2:
+
+    o   New functionalities in sensiHSIC() function
+    (statistical tests of independence)
+    
+    o Graph legends corrected in sensiHSIC(), sb() and
+  sobolMultOut() functions
+  
+    o   Corrected bug in nodeggplot()
+    
 Changes in version 1.16.1:
 
     o   New function nodeggplot() (in order to ebautify the plots) 

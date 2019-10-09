@@ -82,8 +82,7 @@ Taieb Touati, Khalid Boumhaout
 }
 
 \seealso{
-  \code{\link{sobol}, \link{sobol2002}, \link{sobolSalt}, \link{sobol2007}, \link{soboljansen}, 
-        \link{sobolEff}, \link{sobolmara}, \link{sobolmartinez}}
+  \code{\link{sobol}, \link{sobol2002}, \link{sobolSalt}, \link{sobol2007}, \link{soboljansen}, \link{sobolmartinez}}
 }
 
 \examples{

@@ -50,7 +50,7 @@ shapleySubsetMc(X,Y, Ntot=NULL, Ni=3, cat=NULL, weight=NULL, discrete=NULL)
 
 \references{
   B. Broto, F. Bachoc, M. Depecker, 2018, \emph{Variance reduction for estimation of Shapley effects 
-  and adaptation to unknown input distribution}, \url{https://hal.archives-ouvertes.fr/hal-01962010}.
+  and adaptation to unknown input distribution}, Preprint, HAL: hal-01962010.
 }
 
 \author{
