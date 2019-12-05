@@ -120,6 +120,7 @@ plot(x)
 library(ggplot2)
 ggplot(x)
 
+\donttest{
 # Only for demonstration purposes: a model function returning a matrix
 sobol.fun_matrix <- function(X){
   res_vector <- sobol.fun(X)
@@ -140,6 +141,8 @@ sobol.fun_array <- function(X){
 x_array <- soboljansen(model = sobol.fun_array, X1, X2)
 plot(x_array, y_col = 2, y_dim3 = 2)
 title(main = "y_col = 2, y_dim3 = 2")
+}
+
 }
 
 \keyword{design}

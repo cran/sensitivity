@@ -1,10 +1,26 @@
 
+Changes in version 1.16.3:
+
+    o Unresolved matrix/array classes related bug on R4.0.0 version
+    in morris.R, morris_oat.R, soboljansen.R, sobolmartinez.R
+    and sobolroalhs.R
+    Examples that do not work have been put in \donttest{} (these
+    examples work in practice)
+    
+    o Resolved bug in plot.soboljansen() and plot.sobolmartinez
+    when dealing with matrice-type model outputs
+    
+    o ylabel changed (from S to PLI) when plotting PLI examples
+    
+    o legends precised (between full and independent Sobol' indices) 
+    when plotting Shapley effects
+
 Changes in version 1.16.2:
 
     o   New functionalities in sensiHSIC() function
     (statistical tests of independence)
     
-    o Graph legends corrected in sensiHSIC(), sb() and
+    o Graph legends corrected in sensiHSIC(), sensiFdiv(), sb() and
   sobolMultOut() functions
   
     o   Corrected bug in nodeggplot()

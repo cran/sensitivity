@@ -117,7 +117,7 @@ permutation method. See Meynaoui et al. (2019) for details.}
   Lecture Notes in Computer Science, Vol. 3734, Berlin: Springer, 63--77.
   
   Meynaoui, A., Marrel, A., and Laurent, B. (2019). 
-  \emph{New statistical methodology for secondlevel global sensitivity analysis},
+  \emph{New statistical methodology for second level global sensitivity analysis},
   Preprint, ArXiv 1902.07030.
   
   Sejdinovic D., Sriperumbudur B., Gretton A., Fukumizu K., (2013), 

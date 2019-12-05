@@ -117,9 +117,9 @@ Bertrand Iooss
 	  InputDistributions=distribution,type="MOY",samedelta=TRUE,nboot=200)
 
 # Plotting the PLI
-  x11() ; par(mar=c(4,5,1,1))
+  par(mar=c(4,5,1,1))
 	plot(v_delta,toto$PLI[,2],ylim=c(-0.5,0.5),xlab=expression(delta),
-		ylab=expression(hat(S[i*delta])),pch=19,cex=1.5)
+		ylab=expression(hat(PLI[i*delta])),pch=19,cex=1.5)
 	points(v_delta,toto$PLI[,1],col="darkgreen",pch=15,cex=1.5)
 	points(v_delta,toto$PLI[,3],col="red",pch=17,cex=1.5)
 	lines(v_delta,toto$PLICIinf[,2],col="black")
@@ -133,7 +133,7 @@ Bertrand Iooss
 		col=c("darkgreen","black","red"),pch=c(15,19,17),cex=1.5)
   
 # Plotting the perturbed superquantiles
-  x11() ; par(mar=c(4,5,1,1))
+  par(mar=c(4,5,1,1))
 	plot(v_delta,toto$superquantile[,2],ylim=c(3,7),xlab=expression(delta),
 		ylab=expression(hat(q[i*delta])),pch=19,cex=1.5)
 	points(v_delta,toto$superquantile[,1],col="darkgreen",pch=15,cex=1.5)
@@ -152,9 +152,9 @@ Bertrand Iooss
 	toto = PLIsuperquantile(0.95,X,Y,deltasvector=v_delta,
 	  InputDistributions=distribution,type="MOY",samedelta=TRUE,percentage=TRUE,nboot=200)
 	  
-  x11() ; par(mar=c(4,5,1,1))
+  par(mar=c(4,5,1,1))
 	plot(v_delta,toto$PLI[,2],ylim=c(-0.4,0.5),xlab=expression(delta),
-		ylab=expression(hat(S[i*delta])),pch=19,cex=1.5)
+		ylab=expression(hat(PLI[i*delta])),pch=19,cex=1.5)
 	points(v_delta,toto$PLI[,1],col="darkgreen",pch=15,cex=1.5)
 	points(v_delta,toto$PLI[,3],col="red",pch=17,cex=1.5)
 	lines(v_delta,toto$PLICIinf[,2],col="black")

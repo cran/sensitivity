@@ -38,7 +38,7 @@ ee.oat <- function(X, y) {
   # compute the elementary effects for a OAT design
   p <- ncol(X)
   r <- nrow(X) / (p + 1)
-  if(class(y) == "numeric"){
+  if(is(y,"numeric")){
     one_i_vector <- function(i){
       j <- ind.rep(i, p)
       j1 <- j[1 : p]
@@ -49,7 +49,7 @@ ee.oat <- function(X, y) {
     ee <- vapply(1:r, one_i_vector, FUN.VALUE = numeric(p))
     ee <- t(ee)
     # "ee" is now a (r times p)-matrix.
-  } else if(class(y) == "matrix"){
+  } else if(is(y,"matrix")){
     one_i_matrix <- function(i){
       j <- ind.rep(i, p)
       j1 <- j[1 : p]
@@ -58,17 +58,17 @@ ee.oat <- function(X, y) {
                    y[j2, , drop = FALSE] - y[j1, , drop = FALSE]))
     }
     ee <- vapply(1:r, one_i_matrix, 
-                 FUN.VALUE = matrix(0, nrow = p, ncol = ncol(y)))
+                 FUN.VALUE = matrix(0, nrow = p, ncol = dim(y)[2]))
     # Special case handling for p == 1 and ncol(y) == 1 (in this case, "ee" is
     # a vector of length "r"):
-    if(p == 1 && ncol(y) == 1){
+    if(p == 1 && dim(y)[2] == 1){
       ee <- array(ee, dim = c(r, 1, 1))
     }
     # Transpose "ee" (an array of dimensions c(p, ncol(y), r)) to an array of
     # dimensions c(r, p, ncol(y)) (for better consistency with the standard 
     # case that "class(y) == "numeric""):
     ee <- aperm(ee, perm = c(3, 1, 2))
-  } else if(class(y) == "array"){
+  } else if(is(y,"array")){
     one_i_array <- function(i){
       j <- ind.rep(i, p)
       j1 <- j[1 : p]
@@ -104,7 +104,7 @@ ee.oat <- function(X, y) {
     }
     ee <- sapply(1:r, one_i_array, simplify = "array")
     # Special case handling if "ee" has been dropped to a vector:
-    if(class(ee) == "numeric"){
+    if(is(ee,"numeric")){
       ee <- array(ee, dim = c(p, dim(y)[2], dim(y)[3], r))
       dimnames(ee) <- list(NULL, dimnames(y)[[2]], dimnames(y)[[3]], NULL)
     }

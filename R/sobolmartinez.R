@@ -39,7 +39,7 @@ sobolmartinez <- function(model = NULL, X1, X2, nboot = 0, conf = 0.95, ...) {
 
 
 estim.sobolmartinez <- function(data, i = NULL, estimStd = FALSE, conf = 0){
-  if(class(data) == "matrix"){
+  if(is(data,"matrix")){
     # This means x$y is a numeric vector.
     if(is.null(i)) i <- 1:nrow(data)
     d <- as.matrix(data[i, ]) # as.matrix for colSums
@@ -76,7 +76,7 @@ estim.sobolmartinez <- function(data, i = NULL, estimStd = FALSE, conf = 0){
     } else{
       return(c(V, ecor, ecorcompl))
     }
-  } else if(class(data) == "array"){
+  } else if(is(data,"array")){
     if(estimStd){
       stop("Confidence intervals not supported if \"data\" is an array")
     }
@@ -132,7 +132,7 @@ tell.sobolmartinez <- function(x, y = NULL, return.var = NULL, ...) {
   p <- ncol(x$X1)
   n <- nrow(x$X1)
   
-  if(class(x$y) == "numeric"){
+  if(is(x$y,"numeric")){
     data <- matrix(x$y, nrow = n)
     
     # estimation of the partial variances (V, D1 and Dt)
@@ -166,7 +166,7 @@ tell.sobolmartinez <- function(x, y = NULL, return.var = NULL, ...) {
     }
     rownames(S) <- colnames(x$X1)
     rownames(T) <- colnames(x$X1)
-  } else if(class(x$y) == "matrix"){
+  } else if(is(x$y,"matrix")){
     data <- array(x$y, dim = c(n, nrow(x$y) / n, ncol(x$y)), 
                   dimnames = list(NULL, NULL, colnames(x$y)))
     if(x$nboot == 0){
@@ -204,7 +204,7 @@ tell.sobolmartinez <- function(x, y = NULL, return.var = NULL, ...) {
                                          dimnames(V)[[2]],
                                          colnames(x$y))
     }
-  } else if(class(x$y) == "array"){
+  } else if(is(x$y,"array")){
     data <- array(x$y, dim = c(n, dim(x$y)[1] / n, dim(x$y)[2:3]), 
                   dimnames = list(NULL, NULL, 
                                   dimnames(x$y)[[2]], dimnames(x$y)[[3]]))
@@ -276,11 +276,11 @@ tell.sobolmartinez <- function(x, y = NULL, return.var = NULL, ...) {
 print.sobolmartinez <- function(x, ...) {
   cat("\nCall:\n", deparse(x$call), "\n", sep = "")
   if (!is.null(x$y)) {
-    if (class(x$y) == "numeric") {
+    if (is(x$y,"numeric")) {
       cat("\nModel runs:", length(x$y), "\n")
-    } else if (class(x$y) == "matrix") {
+    } else if (is(x$y,"matrix")) {
       cat("\nModel runs:", nrow(x$y), "\n")
-    } else if (class(x$y) == "array") {
+    } else if (is(x$y,"array")) {
       cat("\nModel runs:", dim(x$y)[1], "\n")
     }
     cat("\nFirst order indices:\n")
@@ -302,14 +302,14 @@ plot.sobolmartinez <- function(x, ylim = c(0, 1),
       nodeplot(x$S, xlim = c(1, p + 1), ylim = ylim, pch = pch[1])
       nodeplot(x$T, xlim = c(1, p + 1), ylim = ylim, labels = FALSE,
                pch = pch[2], at = (1:p)+.3, add = TRUE)
-    } else if(class(x$y) %in% c("matrix", "array")){
+    } else if(is(x$y,"matrix") | is(x$y,"array")){
       if(is.null(y_col)) y_col <- 1
-      if(class(x$y) == "matrix" && !is.null(y_dim3)){
+      if(is(x$y,"matrix") && !is.null(y_dim3)){
         y_dim3 <- NULL
         warning("Argument \"y_dim3\" is ignored since the model output is ",
                 "a matrix")
       }
-      if(class(x$y) == "array" && is.null(y_dim3)) y_dim3 <- 1
+      if(is(x$y,"array") && !is(x$y,"matrix") && is.null(y_dim3)) y_dim3 <- 1
       nodeplot(x$S, xlim = c(1, p + 1), ylim = ylim, pch = pch[1], 
                y_col = y_col, y_dim3 = y_dim3)
       nodeplot(x$T, xlim = c(1, p + 1), ylim = ylim, labels = FALSE,
@@ -325,16 +325,16 @@ ggplot.sobolmartinez <- function(x, ylim = c(0, 1),
   if (!is.null(x$y)) {
     p <- ncol(x$X1)
     pch = c(21, 24)
-    if(class(x$y) == "numeric"){
+    if(is(x$y,"numeric")){
       nodeggplot(listx = list(x$S,x$T), xname = c("Main effet","Total effect"), ylim = ylim, pch = pch)
-    } else if(class(x$y) %in% c("matrix", "array")){
+    } else if(is(x$y,"matrix") | is(x$y,"array")){
       if(is.null(y_col)) y_col <- 1
-      if(class(x$y) == "matrix" && !is.null(y_dim3)){
+      if(is(x$y,"matrix") && !is.null(y_dim3)){
         y_dim3 <- NULL
         warning("Argument \"y_dim3\" is ignored since the model output is ",
                 "a matrix")
       }
-      if(class(x$y) == "array" && is.null(y_dim3)) y_dim3 <- 1
+      if(is(x$y,"array") && !is(x$y,"matrix") && is.null(y_dim3)) y_dim3 <- 1
       nodeggplot(listx = list(x$S,x$T), xname = c("Main effet","Total effect"), ylim = ylim, pch = pch, y_col = y_col, y_dim3 = y_dim3)
     }
   }

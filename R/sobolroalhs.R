@@ -296,7 +296,6 @@ print.sobolroalhs <- function(x, ...) {
   }
 }
 
-
 # --------------------------------------------------------------------
 # Plot method to draw Sobol' estimates
 

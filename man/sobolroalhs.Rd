@@ -131,10 +131,14 @@ ggplot(x)
 ####################
 # Test case : multidimensional outputs
 
+\donttest{
 toy <- function(x){cbind(x[,1]+x[,2]+x[,1]*x[,2],2*x[,1]+3*x[,1]*x[,2]+x[,2])}
 x <- sobolroalhs(model = toy, factors = 3, N = 1000, p=2, order =1, nboot=100)
 print(x)
 ggplot(x)
 }
+
+}
+
 \keyword{design}
 

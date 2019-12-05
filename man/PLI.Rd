@@ -115,7 +115,7 @@ Paul Lemaitre
 
 	par(mar=c(4,5,1,1))
 	plot(v_delta,BIshm[,2],ylim=c(-4,4),xlab=expression(delta),
-		ylab=expression(hat(S[i*delta])),pch=19,cex=1.5)
+		ylab=expression(hat(PLI[i*delta])),pch=19,cex=1.5)
 	points(v_delta,BIshm[,1],col="darkgreen",pch=15,cex=1.5)
 	points(v_delta,BIshm[,3],col="red",pch=17,cex=1.5)
 	lines(v_delta,BIshm[,2]+1.96*SIshm[,2],col="black"); 
@@ -139,7 +139,7 @@ Paul Lemaitre
 
 	par(mfrow=c(2,1),mar=c(1,5,1,1)+0.1)
 	plot(v_delta,BIshv[,2],ylim=c(-.5,.5),xlab=expression(V_f),
-		ylab=expression(hat(S[i*delta])),pch=19,cex=1.5)
+		ylab=expression(hat(PLI[i*delta])),pch=19,cex=1.5)
 	points(v_delta,BIshv[,1],col="darkgreen",pch=15,cex=1.5)
 	points(v_delta,BIshv[,3],col="red",pch=17,cex=1.5)
 	lines(v_delta,BIshv[,2]+1.96*SIshv[,2],col="black"); 
@@ -151,7 +151,7 @@ Paul Lemaitre
 
 	par(mar=c(4,5.1,1.1,1.1))
 	plot(v_delta,BIshv[,2],ylim=c(-30,.7),xlab=expression(V[f]),
-		ylab=expression(hat(S[i*delta])),pch=19,cex=1.5)
+		ylab=expression(hat(PLI[i*delta])),pch=19,cex=1.5)
 	points(v_delta,BIshv[,1],col="darkgreen",pch=15,cex=1.5)
 	points(v_delta,BIshv[,3],col="red",pch=17,cex=1.5)
 	lines(v_delta,BIshv[,2]+1.96*SIshv[,2],col="black"); 

@@ -187,9 +187,9 @@ print.shapleyPermEx <- function(x, ...) {
     cat("\nModel runs:", length(x$y), "\n")
     cat("\nShapley' effects:\n")
     print(x$Shapley)
-    cat("\nFirst order Sobol' indices:\n")
+    cat("\nFull first order Sobol' indices:\n")
     print(x$SobolS)
-    cat("\nTotal Sobol' indices:\n")
+    cat("\nIndependent total Sobol' indices:\n")
     print(x$SobolT)
   }
 }
@@ -203,14 +203,14 @@ plot.shapleyPermEx <- function(x, ylim = c(0, 1), ...) {
              pch = pch[2], at = (1:x$d)+.2, add = TRUE)
     nodeplot(x$SobolT, xlim = c(1, x$d + 1), ylim = ylim, labels = FALSE,
              pch = pch[3], at = (1:x$d)+.4, add = TRUE)
-    legend(x = "topright", legend = c("Shapley effect","First Sobol' index", "Total Sobol' index"), pch = pch)
+    legend(x = "topright", legend = c("Shapley effect","Full first Sobol'", "Independent total Sobol'"), pch = pch)
   }
 }
 
 ggplot.shapleyPermEx <- function(x, ylim = c(0, 1), ...) {
   if (!is.null(x$y)) {
     pch = c(21, 24, 25)
-    nodeggplot(list(x$Shapley,x$SobolS,x$SobolT), xname=c("Shapley effect","First Sobol' index", "Total Sobol' index"), ylim = ylim, pch = pch)
+    nodeggplot(list(x$Shapley,x$SobolS,x$SobolT), xname=c("Shapley effect","Full first Sobol'", "Independent total Sobol'"), ylim = ylim, pch = pch)
   }
 }
 

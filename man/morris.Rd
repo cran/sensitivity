@@ -242,6 +242,7 @@ plot(x)
 library(rgl)
 plot3d.morris(x)  # (requires the package 'rgl')}
 
+\donttest{
 # Only for demonstration purposes: a model function returning a matrix
 morris.fun_matrix <- function(X){
   res_vector <- morris.fun(X)
@@ -264,6 +265,7 @@ x <- morris(model = morris.fun_array, factors = 20, r = 4,
             design = list(type = "simplex", scale.factor = 1))
 plot(x, y_col = 2, y_dim3 = 2)
 title(main = "y_col = 2, y_dim3 = 2")
+}
 }
 
 \keyword{design}

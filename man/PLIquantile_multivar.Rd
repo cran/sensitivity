@@ -105,9 +105,9 @@ toto12 = PLIquantile_multivar(0.95,X,Y,c(1,2),deltasvector=v_delta,
 toto = PLIquantile(0.95,X,Y,deltasvector=v_delta,InputDistributions=distribution,
     type="MOY",samedelta=TRUE,nboot=0)
 
-x11 ; par(mar=c(4,5,1,1))
+par(mar=c(4,5,1,1))
 plot(v_delta,diag(toto12$PLI),ylim=c(-2.5,1.5),xlab=expression(delta),
-    ylab=expression(hat(S[i*delta])),pch=16,cex=1.5,col="blue")
+    ylab=expression(hat(PLI[i*delta])),pch=16,cex=1.5,col="blue")
 points(v_delta,toto$PLI[,1],col="darkgreen",pch=15,cex=1.5)
 points(v_delta,toto$PLI[,2],col="black",pch=19,cex=1.5)
 points(v_delta,toto$PLI[,3],col="red",pch=17,cex=1.5)
