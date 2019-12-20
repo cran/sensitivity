@@ -1,4 +1,13 @@
 
+Changes in version 1.17.0:
+
+    o New functions: squaredIntEstim.R and PoincareChaosSqCoef.R
+    (which allows to compute the squared coefficients in 
+    generalized chaos via Poincare differential operators)
+    
+    o Modification in PoincareOptimal.Rd concerning the 
+    returned eigenvalues
+
 Changes in version 1.16.3:
 
     o Unresolved matrix/array classes related bug on R4.0.0 version

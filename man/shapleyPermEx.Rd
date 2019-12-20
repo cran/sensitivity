@@ -11,7 +11,7 @@
 \description{
   \code{shapleyPermEx} implements the Monte Carlo estimation of
   the Shapley effects (Owen, 2014) and their standard errors by examining all
-  permutations of inputs (Song et al., 2016; Iooss and Prieur, 2018). It also 
+  permutations of inputs (Song et al., 2016; Iooss and Prieur, 2019). It also 
   estimates full first order and independent total Sobol' indices 
   (Mara et al., 2015). The function also allows the estimations of all these 
   sensitivity indices in case of dependent inputs. The total cost of this 
@@ -77,7 +77,7 @@ shapleyPermEx(model = NULL, Xall, Xset, d, Nv, No, Ni = 3, colnames = NULL, \dot
   analysis of Song et al., 2016.
   
   The computations of the standard errors (and then the confidence intervals)
-  come from Iooss and prieur (2018). Based on the outer Monte carlo loop 
+  come from Iooss and prieur (2019). Based on the outer Monte carlo loop 
   (calculation of expectation of conditional variance), the variance of the 
   Monte carlo estimate is divided by No. the standard error is then averaged 
   over the exact permutation loop. The confidence intervals at 95\% correspond 
@@ -87,11 +87,7 @@ shapleyPermEx(model = NULL, Xall, Xset, d, Nv, No, Ni = 3, colnames = NULL, \dot
 \references{
 B. Iooss and C. Prieur, 2019, \emph{Shapley effects for sensitivity analysis with 
 correlated inputs: comparisons with Sobol' indices, numerical estimation and 
-applications}, International Journal of Uncertainty Quantification, In press.
-
-S. Kucherenko, S. Tarantola, and P. Annoni, 2012, \emph{Estimation of global  
-sensitivity indices for models with dependent variables},
-Computer Physics Communications, 183, 937--946.
+applications}, International Journal for Uncertainty Quantification, 9, 493--514.
 
 T. Mara, S. Tarantola, P. Annoni, 2015, \emph{Non-parametric methods for global 
 sensitivity analysis of model output with dependent inputs}, Environmental
@@ -123,7 +119,7 @@ Bertrand Iooss, Eunhye Song, Barry L. Nelson, Jeremy Staum
 
 ##################################
 # Test case : the Ishigami function (3 uniform independent inputs)
-# See Iooss and Prieur (2017)
+# See Iooss and Prieur (2019)
 
 library(gtools)
 
@@ -140,7 +136,7 @@ ggplot(x)
 
 ##################################
 # Test case : Linear model (3 Gaussian inputs including 2 dependent)
-# See Iooss and Prieur (2017)
+# See Iooss and Prieur (2019)
 
 library(ggplot2)
 library(gtools)

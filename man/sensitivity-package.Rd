@@ -5,7 +5,7 @@
 
 \title{Sensitivity Analysis}
 
-\description{Methods and functions for global sensitivity analysis.}
+\description{Methods and functions for global sensitivity analysis}
 
 \details{
   The \pkg{sensitivity} package implements some global sensitivity analysis
@@ -17,6 +17,7 @@
     \item Derivative-based Global Sensitivity Measures:
     \itemize{
       \item Poincare constants for Derivative-based Global Sensitivity Measures (DGSM) (Lamboni et al., 2013; Roustant et al., 2017) (\code{\link{PoincareConstant}}) and (\code{\link{PoincareOptimal}}),
+      \item Squared coefficients computation in generalized chaos via Poincare differential operators (Roustant et al., 2019) (\code{\link{PoincareChaosSqCoef}}),
       \item Distributed Evaluation of Local Sensitivity Analysis (DELSA) (Rakovec et al., 2014) (\code{\link{delsa}});
       }
     \item Variance-based sensitivity indices (Sobol' indices):
@@ -56,7 +57,7 @@
 	    }
   }
   
-  Moreover, some utilities are provided: standard test-cases (\code{\link{testmodels}}), normal and Gumbel truncated distributions (\code{\link{truncateddistrib}}) and template file generation (\code{\link{template.replace}}).
+  Moreover, some utilities are provided: standard test-cases (\code{\link{testmodels}}), normal and Gumbel truncated distributions (\code{\link{truncateddistrib}}), squared integral estimate  (\code{\link{squaredIntEstim}}) and template file generation (\code{\link{template.replace}}).
 }
 
 \section{Model managing}{
@@ -86,7 +87,7 @@
 }
 
 
-\author{Bertrand Iooss, Alexandre Janon and Gilles Pujol with contributions from Paul Lemaitre for the \code{\link{PLI}} function, Thibault Delage and Roman Sueur for the \code{\link{PLIquantile}} function, Laurent Gilquin for the \code{\link{sobolroalhs}}, \code{\link{sobolroauc}} and \code{\link{sobolSalt}} functions, Loic le Gratiet for the \code{\link{sobolGP}} function, Khalid Boumhaout, Taieb Touati and Bernardo Ramos for the \code{\link{sobolowen}} and \code{\link{soboltouati}} functions, Jana Fruth for the \code{\link{PoincareConstant}}, \code{\link{sobolTIIlo}} and \code{\link{sobolTIIpf}} functions, Sebastien Da veiga for the \code{\link{sensiHSIC}} (with Amandine Marrel and Anouar Meynaoui) and \code{\link{sensiFdiv}} functions and all the ggplot functionalities, Joseph Guillaume and Oldrich Rakovec for the \code{\link{delsa}} and \code{\link{parameterSets}} functions, Olivier Roustant for the \code{\link{PoincareOptimal}} and \code{\link{support}} functions, Eunhye Song, Barry L. Nelson and Jeremy Staum for the \code{\link{shapleyPermEx}} and \code{\link{shapleyPermRand}} functions, Baptiste Broto for the \code{\link{shapleySubsetMc}} function, Filippo Monari for the (\code{\link{sobolSmthSpl}}) and (\code{\link{morrisMultOut}}) functions, Frank Weber and Roelof Oomen.
+\author{Bertrand Iooss, Alexandre Janon and Gilles Pujol with contributions from Paul Lemaitre for the \code{\link{PLI}} function, Thibault Delage and Roman Sueur for the \code{\link{PLIquantile}} function, Laurent Gilquin for the \code{\link{sobolroalhs}}, \code{\link{sobolroauc}} and \code{\link{sobolSalt}} functions, Loic le Gratiet for the \code{\link{sobolGP}} function, Khalid Boumhaout, Taieb Touati and Bernardo Ramos for the \code{\link{sobolowen}} and \code{\link{soboltouati}} functions, Jana Fruth for the \code{\link{PoincareConstant}}, \code{\link{sobolTIIlo}} and \code{\link{sobolTIIpf}} functions, Sebastien Da veiga for the \code{\link{sensiHSIC}} (with Amandine Marrel and Anouar Meynaoui) and \code{\link{sensiFdiv}} functions and all the ggplot functionalities, Joseph Guillaume and Oldrich Rakovec for the \code{\link{delsa}} and \code{\link{parameterSets}} functions, Olivier Roustant for the \code{\link{PoincareOptimal}}, \code{\link{PoincareChaosSqCoef}}, \code{\link{squaredIntEstim}} and \code{\link{support}} functions, Eunhye Song, Barry L. Nelson and Jeremy Staum for the \code{\link{shapleyPermEx}} and \code{\link{shapleyPermRand}} functions, Baptiste Broto for the \code{\link{shapleySubsetMc}} function, Filippo Monari for the (\code{\link{sobolSmthSpl}}) and (\code{\link{morrisMultOut}}) functions, Frank Weber and Roelof Oomen.
 
 (maintainer: Bertrand Iooss \email{biooss@yahoo.fr})}
 

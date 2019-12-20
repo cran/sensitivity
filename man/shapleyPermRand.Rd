@@ -86,11 +86,7 @@ shapleyPermRand(model = NULL, Xall, Xset, d, Nv, m, No = 1, Ni = 3, colnames = N
 \references{
 B. Iooss and C. Prieur, 2019, \emph{Shapley effects for sensitivity analysis with 
 correlated inputs: comparisons with Sobol' indices, numerical estimation and 
-applications}, International Journal of Uncertainty Quantification, In press.
-
-S. Kucherenko, S. Tarantola, and P. Annoni, 2012, \emph{Estimation of global  
-sensitivity indices for models with dependent variables},
-Computer Physics Communications, 183, 937--946.
+applications}, International Journal of Uncertainty Quantification, , 9, 493--514.
 
 T. Mara, S. Tarantola, P. Annoni, 2015, \emph{Non-parametric methods for global 
 sensitivity analysis of model output with dependent inputs}, Environmental
@@ -122,7 +118,7 @@ Bertrand Iooss, Eunhye Song, Barry L. Nelson, Jeremy Staum
 
 ##################################
 # Test case : the Ishigami function
-# See Iooss and Prieur (2017)
+# See Iooss and Prieur (2019)
 
 library(gtools)
 
@@ -139,7 +135,7 @@ ggplot(x)
 
 ##################################
 # Test case : Linear model (3 Gaussian inputs including 2 dependent)
-# See Iooss and Prieur (2017)
+# See Iooss and Prieur (2019)
 
 library(ggplot2)
 library(gtools)

@@ -1,12 +1,13 @@
-7258ecc245ef6ee4bb774dffca14bab4 *DESCRIPTION
-3eebb904f1f51631e807c142a2929dab *NAMESPACE
-fd9a01d1e2449cb94c7e9635b1d79d42 *NEWS
+8c42c0466c0514466b84aa2bc410105e *DESCRIPTION
+77bf502b6cc15fe761c7a3fa62313ab9 *NAMESPACE
+0138ddba064d745758827b7c5b69a0d1 *NEWS
 2614c0aff379c8436ebdb31061d8447e *R/PLI.R
 c58a77e803d8bf26113fd34069a5bb4d *R/PLIquantile.r
 e9a8826f1ec1ddbe9da58111c8a42114 *R/PLIquantile_multivar.r
 ab1ce09fbdf14c366c365b31c7b4606a *R/PLIsuperquantile.r
+3d75d87843aee21244642d482236bab2 *R/PoincareChaosSqCoef.R
 fcaf012f6675614a937f16a076b9297b *R/PoincareConstant.R
-e28ff563e16f9dd65a9759aa108b180a *R/PoincareOptimal.R
+a0279c87606ceb6c63552b5224c6c7f9 *R/PoincareOptimal.R
 e8c5fc27a98fd0bad92b9c7fe0561457 *R/base.R
 9faee8f187b55c16234fbc8da6a37aca *R/bootstats.R
 3c5bc2298e56bd59174c48c6b22a2f35 *R/delsa.R
@@ -45,6 +46,7 @@ a7341db5124b714ad6e165275b858353 *R/soboljansen.R
 5105e6aea0629b00687da54fe3883e7d *R/sobolroalhs.R
 ec5d3fc55570964af89fbab4aca31bab *R/sobolroauc.R
 abc96b6448eec35cc7ec91a71525b2c8 *R/soboltouati.R
+51220e5018c402cd7cd5ea4817a91380 *R/squaredIntEstim.R
 f29e9da84bb9e35d7d5f18674e0238b7 *R/src.R
 1029796e283c03abb23dc2b249ea0c46 *R/support.R
 a2ac0a184f42ca17c8be61cd829a22e0 *R/template_replace.R
@@ -54,8 +56,9 @@ df2861052cf67f2d8dc8467e1be39a64 *man/PLI.Rd
 423d251e584b867b134b9efe07e1db8c *man/PLIquantile.Rd
 31cd5a0c310ae21d224ac59e22c23ba8 *man/PLIquantile_multivar.Rd
 7e96913ada5f98bb6426601340ee5e14 *man/PLIsuperquantile.Rd
+7b127342f5d6cc7776a38461f9a3bed5 *man/PoincareChaosSqCoef.Rd
 636dd4fb05285b7de44cf4fe89572acf *man/PoincareConstant.Rd
-79002f965aa1a6f6ec61d9423847faa4 *man/PoincareOptimal.Rd
+c0c8882ee329691c220e3d6ed02871e3 *man/PoincareOptimal.Rd
 79e1de6fcfd569fc1e4244c4c374fc9e *man/decoupling.Rd
 8c20f0ee059e5cbfa5953e1d9bed4935 *man/delsa.Rd
 19bcb42e97b4610805347b69d4216dd1 *man/fast99.Rd
@@ -67,9 +70,9 @@ b46db7a0fe99ab5a551a3840573a61f2 *man/parameterSets.Rd
 bd467cd43c0d5394e94a48dbbdc87c1e *man/sb.Rd
 f58a354d48f6d0700ac051b61b04e403 *man/sensiFdiv.Rd
 88a286c4c9779b68b2651dd8df0c1426 *man/sensiHSIC.Rd
-a17cac73eda05a904c71a64af166bfaf *man/sensitivity-package.Rd
-2668c41ffce05bdd9db9aa0d56642234 *man/shapleyPermEx.Rd
-45adcfe558d32bb1879b55c479c5ce2a *man/shapleyPermRand.Rd
+1e199f0c9287d0a74b3fee7e099e27a1 *man/sensitivity-package.Rd
+96c4aa858b3d095c867b5d08c905ac1f *man/shapleyPermEx.Rd
+94a91a6b9b0831d3e443e18fcc2a5e95 *man/shapleyPermRand.Rd
 1c6162c279071507d11596e114c7656e *man/shapleySubsetMc.Rd
 6464031324dbb8c94ee64206b82c3c8e *man/sobol.Rd
 168d3895ad0fff96fd951995ca032776 *man/sobol2002.Rd
@@ -88,6 +91,7 @@ fcc74becb82d26e55b7fbfadecb45890 *man/sobolowen.Rd
 f10a78610a2cb8727c6ecfdbe8869cb3 *man/sobolroalhs.Rd
 823af9c9f13d31e4160dc1539525f191 *man/sobolroauc.Rd
 29b3be52b688697731df511302bd5a87 *man/soboltouati.Rd
+69045e2b685c150a7df1efd8d66f2505 *man/squaredIntEstim.Rd
 ec162c711d15df3c376f802b9618080c *man/src.Rd
 721fc9fa92a01ac3ff90c4fc7b3de81a *man/support.Rd
 52789e61c355afde932e8579222c9ef4 *man/template_replace.Rd
