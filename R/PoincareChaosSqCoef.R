@@ -24,6 +24,8 @@ PoincareChaosSqCoef <- function(PoincareEigen, multiIndex,
   if (length(multiIndex) != d) stop("The length of multiindex must be equal to the number of input variables")
   nonZeroSet <- which(multiIndex != 0)
   
+  if (multiIndex[inputIndex] == 0 & der) stop("Division by zero. Change multiIndex[inputIndex] or der values")
+  
   chaos <- 1
   if (!der){
     for (i in nonZeroSet){

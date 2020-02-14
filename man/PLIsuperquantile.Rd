@@ -5,7 +5,7 @@
 
 \description{
   PLIsuperquantile computes the Perturbed-Law based Indices (PLI) for superquantile, 
-  which are sensitivity indices related to a superquantile of a 
+  which are robustness indices related to a superquantile of a 
   model output, estimated by a Monte Carlo method.
 }
 

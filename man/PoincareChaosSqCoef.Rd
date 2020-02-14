@@ -34,7 +34,7 @@ Denoting by \eqn{(e_{1, l1}... e_{d, ld})} one tensor basis, the corresponding c
 
 For a given input variable (say \eqn{x1} to simplify notations), it can be rewritten with derivatives as:
 
-\eqn{c_{l1, ..., ld} = <df/dx1, de_{1, l1}/dx1 e_{2, l2}...e_{d, ld}>.}
+\eqn{c_{l1, ..., ld} = <df/dx1, de_{1, l1}/dx1 e_{2, l2}...e_{d, ld}> / eigenvalue_{1, l1}}
 
 The function returns an estimate of \eqn{c_{l1, ..., ld}^2}, corresponding to one of these two forms (derivative-free, or derivative-based).
 }

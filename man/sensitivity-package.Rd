@@ -20,7 +20,7 @@
       \item Squared coefficients computation in generalized chaos via Poincare differential operators (Roustant et al., 2019) (\code{\link{PoincareChaosSqCoef}}),
       \item Distributed Evaluation of Local Sensitivity Analysis (DELSA) (Rakovec et al., 2014) (\code{\link{delsa}});
       }
-    \item Variance-based sensitivity indices (Sobol' indices):
+    \item Variance-based sensitivity indices (Sobol' indices) for independent inputs:
 	  \itemize{
       \item Estimation of the Sobol' first order indices with with B-spline Smoothing (Ratto and Pagano, 2010) (\code{\link{sobolSmthSpl}}),
       \item Monte Carlo estimation of Sobol' indices with independent inputs (also called pick-freeze method): 
@@ -41,7 +41,7 @@
       \item Sobol' indices estimation under inequality constraints (Gilquin et al., 2015) by extension of the replication procedure (Tissot and Prieur, 2015) (\code{\link{sobolroauc}}),
       \item Estimation of the Sobol' first order and total indices with kriging-based global sensitivity analysis (Le Gratiet et al., 2014) (\code{\link{sobolGP}});
     }
-    \item Variance-based sensitivity indices (Shapley effects and Sobol' indices, with independent or dependent inputs):
+    \item Variance-based sensitivity indices (Shapley effects and Sobol' indices) for independent or dependent inputs:
 	  \itemize{
 	    \item Estimation by examining all permutations of inputs (Song et al., 2016) (\code{\link{shapleyPermEx}})
 	    \item Estimation by randomly sampling permutations of inputs (Song et al., 2016) (\code{\link{shapleyPermRand}})
@@ -49,7 +49,7 @@
 	  }
     \item Support index functions (\code{\link{support}}) of Fruth et al. (2016);
     \item Sensitivity Indices based on Csiszar f-divergence (\code{\link{sensiFdiv}}) (particular cases: Borgonovo's indices and mutual-information based indices) and Hilbert-Schmidt Independence Criterion (\code{\link{sensiHSIC}}) (Da Veiga, 2015; Meynaoui et al., 2019);
-    \item Reliability sensitivity analysis by the Perturbed-Law based Indices (\code{\link{PLI}}) of Lemaitre et al. (2015), (\code{\link{PLIquantile}}) of Sueur et al. (2017), and extension as (\code{\link{PLIquantile_multivar}}) and (\code{\link{PLIsuperquantile}}) ;
+    \item Robustness analysis by the Perturbed-Law based Indices (\code{\link{PLI}}) of Lemaitre et al. (2015), (\code{\link{PLIquantile}}) of Sueur et al. (2017), and extension as (\code{\link{PLIquantile_multivar}}) and (\code{\link{PLIsuperquantile}}) ;
     \item Extensions to multidimensional outputs for:
 	  \itemize{
 	    \item Sobol' indices (\code{\link{sobolMultOut}}): Aggregated Sobol' indices (Lamboni et al., 2011; Gamboa et al., 2014) and functional (1D) Sobol' indices;

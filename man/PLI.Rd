@@ -6,7 +6,7 @@
 \description{
   PLI computes the Perturbed-Law based Indices (PLI), also known as the
   Density Modification Based Reliability Sensitivity Indices (DMBRSI), 
-  which are sensitivity indices related to a probability of exceedence of a 
+  which are robustness indices related to a probability of exceedence of a 
   model output (i.e. a failure probability), estimated by a Monte Carlo method. 
   See Lemaitre et al. (2015).
 }

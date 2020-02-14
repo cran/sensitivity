@@ -1,4 +1,14 @@
 
+Changes in version 1.17.1:
+
+  o bug (caused by new R version 4.0.0) solved in morris_oat.R
+  (matrix objects now also inherit from class "array")
+  
+  o exception "multiIndex[inputIndex] == 0 & der" solved in 
+  PoincareChaosSqCoef.R
+  
+  o example with give data in sensiHSIc()
+  
 Changes in version 1.17.0:
 
     o New functions: squaredIntEstim.R and PoincareChaosSqCoef.R

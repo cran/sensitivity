@@ -5,7 +5,7 @@
 
 \description{
   PLIquantile computes the Perturbed-Law based Indices (PLI) for quantile, 
-  which are sensitivity indices related to a quantile of a 
+  which are robustness indices related to a quantile of a 
   model output, estimated by a Monte Carlo method, See Sueur et al. (2016, 2017).
 }
 

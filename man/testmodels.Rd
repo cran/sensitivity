@@ -24,7 +24,7 @@
   \itemize{
     \item the Arctangent temporal function with 2 inputs, X ~ U[-7,7] 
     (Auder, 2011). The functional support is on [0,2pi];
-    \item the Cambell1D function with 4 nputs, X ~U[-1,5] 
+    \item the Cambell1D function with 4 inputs, X ~U[-1,5] 
     (Campbell et al. 2006). The functional support is on [-90,90].
 }
 }

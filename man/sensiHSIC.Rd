@@ -180,5 +180,15 @@ permutation method. See Meynaoui et al. (2019) for details.}
   print(x)
   ggplot(x)
   
+  # Example in case of given data
+  n <- 100
+  X <- data.frame(matrix(-pi+2*pi*runif(3 * n), nrow = n))
+  Y <- ishigami.fun(X)
+  
+  x <- sensiHSIC(model = NULL, X)
+  tell(x,Y)
+  print(x)
+  ggplot(x)
+  
  }
 }
