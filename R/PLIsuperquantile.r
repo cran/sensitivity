@@ -1,6 +1,6 @@
 # library(evd)
 
-PLIsuperquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=TRUE,percentage=FALSE,nboot=0,conf=0.9){
+PLIsuperquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=TRUE,percentage=FALSE,nboot=0,conf=0.9,bias=TRUE){
   
   # Deux manieres d'estimer un superquantile d'ordre p a partir d'un quantile q d'ordre p et d'un echantillon x :
   #   sq <- mean(x[x>q])
@@ -41,7 +41,10 @@ PLIsuperquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY"
   #   If percentage=TRUE, the PLI is given in percentage of variation of the superquantile (even if it is negative).
   # nboot is the number of bootstrap replicates
   # conf is the required bootstrap confidence interval
-  # 
+  # bias defines which type of PLI-superquantile is computed:
+  #   "TRUE" gives the mean of outputs above the perturbed quantile
+  #   "FALSE" gives the the mean of perturbed outputs above the perturbed quantile
+
   #
   ###################################
   ## Description of output parameters
@@ -319,13 +322,14 @@ for (i in 1:nmbredevariables){		# loop for each variable
     ############# Computation of q_i_delta for the mean twisting
     ###############################################################
     
-    
+#    ecdfy <- ecdf(y)
     for (K in 1:nmbrededeltas){
       if(vdd[K]!=0){
-        res=NULL		
+        res=NULL ; respts=NULL	
         pti=phi(vlambda[K])
         for (j in 1:nmbredepoints){	
           res[j]=exp(vlambda[K]*xs[j,i]-pti)
+          respts[j]=exp(vlambda[K]*x[j,i]-pti)
         }
         sum_res = sum(res)
         kid = 1
@@ -336,8 +340,9 @@ for (i in 1:nmbredevariables){		# loop for each variable
           res1 = res1 + res[kid]
           res2 = res1/sum_res
         }
-#        lqid[K] = mean(y * (y > ys$x[kid] ) / (1-order)) # gros probleme avec cette formulation, pourquoi ?
-        lqid[K] = mean(y[y > ys$x[kid]]) # ys$x[kid] = quantile 
+#        orderper <- ecdfy(ys$x[kid])
+        if (bias){ lqid[K] = mean(y[y > ys$x[kid]]) # ys$x[kid] = quantile
+        } else lqid[K] = mean(y * respts * ( y > ys$x[kid] ) / (1-order))
       } else lqid[K] = sqhat
     }
 
@@ -350,19 +355,21 @@ for (i in 1:nmbredevariables){		# loop for each variable
         ib <- sample(1:length(y),replace=TRUE)
         xb <- x[ib,]
         yb <- y[ib]
+#        ecdfyb <- ecdf(yb)
     
         quantilehatb <- quantile(yb,order) # quantile estimate
         sqhatb <- c(sqhatb, mean( yb * (yb > quantilehatb) / ( 1 - order ))) # superquantile estimate
-        
+
         ysb = sort(yb,index.return=T) # ordered output
         xsb = xb[ysb$ix,] # inputs ordered by increasing output
       
         for (K in 1:nmbrededeltas){
           if(vdd[K]!=0){
-            res=NULL		
+            res=NULL ; respts=NULL	
             pti=phi(vlambda[K])
             for (j in 1:nmbredepoints){	
               res[j]=exp(vlambda[K]*xsb[j,i]-pti)
+              respts[j]=exp(vlambda[K]*xb[j,i]-pti)
             }
             sum_res = sum(res)
             kid = 1
@@ -373,7 +380,10 @@ for (i in 1:nmbredevariables){		# loop for each variable
               res1 = res1 + res[kid]
               res2 = res1/sum_res
             }
-            lqidb[K,b] = mean(yb[yb > ysb$x[kid]] )
+#            orderper <- ecdfyb(ysb$x[kid])
+            if (bias){ lqidb[K,b] = mean(yb[yb > ysb$x[kid]]) # ysb$x[kid] = quantile
+            } else lqidb[K,b] = mean(yb * respts * (yb > ysb$x[kid] ) / (1-order))
+#            } else lqidb[K,b] = mean(yb * ( yb > quantilehatb ) / (1-orderper))
           } else lqidb[K,b] = sqhatb[b]
         }
       } # end of bootstrap loop
@@ -489,10 +499,11 @@ for (i in 1:nmbredevariables){		# loop for each variable
     ###############################################################
     for (K in 1:nmbrededeltas){
       if(deltasvector[K]!=0){
-        res=0
+        res=NULL ; respts=NULL
         pti=phi1(c(lambda1[K],lambda2[K]))
         for (j in 1:nmbredepoints){	
           res[j]=exp(lambda1[K]*xs[j,i]+lambda2[K]*xs[j,i]^2-pti) 
+          respts[j]=exp(lambda1[K]*x[j,i]+lambda2[K]*x[j,i]^2-pti) 
         }
         sum_res = sum(res)
         kid = 1
@@ -503,7 +514,10 @@ for (i in 1:nmbredevariables){		# loop for each variable
           res1 = res1 + res[kid]
           res2 = res1/sum_res
         }
-        lqid[K] = mean(y[y > ys$x[kid]] ) # ys$x[kid] = quantile
+        if (bias){ yper <- y
+        } else yper <- y * respts 
+        lqid[K] = mean(yper * ( y > ys$x[kid] ) / (1-order))
+        
       } else lqid[K] = sqhat
     }
     
@@ -525,10 +539,11 @@ for (i in 1:nmbredevariables){		# loop for each variable
         
         for (K in 1:nmbrededeltas){
           if(deltasvector[K]!=0){
-            res=0
+            res=NULL ; respts=NULL
             pti=phi1(c(lambda1[K],lambda2[K]))
             for (j in 1:nmbredepoints){	
               res[j]=exp(lambda1[K]*xsb[j,i]+lambda2[K]*xsb[j,i]^2-pti) 
+              respts[j]=exp(lambda1[K]*xb[j,i]+lambda2[K]*xb[j,i]^2-pti) 
             }
             sum_res = sum(res)
             kid = 1
@@ -539,7 +554,9 @@ for (i in 1:nmbredevariables){		# loop for each variable
               res1 = res1 + res[kid]
               res2 = res1/sum_res
             }
-            lqidb[K,b] = mean(yb[yb > ysb$x[kid]] )
+            if (bias){ ybper <- y
+            } else ybper <- y * respts 
+            lqidb[K,b] = mean(ybper * (yb > ysb$x[kid] ) / (1-order))
           } else lqidb[K,b] = sqhatb[b]
         }
       } # end of bootstrap loop

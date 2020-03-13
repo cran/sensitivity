@@ -1,4 +1,20 @@
 
+Changes in version 1.18.0:
+
+  o New function: weightTSA.R in order to perform Target Sensitivity 
+  Analysis by transforming the output sample using  aspecific weight 
+  function
+  
+  o Improvements in sensiHSIC(): 1) for the parameters estimation via 
+  the new argument crit.option, 2) for a sequential estimation of the
+  pvalue (independence test based on permutations), 3) new argument
+  target in order to perform Target Sensitivity Analysis
+  
+  o New argument 'bias' in PLIsuperquantile(): "TRUE" gives the 
+  previous computation; "FALSE" corrects this computation (the sample 
+  points were not weighted by the likelihood ratio when computing the 
+  perturbed superquantile)
+
 Changes in version 1.17.1:
 
   o bug (caused by new R version 4.0.0) solved in morris_oat.R

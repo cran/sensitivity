@@ -15,7 +15,7 @@ PoincareChaosSqCoef(PoincareEigen, multiIndex, design, output, outputGrad = NULL
 
 \arguments{
 \item{PoincareEigen}{output list from PoincareOptimal() function}
-\item{multiIndex}{vector of indices (l1, ..., ld). A coordinate equal to 0 corresponds to the constant basis function 1.}
+\item{multiIndex}{vector of indices (l1, ..., ld). A coordinate equal to 0 corresponds to the constant basis function 1}
 \item{design}{design of experiments (matrix of size n x d) with d the number of inputs and n the number of observations}
 \item{output}{vector of length n (y1, ..., yn) of output values at \code{design} points}
 \item{outputGrad}{matrix n x d whose columns contain the output partial derivatives at \code{design} points}
@@ -44,8 +44,8 @@ An estimate of the squared coefficient.
 }
 
 \references{
-O Roustant, F. Gamboa, B Iooss. Parseval inequalities and lower bounds 
-for variance-based sensitivity indices. 2019. hal-02140127
+O. Roustant, F. Gamboa and B. Iooss, \emph{Parseval inequalities and lower bounds for 
+variance-based sensitivity indices}, Electronic Journal of Statistics, 14:386-412, 2020
 }
 
 \author{

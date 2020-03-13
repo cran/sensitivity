@@ -17,19 +17,19 @@ shapleySubsetMc(X,Y, Ntot=NULL, Ni=3, cat=NULL, weight=NULL, discrete=NULL)
 }
 
 \arguments{
-  \item{X}{a matrix or a dataframe of the input sample.}
-  \item{Y}{a vector of the output sample.}
-  \item{Ntot}{an integer of the approximate cost wanted.}
-  \item{Ni}{the number of nearest neighbours taken for each point.}
-  \item{cat}{a vector giving the indices of the input categorical variables.}
+  \item{X}{a matrix or a dataframe of the input sample}
+  \item{Y}{a vector of the output sample}
+  \item{Ntot}{an integer of the approximate cost wanted}
+  \item{Ni}{the number of nearest neighbours taken for each point}
+  \item{cat}{a vector giving the indices of the input categorical variables}
   \item{weight}{a vector with the same length of \code{cat} giving the weight of each
-     categorical variable in the product distance.}
+     categorical variable in the product distance}
   \item{discrete}{a vector giving the indices of the input variable that are
-     real, and not categorical, but that can take several times the same values.}
+     real, and not categorical, but that can take several times the same values}
   \item{x}{a list of class \code{"shapleySubsetMc"} storing the state of the
-  sensitivity study (Shapley effects, cost, names of inputs).}
-  \item{ylim}{y-coordinate plotting limits.}
-  \item{\dots}{any other arguments for plotting.}
+  sensitivity study (Shapley effects, cost, names of inputs)}
+  \item{ylim}{y-coordinate plotting limits}
+  \item{\dots}{any other arguments for plotting}
 }
 
 \value{

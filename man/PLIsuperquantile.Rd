@@ -11,7 +11,7 @@
 
 \usage{
 PLIsuperquantile(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=TRUE,
-            percentage=FALSE,nboot=0,conf=0.9)
+            percentage=FALSE,nboot=0,conf=0.9,bias=TRUE)
 }
 
 \arguments{
@@ -56,6 +56,11 @@ PLIsuperquantile(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=
         }}
   \item{nboot}{the number of bootstrap replicates.}
   \item{conf}{the confidence level for bootstrap confidence intervals.}
+  \item{bias}{defines the version of PLI-superquantile:
+    \itemize{
+      \item If it is set at "TRUE", it gives the mean of outputs above the perturbed quantile
+      \item If it is set at "FALSE", it gives the mean of perturbed outputs above the perturbed quantile
+        }}
 }
 
 \value{
@@ -114,7 +119,7 @@ Bertrand Iooss
   
 	v_delta = seq(-1,1,1/10) 
 	toto = PLIsuperquantile(0.95,X,Y,deltasvector=v_delta,
-	  InputDistributions=distribution,type="MOY",samedelta=TRUE,nboot=200)
+	  InputDistributions=distribution,type="MOY",samedelta=TRUE,nboot=200,bias=TRUE)
 
 # Plotting the PLI
   par(mar=c(4,5,1,1))

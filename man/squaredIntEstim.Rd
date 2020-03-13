@@ -24,15 +24,18 @@ It is positively biased, and the bias is equal to s^2/n, where s^2 = var(X1).
 The U-statistics estimator is the average of Xi * Xj over all unordered pairs (i,j).
 Equivalently, it is equal to T1 minus the (unbiased) sample variance divided by n.
 }
+
 \value{
 A real number, corresponding to the estimated value of the squared integral.
 }
+
 \references{
-O Roustant, F. Gamboa, B Iooss. Parseval inequalities and lower bounds 
-# for variance-based sensitivity indices. 2019. hal-02140127
+O. Roustant, F. Gamboa and B. Iooss, \emph{Parseval inequalities and lower bounds for 
+variance-based sensitivity indices}, Electronic Journal of Statistics, 14:386-412, 2020
 
 Van der Vaart, A. W. Asymptotic statistics. Vol. 3. Cambridge university press, 2000.
 }
+
 \author{
 O. Roustant
 }
