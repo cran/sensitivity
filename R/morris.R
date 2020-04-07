@@ -145,7 +145,7 @@ tell.morris <- function(x, y = NULL, ...) {
 
 print.morris <- function(x, ...) {
   cat("\nCall:\n", deparse(x$call), "\n", sep = "")
-  if (!is.null(x$y) && is(x$y,"numeric")) {
+  if (!is.null(x$y) && inherits(x$y, "numeric")) {
     cat("\nModel runs:", length(x$y), "\n")
     mu <- apply(x$ee, 2, mean)
     mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
@@ -154,7 +154,7 @@ print.morris <- function(x, ...) {
     out <- data.frame(mu, mu.star, sigma)
     rownames(out) <- colnames(x$ee)
     print(out)
-  } else if (!is.null(x$y) && is(x$y,"matrix")) {
+  } else if (!is.null(x$y) && inherits(x$y, "matrix")) {
     cat("\nModel runs:", nrow(x$y), "\n")
     mu <- apply(x$ee, 3, function(M){
       apply(M, 2, mean)
@@ -167,7 +167,7 @@ print.morris <- function(x, ...) {
     })
     out <- list("mu" = mu, "mu.star" = mu.star, "sigma" = sigma)
     print.listof(out)
-  } else if (!is.null(x$y) && is(x$y,"array")) {
+  } else if (!is.null(x$y) && inherits(x$y, "array")) {
     cat("\nModel runs:", dim(x$y)[1], "\n")
     mu <- lapply(1:dim(x$ee)[4], function(i){
       apply(x$ee[, , , i, drop = FALSE], 3, function(M){
@@ -200,10 +200,12 @@ print.morris <- function(x, ...) {
 plot.morris <- function(x, identify = FALSE, atpen = FALSE,
                         y_col = NULL, y_dim3 = NULL, ...) {
   if (!is.null(x$ee)) {
-    if(is(x$y,"numeric")){
+#    if(is(x$y,"numeric")){
+    if(inherits(x$y, "numeric")){
       mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
       sigma <- apply(x$ee, 2, sd)
-    } else if(is(x$y,"matrix")){
+#    } else if(is(x$y,"matrix")){
+    } else if(inherits(x$y, "matrix")){
       if(is.null(y_col)) y_col <- 1
       if(!is.null(y_dim3)){
         warning("Argument \"y_dim3\" is ignored since the model output is ",
@@ -212,7 +214,8 @@ plot.morris <- function(x, identify = FALSE, atpen = FALSE,
       mu.star <- apply(x$ee[, , y_col, drop = FALSE], 2, 
                        function(x) mean(abs(x)))
       sigma <- apply(x$ee[, , y_col, drop = FALSE], 2, sd)
-    } else if(is(x$y,"array")){
+      #    } else if(is(x$y,"array")){
+    } else if(inherits(x$y, "array")){
       if(is.null(y_col)) y_col <- 1
       if(is.null(y_dim3)) y_dim3 <- 1
       mu.star <- apply(x$ee[, , y_col, y_dim3, drop = FALSE], 2, 
@@ -239,11 +242,12 @@ plot3d.morris <- function(x, alpha = c(0.2, 0), sphere.size = 1,
   cone.nfaces = 100
   
   if (!is.null(x$ee)) {
-    if(is(x$y,"numeric")){
+    if(inherits(x$y, "numeric")){
       mu <- apply(x$ee, 2, mean)
       mu.star <- apply(x$ee, 2, function(x) mean(abs(x)))
       sigma <- apply(x$ee, 2, sd)
-    } else if(is(x$y,"matrix")){
+      #    } else if(is(x$y,"matrix")){
+    } else if(inherits(x$y, "matrix")){
       if(is.null(y_col)) y_col <- 1
       if(!is.null(y_dim3)){
         warning("Argument \"y_dim3\" is ignored since the model output is ",
@@ -253,7 +257,7 @@ plot3d.morris <- function(x, alpha = c(0.2, 0), sphere.size = 1,
       mu.star <- apply(x$ee[, , y_col, drop = FALSE], 2, 
                        function(x) mean(abs(x)))
       sigma <- apply(x$ee[, , y_col, drop = FALSE], 2, sd)
-    } else if(is(x$y,"array")){
+    } else if(inherits(x$y, "array")){
       if(is.null(y_col)) y_col <- 1
       if(is.null(y_dim3)) y_dim3 <- 1
       mu <- apply(x$ee[, , y_col, y_dim3, drop = FALSE], 2, mean)

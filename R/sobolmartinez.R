@@ -298,7 +298,7 @@ plot.sobolmartinez <- function(x, ylim = c(0, 1),
   if (!is.null(x$y)) {
     p <- ncol(x$X1)
     pch = c(21, 24)
-    if(class(x$y) == "numeric"){
+    if(inherits(x$y, "numeric")){
       nodeplot(x$S, xlim = c(1, p + 1), ylim = ylim, pch = pch[1])
       nodeplot(x$T, xlim = c(1, p + 1), ylim = ylim, labels = FALSE,
                pch = pch[2], at = (1:p)+.3, add = TRUE)

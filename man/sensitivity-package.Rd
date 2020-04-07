@@ -11,7 +11,7 @@
   The \pkg{sensitivity} package implements some global sensitivity analysis
   methods:
   \itemize{
-    \item Linear regression coefficients: SRC and SRRC (\code{\link{src}}), PCC and PRCC (\code{\link{pcc}});
+    \item Linear regression importance measures: SRC and SRRC (\code{\link{src}}), PCC, SPCC, PRCC and SPRCC (\code{\link{pcc}});
     \item Bettonvil's sequential bifurcations (Bettonvil and Kleijnen, 1996) (\code{\link{sb}});
     \item Morris's "OAT" elementary effects screening method (\code{\link{morris}});
     \item Derivative-based Global Sensitivity Measures:

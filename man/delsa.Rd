@@ -97,7 +97,6 @@ print(x)
 
 library(ggplot2)
 library(reshape2)
-x11()
 plot(x)
 }
 }

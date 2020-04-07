@@ -38,8 +38,9 @@ ee.oat <- function(X, y) {
   # compute the elementary effects for a OAT design
   p <- ncol(X)
   r <- nrow(X) / (p + 1)
+  
 #  if(is(y,"numeric")){
-  if(class(y)[1] == "numeric"){
+  if(inherits(y, "numeric")){
     one_i_vector <- function(i){
       j <- ind.rep(i, p)
       j1 <- j[1 : p]
@@ -51,7 +52,7 @@ ee.oat <- function(X, y) {
     ee <- t(ee)
     # "ee" is now a (r times p)-matrix.
 #  } else if(is(y,"matrix")){
-  } else if(class(y)[1] == "matrix"){
+  } else if(inherits(y, "matrix")){
     one_i_matrix <- function(i){
       j <- ind.rep(i, p)
       j1 <- j[1 : p]
@@ -71,7 +72,7 @@ ee.oat <- function(X, y) {
     # case that "class(y) == "numeric""):
     ee <- aperm(ee, perm = c(3, 1, 2))
 #  } else if(is(y,"array")){
-  } else if(class(y)[1] == "array"){
+  } else if(inherits(y, "array")){
     one_i_array <- function(i){
       j <- ind.rep(i, p)
       j1 <- j[1 : p]
@@ -108,7 +109,7 @@ ee.oat <- function(X, y) {
     ee <- sapply(1:r, one_i_array, simplify = "array")
     # Special case handling if "ee" has been dropped to a vector:
 #    if(is(ee,"numeric")){
-    if (class(ee)[1] == "numeric"){
+    if (inherits(ee, "numeric")){
       ee <- array(ee, dim = c(p, dim(y)[2], dim(y)[3], r))
       dimnames(ee) <- list(NULL, dimnames(y)[[2]], dimnames(y)[[3]], NULL)
     }

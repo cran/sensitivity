@@ -92,7 +92,6 @@ y0 <- atantemp.fun(matrix(c(-7,0,7,-7,0,7),ncol=2))
 n <- 100
 X <- matrix(c(runif(2*n,-7,7)),ncol=2)
 y <- atantemp.fun(X)
-x11()
 plot(y0[2,],ylim=c(-2,2),type="l")
 apply(y,1,lines)
 
@@ -102,11 +101,9 @@ n <- 1000
 X1 <- data.frame(matrix(runif(2*n,-7,7), nrow = n))
 X2 <- data.frame(matrix(runif(2*n,-7,7), nrow = n))
 
-x11()
 sa <- sobolMultOut(model=atantemp.fun, q=100, X1, X2, 
                    MCmethod="soboljansen", plotFct=TRUE)
 print(sa)
-x11()
 plot(sa)
 
 library(ggplot2)

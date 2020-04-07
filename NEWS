@@ -1,4 +1,15 @@
 
+Changes in version 1.18.1:
+
+  o New argument semi (= TRUE or FALSE) in function pcc() in order
+  to compute semi-partial correlation coefficient (SPCC)
+  
+  o bug (caused by new R version 4.0.0) solved in:
+    - sobolmartinez.R, base.R, morris.R, morris_oat.R and simplex.R
+    (matrix objects now also inherit from class "array")
+    - sobolMultOut.Rd, testmodels.Rd and delsa.Rd (screen devices 
+    x11() should not be used in examples)
+  
 Changes in version 1.18.0:
 
   o New function: weightTSA.R in order to perform Target Sensitivity 
@@ -23,7 +34,7 @@ Changes in version 1.17.1:
   o exception "multiIndex[inputIndex] == 0 & der" solved in 
   PoincareChaosSqCoef.R
   
-  o example with give data in sensiHSIc()
+  o example with given data in sensiHSIc()
   
 Changes in version 1.17.0:
 
@@ -69,6 +80,7 @@ Changes in version 1.16.1:
     sobol, sobol2002, sobol2007, sobolEff, soboljansen, sobolmara, 
     sobolmartinez, sobolMultOut, sobolowen, sobolroalhs, sobolroauc,
     sobolsalt, sobolTIIlo, sobolTIIpf, soboltouati
+    
     o   Functions sobolroalhs() and sobolSalt(): Modifications of 
     plot functions in order to have "XiXj" instead of "Xij""
 

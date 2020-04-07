@@ -76,7 +76,7 @@ ee.simplex <- function(X, y) {
   # compute the elementary effects for a simplex design
   p <- ncol(X)
   r <- nrow(X) / (p + 1)
-  if(class(y) == "numeric"){
+  if(inherits(y, "numeric")){
     one_i_vector <- function(i){
       j <- ind.rep(i, p)
       return(solve(cbind(as.matrix(X[j, ]), rep(1, p + 1)), y[j])[1:p])
@@ -84,7 +84,7 @@ ee.simplex <- function(X, y) {
     ee <- vapply(1:r, one_i_vector, FUN.VALUE = numeric(p))
     ee <- t(ee)
     # "ee" is now a (r times p)-matrix.
-  } else if(class(y) == "matrix"){
+  } else if(inherits(y, "matrix")){
     one_i_matrix <- function(i){
       j <- ind.rep(i, p)
       return(solve(cbind(as.matrix(X[j, ]), rep(1, p + 1)), 
@@ -96,14 +96,14 @@ ee.simplex <- function(X, y) {
     # dimensions c(r, p, ncol(y)) (for better consistency with the standard 
     # case that "class(y) == "numeric""):
     ee <- aperm(ee, perm = c(3, 1, 2))
-  } else if(class(y) == "array"){
+  } else if(inherits(y, "array")){
     one_i_array <- function(i){
       j <- ind.rep(i, p)
       ee_per_3rd_dim <- sapply(1:(dim(y)[3]), function(idx_3rd_dim){
         y_j_matrix <- y[j, , idx_3rd_dim]
         # Correction needed if "dim(y)[2] == 1", so "y_j_matrix" has been 
         # dropped to a vector:
-        if(class(y_j_matrix) == "numeric"){
+        if(inherits(y_j_matrix, "numeric")){
           y_j_matrix <- matrix(y_j_matrix)
         }
         # Here, the result of "solve(...)" is a (p times dim(y)[2])-matrix:

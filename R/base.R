@@ -51,26 +51,27 @@ response <- function(x, loop = FALSE, other_types_allowed = FALSE, ...) {
   }
   
   if(other_types_allowed){
-    if (!class(y)[1] %in% c("numeric", "matrix", "array") ||
+#    if (!class(y)[1] %in% c("numeric", "matrix", "array") ||
+    if ((!inherits(y, "numeric") && !inherits(y, "matrix") && !inherits(y, "array")) ||
         (is.array(y) && typeof(y) == "list")) {
       y <- as.numeric(y)
       warning("Conversion of the response to numeric")
-    } else if(class(y) == "array" && length(dim(y)) > 3){
+    } else if(inherits(y, "array") && length(dim(y)) > 3){
       stop("If the model returns an array, it must not have more ",
            "than 3 dimensions")
     }
   } else{
-    if (class(y) != "numeric") {
+    if(!inherits(y, "numeric")) {
       y <- as.numeric(y)
       warning("Conversion of the response to numeric")
     }
   }
   
   # Assign column names resp. dimnames if not existing:
-  if(class(y) == "matrix" && 
+  if(inherits(y, "matrix") && 
      (is.null(colnames(y)) || any(nchar(colnames(y)) == 0))){
     colnames(y) <- paste0("ycol", 1:ncol(y))
-  } else if(class(y) == "array"){
+  } else if(inherits(y, "array")){
     if(is.null(dimnames(y))){
       dimnames(y) <- list(NULL, paste0("ycol", 1:dim(y)[2]), 
                           paste0("ydim3_", 1:dim(y)[3]))
