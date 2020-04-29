@@ -14,7 +14,7 @@
 }
 
 \usage{
-src(X, y, rank = FALSE, nboot = 0, conf = 0.95)
+src(X, y, rank = FALSE, logistic = FALSE, nboot = 0, conf = 0.95)
 \method{print}{src}(x, \dots)
 \method{plot}{src}(x, ylim = c(-1,1), \dots)
 \method{ggplot}{src}(x, ylim = c(-1,1), \dots)
@@ -27,6 +27,8 @@ src(X, y, rank = FALSE, nboot = 0, conf = 0.95)
     of experiments (model output variables).}
   \item{rank}{logical. If \code{TRUE}, the analysis is done on the
     ranks.}
+  \item{logistic}{logical. If \code{TRUE}, the analysis is done via a
+    logistic regression (binomial GLM).}
   \item{nboot}{the number of bootstrap replicates.}
   \item{conf}{the confidence level of the bootstrap confidence intervals.}
   \item{x}{the object returned by \code{src}.}
@@ -46,13 +48,18 @@ src(X, y, rank = FALSE, nboot = 0, conf = 0.95)
     indices, bias and confidence intervals (if \code{rank = TRUE}).}
 }
 
+\details{
+  Logistic regression model (\code{logistic = TRUE}) and rank-based indices
+  (\code{rank = TRUE}) are incompatible.
+}
+
 \references{
 A. Saltelli, K. Chan and E. M. Scott eds, 2000, \emph{Sensitivity
   Analysis}, Wiley.
 }
 
 \author{
-Gilles Pujol
+Gilles Pujol and Bertrand Iooss
 }
 
 \examples{

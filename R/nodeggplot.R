@@ -32,7 +32,7 @@ nodeggplot <- function(listx, xname, xlim = NULL, ylim = NULL, labels = TRUE, ti
     at <- 1 : n
   }
   if (is.null(title)){
-    title <- "Sensitivity Indices"
+    title <- title
   }
   
   if (class(labels) == "logical") {

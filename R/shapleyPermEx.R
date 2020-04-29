@@ -88,7 +88,7 @@ tell.shapleyPermEx <- function(x, y = NULL, return.var = NULL, ...) {
   
   # Initialize main and total (Sobol) effects for all players
   Vsob <- rep(0, d) ;   Tsob <- rep(0, d)
-#  Vsob2 <- rep(0, d) ; Tsob2 <- rep(0, d)
+  Vsob2 <- rep(0, d) ; Tsob2 <- rep(0, d)
 
   # Estimate Var[Y] 
   Y <- y[1:x$Nv] ; y <- y[-(1:x$Nv)]
@@ -108,7 +108,7 @@ tell.shapleyPermEx <- function(x, y = NULL, return.var = NULL, ...) {
         Chat <- VarY
         del <- Chat - prevC
         Vsob[pi[j]] <- Vsob[pi[j]] + prevC # first order effect
-#        Vsob2[pi[j]] <- Vsob2[pi[j]] + prevC^2
+        Vsob2[pi[j]] <- Vsob2[pi[j]] + prevC^2
       }
       else
       {
@@ -132,7 +132,7 @@ tell.shapleyPermEx <- function(x, y = NULL, return.var = NULL, ...) {
       
       if (j == 1){
         Tsob[pi[j]] <- Tsob[pi[j]] + Chat # Total effect
-#        Tsob2[pi[j]] <- Tsob2[pi[j]] + Chat^2
+        Tsob2[pi[j]] <- Tsob2[pi[j]] + Chat^2
       }
     }
   }
@@ -143,29 +143,20 @@ tell.shapleyPermEx <- function(x, y = NULL, return.var = NULL, ...) {
   ShSE <- sqrt(Sh2 / (x$No) ) # extranew
   
   Vsob <- Vsob / (m/d) / VarY # averaging by number of permutations with j=d-1
-#  Vsob2 <- Vsob2 / (m/d) / VarY^2
-#  VsobSE <- sqrt((Vsob2 - Vsob^2) / (m/d))
+  Vsob2 <- Vsob2 / VarY^2
+  VsobSE <- sqrt((Vsob2 - Vsob^2) / (x$No * m/d))
   Vsob <- 1 - Vsob 
-#  Vsob2 <- 1 - Vsob2 
-  
+
   Tsob <- Tsob / (m/d) / VarY # averaging by number of permutations with j=1
-#  Tsob2 <- Tsob2 / (m/d) / VarY^2
-#  TsobSE <- sqrt((Tsob2 - Tsob^2) / (m/d))
+  Tsob2 <- Tsob2 / VarY^2
+  TsobSE <- sqrt((Tsob2 - Tsob^2) / (x$No * m/d))
   
-#  Shapley <- data.frame(Sh,row.names=x$colnames)
-#  names(Shapley) <- c("original")
   Shapley <- data.frame(cbind(Sh,ShSE,Sh-1.96*ShSE,Sh+1.96*ShSE),row.names=x$colnames)
   names(Shapley) <- c("original","std. error", "min. c.i.", "max. c.i.")
-  Vsobol <- data.frame(Vsob,row.names=x$colnames)
-  names(Vsobol) <- c("original")
-  Tsobol <- data.frame(Tsob,row.names=x$colnames)
-  names(Tsobol) <- c("original")
-  
-# Following lines are commented because standard deviation estimates are incorrect
-  #Vsobol <- data.frame(cbind(Vsob,VsobSE,Vsob-2*VsobSE,Vsob+2*VsobSE),row.names=x$colnames)
-  #names(Vsobol) <- c("original","std. error", "min. c.i.", "max. c.i.")
-  #Tsobol <- data.frame(cbind(Tsob,TsobSE,Tsob-2*TsobSE,Tsob+2*TsobSE),row.names=x$colnames)
-  #names(Tsobol) <- c("original","std. error", "min. c.i.", "max. c.i.")
+  Vsobol <- data.frame(cbind(Vsob,VsobSE,Vsob-1.96*VsobSE,Vsob+1.96*VsobSE),row.names=x$colnames)
+  names(Vsobol) <- c("original","std. error", "min. c.i.", "max. c.i.")
+  Tsobol <- data.frame(cbind(Tsob,TsobSE,Tsob-1.96*TsobSE,Tsob+1.96*TsobSE),row.names=x$colnames)
+  names(Tsobol) <- c("original","std. error", "min. c.i.", "max. c.i.")
   
   x$Shapley <- Shapley
   x$SobolS <- Vsobol
@@ -207,10 +198,10 @@ plot.shapleyPermEx <- function(x, ylim = c(0, 1), ...) {
   }
 }
 
-ggplot.shapleyPermEx <- function(x, ylim = c(0, 1), ...) {
+ggplot.shapleyPermEx <- function(x, ylim = c(0, 1), title = NULL, ...) {
   if (!is.null(x$y)) {
     pch = c(21, 24, 25)
-    nodeggplot(list(x$Shapley,x$SobolS,x$SobolT), xname=c("Shapley effect","Full first Sobol'", "Independent total Sobol'"), ylim = ylim, pch = pch)
+    nodeggplot(list(x$Shapley,x$SobolS,x$SobolT), xname=c("Shapley effect","Full first Sobol'", "Independent total Sobol'"), ylim = ylim, title = title, pch = pch)
   }
 }
 

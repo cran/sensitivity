@@ -1,4 +1,22 @@
 
+Changes in version 1.19.0:
+
+  o New author Sebastien Da veiga
+  
+  o New function sobolrank()
+  
+  o Functions src() and pcc() adapted to work with logistic GLM model
+  (via the new argument logistic = TRUE)
+  
+  o New argument 'title' in ggplot.shapleyPermRand and
+  ggplot.shapleyPermEx
+  
+  o bug solved in shapleyPermEx() in order to compute the CI for the 
+  full first order and independent total Sobol' indices
+  
+  o New argument 'noise' to consider noisy observations in 
+  shapleySubsetMc()
+
 Changes in version 1.18.1:
 
   o New argument semi (= TRUE or FALSE) in function pcc() in order

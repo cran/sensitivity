@@ -1,16 +1,21 @@
 # Partial Correlation Coefficients
 #
 # Gilles Pujol 2006
-# Bertrand Iooss 2020 for Semi-Partial Correlation Coefficients
+# Bertrand Iooss 2020 for Semi-Partial Correlation Coefficients and logistic model
 
 
-estim.pcc <- function(data, semi, i = 1:nrow(data)) {  
+estim.pcc <- function(data, semi, logistic, i = 1:nrow(data) ) {  
   d <- data[i, ]
   p <- ncol(d) - 1
   pcc <- numeric(p)
   for (j in 1:p) {
     Xtildej.lab <- paste(colnames(d)[c(-1, -j-1)], collapse = "+")
-    lm.Y <- lm(formula(paste(colnames(d)[1], "~", Xtildej.lab)), data = d)
+    if (!logistic){
+      lm.Y <- lm(formula(paste(colnames(d)[1], "~", Xtildej.lab)), data = d)
+    }
+    else{
+      lm.Y <- glm(formula(paste(colnames(d)[1], "~", Xtildej.lab)), family = "binomial", data = d)
+    }
     lm.Xj <- lm(formula(paste(colnames(d)[j+1], "~", Xtildej.lab)), data = d)
     if (! semi) {
       pcc[j] <- cor(d[1] - fitted(lm.Y), d[j+1] - fitted(lm.Xj))
@@ -22,8 +27,10 @@ estim.pcc <- function(data, semi, i = 1:nrow(data)) {
 }
 
 
-pcc <- function(X, y, rank = FALSE, semi = FALSE, nboot = 0, conf = 0.95) {
+pcc <- function(X, y, rank = FALSE, semi = FALSE, logistic = FALSE, nboot = 0, conf = 0.95) {
   data <- cbind(Y = y, X)
+  
+  if (logistic) rank <- FALSE # Impossible to perform logistic regression with a rank transformation
 
   if (rank) {
     for (i in 1:ncol(data)) {
@@ -32,10 +39,10 @@ pcc <- function(X, y, rank = FALSE, semi = FALSE, nboot = 0, conf = 0.95) {
   }
   
   if (nboot == 0) {
-    pcc <- data.frame(original = estim.pcc(data, semi))
+    pcc <- data.frame(original = estim.pcc(data, semi, logistic))
     rownames(pcc) <- colnames(X)
   } else {
-    boot.pcc <- boot(data, estim.pcc, semi = semi, R = nboot)
+    boot.pcc <- boot(data, estim.pcc, semi = semi, logistic = logistic, R = nboot)
     pcc <- bootstats(boot.pcc, conf, "basic")
     rownames(pcc) <- colnames(X)
   }

@@ -1,18 +1,27 @@
 # Standardized Regression Coefficients
 #
 # Gilles Pujol 2006
+# Bertrand Iooss 2020 for logistic model
 
 
-estim.src <- function(data, i = 1:nrow(data)) {
+estim.src <- function(data, logistic, i = 1:nrow(data) ) {
   d <- data[i, ]
-  lm.Y <- lm(formula(paste(colnames(d)[1], "~", paste(colnames(d)[-1], collapse = "+"))), data = d)
-  coefficients(lm.Y)[-1] * sapply(d[-1], sd) / sapply(d[1], sd)
+  if (!logistic){
+    lm.Y <- lm(formula(paste(colnames(d)[1], "~", paste(colnames(d)[-1], collapse = "+"))), data = d)
+    coefficients(lm.Y)[-1] * sapply(d[-1], sd) / sapply(d[1], sd)
+  } else{
+    glm.Y <- glm(formula(paste(colnames(d)[1], "~", paste(colnames(d)[-1], collapse = "+"))), family = "binomial", data = d)
+    varY <- glm.Y$linear.predictors/(1-glm.Y$deviance/glm.Y$null.deviance)
+    coefficients(glm.Y)[-1] * sapply(d[-1], sd) / sd(varY)
+  }
 }
 
 
-src <- function(X, y, rank = FALSE, nboot = 0, conf = 0.95) {
+src <- function(X, y, rank = FALSE, logistic = FALSE, nboot = 0, conf = 0.95) {
   data <- data.frame(Y = y, X)
-
+  
+  if (logistic) rank <- FALSE # Impossible to perform logistic regression with a rank transformation
+  
   if (rank) {
     for (i in 1:ncol(data)) {
       data[,i] <- rank(data[,i])
@@ -20,10 +29,10 @@ src <- function(X, y, rank = FALSE, nboot = 0, conf = 0.95) {
   }
   
   if (nboot == 0) {
-    src <- data.frame(original = estim.src(data))
+    src <- data.frame(original = estim.src(data, logistic ))
     rownames(src) <- colnames(X)
   } else {
-    boot.src <- boot(data, estim.src, R = nboot)
+    boot.src <- boot(data, estim.src, logistic = logistic, R = nboot)
     src <- bootstats(boot.src, conf, "basic")
     rownames(src) <- colnames(X)
   }

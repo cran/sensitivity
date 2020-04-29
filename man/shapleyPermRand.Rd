@@ -24,7 +24,7 @@ shapleyPermRand(model = NULL, Xall, Xset, d, Nv, m, No = 1, Ni = 3, colnames = N
 \method{tell}{shapleyPermRand}(x, y = NULL, return.var = NULL, \dots)
 \method{print}{shapleyPermRand}(x, \dots)
 \method{plot}{shapleyPermRand}(x, ylim = c(0, 1), \dots)
-\method{ggplot}{shapleyPermRand}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{shapleyPermRand}(x, ylim = c(0, 1), title = NULL, \dots)
 }
 
 \arguments{
@@ -50,6 +50,7 @@ shapleyPermRand(model = NULL, Xall, Xset, d, Nv, m, No = 1, Ni = 3, colnames = N
   \item{return.var}{a vector of character strings giving further
     internal variables names to store in the output object \code{x}.}
   \item{ylim}{y-coordinate plotting limits.}
+  \item{title}{a title of the plot with ggplot() function.}
   \item{\dots}{any other arguments for \code{model} which are passed
     unchanged each time it is called.}
 }
@@ -86,7 +87,7 @@ shapleyPermRand(model = NULL, Xall, Xset, d, Nv, m, No = 1, Ni = 3, colnames = N
 \references{
 B. Iooss and C. Prieur, 2019, \emph{Shapley effects for sensitivity analysis with 
 correlated inputs: comparisons with Sobol' indices, numerical estimation and 
-applications}, International Journal of Uncertainty Quantification, , 9, 493--514.
+applications}, International Journal of Uncertainty Quantification, 9, 493--514.
 
 T. Mara, S. Tarantola, P. Annoni, 2015, \emph{Non-parametric methods for global 
 sensitivity analysis of model output with dependent inputs}, Environmental

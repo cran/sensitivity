@@ -24,7 +24,7 @@ shapleyPermEx(model = NULL, Xall, Xset, d, Nv, No, Ni = 3, colnames = NULL, \dot
 \method{tell}{shapleyPermEx}(x, y = NULL, return.var = NULL, \dots)
 \method{print}{shapleyPermEx}(x, \dots)
 \method{plot}{shapleyPermEx}(x, ylim = c(0, 1), \dots)
-\method{ggplot}{shapleyPermEx}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{shapleyPermEx}(x, ylim = c(0, 1), title = NULL, \dots)
 }
 
 \arguments{
@@ -49,6 +49,7 @@ shapleyPermEx(model = NULL, Xall, Xset, d, Nv, No, Ni = 3, colnames = NULL, \dot
   \item{return.var}{a vector of character strings giving further
     internal variables names to store in the output object \code{x}.}
   \item{ylim}{y-coordinate plotting limits.}
+  \item{title}{a title of the plot with ggplot() function.}
   \item{\dots}{any other arguments for \code{model} which are passed
     unchanged each time it is called.}
 }
@@ -79,7 +80,7 @@ shapleyPermEx(model = NULL, Xall, Xset, d, Nv, No, Ni = 3, colnames = NULL, \dot
   The computations of the standard errors (and then the confidence intervals)
   come from Iooss and prieur (2019). Based on the outer Monte carlo loop 
   (calculation of expectation of conditional variance), the variance of the 
-  Monte carlo estimate is divided by No. the standard error is then averaged 
+  Monte carlo estimate is divided by No. The standard error is then averaged 
   over the exact permutation loop. The confidence intervals at 95\% correspond 
   to +- 1.96 standard deviations.
 }

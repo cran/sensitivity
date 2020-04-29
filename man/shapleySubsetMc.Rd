@@ -12,7 +12,7 @@
 }
 
 \usage{
-shapleySubsetMc(X,Y, Ntot=NULL, Ni=3, cat=NULL, weight=NULL, discrete=NULL)
+shapleySubsetMc(X,Y, Ntot=NULL, Ni=3, cat=NULL, weight=NULL, discrete=NULL, noise=FALSE)
 \method{plot}{shapleySubsetMc}(x, ylim = c(0, 1), \dots)
 }
 
@@ -26,6 +26,7 @@ shapleySubsetMc(X,Y, Ntot=NULL, Ni=3, cat=NULL, weight=NULL, discrete=NULL)
      categorical variable in the product distance}
   \item{discrete}{a vector giving the indices of the input variable that are
      real, and not categorical, but that can take several times the same values}
+  \item{noise}{logical. If FALSE (the default), the variable Y is a function of X}
   \item{x}{a list of class \code{"shapleySubsetMc"} storing the state of the
   sensitivity study (Shapley effects, cost, names of inputs)}
   \item{ylim}{y-coordinate plotting limits}
@@ -49,8 +50,9 @@ shapleySubsetMc(X,Y, Ntot=NULL, Ni=3, cat=NULL, weight=NULL, discrete=NULL)
 }
 
 \references{
-  B. Broto, F. Bachoc, M. Depecker, 2018, \emph{Variance reduction for estimation of Shapley effects 
-  and adaptation to unknown input distribution}, Preprint, HAL: hal-01962010.
+  B. Broto, F. Bachoc, M. Depecker, 2020, \emph{Variance reduction for estimation of 
+  Shapley effects and adaptation to unknown input distribution}, 
+  SIAM/ASA Journal of Uncertainty Quantification, In press, HAL: hal-01962010.
 }
 
 \author{
@@ -74,7 +76,7 @@ C=chol(Sigma)
 n=2000 #sample size
 
 Z=matrix(rnorm(p*n),nrow=n,ncol=p)
-X=Z%*%C # X is a gaussian vector with zero mean and covariance Sigma
+X=Z\%*\%C # X is a gaussian vector with zero mean and covariance Sigma
 Y=rowSums(X) 
 Shap=shapleySubsetMc(X=X,Y=Y,Ntot=5000)
 plot(Shap)

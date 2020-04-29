@@ -1,5 +1,5 @@
 
-shapleySubsetMc <- function(X, Y, Ntot=NULL, Ni=3, cat=NULL, weight=NULL, discrete=NULL) {
+shapleySubsetMc <- function(X, Y, Ntot=NULL, Ni=3, cat=NULL, weight=NULL, discrete=NULL, noise=FALSE) {
   #####################################################
   # This function estimates the Shapley effects from data
   #
@@ -9,13 +9,14 @@ shapleySubsetMc <- function(X, Y, Ntot=NULL, Ni=3, cat=NULL, weight=NULL, discre
   # Ntot: around sum of the costs Nu of the estimates of the Vu
   #       if Ntot=NULL, the maximum cost is choosen (advised for little datas)
   # Ni: accuracy of the first loop Monte-Carlo
-  # cat: indicate the categorical inputs (factor variables, not real variables).
+  # cat: indicates the categorical inputs (factor variables, not real variables).
   #      the real variables do not need to be continuous
   # weight: if weight=NULL, all the categorical inputs will have the same weight.
-  #         Otherwise, weight if a vector a the same length of cat with the weight
-  #         of each input variable.
+  #         Otherwise, weight is a vector with the same length of cat and with 
+  #         the weight of each input variable.
   # discrete: indicate the real variables that give a positive probability to some points.
   #         the categorical variables do not have to be in 'discrete'
+  # noise: indicates if "Y=f(X)" or if "Y=f(X)+ noise" and so if E(V(Y|X)) needs to be estimated
   #
   #####################################################
 
@@ -58,10 +59,10 @@ shapleySubsetMc <- function(X, Y, Ntot=NULL, Ni=3, cat=NULL, weight=NULL, discre
   discr=union(cat,discrete)
 
   EY <- mean(Y)
-  VarY <- var(Y)
+  VarY=var(Y)
 
   Varu=rep(0,2^p)
-  Varu[2^p]=VarY
+  
 
 
   U=t(sapply(1:(2^p-2),function(x){as.numeric(intToBits(x)[1:p])}))
@@ -92,66 +93,96 @@ shapleySubsetMc <- function(X, Y, Ntot=NULL, Ni=3, cat=NULL, weight=NULL, discre
     }else{
       Nu=round(Ntot/choose(p,cardu)/(p+1)) #accuracy of Vu
     }
-
-
-    # uniform indices of Xu
-    Num=sample(1:N,Nu,replace=FALSE)
-    X_unif=X[Num,]
-
-    Su=which(u==1) # set u
-    Smu=which(u==0) # set -u
-
-    cat_Smu=intersect(Smu,cat)
-    real_Smu=setdiff(Smu,cat)
-
-    V=NULL
-
-    # TF is FALSE if all the variables -u are discrete
-    TF=(length(setdiff(Smu,discr))>0)
-
-    if (TF)
+    
+    if(Nu==0)
     {
-      for (n in 1:Nu)
-      {
-        xx=X_unif[n,]
-
-        dist=apply(X,1,function(x) norm_vec(x,xx,real_Smu,cat_Smu))
-        num_cond=order(dist,decreasing = F)[1:Ni]
-
-        Vn=var(Y[num_cond])
-        V=c(V,Vn)
-      }
+      warning("Ntot is too small and some conditional elements have been estimated to 0")
+      return(0)
     }else{
-      for (n in 1:Nu)
+      
+      # uniform indices of Xu
+      Num=sample(1:N,Nu,replace=FALSE)
+      
+      if(Nu==1)
       {
-        xx=X_unif[n,]
-
-        # we mix the individuals to avoid taking the same nearest neigbours
-        # when the variables -u are all discrete
-        samp=sample(1:N)
-        XX=X[samp,]
-        YY=Y[samp]
-
-
-
-        dist=apply(XX,1,function(x) norm_vec(x,xx,real_Smu,cat_Smu))
-        num_cond=order(dist,decreasing = F)[1:Ni]
-
-        Vn=var(YY[num_cond])
-        V=c(V,Vn)
+        X_unif=matrix(X[Num,],nrow=1)
+      }else{
+        X_unif=X[Num,]
       }
+      
+      Su=which(u==1) # set u
+      Smu=which(u==0) # set -u
+      
+      cat_Smu=intersect(Smu,cat)
+      real_Smu=setdiff(Smu,cat)
+      
+      V=NULL
+      
+      # TF is FALSE if all the variables -u are discrete
+      TF=(length(setdiff(Smu,discr))>0)
+      
+      if (TF)
+      {
+        for (n in 1:Nu)
+        {
+          xx=X_unif[n,]
+          
+          dist=apply(X,1,function(x) norm_vec(x,xx,real_Smu,cat_Smu))
+          num_cond=order(dist,decreasing = F)[1:Ni]
+          
+          Vn=var(Y[num_cond])
+          V=c(V,Vn)
+        }
+      }else{
+        for (n in 1:Nu)
+        {
+          xx=X_unif[n,]
+          
+          # we mix the individuals to avoid taking the same nearest neigbours
+          # when the variables -u are all discrete
+          samp=sample(1:N)
+          XX=X[samp,]
+          YY=Y[samp]
+          
+          
+          
+          dist=apply(XX,1,function(x) norm_vec(x,xx,real_Smu,cat_Smu))
+          num_cond=order(dist,decreasing = F)[1:Ni]
+          
+          Vn=var(YY[num_cond])
+          V=c(V,Vn)
+        }
+      }
+      return(mean(V))
     }
-    return(mean(V))
   }
   Varu[2:(2^p-1)]=apply(U,1,VU)
+  
+  Varu[2^p]=VarY
+  
+  if(noise)
+  {
+    Varu[1]=VU(rep(0,p))
+    VarY=VarY-Varu[1]
+  }
+  
 
 
   # we compute the real total cost (for information)
   if(length(Ntot)==0)
   {
-    cost=(2^p-2)*N
+    if(noise)
+    {
+      cost=(2^p-1)*N
+    }else{
+      cost=(2^p-2)*N
+    }
   }else{
     cost=sum(apply(U,1,function(u) round(Ntot/choose(p,sum(u))/(p+1))))
+    if(noise)
+    {
+      cost=cost+ round(Ntot/choose(p,0)/(p+1))
+    }
   }
 
 

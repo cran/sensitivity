@@ -26,11 +26,12 @@ weightTSA(Y, c, upper = TRUE, type="indicTh", param=1)
 }
 
 \details{The weight functions depend on a threshold \eqn{c} and/or a smooth relaxation. These functions are defined as follows
-  \deqn{if type = "indicTh" --> w = 1_(Y>c),}
-  \deqn{if type = "zeroTh" --> w = Y*1_(Y>c),}
-  \deqn{if type = "logistic" --> w = 1/(1 + exp(-param*(Y-c)/abs(c))),}
-  \deqn{if type = "exp1side" --> w = exp{-max(c - Y, 0)/(param.\sigma(Y)/5)},}
-  where \eqn{\sigma(Y)} is an estimation of the standard deviation of Y and \eqn{param = 1} is a parameter tuning the smoothness.
+  \itemize{
+  \item if type = "indicTh": \eqn{w = 1_{Y>c}} (upper threshold) and \eqn{w = 1_{Y<c}} (lower threshold),
+  \item if type = "zeroTh": \eqn{w = Y 1_{Y>c}} (upper threshold) and \eqn{w = Y 1_{Y<c}} (lower threshold),
+  \item if type = "logistic": \deqn{w = \left[ 1 + \exp{\left( -param\frac{Y-c}{|c|}\right)}\right]^{-1}} (upper threshold) and \deqn{w = \left[ 1 + \exp{\left( -param\frac{c-Y}{|c|}\right)}\right]^{-1}} (lower threshold),
+  \item if type = "exp1side": \deqn{w = \left[ 1 + \exp{\left( -\frac{\max(c - Y, 0)}{\frac{param}{5} \sigma(Y)}\right)}\right]} (upper threshold) and \deqn{w = \left[ 1 + \exp{\left( -\frac{\max(Y - c, 0)}{\frac{param}{5} \sigma(Y)}\right) }\right]} (lower threshold), where \eqn{\sigma(Y)} is an estimation of the standard deviation of Y and \eqn{param = 1} is a parameter tuning the smoothness.
+  }
 }
 
 \value{

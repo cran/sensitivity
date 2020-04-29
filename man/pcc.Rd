@@ -15,7 +15,7 @@
 }
 
 \usage{
-pcc(X, y, rank = FALSE, semi = FALSE, nboot = 0, conf = 0.95)
+pcc(X, y, rank = FALSE, semi = FALSE, logistic = FALSE, nboot = 0, conf = 0.95)
 \method{print}{pcc}(x, \dots)
 \method{plot}{pcc}(x, ylim = c(-1,1), \dots)
 \method{ggplot}{pcc}(x, ylim = c(-1,1), \dots)
@@ -29,6 +29,8 @@ pcc(X, y, rank = FALSE, semi = FALSE, nboot = 0, conf = 0.95)
   \item{rank}{logical. If \code{TRUE}, the analysis is done on the
     ranks.}
   \item{semi}{logical. If \code{TRUE}, semi-PCC are computed.}
+  \item{logistic}{logical. If \code{TRUE}, the analysis is done via a
+    logistic regression (binomial GLM).}
   \item{nboot}{the number of bootstrap replicates.}
   \item{conf}{the confidence level of the bootstrap confidence intervals.}
   \item{x}{the object returned by \code{pcc}.}
@@ -54,6 +56,11 @@ pcc(X, y, rank = FALSE, semi = FALSE, nboot = 0, conf = 0.95)
   \item{SPRCC}{a data frame containing the estimations of the PRCC
     indices, bias and confidence intervals (if \code{rank = TRUE}
     and \code{semi = TRUE}).}
+}
+
+\details{
+  Logistic regression model (\code{logistic = TRUE}) and rank-based indices
+  (\code{rank = TRUE}) are incompatible.
 }
 
 \references{

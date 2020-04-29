@@ -196,9 +196,9 @@ plot.shapleyPermRand <- function(x, ylim = c(0, 1), ...) {
   }
 }
 
-ggplot.shapleyPermRand <- function(x, ylim = c(0, 1), ...) {
+ggplot.shapleyPermRand <- function(x, ylim = c(0, 1), title = NULL, ...) {
   if (!is.null(x$y)) {
     pch = c(21, 24, 25)
-    nodeggplot(list(x$Shapley,x$SobolS,x$SobolT), xname=c("Shapley effect","Full first Sobol'", "Independent total Sobol'"), ylim = ylim, pch = pch)
+    nodeggplot(list(x$Shapley,x$SobolS,x$SobolT), xname=c("Shapley effect","Full first Sobol'", "Independent total Sobol'"), ylim = ylim, title = title, pch = pch)
   }
 }
