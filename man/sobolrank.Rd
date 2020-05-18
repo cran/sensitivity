@@ -7,13 +7,11 @@
 
 \title{First-order sensitivity indices estimation via ranking}
 
-\description{ \code{sobolrank} implements the estimation of all first-order indices 
-using only N model evaluations via ranking following Gamboa et al. (2020) and inspired by 
-Chatterjee (2019).
+\description{ \code{sobolrank} implements the estimation of all first-order indices using only N model evaluations via ranking following Gamboa et al. (2020) and inspired by Chatterjee (2019).
 }
 
 \usage{
-sobolrank(model = NULL, X, \dots)
+sobolrank(model = NULL, X, nboot = 0, conf = 0.95, nsample = round(0.8*nrow(X)), \dots)
 \method{tell}{sobolrank}(x, y = NULL, \dots)
 \method{print}{sobolrank}(x, \dots)
 \method{plot}{sobolrank}(x, ylim = c(0, 1), \dots)
@@ -24,6 +22,9 @@ sobolrank(model = NULL, X, \dots)
   \item{model}{a function, or a model with a \code{predict} method,
     defining the model to analyze.}
   \item{X}{a random sample of the inputs.}
+  \item{nboot}{the number of bootstrap replicates, see details.}
+  \item{conf}{the confidence level for confidence intervals, see details.}
+  \item{nsample}{the size of the bootstrap sample, see details.}
   \item{x}{a list of class \code{"sobolrank"} storing the state of the
   sensitivity study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
@@ -44,14 +45,13 @@ sobolrank(model = NULL, X, \dots)
 
 \details{
 		 The estimator used by sobolrank is defined in Gamboa et al. (2020).
-     It is based on ranking the inputs as was first proposed by Chatterjee (2019) for a 
-     Cramer-Von Mises based estimator.
+     It is based on ranking the inputs as was first proposed by Chatterjee (2019) for a Cramer-Von Mises based estimator.
      All first-order indices can be estimated with a single sample of size N.
+     Since boostrap creates ties which are not accounted for in the algorithm, confidence intervals are obtained by 
+     sampling without replacement with a sample size \code{nsample}.
 }
 \references{
-		 Gamboa, F., Gremaud, P., Klein, T., & Lagnoux, A. (2020). Global Sensitivity Analysis: 
-		 a new generation of mighty estimators based on rank statistics. arXiv preprint arXiv:2003.01772.
-		 
+		 Gamboa, F., Gremaud, P., Klein, T., & Lagnoux, A. (2020). Global Sensitivity Analysis: a new generation of mighty estimators based on rank statistics. arXiv preprint arXiv:2003.01772.
 		 Chatterjee, S. (2019). A new coefficient of correlation. arXiv preprint arXiv:1909.10140.
 }
 \author{
@@ -65,9 +65,10 @@ Sebastien Da Veiga
 \examples{
 # Test case : the non-monotonic Sobol g-function
 # Example with a call to a numerical model
+library(boot)
 n <- 1000
 X <- data.frame(matrix(runif(8 * n), nrow = n))
-x <- sobolrank(model = sobol.fun, X = X)
+x <- sobolrank(model = sobol.fun, X = X, nboot = 100)
 print(x)
 library(ggplot2)
 ggplot(x)

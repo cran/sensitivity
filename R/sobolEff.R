@@ -172,8 +172,11 @@ plot.sobolEff <- function(x, ylim = c(0, 1), ...) {
     if (x$order==1){
       legend(x = "topright", legend = c("First order indices"))
     }
-    else{
-      legend(x = "topright", legend = c("Second order subset indices"))    
+    if (x$order==2){
+      legend(x = "topright", legend = c("Second order subset indices"))
+    }
+    if (x$order==0){
+      legend(x = "topright", legend = c("Total indices"))
     }
   }
 }
@@ -184,8 +187,11 @@ ggplot.sobolEff <- function(x, ylim = c(0, 1), ...) {
     if (x$order==1){
       title <- "First order indices"
     }
-    else{
-      title <- "Second order subset indices"   
+    if (x$order==2){
+      title <- "Second order subset indices"
+    }
+    if (x$order==0){
+      title <- "Total indices"
     }
     nodeggplot(listx = list(x$S), xname = title, title = title, ylim = ylim)
   }

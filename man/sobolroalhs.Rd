@@ -71,7 +71,7 @@ A.S. Hedayat, N.J.A. Sloane and J. Stufken, 1999, \emph{Orthogonal Arrays: Theor
 
 F. Gamboa, A. Janon, T. Klein and A. Lagnoux, 2014, \emph{Sensitivity indices for multivariate outputs}, Electronic Journal of Statistics, 8:575-603.
 
-J.Y. Tissot and C. Prieur, 2015, \emph{Estimating Sobol's indices combining Monte Carlo integration and Latin hypercube sampling}, J. Statist. Comput. Simulation, 85:1358-1381.
+J.Y. Tissot and C. Prieur, 2015, \emph{A randomized orthogonal orray-based procedure for the estimation of first- and second-order Sobol' indices}, J. Statist. Comput. Simulation, 85:1358-1381.
 }
 
 \author{

@@ -1,4 +1,20 @@
 
+Changes in version 1.20.0:
+
+  o New functions sobolrep() (Sobol' indices estimation based on 
+  replicated orthogonal arrays) and sobolrec() (Recursive estimation 
+  of Sobol' indices), which use the new functions addelman_const(),
+  discrepancyCriteria_cplus() and maximin_cplus() (discrepancy and
+  maximin criteria using a C++ implementation)
+
+  o bootstrap implemented in sobolrank()
+  
+  o New function shapleyLinearGaussian() which computes Shapley effects
+  for linear models with Gaussian inputs
+  
+  o bug corrected in shapleySubsetMc() with the modified line:
+    cost=sum(apply(U,1,function(u) round(Ntot/choose(p,sum(u))/(p-1))))
+
 Changes in version 1.19.0:
 
   o New author Sebastien Da veiga

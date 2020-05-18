@@ -33,17 +33,23 @@
     	  \item Martinez's scheme using correlation coefficient-based formulas (Martinez, 2011; Touati, 2016) to compute first order and total indices, associated with theoretical confidence intervals (\code{\link{sobolmartinez}} and \code{\link{soboltouati}}), 
 	  	  \item Janon-Monod's scheme (Monod et al., 2006; Janon et al., 2013) to compute first order indices with optimal asymptotic variance (\code{\link{sobolEff}}),
 	  	  \item Mara's scheme (Mara and Joseph, 2008) to compute first order indices with a cost independent of the dimension, via a unique-matrix permutations (\code{\link{sobolmara}}),
-	  	  \item Mighty estimator of first-order sensitivity indices based on rank statistics (correlation coefficient of Chatterjee 2019) (\code{\link{sobolrank}}),
+	  	  \item Mighty estimator of first-order sensitivity indices based on rank statistics (correlation coefficient of Chatterjee, 2019; Gamboa et al., 2020) (\code{\link{sobolrank}}),
 		    \item Owen's scheme (Owen, 2013) to compute first order and total indices using improved formulas (via 3 input independent matrices) for small indices (\code{\link{sobolowen}}),
         \item Total Interaction Indices using Liu-Owen's scheme (Liu and Owen, 2006) (\code{\link{sobolTIIlo}}) and pick-freeze scheme (Fruth et al., 2014) (\code{\link{sobolTIIpf}}),
       }
+      \item Replication-based procedures:
+      \itemize{
+        \item Estimation of the Sobol' first order and closed second order indices using replicated orthogonal array-based Latin hypecube sample (Tissot and Prieur, 2015) (\code{\link{sobolroalhs}}),
+        \item Recursive estimation of the Sobol' first order and closed second order indices using replicated orthogonal array-based Latin hypecube sample (Gilquin et al., 2016) (\code{\link{sobolrec}}),
+        \item Estimation of the Sobol' first order, second order and total indices using the generalized method with replicated orthogonal array-based Latin hypecube sample (Tissot and Prieur, 2015) (\code{\link{sobolrep}}),
+        \item Sobol' indices estimation under inequality constraints (Gilquin et al., 2015) by extension of the replication procedure (Tissot and Prieur, 2015) (\code{\link{sobolroauc}}),
+      }
       \item Estimation of the Sobol' first order and total indices with Saltelli's so-called "extended-FAST" method (Saltelli et al., 1999) (\code{\link{fast99}}),
-      \item Estimation of the Sobol' first order and closed second order indices using replicated orthogonal array-based Latin hypecube sample (Tissot and Prieur, 2015) (\code{\link{sobolroalhs}}),
-      \item Sobol' indices estimation under inequality constraints (Gilquin et al., 2015) by extension of the replication procedure (Tissot and Prieur, 2015) (\code{\link{sobolroauc}}),
       \item Estimation of the Sobol' first order and total indices with kriging-based global sensitivity analysis (Le Gratiet et al., 2014) (\code{\link{sobolGP}});
     }
     \item Variance-based sensitivity indices (Shapley effects and Sobol' indices) for independent or dependent inputs:
 	  \itemize{
+	    \item Exact computation in the linear Gaussian framework (Broto et al., 2019) (\code{\link{shapleyLinearGaussian}})
 	    \item Estimation by examining all permutations of inputs (Song et al., 2016) (\code{\link{shapleyPermEx}})
 	    \item Estimation by randomly sampling permutations of inputs (Song et al., 2016) (\code{\link{shapleyPermRand}})
 	    \item Estimation of Shapley effects from data using nearest neighbors method (Broto et al., 2018) (\code{\link{shapleySubsetMc}})
@@ -59,7 +65,7 @@
 	    }
   }
   
-  Moreover, some utilities are provided: standard test-cases (\code{\link{testmodels}}), weight transformation function of the output sample (\code{\link{weightTSA}}) to perform Target Sensitivity Analysis, normal and Gumbel truncated distributions (\code{\link{truncateddistrib}}), squared integral estimate (\code{\link{squaredIntEstim}}) and template file generation (\code{\link{template.replace}}).
+  Moreover, some utilities are provided: standard test-cases (\code{\link{testmodels}}), weight transformation function of the output sample (\code{\link{weightTSA}}) to perform Target Sensitivity Analysis, normal and Gumbel truncated distributions (\code{\link{truncateddistrib}}), squared integral estimate (\code{\link{squaredIntEstim}}), Addelman and Kempthorne construction of orthogonal arrays of strength two (\code{\link{addelman_const}}), discrepancy criteria (\code{\link{discrepancyCriteria_cplus}}), maximin criteria (\code{\link{maximin_cplus}}) and template file generation (\code{\link{template.replace}}).
 }
 
 \section{Model managing}{
@@ -89,7 +95,7 @@
 }
 
 
-\author{Bertrand Iooss, Sebastien Da Veiga, Alexandre Janon and Gilles Pujol with contributions from Paul Lemaitre for the \code{\link{PLI}} function, Thibault Delage and Roman Sueur for the \code{\link{PLIquantile}} function, Laurent Gilquin for the \code{\link{sobolroalhs}}, \code{\link{sobolroauc}} and \code{\link{sobolSalt}} functions, Loic le Gratiet for the \code{\link{sobolGP}} function, Khalid Boumhaout, Taieb Touati and Bernardo Ramos for the \code{\link{sobolowen}} and \code{\link{soboltouati}} functions, Jana Fruth for the \code{\link{PoincareConstant}}, \code{\link{sobolTIIlo}} and \code{\link{sobolTIIpf}} functions, Amandine Marrel, Anouar Meynaoui and Reda El Amri for their contributions to the \code{\link{sensiHSIC}} function, Joseph Guillaume and Oldrich Rakovec for the \code{\link{delsa}} and \code{\link{parameterSets}} functions, Olivier Roustant for the \code{\link{PoincareOptimal}}, \code{\link{PoincareChaosSqCoef}}, \code{\link{squaredIntEstim}} and \code{\link{support}} functions, Eunhye Song, Barry L. Nelson and Jeremy Staum for the \code{\link{shapleyPermEx}} and \code{\link{shapleyPermRand}} functions, Baptiste Broto for the \code{\link{shapleySubsetMc}} function, Filippo Monari for the (\code{\link{sobolSmthSpl}}) and (\code{\link{morrisMultOut}}) functions, Frank Weber and Roelof Oomen.
+\author{Bertrand Iooss, Sebastien Da Veiga, Alexandre Janon and Gilles Pujol with contributions from Paul Lemaitre for the \code{\link{PLI}} function, Thibault Delage and Roman Sueur for the \code{\link{PLIquantile}} function, Laurent Gilquin for the \code{\link{sobolroalhs}}, \code{\link{sobolroauc}}, \code{\link{sobolSalt}}, \code{\link{sobolrep}}, \code{\link{sobolrec}}, \code{\link{addelman_const}},\code{\link{discrepancyCriteria_cplus}} and \code{\link{maximin_cplus}} functions, Loic le Gratiet for the \code{\link{sobolGP}} function, Khalid Boumhaout, Taieb Touati and Bernardo Ramos for the \code{\link{sobolowen}} and \code{\link{soboltouati}} functions, Jana Fruth for the \code{\link{PoincareConstant}}, \code{\link{sobolTIIlo}} and \code{\link{sobolTIIpf}} functions, Amandine Marrel, Anouar Meynaoui and Reda El Amri for their contributions to the \code{\link{sensiHSIC}} function, Joseph Guillaume and Oldrich Rakovec for the \code{\link{delsa}} and \code{\link{parameterSets}} functions, Olivier Roustant for the \code{\link{PoincareOptimal}}, \code{\link{PoincareChaosSqCoef}}, \code{\link{squaredIntEstim}} and \code{\link{support}} functions, Eunhye Song, Barry L. Nelson and Jeremy Staum for the \code{\link{shapleyPermEx}} and \code{\link{shapleyPermRand}} functions, Baptiste Broto for the \code{\link{shapleySubsetMc}} and \code{\link{shapleyLinearGaussian}} functions, Filippo Monari for the (\code{\link{sobolSmthSpl}}) and (\code{\link{morrisMultOut}}) functions, Frank Weber and Roelof Oomen.
 
 (maintainer: Bertrand Iooss \email{biooss@yahoo.fr})}
 

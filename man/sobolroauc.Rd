@@ -77,7 +77,7 @@ uncertainty and correlated inputs. Reliability Engineering & System Safety, 91:1
 
 L. Gilquin, C. Prieur and E. Arnaud, 2015, \emph{Replication procedure for grouped Sobol' indices estimation in dependent uncertainty spaces}, Information and Inference, 4:354-379.
 
-J.Y. Tissot and C. Prieur, 2015, \emph{Estimating Sobol's indices combining Monte Carlo integration and Latin hypercube sampling}, J. Statist. Comput. Simulation, 85:1358-1381.
+J.Y. Tissot and C. Prieur, 2015, \emph{A randomized orthogonal orray-based procedure for the estimation of first- and second-order Sobol' indices}, J. Statist. Comput. Simulation, 85:1358-1381.
 }
 
 \author{

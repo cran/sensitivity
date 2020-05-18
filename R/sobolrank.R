@@ -1,4 +1,4 @@
-sobolrank <- function(model = NULL, X, ...) {
+sobolrank <- function(model = NULL, X, nboot = 0, conf = 0.95, nsample = round(0.8*nrow(X)), ...) {
   
   if (is.data.frame(X)){
     X <- as.matrix(unname(X))
@@ -6,7 +6,7 @@ sobolrank <- function(model = NULL, X, ...) {
     stop("The sample X must be a matrix or a data frame")
   }
   
-  x <- list(model = model, X = X, call = match.call()) 
+  x <- list(model = model, X = X, nboot = nboot, conf = conf, nsample = nsample, call = match.call()) 
   class(x) <- "sobolrank"
   
   #calcul of the response for explicit model
@@ -48,10 +48,19 @@ tell.sobolrank <- function(x, y = NULL, ...) {
   p <- ncol(x$X)
   
   data <-cbind(x$X,x$y)
+  if (x$nboot == 0){
   res <- estim.sobolrank(data, 1:n)
   x$S <- data.frame(res)
   colnames(x$S) <- "original"
   rownames(x$S) <- colnames(x$X)
+  }else{
+    sample.boot <- function(data,mle){
+      out <- data[sample.int(nrow(data),mle),,drop=FALSE]
+      return(out)
+    }
+    S.boot <- boot(data, estim.sobolrank, R = x$nboot, sim = "parametric", ran.gen = sample.boot, mle = x$nsample)
+    x$S <- bootstats(S.boot, x$conf, "basic")
+  }
   
   assign(id, x, parent.frame())
   return(x)
@@ -85,4 +94,3 @@ ggplot.sobolrank <- function(x, ylim = c(0, 1), ...) {
     nodeggplot(list(x$S), xname = "First-order indices", ylim = ylim)
   }
 }
-

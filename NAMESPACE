@@ -1,5 +1,6 @@
 useDynLib(sensitivity,.registration=TRUE)
-
+importFrom(Rcpp, evalCpp)
+import(numbers)
 import(boot)
 
 importFrom("grDevices", "dev.interactive", "dev.new", "devAskNewPage")
@@ -12,7 +13,7 @@ importFrom("stats", "coefficients", "cor", "cor.test", "cov", "dist",
            "qnorm", "quantile", "rnorm", "runif", "sd", "update", 
            "var", "dbeta", "dexp", "dgamma", "dlnorm", "dweibull",
            "integrate", "smooth.spline", "ecdf", "pgamma", 
-           "pbeta", "pexp", "pweibull", "approxfun", "glm")
+           "pbeta", "pexp", "pweibull", "approxfun", "glm","setNames")
 importFrom("utils", "combn", "methods", "head") 
 importFrom("methods", "is")
 importFrom("ggplot2","ggplot", "position_dodge","aes","geom_point",
@@ -97,6 +98,21 @@ S3method(tell, sobolmara)
 S3method(print, sobolmara)
 S3method(plot, sobolmara)
 S3method(ggplot, sobolmara)
+
+export(addelman_const)
+export(discrepancyCriteria_cplus)
+export(maximin_cplus)
+
+export(sobolrec)
+S3method(ask, sobolrec)
+S3method(tell, sobolrec)
+S3method(print, sobolrec)
+S3method(plot, sobolrec)
+
+export(sobolrep)
+S3method(tell, sobolrep)
+S3method(print, sobolrep)
+S3method(plot, sobolrep)
 
 export(sobolroalhs)
 S3method(tell, sobolroalhs)
@@ -210,6 +226,8 @@ S3method(ggplot, shapleyPermRand)
 
 export(shapleySubsetMc)
 S3method(plot, shapleySubsetMc)
+
+export(shapleyLinearGaussian)
 
 export(sobolSmthSpl)
 S3method(print, sobolSmthSpl)

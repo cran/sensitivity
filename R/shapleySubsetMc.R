@@ -91,7 +91,7 @@ shapleySubsetMc <- function(X, Y, Ntot=NULL, Ni=3, cat=NULL, weight=NULL, discre
     {
       Nu=N
     }else{
-      Nu=round(Ntot/choose(p,cardu)/(p+1)) #accuracy of Vu
+      Nu=round(Ntot/choose(p,cardu)/(p-1)) #accuracy of Vu
     }
     
     if(Nu==0)
@@ -178,10 +178,10 @@ shapleySubsetMc <- function(X, Y, Ntot=NULL, Ni=3, cat=NULL, weight=NULL, discre
       cost=(2^p-2)*N
     }
   }else{
-    cost=sum(apply(U,1,function(u) round(Ntot/choose(p,sum(u))/(p+1))))
+    cost=sum(apply(U,1,function(u) round(Ntot/choose(p,sum(u))/(p-1))))
     if(noise)
     {
-      cost=cost+ round(Ntot/choose(p,0)/(p+1))
+      cost=cost+ round(Ntot/choose(p,0)/(p-1))
     }
   }
 
