@@ -110,8 +110,8 @@ Bertrand Iooss, Eunhye Song, Barry L. Nelson, Jeremy Staum
 }
 
 \seealso{
-  \code{\link{shapleyPermEx}, \link{shapleySubsetMc}}
-}
+  \code{\link{shapleyPermEx}, \link{shapleyLinearGaussian}, \link{shapleySubsetMc}, \link{sobolshap_knn}
+}}
 
 \examples{
 

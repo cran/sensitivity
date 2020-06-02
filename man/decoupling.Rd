@@ -2,6 +2,7 @@
 \alias{decoupling}
 \alias{tell}
 \alias{ask}
+\alias{extract}
 
 \title{Decoupling Simulations and Estimations}
 
@@ -12,11 +13,13 @@
   external computational code. Most of the sensitivity analyses objects
   of this package overload \code{tell}, whereas \code{ask} is overloaded
   for iterative methods only.
+  \code{extract} is used as a post-treatment of a \code{sobolshap_knn} object
 }
 
 \usage{
 tell(x, y = NULL, \dots)
 ask(x, \dots)
+extract(x, \dots)
 }
 
 \arguments{
@@ -37,6 +40,12 @@ ask(x, \dots)
   simulations. The method \code{tell} allows to pass these simulation
   results to the  incomplete object \code{x}, thereafter estimating the
   sensitivity measures.
+  
+  The \code{extract} method is useful if in a first step the Shapley effects 
+  have been computed and thus sensitivity indices for all possible subsets 
+  are available. The resulting \code{sobolshap_knn} object can be 
+  post-treated by \code{extract} to get first-order and total Sobol indices 
+  very easily.
 
 %   For example, whith an external computational code, one
 %   would typically:
@@ -70,10 +79,13 @@ ask(x, \dots)
   \strong{Side effect: \code{tell} modifies its argument \code{x}.}
 
   \code{ask} returns the set of data to simulate.
+  
+  \code{extract} returns an object, from a \code{sobolshap_knn} object,
+  containing first-order and total Sobol indices.
 }
 
 \author{
-Gilles Pujol
+Gilles Pujol and Bertrand Iooss
 }
 
 \examples{
@@ -85,4 +97,5 @@ tell(x, y)
 print(x)
 plot(x)
 }
+
 \keyword{methods}

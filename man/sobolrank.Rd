@@ -59,7 +59,7 @@ Sebastien Da Veiga
 }
 \seealso{
   \code{\link{sobol}, \link{sobol2002}, \link{sobolSalt}, \link{sobol2007}, \link{soboljansen}, \link{sobolmartinez},
-  \link{sobolSmthSpl}, \link{sobolEff}}
+  \link{sobolSmthSpl}, \link{sobolEff}, , \link{sobolshap_knn}}
 }
 
 \examples{

@@ -1,4 +1,11 @@
 
+Changes in version 1.21.0:
+
+  o New function sobolshap_knn() (sensitivity analysis via 
+  ranking / nearest neighbours)
+  
+  o New functionalities in sensiHISIC(): aggregated HSIC
+  
 Changes in version 1.20.0:
 
   o New functions sobolrep() (Sobol' indices estimation based on 

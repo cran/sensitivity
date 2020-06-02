@@ -52,7 +52,7 @@ shapleySubsetMc(X,Y, Ntot=NULL, Ni=3, cat=NULL, weight=NULL, discrete=NULL, nois
 \references{
   B. Broto, F. Bachoc, M. Depecker, 2020, \emph{Variance reduction for estimation of 
   Shapley effects and adaptation to unknown input distribution}, 
-  SIAM/ASA Journal of Uncertainty Quantification, In press, HAL: hal-01962010.
+  SIAM/ASA Journal of Uncertainty Quantification, 8:693-716.
 }
 
 \author{
@@ -60,7 +60,7 @@ Baptiste Broto
 }
 
 \seealso{
-\link{shapleyPermEx}, \link{shapleyPermRand}
+\link{shapleyPermEx}, \link{shapleyPermRand}, \link{shapleyLinearGaussian}, \link{sobolrank}, \link{sobolshap_knn}
 }
 
 \examples{

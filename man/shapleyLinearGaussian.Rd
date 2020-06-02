@@ -8,10 +8,13 @@
   \code{shapleyLinearGaussian} implements the computation of
   the Shapley effects in the linear Gaussian framework, using the linear model
   (without the value at zero) and the covariance matrix of the inputs.
+  It uses the block-diagonal covariance trick of Broto et al. (2019) which allows 
+  to go through high-dimensional cases (nb of inputs > 25). 
+  It gives a warning in case of dim(block) > 25.
 }
 
 \usage{
-shapleyLinearGaussian(Beta,Sigma,tol=10^(-6))
+shapleyLinearGaussian(Beta, Sigma, tol=10^(-6))
 }
 
 \arguments{

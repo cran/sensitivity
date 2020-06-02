@@ -13,20 +13,24 @@ importFrom("stats", "coefficients", "cor", "cor.test", "cov", "dist",
            "qnorm", "quantile", "rnorm", "runif", "sd", "update", 
            "var", "dbeta", "dexp", "dgamma", "dlnorm", "dweibull",
            "integrate", "smooth.spline", "ecdf", "pgamma", 
-           "pbeta", "pexp", "pweibull", "approxfun", "glm","setNames")
+           "pbeta", "pexp", "pweibull", "approxfun", "glm","setNames",
+           "prcomp")
 importFrom("utils", "combn", "methods", "head") 
 importFrom("methods", "is")
 importFrom("ggplot2","ggplot", "position_dodge","aes","geom_point",
            "geom_errorbar","scale_shape_manual","coord_cartesian","labs",
-           "scale_x_discrete","theme_bw","theme","element_text")
+           "scale_x_discrete","theme_bw","theme","element_text",
+           "scale_x_continuous", "geom_line")
 
-export(ask,tell)
+export(ask,tell,extract)
+
 export(plotFG)
 export(scatterplot)
 export(dnorm.trunc,pnorm.trunc,qnorm.trunc,rnorm.trunc)
 export(dgumbel.trunc,pgumbel.trunc,qgumbel.trunc,rgumbel.trunc)
 
-export(sobol.fun, ishigami.fun, morris.fun, atantemp.fun, campbell1D.fun, linkletter.fun, heterdisc.fun)
+export(sobol.fun, ishigami.fun, morris.fun, atantemp.fun, campbell1D.fun, 
+       linkletter.fun, heterdisc.fun)
 
 export(squaredIntEstim, PoincareChaosSqCoef)
 
@@ -126,12 +130,6 @@ S3method(print, sobolowen)
 S3method(plot, sobolowen)
 S3method(ggplot, sobolowen)
 
-export(sobolrank)
-S3method(tell, sobolrank)
-S3method(print, sobolrank)
-S3method(plot, sobolrank)
-S3method(ggplot, sobolrank)
-
 export(sobolGP)
 S3method(ask, sobolGP)
 S3method(tell, sobolGP)
@@ -224,10 +222,23 @@ S3method(print, shapleyPermRand)
 S3method(plot, shapleyPermRand)
 S3method(ggplot, shapleyPermRand)
 
+export(shapleyLinearGaussian)
+
 export(shapleySubsetMc)
 S3method(plot, shapleySubsetMc)
 
-export(shapleyLinearGaussian)
+export(sobolshap_knn)
+S3method(tell, sobolshap_knn)
+S3method(extract, sobolshap_knn)
+S3method(print, sobolshap_knn)
+S3method(plot, sobolshap_knn)
+S3method(ggplot, sobolshap_knn)
+
+export(sobolrank)
+S3method(tell, sobolrank)
+S3method(print, sobolrank)
+S3method(plot, sobolrank)
+S3method(ggplot, sobolrank)
 
 export(sobolSmthSpl)
 S3method(print, sobolSmthSpl)

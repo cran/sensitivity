@@ -1,6 +1,6 @@
-0a7fa71471ce9f27a3c3bbf09fa8f76e *DESCRIPTION
-81c660d82fa38a5dec52bd7741511905 *NAMESPACE
-610bbb31289a97d68617100030b9c9d8 *NEWS
+8b57918212c3ff793ff445dee001e550 *DESCRIPTION
+cbb4870ce143d987c097ff8df220b1e5 *NAMESPACE
+f21a20ea7fa7d5bc6ce75d739020de5f *NEWS
 2614c0aff379c8436ebdb31061d8447e *R/PLI.R
 c58a77e803d8bf26113fd34069a5bb4d *R/PLIquantile.r
 e9a8826f1ec1ddbe9da58111c8a42114 *R/PLIquantile_multivar.r
@@ -10,7 +10,7 @@ fcaf012f6675614a937f16a076b9297b *R/PoincareConstant.R
 a0279c87606ceb6c63552b5224c6c7f9 *R/PoincareOptimal.R
 9fcb745b87fa54bc3e2e80b951dc51df *R/RcppExports.R
 cd5217d6c29abf935a2623964ac48543 *R/addelman_kempthorne.R
-019a427e834e137c875efb7f81923e44 *R/base.R
+55003aff20a460db1788bc49d340d526 *R/base.R
 9faee8f187b55c16234fbc8da6a37aca *R/bootstats.R
 3c5bc2298e56bd59174c48c6b22a2f35 *R/delsa.R
 4dc6522d0398572967826126307122db *R/discrepancyCriteria_cplus.R
@@ -26,7 +26,7 @@ ab6a859d593dc238134887fef12bed25 *R/nodeggplot.R
 d85f3d1559a47cea036bce477557650e *R/pcc.R
 bf43d459d1c5a097399bad5dd2a20fd5 *R/sb.R
 b73edd56ef7f0977e2621b5216d359ac *R/sensiFdiv.R
-2c1c70b559fe26ad7e4da63f31f4f6ac *R/sensiHSIC.R
+d85ca69cc72e5d0cfc7d1dda5da1f2d7 *R/sensiHSIC.R
 3e58b0fbfcf7a4809adad2896dc31680 *R/shapleyLinearGaussian.R
 195aaa56b9b5d40caa3af052d2f16e43 *R/shapleyPermEx.R
 ef2ab59df14be2f6ee3fc1ad40c27edc *R/shapleyPermRand.R
@@ -53,6 +53,7 @@ a9b9152e79cbdfcd1e506a8756764c3b *R/sobolrec.R
 41b40491a20c641504a3e36266277ab4 *R/sobolroa_subroutines.R
 5105e6aea0629b00687da54fe3883e7d *R/sobolroalhs.R
 ec5d3fc55570964af89fbab4aca31bab *R/sobolroauc.R
+a5b9976b2acbc5446388c5fcaa7e84d0 *R/sobolshap_knn.R
 abc96b6448eec35cc7ec91a71525b2c8 *R/soboltouati.R
 51220e5018c402cd7cd5ea4817a91380 *R/squaredIntEstim.R
 99efb12863643535235d1f9f1e21083a *R/src.R
@@ -70,7 +71,7 @@ a26f250393ec30d28ff7c7cdc7459fb6 *man/PLIsuperquantile.Rd
 636dd4fb05285b7de44cf4fe89572acf *man/PoincareConstant.Rd
 c0c8882ee329691c220e3d6ed02871e3 *man/PoincareOptimal.Rd
 781d741e84be43bf2a9bc84974631dbf *man/addelman_const.Rd
-79e1de6fcfd569fc1e4244c4c374fc9e *man/decoupling.Rd
+c2c39c21e0e07e9c28f7a462a464758b *man/decoupling.Rd
 fdc16ebe600906f56a8dbdb55ef6f513 *man/delsa.Rd
 a114755030645c2426e23bccd815bba6 *man/discrepancyCriteria_cplus.Rd
 19bcb42e97b4610805347b69d4216dd1 *man/fast99.Rd
@@ -82,12 +83,12 @@ b46db7a0fe99ab5a551a3840573a61f2 *man/parameterSets.Rd
 2033bced410d84accf8a8e537f502978 *man/plot.support.Rd
 bd467cd43c0d5394e94a48dbbdc87c1e *man/sb.Rd
 f58a354d48f6d0700ac051b61b04e403 *man/sensiFdiv.Rd
-ef25e3f7a32379c02e03aa59e7e90132 *man/sensiHSIC.Rd
-618a18ba11cbe8ea00a480de297f522a *man/sensitivity-package.Rd
-f3c65572842e39259a19aa0be3b33d47 *man/shapleyLinearGaussian.Rd
-dcb261c0d89aeeac677d01b0985f1050 *man/shapleyPermEx.Rd
-f32a5fa8fa5a4b752469ee4989fa9f6f *man/shapleyPermRand.Rd
-380b499949907b3dd6e6ce59d9f64d91 *man/shapleySubsetMc.Rd
+2e6da2806f8742bf222851420a27569f *man/sensiHSIC.Rd
+59c2de60a63621cb0e618d516ef9d604 *man/sensitivity-package.Rd
+c7c4e08f8c11b3934e13bcf7e412bb8a *man/shapleyLinearGaussian.Rd
+2bc1157a3e943fbcee922f2957a97b86 *man/shapleyPermEx.Rd
+e5e248748f7912e29b74715feda6429a *man/shapleyPermRand.Rd
+f6fb39339b6661251acfce18c85cc545 *man/shapleySubsetMc.Rd
 6464031324dbb8c94ee64206b82c3c8e *man/sobol.Rd
 168d3895ad0fff96fd951995ca032776 *man/sobol2002.Rd
 822558d683206db45a7d74fc7f880771 *man/sobol2007.Rd
@@ -102,11 +103,12 @@ b981e781c0597aa5df4bdb36b4bb725c *man/sobolTIIlo.Rd
 f0c44510f6cc2ae0287e06d9454f97eb *man/sobolmara.Rd
 04657962e087faf6a2cefc5ef25b728c *man/sobolmartinez.Rd
 fcc74becb82d26e55b7fbfadecb45890 *man/sobolowen.Rd
-9969148443c9873111f61340b80c2bbb *man/sobolrank.Rd
+b89db40072dc6c69724367b599b1e76c *man/sobolrank.Rd
 8d0e44621e2cc38f0b1d79f65f7f4aca *man/sobolrec.Rd
 697837f832efaa0b1f898ff76d6425d5 *man/sobolrep.Rd
 bd91fd9dd5d393de2da41229e7632fba *man/sobolroalhs.Rd
 eee78986258313d3fd8481bc0e9ccf83 *man/sobolroauc.Rd
+9599c3b04bc89c55f0ee959f5aaff735 *man/sobolshap_knn.Rd
 29b3be52b688697731df511302bd5a87 *man/soboltouati.Rd
 6308ff6fad1221a63ba031dc33691da8 *man/squaredIntEstim.Rd
 d08e8c32a7c8bf66f7e60f6080a3305e *man/src.Rd

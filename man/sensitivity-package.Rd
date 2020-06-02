@@ -49,10 +49,11 @@
     }
     \item Variance-based sensitivity indices (Shapley effects and Sobol' indices) for independent or dependent inputs:
 	  \itemize{
-	    \item Exact computation in the linear Gaussian framework (Broto et al., 2019) (\code{\link{shapleyLinearGaussian}})
-	    \item Estimation by examining all permutations of inputs (Song et al., 2016) (\code{\link{shapleyPermEx}})
-	    \item Estimation by randomly sampling permutations of inputs (Song et al., 2016) (\code{\link{shapleyPermRand}})
-	    \item Estimation of Shapley effects from data using nearest neighbors method (Broto et al., 2018) (\code{\link{shapleySubsetMc}})
+	    \item Exact computation in the linear Gaussian framework (Broto et al., 2019) (\code{\link{shapleyLinearGaussian}}),
+	    \item Estimation by examining all permutations of inputs (Song et al., 2016) (\code{\link{shapleyPermEx}}),
+	    \item Estimation by randomly sampling permutations of inputs (Song et al., 2016) (\code{\link{shapleyPermRand}}),
+	    \item Estimation of Shapley effects from data using nearest neighbors method (Broto et al., 2018) (\code{\link{shapleySubsetMc}}),
+	    \item Estimation of Shapley effects and all Sobol indices from data using nearest neighbors (Broto et al., 2018) using a fast approximate algorithm, and ranking (Gamboa et al., 2020) (\code{\link{sobolshap_knn}});
 	  }
     \item Support index functions (\code{\link{support}}) of Fruth et al. (2016);
     \item Sensitivity Indices based on Csiszar f-divergence (\code{\link{sensiFdiv}}) (particular cases: Borgonovo's indices and mutual-information based indices) and Hilbert-Schmidt Independence Criterion (\code{\link{sensiHSIC}}) (Da Veiga, 2015; Meynaoui et al., 2019);
@@ -60,7 +61,9 @@
     \item Robustness analysis by the Perturbed-Law based Indices (\code{\link{PLI}}) of Lemaitre et al. (2015), (\code{\link{PLIquantile}}) of Sueur et al. (2017), and extension as (\code{\link{PLIquantile_multivar}}) and (\code{\link{PLIsuperquantile}}) ;
     \item Extensions to multidimensional outputs for:
 	  \itemize{
-	    \item Sobol' indices (\code{\link{sobolMultOut}}): Aggregated Sobol' indices (Lamboni et al., 2011; Gamboa et al., 2014) and functional (1D) Sobol' indices;
+	    \item Sobol' indices (\code{\link{sobolMultOut}}): Aggregated Sobol' indices (Lamboni et al., 2011; Gamboa et al., 2014) and functional (1D) Sobol' indices,
+	    \item Shapley effects and Sobol' indices (\code{\link{sobolshap_knn}}): Functional (1D) indices,
+	    \item HSIC indices (\code{\link{sensiHSIC}}) (Da Veiga, 2015),
 	    \item Morris method (\code{\link{morrisMultOut}}).
 	    }
   }

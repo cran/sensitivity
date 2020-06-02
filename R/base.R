@@ -1,14 +1,17 @@
 # Base functions of the sensitivity package
 # Gilles Pujol, 2006 - 2008
+# Modified by Bertrand Iooss.
 # Modified by Frank Weber (2016): support model functions
 # returning a matrix or a 3-dimensional array.
 
 ask <- function(x, ...)
   UseMethod("ask")
 
-
 tell <- function(x, y = NULL, ...)
   UseMethod("tell")
+
+extract <- function(x, ...) # fct added in 2020 for sobolshap_knn()
+  UseMethod("extract")
 
 
 response <- function(x, loop = FALSE, other_types_allowed = FALSE, ...) {
