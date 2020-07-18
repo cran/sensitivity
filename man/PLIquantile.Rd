@@ -6,12 +6,13 @@
 \description{
   PLIquantile computes the Perturbed-Law based Indices (PLI) for quantile, 
   which are robustness indices related to a quantile of a 
-  model output, estimated by a Monte Carlo method, See Sueur et al. (2016, 2017).
+  model output, estimated by a Monte Carlo method, See Sueur et al. (2017)
+  and Iooss et al. (2020).
 }
 
 \usage{
 PLIquantile(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=TRUE,
-            percentage=FALSE,nboot=0,conf=0.9)
+            percentage=TRUE,nboot=0,conf=0.95,bootsample=TRUE)
 }
 
 \arguments{
@@ -49,13 +50,17 @@ PLIquantile(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=TRUE,
         }}
   \item{percentage}{a boolean that defines the formula used for the PLI.
     \itemize{
-      \item If it is set at FALSE, the classical formula used in the bibliographical 
-      references is used.
+      \item If it is set at FALSE, the initially proposed formula is used
+      (see Sueur et al., 2017).
       \item If not (set as TRUE), the PLI is given in percentage of variation 
-      of the quantile (even if it is negative).
+      of the quantile (see Iooss et al., 2020).
         }}
   \item{nboot}{the number of bootstrap replicates.}
   \item{conf}{the confidence level for bootstrap confidence intervals.}
+  \item{bootsample}{If TRUE, the uncertainty about the original quantile estimation
+      is taken into account in the PLI confidence intervals (see Iooss et al., 2020). 
+      If FALSE, standard confidence intervals are computed for the PLI.
+      It mainly changes the CI at small delta values.}
 }
 
 \value{
@@ -77,6 +82,10 @@ ANS Best Estimate Plus Uncertainty International Conference (BEPU 2018), Lucca, 
 
 C. Gauchy, J. Stenger, R. Sueur and B. Iooss, \emph{ An information geometry approach for robustness analysis 
 in uncertainty quantification of computer codes}, Preprint, https://hal.archives-ouvertes.fr/hal-02425477 
+
+B. Iooss, V. Verges and V. Larget, \emph{BEPU robustness analysis via perturbed-law based 
+sensitivity indices}, 
+ANS Best Estimate Plus Uncertainty International Conference (BEPU 2020), Sicily, Italy, October 2020.
 
 P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss, 2015, 
 \emph{Density modification based reliability sensitivity analysis}, Journal of Statistical 
@@ -116,11 +125,14 @@ Paul Lemaitre, Bertrand Iooss, Thibault Delage and Roman Sueur
 	Y = 2 * X[,1] + X[,2] + X[,3]/2
 	q95 = quantile(Y,0.95)
 	
+	nboot=200
+	
 # sensitivity indices with perturbation of the mean 
   
 	v_delta = seq(-1,1,1/10) 
 	toto = PLIquantile(0.95,X,Y,deltasvector=v_delta,
-	  InputDistributions=distribution,type="MOY",samedelta=TRUE,nboot=200)
+	  InputDistributions=distribution,type="MOY",samedelta=TRUE,
+	  percentage=FALSE,nboot=nboot)
 
 # Plotting the PLI
   par(mar=c(4,5,1,1))
@@ -154,9 +166,10 @@ Paul Lemaitre, Bertrand Iooss, Thibault Delage and Roman Sueur
 	legend(0.5,2.4,legend=c("X1","X2","X3"),
 		col=c("darkgreen","black","red"),pch=c(15,19,17),cex=1.5)
 		
-# Plotting the PLI in percentage
+# Plotting the PLI in percentage with refined confidence intervals
 	toto = PLIquantile(0.95,X,Y,deltasvector=v_delta,
-	  InputDistributions=distribution,type="MOY",samedelta=TRUE,percentage=TRUE,nboot=200)
+	  InputDistributions=distribution,type="MOY",samedelta=TRUE,
+	  percentage=TRUE,nboot=nboot,bootsample=FALSE)
 	  
   par(mar=c(4,5,1,1))
 	plot(v_delta,toto$PLI[,2],ylim=c(-0.6,0.6),xlab=expression(delta),

@@ -6,15 +6,15 @@ import(boot)
 importFrom("grDevices", "dev.interactive", "dev.new", "devAskNewPage")
 importFrom("graphics", "abline", "axis", "barplot", "box", "legend",
            "lines", "par", "plot", "points", "polygon", "segments",
-           "text", "title", "arrows")
+           "text", "title", "arrows", "matplot")
 importFrom("stats", "coefficients", "cor", "cor.test", "cov", "dist",
            "dnorm", "dunif", "fft", "fitted", "formula", "lm",
            "model.matrix", "nlm", "optimize", "pnorm", "predict",
            "qnorm", "quantile", "rnorm", "runif", "sd", "update", 
            "var", "dbeta", "dexp", "dgamma", "dlnorm", "dweibull",
            "integrate", "smooth.spline", "ecdf", "pgamma", 
-           "pbeta", "pexp", "pweibull", "approxfun", "glm","setNames",
-           "prcomp")
+           "pbeta", "pexp", "pweibull", "approxfun", "glm", "setNames",
+           "prcomp", "na.omit")
 importFrom("utils", "combn", "methods", "head") 
 importFrom("methods", "is")
 importFrom("ggplot2","ggplot", "position_dodge","aes","geom_point",
@@ -26,6 +26,10 @@ export(ask,tell,extract)
 
 export(plotFG)
 export(scatterplot)
+export(plotMultOut)
+export(parameterSets)
+export(template.replace)
+
 export(dnorm.trunc,pnorm.trunc,qnorm.trunc,rnorm.trunc)
 export(dgumbel.trunc,pgumbel.trunc,qgumbel.trunc,rgumbel.trunc)
 
@@ -59,6 +63,7 @@ export(sobol)
 S3method(tell, sobol)
 S3method(print, sobol)
 S3method(plot, sobol)
+S3method(plotMultOut, sobol)
 S3method(ggplot, sobol)
 
 export(sobolEff)
@@ -71,18 +76,21 @@ export(sobol2002)
 S3method(tell, sobol2002)
 S3method(print, sobol2002)
 S3method(plot, sobol2002)
+S3method(plotMultOut, sobol2002)
 S3method(ggplot, sobol2002)
 
 export(sobol2007)
 S3method(tell, sobol2007)
 S3method(print, sobol2007)
 S3method(plot, sobol2007)
+S3method(plotMultOut, sobol2007)
 S3method(ggplot, sobol2007)
 
 export(soboljansen)
 S3method(tell, soboljansen)
 S3method(print, soboljansen)
 S3method(plot, soboljansen)
+S3method(plotMultOut, soboljansen)
 S3method(ggplot, soboljansen)
 
 export(sobolmartinez)
@@ -101,6 +109,7 @@ export(sobolmara)
 S3method(tell, sobolmara)
 S3method(print, sobolmara)
 S3method(plot, sobolmara)
+S3method(plotMultOut, sobolmara)
 S3method(ggplot, sobolmara)
 
 export(addelman_const)
@@ -158,6 +167,7 @@ S3method(plot, fast99)
 export(sobolMultOut)
 S3method(print, sobolMultOut)
 S3method(plot, sobolMultOut)
+S3method(plotMultOut, sobolMultOut)
 S3method(ggplot, sobolMultOut)
 
 export(sb)
@@ -166,10 +176,7 @@ S3method(tell, sb)
 S3method(print, sb)
 S3method(plot, sb)
 
-export(template.replace)
-
 export(delsa)
-export(parameterSets)
 S3method(tell, delsa)
 S3method(print, delsa)
 S3method(plot, delsa)
@@ -223,6 +230,9 @@ S3method(plot, shapleyPermRand)
 S3method(ggplot, shapleyPermRand)
 
 export(shapleyLinearGaussian)
+
+export(shapleyBlockEstimationS)
+export(shapleyBlockEstimationX)
 
 export(shapleySubsetMc)
 S3method(plot, shapleySubsetMc)

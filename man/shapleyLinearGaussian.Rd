@@ -44,7 +44,7 @@ Baptiste Broto
 }
 
 \seealso{
-\link{shapleyPermEx}, \link{shapleyPermRand}, \link{shapleySubsetMc}
+\link{shapleyBlockEstimation}, \link{shapleyPermEx}, \link{shapleyPermRand}, \link{shapleySubsetMc}
 }
 
 

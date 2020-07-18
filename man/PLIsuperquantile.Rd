@@ -6,12 +6,13 @@
 \description{
   PLIsuperquantile computes the Perturbed-Law based Indices (PLI) for superquantile, 
   which are robustness indices related to a superquantile of a 
-  model output, estimated by a Monte Carlo method.
+  model output, estimated by a Monte Carlo method. 
+  See Iooss et al. (2020).
 }
 
 \usage{
 PLIsuperquantile(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=TRUE,
-            percentage=FALSE,nboot=0,conf=0.9,bias=TRUE)
+            percentage=TRUE,nboot=0,conf=0.95,bootsample=TRUE,bias=TRUE)
 }
 
 \arguments{
@@ -56,6 +57,10 @@ PLIsuperquantile(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=
         }}
   \item{nboot}{the number of bootstrap replicates.}
   \item{conf}{the confidence level for bootstrap confidence intervals.}
+  \item{bootsample}{If TRUE, the uncertainty about the original quantile estimation
+      is taken into account in the PLI confidence intervals (see Iooss et al., 2020). 
+      If FALSE, standard confidence intervals are computed for the PLI.
+      It mainly changes the CI at small delta values.}
   \item{bias}{defines the version of PLI-superquantile:
     \itemize{
       \item If it is set at "TRUE", it gives the mean of outputs above the perturbed quantile
@@ -76,9 +81,9 @@ PLIsuperquantile(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=
 }
 
 \references{
-T. Delage, R. Sueur and B. Iooss, 2018, \emph{Robustness analysis of epistemic uncertainties 
-propagation studies in LOCA assessment thermal-hydraulic model}, 
-ANS Best Estimate Plus Uncertainty International Conference (BEPU 2018), Lucca, Italy, May 13-19, 2018.
+B. Iooss, V. Verges and V. Larget, \emph{BEPU robustness analysis via perturbed-law based 
+sensitivity indices}, 
+ANS Best Estimate Plus Uncertainty International Conference (BEPU 2020), Sicily, Italy, October 2020.
 
 P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss, 2015, 
 \emph{Density modification based reliability sensitivity analysis}, Journal of Statistical 
@@ -115,11 +120,14 @@ Bertrand Iooss
 	q95 = quantile(Y,0.95)
   sq95a <- mean(Y*(Y>q95)/(1-0.95)) ; sq95b <- mean(Y[Y>q95])
 	
+	nboot=200
+	
 # sensitivity indices with perturbation of the mean 
   
 	v_delta = seq(-1,1,1/10) 
 	toto = PLIsuperquantile(0.95,X,Y,deltasvector=v_delta,
-	  InputDistributions=distribution,type="MOY",samedelta=TRUE,nboot=200,bias=TRUE)
+	  InputDistributions=distribution,type="MOY",samedelta=TRUE,
+	  percentage=FALSE,nboot=nboot,bias=TRUE)
 
 # Plotting the PLI
   par(mar=c(4,5,1,1))
@@ -153,9 +161,10 @@ Bertrand Iooss
 	legend(-1,7,legend=c("X1","X2","X3"),
 		col=c("darkgreen","black","red"),pch=c(15,19,17),cex=1.5)
 		
-# Plotting the PLI in percentage
+# Plotting the unbiased PLI in percentage with refined confidence intervals
 	toto = PLIsuperquantile(0.95,X,Y,deltasvector=v_delta,
-	  InputDistributions=distribution,type="MOY",samedelta=TRUE,percentage=TRUE,nboot=200)
+	  InputDistributions=distribution,type="MOY",samedelta=TRUE,percentage=TRUE,
+	  nboot=nboot,bootsample=FALSE,bias=FALSE)
 	  
   par(mar=c(4,5,1,1))
 	plot(v_delta,toto$PLI[,2],ylim=c(-0.4,0.5),xlab=expression(delta),
@@ -165,7 +174,7 @@ Bertrand Iooss
 	lines(v_delta,toto$PLICIinf[,2],col="black")
 	lines(v_delta,toto$PLICIsup[,2],col="black")
 	lines(v_delta,toto$PLICIinf[,1],col="darkgreen")
-	lines(v_delta,toto$PLICIsup[,1],col="darkgreen")
+	lines(v_delta,toto$PLICIsup[,1],col="darkgreen") 
 	lines(v_delta,toto$PLICIinf[,3],col="red")
 	lines(v_delta,toto$PLICIsup[,3],col="red")
 	abline(h=0,lty=2)

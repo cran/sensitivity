@@ -13,7 +13,6 @@ tell <- function(x, y = NULL, ...)
 extract <- function(x, ...) # fct added in 2020 for sobolshap_knn()
   UseMethod("extract")
 
-
 response <- function(x, loop = FALSE, other_types_allowed = FALSE, ...) {
   id <- deparse(substitute(x))
   
@@ -166,4 +165,10 @@ rgumbel.trunc <- function(n, loc = 0, scale = 1, min = -1e6, max = 1e6){
 
 scatterplot <- function(x, i, xprob = FALSE, p = NULL, p.arg = NULL, cex = 1, cex.lab = 1, ...)
   UseMethod("scatterplot")
+
+########################################
+# function added in 2020 (for sobolMultOut())
+
+plotMultOut <- function(x, ylim = c(0, 1), ...) 
+  UseMethod("plotMultOut")
 

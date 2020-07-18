@@ -116,6 +116,7 @@ Sebastien Da Veiga
 }
 
 \examples{
+  \donttest{
     # Test case: the non-monotonic Sobol g-function
     # Example with a call to a numerical model
     # First compute first-order indices with ranking
@@ -165,7 +166,6 @@ Sebastien Da Veiga
     print(x)
     
     # Test case: functional toy fct 'Arctangent temporal function'
-  \donttest{
     n <- 3000
     X <- data.frame(matrix(runif(2*n,-7,7), nrow = n))
     Y <- atantemp.fun(X)

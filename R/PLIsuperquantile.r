@@ -1,6 +1,6 @@
 # library(evd)
 
-PLIsuperquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=TRUE,percentage=FALSE,nboot=0,conf=0.9,bias=TRUE){
+PLIsuperquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=TRUE,percentage=TRUE,nboot=0,conf=0.95,bootsample=TRUE,bias=TRUE){
   
   # Deux manieres d'estimer un superquantile d'ordre p a partir d'un quantile q d'ordre p et d'un echantillon x :
   #   sq <- mean(x[x>q])
@@ -37,10 +37,11 @@ PLIsuperquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY"
   #	type can take the value "VAR",in which case deltasvector is a vector of perturbated variances, therefore needs to be positive integers.
   # samedelta is a boolean used with the value "MOY" for type. If it is set at TRUE, the mean perturbation will be the same for all the variables. 
   #   If not, the mean perturbation will be new_mean = mean+sigma*delta where mean, sigma are parameters defined in InputDistributions and delta is a value of deltasvector. See subsection 4.3.3 of the reference for an exemple of use. 
-  # percentage defines the formula used for the PLI. If percentage=FALSE, the classical formula used in the bibliographic references is used.
-  #   If percentage=TRUE, the PLI is given in percentage of variation of the superquantile (even if it is negative).
+  # percentage defines the formula used for the PLI. If percentage=FALSE, the initially proposed formula is used (Sueur et al., 2017).
+  #   If percentage=TRUE, the PLI is given in percentage of variation of the quantile (even if it is negative).
   # nboot is the number of bootstrap replicates
   # conf is the required bootstrap confidence interval
+  # bootsample defines if the sampling uncertainty is taken into account in computing the boostrap confidence intervals of the PLI
   # bias defines which type of PLI-superquantile is computed:
   #   "TRUE" gives the mean of outputs above the perturbed quantile
   #   "FALSE" gives the the mean of perturbed outputs above the perturbed quantile
@@ -93,6 +94,13 @@ PLIsuperquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY"
       s <- s*h/3
     }
     return(s)
+  }
+  
+  transinverse <- function(a,b,c) {
+    # useful to compute bootstrap-based confidence intervals
+    if (a > c) ans <- a / b - 1
+    else ans <- 1 - b / a
+    return(ans)
   }
   
   ########################################
@@ -569,44 +577,34 @@ for (i in 1:nmbredevariables){		# loop for each variable
   ########################################	
   
   for (j in 1:length(lqid)){
-    if (percentage==FALSE){
-      if(lqid[j]>sqhat){
-        I[j,i]=lqid[j]/sqhat-1
-        J[j,i]=lqid[j]
-      } else {
-        I[j,i]=-sqhat/lqid[j]+1
-        J[j,i]=lqid[j]
-      }
-    } else{
-      I[j,i]=lqid[j]/sqhat-1
-      J[j,i]=lqid[j]
-    }
+    J[j,i]=lqid[j]
+    if (percentage==FALSE) I[j,i]=transinverse(lqid[j],sqhat,sqhat)
+    else I[j,i]=lqid[j]/sqhat-1
     
     if (nboot > 0){
+      # ICI = PLI bootstrap including or excluding sampling uncertainty
+      # JCI = superquantile bootstrap 
       sqinf <- quantile(lqidb[j,],(1-conf)/2)
       sqsup <- quantile(lqidb[j,],(1+conf)/2)
+      JCIinf[j,i]=sqinf
+      JCIsup[j,i]=sqsup
       sqb <- mean(sqhatb)
       if (percentage==FALSE){
-        if(sqinf>sqb){
+        if (bootsample){
+          ICIinf[j,i]=transinverse(sqinf,sqb,sqb)
+          ICIsup[j,i]=transinverse(sqsup,sqb,sqhat)
+        } else{
+          ICIinf[j,i]=quantile(transinverse(lqidb[j,],sqhatb,sqhatb),(1-conf)/2)
+          ICIsup[j,i]=quantile(transinverse(lqidb[j,],sqhatb,sqhatb),(1+conf)/2)
+        }
+      } else {
+        if (bootsample){
           ICIinf[j,i]=sqinf/sqb-1
-          JCIinf[j,i]=sqinf
-        } else {
-          ICIinf[j,i]=-sqb/sqinf+1
-          JCIinf[j,i]=sqinf
-        }
-        if(sqsup>sqhat){
           ICIsup[j,i]=sqsup/sqb-1
-          JCIsup[j,i]=sqsup
-        } else {
-          ICIsup[j,i]=-sqb/sqsup+1
-          JCIsup[j,i]=sqsup
+        } else{
+          ICIinf[j,i]=quantile((lqidb[j,]/sqhatb-1),(1-conf)/2)
+          ICIsup[j,i]=quantile((lqidb[j,]/sqhatb-1),(1+conf)/2)
         }
-      }
-      else {
-        ICIinf[j,i]=sqinf/sqb-1
-        JCIinf[j,i]=sqinf
-        ICIsup[j,i]=sqsup/sqb-1
-        JCIsup[j,i]=sqsup
       }
     }
   }

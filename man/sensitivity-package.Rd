@@ -32,7 +32,7 @@
 	  	  \item Jansen-Sobol's scheme (Jansen, 1999) to compute first order and total indices using improved formulas (\code{\link{soboljansen}}),
     	  \item Martinez's scheme using correlation coefficient-based formulas (Martinez, 2011; Touati, 2016) to compute first order and total indices, associated with theoretical confidence intervals (\code{\link{sobolmartinez}} and \code{\link{soboltouati}}), 
 	  	  \item Janon-Monod's scheme (Monod et al., 2006; Janon et al., 2013) to compute first order indices with optimal asymptotic variance (\code{\link{sobolEff}}),
-	  	  \item Mara's scheme (Mara and Joseph, 2008) to compute first order indices with a cost independent of the dimension, via a unique-matrix permutations (\code{\link{sobolmara}}),
+	  	  \item Mara's scheme (Mara and Joseph, 2008) to compute first order indices with a cost independent of the dimension, via permutations on a single matrix (\code{\link{sobolmara}}),
 	  	  \item Mighty estimator of first-order sensitivity indices based on rank statistics (correlation coefficient of Chatterjee, 2019; Gamboa et al., 2020) (\code{\link{sobolrank}}),
 		    \item Owen's scheme (Owen, 2013) to compute first order and total indices using improved formulas (via 3 input independent matrices) for small indices (\code{\link{sobolowen}}),
         \item Total Interaction Indices using Liu-Owen's scheme (Liu and Owen, 2006) (\code{\link{sobolTIIlo}}) and pick-freeze scheme (Fruth et al., 2014) (\code{\link{sobolTIIpf}}),
@@ -50,6 +50,7 @@
     \item Variance-based sensitivity indices (Shapley effects and Sobol' indices) for independent or dependent inputs:
 	  \itemize{
 	    \item Exact computation in the linear Gaussian framework (Broto et al., 2019) (\code{\link{shapleyLinearGaussian}}),
+	    \item Computation in the Gaussian linear framework with an unknown block-diagonal covariance matrix (Broto et al., 2020) (\code{\link{shapleyBlockEstimation}}),
 	    \item Estimation by examining all permutations of inputs (Song et al., 2016) (\code{\link{shapleyPermEx}}),
 	    \item Estimation by randomly sampling permutations of inputs (Song et al., 2016) (\code{\link{shapleyPermRand}}),
 	    \item Estimation of Shapley effects from data using nearest neighbors method (Broto et al., 2018) (\code{\link{shapleySubsetMc}}),
@@ -63,7 +64,7 @@
 	  \itemize{
 	    \item Sobol' indices (\code{\link{sobolMultOut}}): Aggregated Sobol' indices (Lamboni et al., 2011; Gamboa et al., 2014) and functional (1D) Sobol' indices,
 	    \item Shapley effects and Sobol' indices (\code{\link{sobolshap_knn}}): Functional (1D) indices,
-	    \item HSIC indices (\code{\link{sensiHSIC}}) (Da Veiga, 2015),
+	    \item HSIC indices (\code{\link{sensiHSIC}}) (Da Veiga, 2015): Aggregated HSIC, potentially via a PCA step (Da Veiga, 2015),
 	    \item Morris method (\code{\link{morrisMultOut}}).
 	    }
   }

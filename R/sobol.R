@@ -180,3 +180,23 @@ ggplot.sobol <- function(x, ylim = c(0, 1), ...) {
     nodeggplot(listx = list(x$S), xname="",ylim = ylim)
   }
 }
+
+plotMultOut.sobol <- function(x, ylim = c(0, 1), ...) {
+  if (!is.null(x$y)) {
+    p <- ncol(x$X1)
+    if (!x$ubiquitous){
+      stop("Cannot plot functional indices since ubiquitous option was not activated")
+    }else{
+      if (x$Tot == T) par(mfrow=c(2,1))
+      plot(0,ylim=ylim,xlim=c(1,x$q),main="First order Sobol indices",ylab="",xlab="",type="n")
+      for (i in 1:p) lines(x$Sfct[,i],col=i)
+      legend(x = "topright", legend = dimnames(x$X1)[[2]], lty=1, col=1:p, cex=0.6)
+      
+      if (x$Tot == T){
+        plot(0,ylim=ylim,xlim=c(1,x$q),main="Total Sobol indices",ylab="",xlab="",type="n")
+        for (i in 1:p) lines(x$Tfct[,i],col=i)
+        legend(x = "topright", legend = dimnames(x$X1)[[2]], lty=1, col=1:p, cex=0.6)
+      }
+    }
+  }
+}

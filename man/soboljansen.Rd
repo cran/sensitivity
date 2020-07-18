@@ -3,6 +3,7 @@
 \alias{tell.soboljansen}
 \alias{print.soboljansen}
 \alias{plot.soboljansen}
+\alias{plotMultOut.soboljansen}
 \alias{ggplot.soboljansen}
 
 \title{Monte Carlo Estimation of Sobol' Indices (improved formulas of Jansen (1999) and Saltelli et al. (2010))}
@@ -19,6 +20,7 @@ soboljansen(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
 \method{tell}{soboljansen}(x, y = NULL, return.var = NULL, \dots)
 \method{print}{soboljansen}(x, \dots)
 \method{plot}{soboljansen}(x, ylim = c(0, 1), y_col = NULL, y_dim3 = NULL, \dots)
+  \method{plotMultOut}{soboljansen}(x, ylim = c(0, 1), \dots)
 \method{ggplot}{soboljansen}(x, ylim = c(0, 1), y_col = NULL, y_dim3 = NULL, \dots)
 }
 

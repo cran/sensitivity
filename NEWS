@@ -1,4 +1,18 @@
 
+Changes in version 1.22.0:
+
+  o New function shapleyBlockEstimation()
+  
+  o New functionalities in sensiHSIC(): PCA, kernel for categorical 
+  inputs and/or outputs, optimization of permutations numbers,
+  convergence plot for p-values, U-stat estimator for conditional HSIC
+  
+  o Corrected plot with new fct plotMultOut() (for ubiquitous Sobol' 
+  indices) in sobolMultOut() and associated sobolxxx() fcts
+  
+  o New bootstrap process in PLIquantile() and PLIsuperquantile() via 
+  the new argument bootsample
+  
 Changes in version 1.21.0:
 
   o New function sobolshap_knn() (sensitivity analysis via 

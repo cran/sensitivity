@@ -3,6 +3,7 @@
 \alias{tell.sobol}
 \alias{print.sobol}
 \alias{plot.sobol}
+\alias{plotMultOut.sobol}
 \alias{ggplot.sobol}
 
 \title{Monte Carlo Estimation of Sobol' Indices}
@@ -21,6 +22,7 @@ sobol(model = NULL, X1, X2, order = 1, nboot = 0, conf = 0.95, \dots)
 \method{tell}{sobol}(x, y = NULL, return.var = NULL, \dots)
 \method{print}{sobol}(x, \dots)
 \method{plot}{sobol}(x, ylim = c(0, 1), \dots)
+  \method{plotMultOut}{sobol}(x, ylim = c(0, 1), \dots)
 \method{ggplot}{sobol}(x, ylim = c(0, 1), \dots)
 }
 
