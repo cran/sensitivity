@@ -1,6 +1,6 @@
-4dfc548f77fc35237610fa47ded92237 *DESCRIPTION
+8435703d445d20591d95031a188a8828 *DESCRIPTION
 009b533e043eb94bec6701d670fbeb54 *NAMESPACE
-b4afd8a472479a4c432e3cf380ff4d99 *NEWS
+57449ed8a6a138cabb66723eeeb28ed0 *NEWS
 2614c0aff379c8436ebdb31061d8447e *R/PLI.R
 fd084b77ce8272b313a162abe7a57f43 *R/PLIquantile.r
 e9a8826f1ec1ddbe9da58111c8a42114 *R/PLIquantile_multivar.r
@@ -26,7 +26,7 @@ ab6a859d593dc238134887fef12bed25 *R/nodeggplot.R
 d85f3d1559a47cea036bce477557650e *R/pcc.R
 bf43d459d1c5a097399bad5dd2a20fd5 *R/sb.R
 b73edd56ef7f0977e2621b5216d359ac *R/sensiFdiv.R
-5dc9404d876e61366159615c0fa48bf3 *R/sensiHSIC.R
+2e66b6dd6ebd061ee342e97c194653be *R/sensiHSIC.R
 76db0e3159a12e4a4d88824b74897591 *R/shapleyBlockEstimation.R
 3e58b0fbfcf7a4809adad2896dc31680 *R/shapleyLinearGaussian.R
 195aaa56b9b5d40caa3af052d2f16e43 *R/shapleyPermEx.R
@@ -84,9 +84,9 @@ b46db7a0fe99ab5a551a3840573a61f2 *man/parameterSets.Rd
 2033bced410d84accf8a8e537f502978 *man/plot.support.Rd
 bd467cd43c0d5394e94a48dbbdc87c1e *man/sb.Rd
 f58a354d48f6d0700ac051b61b04e403 *man/sensiFdiv.Rd
-eafd1fcce1a2d5f9b771105ba69707d1 *man/sensiHSIC.Rd
+8a4b868a90cda7d4602578ebc768fad0 *man/sensiHSIC.Rd
 444cfb4cb743fef2888e45e7f8df7ef4 *man/sensitivity-package.Rd
-76baf0007d86336d88b32b372127fa67 *man/shapleyBlockEstimation.Rd
+d394ed35ed5a030e0da63105d2373b54 *man/shapleyBlockEstimation.Rd
 c35513e1582e8b70820972f31bd2c526 *man/shapleyLinearGaussian.Rd
 2bc1157a3e943fbcee922f2957a97b86 *man/shapleyPermEx.Rd
 e5e248748f7912e29b74715feda6429a *man/shapleyPermRand.Rd
@@ -131,4 +131,4 @@ cbb36890716b0f4c1de80fd353c42b3a *src/LG_estimatornew.cpp
 f462923a2e7010ace59b1a348802cc02 *src/RcppExports.cpp
 3660ff9e9a8d05eb42113541cc375d0e *src/compar_array.cpp
 ed47015d18d6aa50cdd1bb15fb953bac *src/maximin_cplus.cpp
-87a5c97d1d1c26673bc889f03253153b *src/nested.cpp
+e931dc6990ac3b9543a2f09568d81944 *src/nested.cpp

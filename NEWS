@@ -1,4 +1,12 @@
 
+Changes in version 1.22.1:
+
+  o Correction in sensiHSIC.R with test.method = "No" in order to
+  not perform the statistical tests
+  o Correction in nested.cpp
+
+  o Change of colors in shapleyBlockEstimation.Rd
+  
 Changes in version 1.22.0:
 
   o New function shapleyBlockEstimation()

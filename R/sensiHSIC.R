@@ -29,7 +29,7 @@ categ_hsic <- function(x,param,d=NULL){
       d <- matrix(0,n,n)
       val <- unique(x)
       n.val <- length(val)
-      for (i in 1:n.val){
+      for(i in 1:n.val){
         id <- which(x==val[i])
         d[id,id] <- 1/sum(x==val[i])
       }
@@ -128,9 +128,8 @@ HSIC <- function(X, Y, kernelX, paramX, kernelY, paramY, estimator.type = "V-sta
   d <- ncol(X)     #number of scalar inputs
   HSICXY <- rep(0,d)
   HSICXX <- rep(0,d)
-  
+
   q <- ncol(as.matrix(Y))     #number of scalar outputs
-  
   KY <- 1
   for (i in 1:q){
     KY <- KY * do.call(get(paste(kernelY,"_hsic",sep="")), list(x=Y[,i,drop=FALSE],param=paramY[i]))
@@ -290,14 +289,13 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
                       estimator.type = "V-stat", test.method = "Asymptotic", B = 5000,
                       crit.option = list(stop.criterion = "screening", alpha = 0.05, Bstart = 100,
                                          Bfinal = 5000, Bbatch = 100, lo = 200, graph = TRUE), expl.var.PCA = NULL, ...) {
-  
   if(!(estimator.type == "V-stat" | estimator.type == "U-stat")){
     estimator.type = "V-stat"
     warning("estimator.type must be V-stat or U-stat. By default V-stat has been performed")
   }
-  if(!(test.method == "Asymptotic" | test.method == "Permutation" | test.method == "Seq_Permutation")){
+  if(!(test.method == "Asymptotic" | test.method == "Permutation" | test.method == "Seq_Permutation" | test.method == "No")){
     test.method = "Permutation"
-    warning("test.method must be Asymptotic, Permutation or Seq_Permutation. By default Permutation has been performed")
+    warning("test.method must be Asymptotic, Permutation, Seq_Permutation or No. By default Permutation has been performed")
   }
   if(!is.null(cond) && (test.method == "Asymptotic")){
     warning("Asymptotic test is not yet implemented. By default Permutation has been performed.")
@@ -307,7 +305,6 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
     warning("A more appropriate kernel should be used for binary output. By default, categorical kernel has been applied.")
     kernelY = "categ"
   }
-
   if(is.null(crit.option$stop.criterion)) crit.option$stop.criterion <- "screening"
   if(is.null(crit.option$alpha)) crit.option$alpha <- 0.05
   if(is.null(crit.option$Bstart)) crit.option$Bstart <- 100
@@ -338,7 +335,14 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
   if(test.method == "Asymptotic"){
     x <- list(model = model, X = X, target = target, cond = cond, kernelX = kernelX, paramX = paramX,
               kernelY = kernelY, paramY = paramY, nboot = nboot,
-              conf = conf, estimator.type = estimator.type, test.method = test.method ,expl.var.PCA = expl.var.PCA, call = match.call())
+              conf = conf, estimator.type = estimator.type, test.method = test.method ,
+              expl.var.PCA = expl.var.PCA, call = match.call())
+  }
+  else if(test.method == "No"){
+    x <- list(model = model, X = X, target = target, cond = cond, kernelX = kernelX, paramX = paramX,
+              kernelY = kernelY, paramY = paramY, nboot = nboot,
+              conf = conf, estimator.type = estimator.type, test.method = test.method ,
+              expl.var.PCA = expl.var.PCA, call = match.call())
   }
   else if(test.method == "Seq_Permutation"){
     x <- list(model = model, X = X, target = target, cond = cond, kernelX = kernelX, paramX = paramX,
@@ -349,7 +353,8 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
   else{
     x <- list(model = model, X = X, target = target, cond = cond, kernelX = kernelX, paramX = paramX,
               kernelY = kernelY, paramY = paramY, nboot = nboot,
-              conf = conf, estimator.type = estimator.type, test.method = test.method, B = B, expl.var.PCA = expl.var.PCA, call = match.call())
+              conf = conf, estimator.type = estimator.type, test.method = test.method,
+              B = B, expl.var.PCA = expl.var.PCA, call = match.call())
   }
   class(x) <- "sensiHSIC"
 
@@ -390,7 +395,6 @@ estim.sensiHSIC <- function(data, i=1:nrow(data), cond, kernelX, paramX,
   for (i in 1:p){
     Xtemp <- as.matrix(X[,i])
     Ytemp <- as.matrix(Y)
-
     if(is.null(cond))
       res <- HSIC(Xtemp, Ytemp, kernelX[i], paramX[i], kernelY, paramY, estimator.type = estimator.type)
     else
@@ -414,8 +418,8 @@ estim.sensiHSIC.pvalue <- function(data, kernelX, paramX,
   PP <- NULL
   if(p==1 && test.method == "Seq_Permutation"){
     if(crit.option$stop.criterion == "ranking" | crit.option$stop.criterion == "both"){
-    crit.option$stop.criterion = "screening"
-    warning("Only screening can be used in the case of univariate input variable. By default screening has been performed")
+      crit.option$stop.criterion = "screening"
+      warning("Only screening can be used in the case of univariate input variable. By default screening has been performed")
     }
   }
 
@@ -674,7 +678,7 @@ estim.sensiCHSIC.pvalue <- function(data, cond, kernelX, paramX,
             print(all(as.numeric(pvalue_screening[1,(dim(pvalue_screening)[2]- crit.option$lo):dim(pvalue_screening)[2]]) == rep(1,crit.option$lo+1)))
             print(all(as.numeric(pvalue_screening[1,(dim(pvalue_screening)[2]- crit.option$lo):dim(pvalue_screening)[2]]) == rep(0,crit.option$lo+1)))
             if(all(as.numeric(pvalue_screening[1,(dim(pvalue_screening)[2]- crit.option$lo):dim(pvalue_screening)[2]]) == rep(1,crit.option$lo+1)) |
-              all(as.numeric(pvalue_screening[1,(dim(pvalue_screening)[2]- crit.option$lo):dim(pvalue_screening)[2]]) == rep(0,crit.option$lo+1))) break
+               all(as.numeric(pvalue_screening[1,(dim(pvalue_screening)[2]- crit.option$lo):dim(pvalue_screening)[2]]) == rep(0,crit.option$lo+1))) break
           }
         }
         P[i] <- pvalue_sequence[length(pvalue_sequence)]
@@ -696,13 +700,13 @@ estim.sensiCHSIC.pvalue <- function(data, cond, kernelX, paramX,
 # ----------------------------------------------------------------------------------------------
 # Two elementary functions to access to each output of estim.sensiHSIC function (required to compute the confidence interval with bootstrap)
 estim.sensiHSIC.S <- function(data,i=1:nrow(data), cond, kernelX, paramX,
-                              kernelY, paramY, estimator.type) {
+                              kernelY, paramY, estimator.type, q) {
   res = estim.sensiHSIC(data=data, i= i, cond, kernelX, paramX,kernelY, paramY,estimator.type = estimator.type, q = q)$S
   return(res)
 }
 
 estim.sensiHSIC.HSICXY <- function(data, i=1:nrow(data), cond, kernelX, paramX,
-                                   kernelY, paramY, estimator.type) {
+                                   kernelY, paramY, estimator.type, q) {
   res = estim.sensiHSIC(data=data, i= i, cond, kernelX, paramX,kernelY, paramY,estimator.type = estimator.type, q = q)$HSICXY
   return(res)
 }
@@ -730,14 +734,14 @@ tell.sensiHSIC <- function(x, y = NULL, ...) {
   }
   n <- nrow(x$X)
   p <- ncol(x$X)
-  
+
   if (is.null(dim(x$y))){
     x$y <- matrix(x$y,ncol=1)
   }else{
     x$y <- as.matrix(unname(x$y))
   }
   q <- ncol(x$y)
-  
+
   if (q>1 & any(x$kernelY=="categ")){
     stop("Cannot use a categorical kernel with multiple outputs yet")
   }
@@ -758,7 +762,7 @@ tell.sensiHSIC <- function(x, y = NULL, ...) {
   }else{
     if (length(x$paramX)==1) x$paramX <- rep(x$paramX,p)
   }
-  
+
   if (q>1){ # Multiple outputs
     if (!is.null(x$expl.var.PCA)){ # We use a PCA transform on the outputs
       # First remove constant outputs, if any
@@ -806,7 +810,6 @@ tell.sensiHSIC <- function(x, y = NULL, ...) {
       }
     }
   }
-  
 
   data <- cbind(x$X,x$y)
 
@@ -832,16 +835,19 @@ tell.sensiHSIC <- function(x, y = NULL, ...) {
 
   # Computation of pvalue from independence tests with H0 : independence hypothesis
 
-  if(is.null(x$cond)){
-    res <- estim.sensiHSIC.pvalue(data, x$kernelX, x$paramX, x$kernelY, x$paramY,
-                                  estimator.type = x$estimator.type,test.method = x$test.method,
-                                  B = x$B, crit.option = x$crit.option, q = q)
+  if(x$test.method != "No"){
+    if(is.null(x$cond)){
+      res <- estim.sensiHSIC.pvalue(data, x$kernelX, x$paramX, x$kernelY, x$paramY,
+                                    estimator.type = x$estimator.type,test.method = x$test.method,
+                                    B = x$B, crit.option = x$crit.option, q = q)
+    }
+    else{
+      res <- estim.sensiCHSIC.pvalue(data, x$cond, x$kernelX, x$paramX, x$kernelY, x$paramY,
+                                     estimator.type = x$estimator.type,test.method = x$test.method,
+                                     B = x$B, crit.option = x$crit.option)
+    }
   }
-  else{
-    res <- estim.sensiCHSIC.pvalue(data, x$cond, x$kernelX, x$paramX, x$kernelY, x$paramY,
-                                   estimator.type = x$estimator.type,test.method = x$test.method,
-                                   B = x$B, crit.option = x$crit.option)
-  }
+
 
   if(x$test.method == "Seq_Permutation"){
     x$Pvalue <- data.frame((res$P))
@@ -856,6 +862,11 @@ tell.sensiHSIC <- function(x, y = NULL, ...) {
   if(x$test.method == "Seq_Permutation" && x$crit.option$graph == TRUE)
     matplot(t(x$SeqPvalue),type='l',xlab="Number of permutations",
             ylab="The Pvalues",main="Sequential Estimation of the Pvalues",ylim=c(0,1))
+  if(x$test.method == "No"){
+    rownames <- paste("X",1:p,sep="")
+    rownames(x$S) <- rownames(x$HSICXY) <- rownames
+    assign(id, x, parent.frame())
+  }
   else{
     x$Pvalue <- data.frame(res$P)
     colnames(x$Pvalue) <- "original"
@@ -949,7 +960,7 @@ asymp_test_HSIC <- function(X, Y, kernelX = "rbf", paramX = sd(X), kernelY = "rb
   pval <- rep(0,d) #The vector of pvalues to be calculated by this function
 
   H <- diag(n)-matrix(1/n,n,n) #Useful matrix from [Gretton2008] to estimate the shape and scale of the Gamma distribution
-  
+
   q <- ncol(as.matrix(Y))     #number of scalar outputs
   KY <- 1
   for (i in 1:q){

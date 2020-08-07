@@ -22,7 +22,8 @@ IntegerVector nested_permu_cplus(IntegerVector layers){
   IntegerVector res(n, 0);
   
   std::partial_sum(layers.begin(), layers.end(), m.begin()+1, std::multiplies<int>());
-  std::transform(m.begin()+1, m.end(), t.begin(),std::bind1st(std::divides<int>(), n));
+  //std::transform(m.begin()+1, m.end(), t.begin(),std::bind1st(std::divides<int>(), n));
+  std::transform(m.begin()+1, m.end(), t.begin(),std::bind(std::divides<int>(), n, std::placeholders::_1));
   
   for (int i=0;i<u;i++){
     
@@ -30,7 +31,7 @@ IntegerVector nested_permu_cplus(IntegerVector layers){
     IntegerVector C(m(i), 0);
     IntegerVector perm(m(i+1)-m(i), 0);
     IntegerVector v = Rcpp::seq(1, m(i+1));
-    std::transform(res.begin(), res.begin()+m(i), C.begin(), std::bind(ceil_of_div,std::placeholders::_1,t(i)));
+    std::transform(res.begin(), res.begin()+m(i), C.begin(), std::bind(ceil_of_div, std::placeholders::_1, t(i)));
     std::sort(C.begin(),C.end());
     std::set_difference(v.begin(), v.end(), C.begin(), C.end(), std::inserter(diff, diff.begin()));
     perm = RcppArmadillo::sample(diff, m(i+1)-m(i), false, NumericVector::create());

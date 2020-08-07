@@ -45,7 +45,7 @@ shapleyBlockEstimationX(X, Y, delta=NULL, M=20, tol=10^(-6))
 }
 
 \references{
-   B. Broto, F. Bachoc, and J-M Martinez, 2020.\emph{Block-diagonal covariance estimation
+   B. Broto, F. Bachoc, L. Clouvel and J-M Martinez, 2020.\emph{Block-diagonal covariance estimation
    and application to the Shapley effects in sensitivity analysis}. arXiv preprint arXiv:1907.12780.
 
    B. Broto, F. Bachoc, M. Depecker, and J-M. Martinez, 2019, \emph{Sensitivity indices
@@ -73,6 +73,7 @@ Baptiste Broto, CEA LIST
 # packages for the plots of the matrices
 library(ggplot2)
 library(graphics)
+library(gplots)
 
 
 # the following function improves the plots of the matrices
@@ -95,8 +96,7 @@ p=sum(pk)
 Sigma_ord=matrix(0,nrow=p, ncol=p)
 ind_min=0
 L=5
-for(k in 1:K)
-{
+for(k in 1:K){
   p_k=pk[k]
   ind=ind_min+(1:p_k)
   ind_min=ind_min+p_k
@@ -106,7 +106,7 @@ for(k in 1:K)
 }
 
 
-image((0:p)+0.5,(0:p)+0.5,z=sig(Sigma_ord,1),col=rev(heat.colors(100)), zlim=c(0,1),
+image((0:p)+0.5,(0:p)+0.5,z=sig(Sigma_ord,1),col=rev(redblue(100)), zlim=c(0,1),
       ylim=c(p+0.5,0.5), main=expression(Sigma["order"]), cex.main=3,ylab = "", 
       xlab = "",axes=FALSE)
 box()
@@ -122,7 +122,7 @@ barplot(eta_ord,main=expression(eta["order"]),cex.axis = 2,cex.main=3)
 samp=sample(1:p)
 Sigma=Sigma_ord[samp,samp]
 
-image((0:p)+0.5,(0:p)+0.5,z=sig(Sigma,1),col=rev(heat.colors(100)), zlim=c(0,1),
+image((0:p)+0.5,(0:p)+0.5,z=sig(Sigma,1),col=rev(redblue(100)), zlim=c(0,1),
       ylim=c(p+0.5,0.5), main=expression(Sigma), cex.main=3,ylab = "",xlab = "",axes=FALSE)
 box()
 
@@ -144,7 +144,7 @@ X0=matrix(rnorm(p*n),ncol=p)
 X=X0\%*\%C
 
 S=var(X) #empirical covariance matrix
-image((0:p)+0.5,(0:p)+0.5,z=sig(S,1),col=rev(heat.colors(100)), zlim=c(0,1),
+image((0:p)+0.5,(0:p)+0.5,z=sig(S,1),col=rev(redblue(100)), zlim=c(0,1),
       ylim=c(p+0.5,0.5), main=expression(S), cex.main=3,ylab = "", xlab = "",
       axes=FALSE)
 box()
@@ -162,7 +162,7 @@ Estim=shapleyBlockEstimationX(X,Y,delta=3/4, M=15, tol=10^(-6))
 eta_hat=Estim$Shapley
 S_B=Estim$S_B
 
-image((0:p)+0.5,(0:p)+0.5,z=sig(S_B,1),col=rev(heat.colors(100)), zlim=c(0,1),
+image((0:p)+0.5,(0:p)+0.5,z=sig(S_B,1),col=rev(redblue(100)), zlim=c(0,1),
       ylim=c(p+0.5,0.5), main=expression(S[hat(B)]), cex.main=3,ylab = "",
       xlab = "",axes=FALSE)
 box()
