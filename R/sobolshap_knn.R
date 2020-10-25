@@ -1,4 +1,3 @@
-
 meanknn <- function(Y,id.sort,n.knn){
   # Estimation of E(Var(Y|Xu))/Var(Y)
   q <- ncol(Y)
@@ -17,7 +16,7 @@ rescale_inputs <- function(X){
 }
 
 sobolshap_knn <- function(model = NULL, X, id.cat=NULL, U=NULL, method="knn", n.knn=2,
-                          return.shap=FALSE, rescale=FALSE, n.limit=2000, noise=FALSE, ...) {
+                          return.shap=FALSE, randperm=FALSE, n.perm=1e4, rescale=FALSE, n.limit=2000, noise=FALSE, ...) {
   
   if (!is.null(U) & return.shap){
     # return.shap can only be true if U is null (i.e. we generate all combinations)
@@ -40,7 +39,7 @@ sobolshap_knn <- function(model = NULL, X, id.cat=NULL, U=NULL, method="knn", n.
   }
   
   x <- list(model = model, X = X, id.cat=id.cat, U=U, method=method, n.knn=n.knn,
-            return.shap=return.shap, rescale=rescale, n.limit=n.limit, noise=noise, call = match.call()) 
+            return.shap=return.shap, randperm=randperm, n.perm=n.perm, rescale=rescale, n.limit=n.limit, noise=noise, call = match.call()) 
   class(x) <- "sobolshap_knn"
   
   #calcul of the response for explicit model
@@ -52,7 +51,7 @@ sobolshap_knn <- function(model = NULL, X, id.cat=NULL, U=NULL, method="knn", n.
 }
 
 estim.sobolshap_knn <- function(data, i=1:nrow(data), q, id.cat,U,method,n.knn,
-                                return.shap,rescale,n.limit,noise){
+                                return.shap,randperm,n.perm,rescale,n.limit,noise){
   
   ptot <- ncol(data)
   p <- ptot - q
@@ -95,9 +94,26 @@ estim.sobolshap_knn <- function(data, i=1:nrow(data), q, id.cat,U,method,n.knn,
   # order will be NULL unless the user asks for Sobol first-order (order=1) or total (order=0) indices 
   if (is.null(U)){
     order <- NULL
-    # We generate all possible subsets
-    U <- t(sapply(1:(2^p-2),function(x){as.numeric(intToBits(x)[1:p])}))
-    U <- rbind(U,rep(1,p))
+    if (!randperm){
+      # We generate all possible subsets
+      U <- t(sapply(1:(2^p-2),function(x){as.numeric(intToBits(x)[1:p])}))
+      U <- rbind(U,rep(1,p))
+    }else{
+      # We select the subset with random permutations
+      U <- NULL
+      perms <- matrix(NA,n.perm,p)
+      for (i in 1:n.perm){
+        perm <- sample.int(p,p)
+        Utemp <- t(sapply(1:p,function(id){
+          row <- rep(0,p)
+          row[perm[1:id]] <- 1
+          return(row)
+        }))
+        U <- rbind(U,Utemp)
+        perms[i,] <- perm
+      }
+      U <- unique(U) # We remove redundant subsets, if any
+    }
   }else{
     if (is.matrix(U)){
       # Only subsets of variables given by the user in U
@@ -167,25 +183,55 @@ estim.sobolshap_knn <- function(data, i=1:nrow(data), q, id.cat,U,method,n.knn,
   # Compute Shapley effects if asked, or Sobol first-order/total
   # --------------------------------------------------------------
   if (return.shap){
-    # Compute Shapley effects for each input variable by using all the subsets Sobol indices computed above
-    Su <- matrix(0,q,2^p)
-    Su[,2:2^p] <- S
-    if (!noise){
-      # Replace estimate of Var(E(Y|X1,...,Xp))/Var(Y) by 1
-      Su[,2^p] <- 1
+    if (!randperm){
+      # Compute Shapley effects for each input variable by using all the subsets Sobol indices computed above
+      Su <- matrix(0,q,2^p)
+      Su[,2:2^p] <- S
+      if (!noise){
+        # Replace estimate of Var(E(Y|X1,...,Xp))/Var(Y) by 1
+        Su[,2^p] <- 1
+      }
+      Uu <- rbind(rep(0,p),U)
+      Shap <- matrix(NA,q,p)
+      for (i in 1:p){
+        ids <- matrix(which(Uu[,i]==0)) # i is not in u
+        diffSu <- apply(ids,1,function(id){
+          U.id <- Uu[id,]
+          U.plus <- U.id
+          U.plus[i] <- 1 # u with i added
+          id.plus <- which(apply(Uu,1,function(x) all(x==U.plus)))
+          return((Su[,id.plus]-Su[,id])/choose(p-1,sum(U.id)))
+        })
+        Shap[,i]=apply(matrix(diffSu,nrow=q),1,sum)/p
+      }
     }
-    Uu <- rbind(rep(0,p),U)
-    Shap <- matrix(NA,q,p)
-    for (i in 1:p){
-      ids <- matrix(which(Uu[,i]==0)) # i is not in u
-      diffSu <- apply(ids,1,function(id){
-        U.id <- Uu[id,]
-        U.plus <- U.id
-        U.plus[i] <- 1 # u with i added
-        id.plus <- which(apply(Uu,1,function(x) all(x==U.plus)))
-        return((Su[,id.plus]-Su[,id])/choose(p-1,sum(U.id)))
-      })
-      Shap[,i]=apply(matrix(diffSu,nrow=q),1,sum)/p
+    else{
+      # Compute Shapley effects for each input variable by using the random permutation subsets
+      Su <- cbind(rep(0,q),matrix(S,nrow=q))
+      Uu <- rbind(rep(0,p),U)
+      if (!noise){
+        # Replace estimate of Var(E(Y|X1,...,Xp))/Var(Y) by 1
+        id.noise <- which(apply(Uu,1,function(x) all(x==matrix(1,1,p))))
+        Su[,id.noise] <- 1
+      }
+      Shap <- matrix(NA,q,p)
+      for (i in 1:p){
+        diffSu <- apply(perms,1,function(perm){
+          idi <- which(perm==i)
+          if (idi==1){
+            U.id <- rep(0,p)
+          }else{
+            U.id <- rep(0,p)
+            U.id[perm[1:(idi-1)]] <- 1
+          }
+          id.pi.perm <- which(apply(Uu,1,function(x) all(x==U.id)))
+          U.plus <- rep(0,p)
+          U.plus[perm[1:idi]] <- 1
+          id.plus <- which(apply(Uu,1,function(x) all(x==U.plus)))
+          return(Su[,id.plus]-Su[,id.pi.perm])
+        })
+        Shap[,i]=apply(matrix(diffSu,nrow=q),1,sum)/n.perm
+      }
     }
     return(list(U=U,S=S,Shap=Shap,order=order))
   }else{
@@ -229,7 +275,8 @@ tell.sobolshap_knn <- function(x, y = NULL, ...) {
   
   data <-cbind(x$X,x$y)
   res <- estim.sobolshap_knn(data, 1:n, q=q, id.cat=x$id.cat, U=x$U, method=x$method, n.knn=x$n.knn,
-                             return.shap=x$return.shap, rescale=x$rescale, n.limit=x$n.limit, noise=x$noise)
+                             return.shap=x$return.shap, randperm=x$randperm, n.perm=x$n.perm, rescale=x$rescale, 
+                             n.limit=x$n.limit, noise=x$noise)
   
   x$S <- matrix(res$S,nrow=q)
   if (!is.null(res$order)){
@@ -261,7 +308,7 @@ tell.sobolshap_knn <- function(x, y = NULL, ...) {
 
 extract.sobolshap_knn <- function(x, ...){
   
-  if (!x$return.shap){
+  if (!x$return.shap & !x$randperm){
     stop("Can only extract first-order and total indices if all combinations have been computed with return.shap=TRUE")
   }
   
@@ -383,7 +430,7 @@ ggplot.sobolshap_knn <- function(x, ylim = c(0, 1), type.multout="lines", ...) {
           hjust <- 1
         }
         p <- ncol(x$S)
-#        df <- cbind(reshape2::melt(as.data.frame(x$S),measure.vars = 1:p),output=rep(1:q,p))
+        #        df <- cbind(reshape2::melt(as.data.frame(x$S),measure.vars = 1:p),output=rep(1:q,p))
         output <- rep(1:q,p)
         df <- cbind(reshape2::melt(as.data.frame(x$S),measure.vars = 1:p),output)
         if (type.multout=="points"){
@@ -439,4 +486,3 @@ ggplot.sobolshap_knn <- function(x, ylim = c(0, 1), type.multout="lines", ...) {
     }
   }
 }
-

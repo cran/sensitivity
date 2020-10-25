@@ -18,10 +18,12 @@ kernels ensures equivalence between HSIC nullity and independence of X and Y. In
 case, a statistical test of independence with HSIC measure as statistic can be built.
 H0 is "X and Y are independent", against H1: X and Y are dependent. P-value can be
 computed either with asymptotic approximation (Gamma approximation), either with
-permutation method. See Meynaoui et al. (2019) for details. \code{sensiHSIC} can also be used to perform a Target Sensitivity Analysis (TSA). The basic idea of TSA is to measure the influence of the inputs on a critical domain of the model output, see Spagnol et al. (2019), Marrel and Chabridon (2020) for details.
-Aggregated HSIC indices can
-  be readily computed for multiple outputs, but for functional outputs a first PCA step
-  is possible and recommended, see Da Veiga (2015) for an illustration.
+permutation method. See Meynaoui et al. (2019) for details. \code{sensiHSIC} 
+can also be used to perform a Target Sensitivity Analysis (TSA). 
+The basic idea of TSA is to measure the influence of the inputs on a critical 
+domain of the model output, see Spagnol et al. (2019), Marrel and Chabridon (2020) for details.
+Aggregated HSIC indices can be readily computed for multiple outputs, but for 
+functional outputs a first PCA step is possible and recommended, see Da Veiga (2015) for an illustration.
 }
 
 \usage{
@@ -52,9 +54,9 @@ Aggregated HSIC indices can
   to be used for the input variables. If only one kernel is provided, it is used
   for all input variables. Available choices are "rbf" (Gaussian), "laplace"
   (exponential), "dcov" (distance covariance, see details), "raquad" (rationale
-  quadratic), "invmultiquad" (inverse multiquadratic), "linear" (Euclidean scalar
-  product), "matern3" (Matern 3/2), "matern5" (Matern 5/2), "ssanova1" (kernel of
-  Sobolev space of order 1) and "ssanova2" (kernel of Sobolev space of order 2)}
+  quadratic), "categ" (categorical kernel, "invmultiquad" (inverse multiquadratic), 
+  "linear" (Euclidean scalar product), "matern3" (Matern 3/2), "matern5" (Matern 5/2), 
+  "ssanova1" (kernel of Sobolev space of order 1) and "ssanova2" (kernel of Sobolev space of order 2)}
   \item{paramX}{a scalar or a vector of hyperparameters to be used in the input
   variable kernels. If only one scalar is provided, it is replicated for all input
   variables. By default \code{paramX} is equal to the standard deviation of the

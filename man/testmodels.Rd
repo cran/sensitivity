@@ -7,18 +7,23 @@
 \alias{campbell1D.fun}
 \alias{linkletter.fun}
 \alias{heterdisc.fun}
+\alias{friedman.fun}
 
 \title{Test Models for Sensitivity Analysis}
 
 \description{
   These functions are standard testcase for sensitivity analysis
-  benchmarks. For a scalar output (see Saltelli et al. 2000, section 2.9):
+  benchmarks. For a scalar output 
+  (see Saltelli et al. 2000 and https://www.sfu.ca/~ssurjano/):
   \itemize{
     \item the g-function of Sobol' with 8 inputs, X ~ U[0,1];
     \item the function  of Ishigami with 3 inputs, X ~ U[-pi,pi];
     \item the function of Morris with 20 inputs, X ~ U[0,1];
-    \item the Linkletter et al. (2006) decreasing coefficients function, X ~ U[0,1];
-    \item the heterdisc function with 4 inputs, X ~ U[0,20].
+    \item the Linkletter  decreasing coefficients function, X ~ U[0,1] 
+    (Linkletter et al. (2006));
+    \item the heterdisc function with 4 inputs, X ~ U[0,20];
+    \item the Friedman function with 5 inputs, X ~ U[0,1] 
+    (Friedman, 1991).
   }
   For functional output cases:
   \itemize{
@@ -36,13 +41,17 @@ morris.fun(X)
 atantemp.fun(X, q = 100)
 campbell1D.fun(X, theta = -90:90)
 linkletter.fun(X)
+heterdisc.fun(X)
+friedman.fun(X)
 }
 
 \arguments{
   \item{X}{a matrix (or \code{data.frame}) containing the input
     sample.}
-    \item{q}{for the atantemp() function: the number of discretization steps of the functional output}
-    \item{theta}{for the campbell1D() function: the discretization steps (angles in degrees)}
+    \item{q}{for the atantemp() function: 
+    the number of discretization steps of the functional output}
+    \item{theta}{for the campbell1D() function: 
+    the discretization steps (angles in degrees)}
 }
 
 \value{

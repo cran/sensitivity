@@ -34,7 +34,7 @@ export(dnorm.trunc,pnorm.trunc,qnorm.trunc,rnorm.trunc)
 export(dgumbel.trunc,pgumbel.trunc,qgumbel.trunc,rgumbel.trunc)
 
 export(sobol.fun, ishigami.fun, morris.fun, atantemp.fun, campbell1D.fun, 
-       linkletter.fun, heterdisc.fun)
+       linkletter.fun, heterdisc.fun, friedman.fun)
 
 export(squaredIntEstim, PoincareChaosSqCoef)
 

@@ -104,7 +104,7 @@
 (maintainer: Bertrand Iooss \email{biooss@yahoo.fr})}
 
 \references{
-S. Da Veiga, F. Gamboa, B. Iooss and C. Prieur, \emph{Basics and trends in sensitivity analysis, Theory and practice in R}, Book in preparation
+S. Da Veiga, F. Gamboa, B. Iooss and C. Prieur, \emph{Basics and trends in sensitivity analysis, Theory and practice in R}, SIAM, In press, 2020
 
 R. Faivre, B. Iooss, S. Mahevas, D. Makowski, H. Monod, editors, 2013, \emph{Analyse de sensibilite et exploration de modeles. Applications aux modeles environnementaux}, Editions Quae.
 

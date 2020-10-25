@@ -136,14 +136,31 @@ linkletter.fun <- function(X){
 
 
 ##################################################################
-# fonction heterdisc - d=4 sur U[0,20]
-heterdisc.fun <- function(x){
-  y <- rep(0,dim(x)[1])
-  for (i in 1:dim(x)[1]){
-    if (x[i,1] < 10) y[i] <- sin(pi*x[i,1]/5)+0.2*cos(4*pi*x[i,1]/5)+ 0.01*(x[i,2]-10)*x[i,3]
-    else y[i] <- 0.01*(x[i,2]-10)*x[i,3]+0.1*(x[i,4]-20)
+# heterdisc function - d=4 on U[0,20]
+heterdisc.fun <- function(X){
+  y <- rep(0,dim(X)[1])
+  for (i in 1:dim(X)[1]){
+    if (X[i,1] < 10) y[i] <- sin(pi*X[i,1]/5)+0.2*cos(4*pi*X[i,1]/5)+ 0.01*(X[i,2]-10)*X[i,3]
+    else y[i] <- 0.01*(X[i,2]-10)*X[i,3]+0.1*(X[i,4]-20)
   }
-  y
+  return(y)
+}
+
+
+##################################################################
+# Friedman function - d=5 (or more if we want dummy variables) on U[0,1]
+# Friedman, J. H. (1991). Multivariate adaptive regression splines. 
+# The Annals of Statistics, 19(1), 1-67.
+
+friedman.fun <- function(X){
+  
+  t1 <- 10 * sin(pi*X[,1]*X[,2])
+  t2 <- 20 * (X[,3]-0.5)^2
+  t3 <- 10*X[,4]
+  t4 <- 5*X[,5]
+  
+  y <- t1 + t2 + t3 + t4
+  return(y)
 }
 
 ##################################################################

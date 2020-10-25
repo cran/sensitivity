@@ -9,18 +9,21 @@
 \title{Flexible sensitivity analysis via ranking / nearest neighbours}
 
 \description{\code{sobolshap_knn} implements the estimation of several sensitivity indices using 
-only N model evaluations via ranking (following Gamboa et al. (2020) and Chatterjee (2019)) 
-or nearest neighbour search (Broto et al. (2020) and Azadkia & Chatterjee (2020)). 
-It can be used with categorical inputs (which are transformed with one-hot encoding), 
-dependent inputs and multiple outputs. Sensitivity indices of any group of inputs can be computed,
-which means that in particular first-order/total Sobol indices and Shapley effects are accessible. 
-For large sample sizes, the nearest neightbour algorithm can be significantly accelerated 
-by using approximate nearest neighbour search.
+  only N model evaluations via ranking (following Gamboa et al. (2020) and Chatterjee (2019)) 
+  or nearest neighbour search (Broto et al. (2020) and Azadkia & Chatterjee (2020)). 
+  It can be used with categorical inputs (which are transformed with one-hot encoding), 
+  dependent inputs and multiple outputs. Sensitivity indices of any group of inputs can be computed,
+  which means that in particular first-order/total Sobol indices and Shapley effects are accessible. 
+  For large sample sizes, the nearest neightbour algorithm can be significantly accelerated 
+  by using approximate nearest neighbour search. It is also possible to estimate Shapley effects 
+  with the random permutation approach of Castro et al.(2009), where all the terms are obtained 
+  with ranking of nearest neighbours.
 }
 
 \usage{
   sobolshap_knn(model = NULL, X, id.cat = NULL, U = NULL, method = "knn", n.knn = 2, 
-                return.shap = FALSE, rescale = FALSE, n.limit = 2000, noise = FALSE, \dots)
+                return.shap = FALSE, randperm = FALSE, n.perm = 1e4, 
+                rescale = FALSE, n.limit = 2000, noise = FALSE, \dots)
   \method{tell}{sobolshap_knn}(x, y = NULL, \dots)
   \method{extract}{sobolshap_knn}(x, \dots)
   \method{print}{sobolshap_knn}(x, \dots)
@@ -33,32 +36,35 @@ by using approximate nearest neighbour search.
   \item{X}{a random sample of the inputs.}
   \item{id.cat}{a vector with the indices of the categorical inputs.}
   \item{U}{an integer equal to 0 (total Sobol indices) or 1 (first-order Sobol indices) 
-  or a list of vector indices defining the subsets of inputs whose sensitivity indices 
-  must be computed or a matrix of 0s and 1s where each row encodes a subset of inputs 
-  whose sensitivity indices must be computed (see examples) or NULL (all possible subsets).}
+    or a list of vector indices defining the subsets of inputs whose sensitivity indices 
+    must be computed or a matrix of 0s and 1s where each row encodes a subset of inputs 
+    whose sensitivity indices must be computed (see examples) or NULL (all possible subsets).}
   \item{method}{the algorithm to be used for estimation, either "rank" or "knn", see details.}
-  \item{n.knn}{the number of nearest neighbours used for estimation if \code{method="rank"}.}
+  \item{n.knn}{the number of nearest neighbours used for estimation if \code{method="knn"}.}
   \item{return.shap}{a logical indicating if Shapley effects must be estimated, 
-  can only be TRUE if \code{U=NULL}.}
+    can only be TRUE if \code{U=NULL}.}
+  \item{randperm}{a logical indicating if random permutations are used to estimate Shapley effects, 
+    only if \code{U=NULL} and \code{return.shap=TRUE}.}
+  \item{n.perm}{the number of random permuations used for estimation if \code{randperm=TRUE}.}
   \item{rescale}{a logical indicating if continuous inputs must be rescaled before distance computations.
-  If TRUE, continuous inputs are first whitened with the ZCA-cor whitening procedure 
-  (cf. whiten() function in package \code{whitening}). If the inputs are independent, 
-  this first step will have a very limited impact. Then, the resulting whitened inputs 
-  are individually modified via a copula transform such that each input has the same scale.}
+    If TRUE, continuous inputs are first whitened with the ZCA-cor whitening procedure 
+    (cf. whiten() function in package \code{whitening}). If the inputs are independent, 
+    this first step will have a very limited impact. Then, the resulting whitened inputs 
+    are individually modified via a copula transform such that each input has the same scale.}
   \item{n.limit}{the sample size limit above which approximate nearest neighbour search is activated, 
-  only used if \code{method="rank"}.}
+    only used if \code{method="knn"}.}
   \item{noise}{a logical which is TRUE if the model or the output sample is noisy, see details.}
   \item{x}{a list of class \code{"sobolshap_knn"} storing the state of the sensitivity study 
-  (parameters, data, estimates).}
+    (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
   \item{ylim}{y-coordinate plotting limits.}
   \item{type.multout}{the plotting method in the case of multiple outputs, either "points" or "lines", 
-  see examples.}
+    see examples.}
   \item{\dots}{any other arguments for \code{model} which are passed unchanged each time it is called.}
 }
 
 \value{
-  \code{sobolshap_knn} returns a list of class \code{"sobolrank"}, containing all
+  \code{sobolshap_knn} returns a list of class \code{"sobolshap_knn"}, containing all
   the input arguments detailed before, plus the following components:
     
     \item{call}{the matched call.}
@@ -71,48 +77,60 @@ by using approximate nearest neighbour search.
 }
 
 \details{
-    For \code{method="rank"}, the estimator is defined in Gamboa et al. (2020) 
-    following Chatterjee (2019). For first-order indices it is based on an input ranking 
-    (same algorithm as in \code{sobolrank}) while for higher orders, 
-    it uses an approximate heuristic solution of the traveling salesman problem 
-    applied to the input sample distances (cf. TSP() function in package \code{TSP}).
-    For \code{method="knn"}, ranking and TSP are replaced by a nearest neighbour search 
-    as proposed in Broto et al. (2020) and in Azadkia & Chatterjee (2020) for a similar coefficient. 
-    The algorithm is the same as in \code{shapleySubsetMc} but with an optimized implementation. 
-    In particular, the distance used for subsets with mixed inputs (continuous and categorical) 
-    are the same but here the additional one-hot encoding of categorical variables makes it possible to
-    work only with Euclidean distances. Furthermore, a fast approximate nearest neighbour search is also
-    available, which is strongly recommended for large sample sizes. The main difference 
-    with \code{shapleySubsetMc} is that here we use the entire N sample to compute all indices, 
-    while in \code{shapleySubsetMc} the user can specify a total cost Ntot which performs 
-    a specific allocation of sample sizes to the estimation of each index. 
-    In addition, the \code{weights} option is not available here yet.
-    If the outputs are noisy, the argument \code{noise} can be used: it only has an impact on the
-    estimation of one specific sensitivity index, namely \eqn{Var(E(Y|X1,\ldots,Xp))/Var(Y)}. 
-    If there is no noise this index is equal to 1, while in the presence of noise it must be estimated.
-    The \code{extract} method is useful if in a first step the Shapley effects have been computed 
-    and thus sensitivity indices for all possible subsets are available. 
-    The resulting \code{sobolshap_knn} object can be post-treated by \code{extract} 
-    to get first-order and total Sobol indices very easily.
+  For \code{method="rank"}, the estimator is defined in Gamboa et al. (2020) 
+  following Chatterjee (2019). For first-order indices it is based on an input ranking 
+  (same algorithm as in \code{sobolrank}) while for higher orders, 
+  it uses an approximate heuristic solution of the traveling salesman problem 
+  applied to the input sample distances (cf. TSP() function in package \code{TSP}).
+  For \code{method="knn"}, ranking and TSP are replaced by a nearest neighbour search 
+  as proposed in Broto et al. (2020) and in Azadkia & Chatterjee (2020) for a similar coefficient. 
+  The algorithm is the same as in \code{shapleySubsetMc} but with an optimized implementation. 
+  In particular, the distance used for subsets with mixed inputs (continuous and categorical) 
+  are the same but here the additional one-hot encoding of categorical variables makes it possible to
+  work only with Euclidean distances. Furthermore, a fast approximate nearest neighbour search is also
+  available, which is strongly recommended for large sample sizes. The main difference 
+  with \code{shapleySubsetMc} is that here we use the entire N sample to compute all indices, 
+  while in \code{shapleySubsetMc} the user can specify a total cost Ntot which performs 
+  a specific allocation of sample sizes to the estimation of each index. 
+  In addition, the \code{weights} option is not available here yet.
+  If the outputs are noisy, the argument \code{noise} can be used: it only has an impact on the
+  estimation of one specific sensitivity index, namely \eqn{Var(E(Y|X1,\ldots,Xp))/Var(Y)}. 
+  If there is no noise this index is equal to 1, while in the presence of noise it must be estimated.
+  
+  When \code{randperm=TRUE}, Shapley effects are no longer estimated by computing all the possible 
+  subsets of variables but only on subsets obtained with random permutations as proposed in Castro et al.(2009).
+  This is useful for problems with a large number of inputs, since the number of subsets increases exponentially 
+  with dimension.
+  
+  The \code{extract} method is useful if in a first step the Shapley effects have been computed 
+  and thus sensitivity indices for all possible subsets are available. 
+  The resulting \code{sobolshap_knn} object can be post-treated by \code{extract} 
+  to get first-order and total Sobol indices very easily.
 }
 
 \references{
-    Azadkia M., Chatterjee S. (2019). A simple measure of conditional dependence. 
-    arXiv preprint arXiv:1910.12327.
-    Broto B., Bachoc F., Depecker M. (2020), Variance reduction for estimation of Shapley effects 
-    and adaptation to unknown input distribution, SIAM/ASA Journal of Uncertainty Quantification, 
-    8:693-716.
-    Chatterjee S. (2019). A new coefficient of correlation. arXiv preprint arXiv:1909.10140.
-    Gamboa F., Gremaud P., Klein T., Lagnoux A. (2020). Global Sensitivity Analysis: 
+  Azadkia M., Chatterjee S. (2019). A simple measure of conditional dependence. 
+  arXiv preprint arXiv:1910.12327.
+  
+  Broto B., Bachoc F., Depecker M. (2020), Variance reduction for estimation of Shapley effects 
+  and adaptation to unknown input distribution, SIAM/ASA Journal of Uncertainty Quantification, 
+  8:693-716.
+  
+  Castro J., Gomez D, Tejada J. (2009). Polynomial calculation of the Shapley value based on sampling. 
+  Computers & Operations Research, 36(5):1726-1730.
+  
+  Chatterjee S. (2019). A new coefficient of correlation. arXiv preprint arXiv:1909.10140.
+  
+  Gamboa F., Gremaud P., Klein T., Lagnoux A. (2020). Global Sensitivity Analysis: 
     a new generation of mighty estimators based on rank statistics. arXiv preprint arXiv:2003.01772.
 }
 
 \author{
-Sebastien Da Veiga
+  Sebastien Da Veiga
 }
 
 \seealso{
-    \code{\link{sobolrank}, \link{shapleySubsetMc}}
+  \code{\link{sobolrank}, \link{shapleySubsetMc}}
 }
 
 \examples{
@@ -175,5 +193,5 @@ Sebastien Da Veiga
     library(ggplot2)
     library(reshape2)
     ggplot(x, type.multout="lines")
-    }
+  }
 }

@@ -1,8 +1,21 @@
 
+Changes in version 1.22.2:
+
+  o Correction in PLIsuperquantile() for "bias=TRUE" & "type=VAR" case
+  
+  o New toy function in testmodels(): Friedman function
+  
+  o New argument 'varoutput' in delsa() in order to be able to
+  take the output variance as the empirical variance from the sample
+  
+  o New argument 'randperm' in sobolshap_knn() in order to use or not
+  random permutations to estimate Shapley effects
+  
 Changes in version 1.22.1:
 
   o Correction in sensiHSIC.R with test.method = "No" in order to
   not perform the statistical tests
+  
   o Correction in nested.cpp
 
   o Change of colors in shapleyBlockEstimation.Rd

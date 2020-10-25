@@ -43,6 +43,7 @@ delsa <- function(
   ##  and locations to evaluate sensitivity
   X0,
   varprior,
+  varoutput="summation",
   ## Additional arguments to model
   ...
 ){
@@ -68,11 +69,11 @@ delsa <- function(
   ## with base, and then perturbation on each parameter in turn
   X=rbind(X0,X)
     
-  x <- list(model = model, X0 = X0, X=X,varprior=varprior,call = match.call())
+  x <- list(model = model, X0 = X0, X=X,varprior=varprior,varoutput=varoutput,call = match.call())
   class(x)<-"delsa"
   if (!is.null(x$model)) {
     response(x, ...)
-    tell(x)
+    tell(x, varoutput = varoutput)
   }
   return(x)
 }
@@ -90,10 +91,13 @@ tell.delsa<-function(x,y=NULL,...){
   ## initialization
   Kpar=ncol(x$X0)
   Nsamp=nrow(x$X0)
-  vartot = rep(0,Nsamp)
   delsafirst=deriv=varfir=matrix(NA, ncol=Kpar,nrow=Nsamp)
   
   out <- as.numeric(x$y)
+  
+  vartoto <- 0
+  if (x$varoutput == "empirical") vartoto <- var(out[1:Nsamp]) # empirical ouput variance
+  vartot = rep(vartoto,Nsamp)
   
   for (rsamp in 1:Nsamp){    ##looping over parameter sets 
     
@@ -107,7 +111,7 @@ tell.delsa<-function(x,y=NULL,...){
       varfir[rsamp,jpar] =  (deriv[rsamp,jpar]**2)*(x$varprior[jpar])
       
       ## calculate local equation total variance (see eq. 12)
-      vartot[rsamp] = vartot[rsamp] + varfir[rsamp,jpar]
+      if (x$varoutput == "summation") vartot[rsamp] = vartot[rsamp] + varfir[rsamp,jpar]
       
       if (jpar==Kpar){
         ## first order Local first order sensitivity index (see eq. 13 in Rakovec et al 2014)  

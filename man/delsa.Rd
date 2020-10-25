@@ -18,7 +18,7 @@ the indices can be visualized.
 \usage{
 delsa(model = NULL, perturb=1.01,
   par.ranges, samples, method,
-  X0, varprior,
+  X0, varprior, varoutput,
   \dots)
   
 \method{tell}{delsa}(x, y = NULL,\dots)
@@ -34,13 +34,16 @@ delsa(model = NULL, perturb=1.01,
   \item{perturb}{Perturbation used to calculate sensitivity at each evaluation location}
   \item{par.ranges}{A named list of minimum and maximum parameter values}
   \item{samples}{Number of samples to generate. For the \code{"grid"} and
-\code{"innergrid"}method, corresponds to the number of samples for
+\code{"innergrid"} method, corresponds to the number of samples for
 each parameter, and may be a vector.}
   \item{method}{Sampling scheme. See \code{\link{parameterSets}}}
   \item{X0}{Parameter values at which to evaluate sensitivity indices. 
   Can be used instead of specifying sampling \code{method}}
   \item{varprior}{Prior variance. If \code{X0} is specified, \code{varprior} 
   must also be specified.}
+  \item{varoutput}{Output variance. If \code{"summation"} is specified, the ouput variance
+  is computed by summing the first order effects. If \code{"empirical"} is specified, 
+  the ouput variance is estimated frome the output sample.}
   \item{\dots}{any other arguments for \code{model} which are passed
     unchanged each time it is called.}
   \item{x}{a list of class \code{"delsa"} storing the state of the
@@ -69,7 +72,8 @@ in relation to model response, and (3) sensitivity in relation to parameter valu
 }
 \author{
 Conversion for \code{sensitivity} package by Joseph Guillaume, 
-based on original R code by Oldrich Rakovec
+based on original R code by Oldrich Rakovec.
+Addition of the \code{varoutput} argument by Bertrand Iooss (2020).
 }
 \references{
 Rakovec, O., M. C. Hill, M. P. Clark, A. H. Weerts, A. J. Teuling, R. Uijlenhoet (2014), 
