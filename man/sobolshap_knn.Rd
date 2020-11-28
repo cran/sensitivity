@@ -17,7 +17,7 @@
   For large sample sizes, the nearest neightbour algorithm can be significantly accelerated 
   by using approximate nearest neighbour search. It is also possible to estimate Shapley effects 
   with the random permutation approach of Castro et al.(2009), where all the terms are obtained 
-  with ranking of nearest neighbours.
+  with ranking or nearest neighbours.
 }
 
 \usage{

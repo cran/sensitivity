@@ -39,6 +39,11 @@ bootstats <- function(b, conf = 0.95, type = "norm") {
         out[i, "min. c.i."] <- ci$basic[4]
         out[i, "max. c.i."] <- ci$basic[5]
       }
+    } else if (type == "bias corrected") {
+      z0_hat <- qnorm(sum(b$t[,i]<=b$t0[i])/b$R)
+      modif_quantiles <- pnorm(2*z0_hat+qnorm(c((1-conf)/2,1-(1-conf)/2)))
+      out[i, "min. c.i."] <- quantile(b$t[,i],probs = modif_quantiles[1])
+      out[i, "max. c.i."] <- quantile(b$t[,i],probs = modif_quantiles[2])
     }
   }
   

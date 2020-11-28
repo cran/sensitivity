@@ -43,8 +43,8 @@ PLIsuperquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY"
   # conf is the required bootstrap confidence interval
   # bootsample defines if the sampling uncertainty is taken into account in computing the boostrap confidence intervals of the PLI
   # bias defines which type of PLI-superquantile is computed:
-  #   "TRUE" gives the mean of outputs above the perturbed quantile
-  #   "FALSE" gives the the mean of perturbed outputs above the perturbed quantile
+  #   "TRUE" gives the mean of outputs above the perturbed quantile (alternative formula)
+  #   "FALSE" gives the the mean of perturbed outputs above the perturbed quantile (original formula)
   
   #
   ###################################

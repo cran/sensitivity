@@ -25,7 +25,7 @@ categ_hsic <- function(x,param,d=NULL){
     if (param==0){
       d <- 1*sapply(x,function(z){z==x})
     }else{
-      n <- nrow(x)
+      n <- length(x)
       d <- matrix(0,n,n)
       val <- unique(x)
       n.val <- length(val)
@@ -123,64 +123,64 @@ HSIC <- function(X, Y, kernelX, paramX, kernelY, paramY, estimator.type = "V-sta
   # if estimator.type == "U-stat": unbiased estimator
   # The variance is of order o(1/n) for both estimators
   # For more details, see Meynaoui et al. (2019)
-
+  
   nobs <- nrow(X)  #sample size
   d <- ncol(X)     #number of scalar inputs
   HSICXY <- rep(0,d)
   HSICXX <- rep(0,d)
-
+  
   q <- ncol(as.matrix(Y))     #number of scalar outputs
   KY <- 1
   for (i in 1:q){
     KY <- KY * do.call(get(paste(kernelY,"_hsic",sep="")), list(x=Y[,i,drop=FALSE],param=paramY[i]))
   }
-
+  
   if(estimator.type == "V-stat"){
     UYY <- sum(KY*KY)
     VYY <- sum(colSums(KY)%*%KY)
     WYY <- sum(KY)*sum(KY)
     HSICYY <- UYY/nobs^2 - 2*VYY/nobs^3 + WYY/nobs^4
-
+    
     for (r in 1:d) {
       KX <- do.call(get(paste(kernelX,"_hsic",sep="")), list(x=X[,r],param=paramX))
       UXY <- sum(KX*KY)
       UXX <- sum(KX*KX)
-
+      
       VXY <- sum(colSums(KX)%*%KY)
       VXX <- sum(colSums(KX)%*%KX)
-
+      
       WXY <- sum(KX)*sum(KY)
       WXX <- sum(KX)*sum(KX)
-
+      
       HSICXY[r] <- UXY/nobs^2 - 2*VXY/nobs^3 + WXY/nobs^4
       HSICXX[r] <- UXX/nobs^2 - 2*VXX/nobs^3 + WXX/nobs^4
     }
   }
   if(estimator.type == "U-stat"){
-
+    
     diag(KY) <- 0 #Put all the Y-diag elements to zero
-
+    
     UYY <- sum(KY*KY)
     VYY <- sum(colSums(KY)%*%KY) - UYY
     WYY <- sum(KY)*sum(KY) - 2*UYY - 4*VYY
     HSICYY <- UYY/(nobs*(nobs-1)) - 2*VYY/(nobs*(nobs-1)*(nobs-2)) + WYY/(nobs*(nobs-1)*(nobs-2)*(nobs-3))
-
+    
     for (r in 1:d) {
       KX <- do.call(get(paste(kernelX,"_hsic",sep="")), list(x=X[,r],param=paramX))
       diag(KX) <- 0 #Put all the X-diag elements to zero
-
+      
       UXY <- sum(KX*KY)
       UXX <- sum(KX*KX)
-
+      
       VXY <- sum(colSums(KX)%*%KY) - UXY
       VXX <- sum(colSums(KX)%*%KX) - UXX
-
+      
       WXY <- sum(KX)*sum(KY) - 2*UXY - 4*VXY
       WXX <- sum(KX)*sum(KX) - 2*UXX - 4*VXX
-
+      
       HSICXY[r] <- UXY/(nobs*(nobs-1)) - 2*VXY/(nobs*(nobs-1)*(nobs-2)) + WXY/(nobs*(nobs-1)*(nobs-2)*(nobs-3))
       HSICXX[r] <- UXX/(nobs*(nobs-1)) - 2*VXX/(nobs*(nobs-1)*(nobs-2)) + WXX/(nobs*(nobs-1)*(nobs-2)*(nobs-3))
-
+      
     }
   }
   return(list(estimate=HSICXY,meanX=HSICXX,meanY=HSICYY))
@@ -192,7 +192,6 @@ CHSIC <- function(X, Y, cond, kernelX, paramX, kernelY, paramY, estimator.type =
   # Available estimator:
   # if estimator.type == "V-stat" (default value): biased (but asymptotically unbiased) estimator, more practical for numerical implementation
   # For more details, see Marrel (2020)
-
   trace <- function(data) sum(diag(data))
   nobs <- nrow(X)  #sample size
   d <- ncol(X)     #number of scalar inputs
@@ -203,9 +202,9 @@ CHSIC <- function(X, Y, cond, kernelX, paramX, kernelY, paramY, estimator.type =
     weights <- diag(weight/mean(weight))
   }
   KY <- do.call(get(paste(kernelY,"_hsic",sep="")), list(x=Y,param=paramY))
-
+  
   if(estimator.type == "V-stat"){
-
+    
     #H1 <- diag(nobs) - 1/nobs*(matrix(1,nobs,nobs)%*%weights)
     #H2 <- diag(nobs) - 1/nobs*(weights%*%matrix(1,nobs,nobs))
     #HSICYY <- trace(weights%*%KY%*%weights%*%H1%*%KY%*%H2)/(nobs^2)
@@ -216,16 +215,16 @@ CHSIC <- function(X, Y, cond, kernelX, paramX, kernelY, paramY, estimator.type =
     VYY <- sum((colSums(KY*w1)%*%(KY*W)))
     WYY <- sum(KY*W)*sum(KY*W)
     HSICYY <- UYY/nobs^2 - 2*VYY/nobs^3 + WYY/nobs^4
-
+    
     for (r in 1:d) {
       KX <- do.call(get(paste(kernelX,"_hsic",sep="")), list(x=X[,r],param=paramX))
-
+      
       #HSICXY[r] <- trace(weights%*%KX%*%weights%*%H1%*%KY%*%H2)/(nobs^2)
       UXY <- sum(KX*KY*W)
       VXY <- sum((colSums(KX*w1)%*%(KY*W)))
       WXY <- sum(KX*W)*sum(KY*W)
       HSICXY[r] <- UXY/nobs^2 - 2*VXY/nobs^3 + WXY/nobs^4
-
+      
       #HSICXX[r] <- trace(weights%*%KX%*%weights%*%H1%*%KX%*%H2)/(nobs^2)
       UXX <- sum(KX*KX*W)
       VXX <- sum((colSums(KX*w1)%*%(KX*W)))
@@ -242,7 +241,7 @@ CHSIC <- function(X, Y, cond, kernelX, paramX, kernelY, paramY, estimator.type =
     # VYY <- sum(colSums(KY*w1)%*%(KY*W)) - UYY
     # WYY <- sum(KY*W)*sum(KY*W) - 2*UYY - 4*VYY
     # HSICYY <- UYY/(nobs*(nobs-1)) + WYY/(nobs*(nobs-1)*(nobs-2)*(nobs-3)) - 2*VYY/(nobs*(nobs-1)*(nobs-2))
-
+    
     nobsQ <- length(which(weight!=0))
     ID <- which(weight!=0)
     KY_Q <- do.call(get(paste(kernelY = "rbf","_hsic",sep="")), list(x=Y[ID],param=paramY))
@@ -252,7 +251,7 @@ CHSIC <- function(X, Y, cond, kernelX, paramX, kernelY, paramY, estimator.type =
     WYY <- sum(KY_Q)*sum(KY_Q) - 2*UYY - 4*VYY
     HSICYY <- UYY/(nobsQ*(nobsQ-1)) - 2*VYY/(nobsQ*(nobsQ-1)*(nobsQ-2)) +
       WYY/(nobsQ*(nobsQ-1)*(nobsQ-2)*(nobsQ-3))
-
+    
     for (r in 1:d) {
       # KX <- do.call(get(paste(kernelX,"_hsic",sep="")), list(x=X[,r],param=paramX))
       # diag(KX) <- 0 #Put all the X-diag elements to zero
@@ -264,7 +263,7 @@ CHSIC <- function(X, Y, cond, kernelX, paramX, kernelY, paramY, estimator.type =
       # VXY <- sum(colSums(KX*w1)%*%(KY*W)) - UXY
       # WXY <- sum(KX*W)*sum(KY*W) - 2*UXY - 4*VXY
       # HSICXY[r] <- UXY/(nobs*(nobs-1)) + WXY/(nobs*(nobs-1)*(nobs-2)*(nobs-3)) - 2*VXY/(nobs*(nobs-1)*(nobs-2))
-
+      
       KX_Q <- do.call(get(paste(kernelX = "rbf","_hsic",sep="")), list(x=X[ID,r],param=paramX))
       diag(KX_Q) <- 0 #Put all the X-diag elements to zero
       UXY <- sum(KX_Q*KY_Q) #sum(KX*KY*W)
@@ -312,14 +311,13 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
   if(is.null(crit.option$Bbatch)) crit.option$Bbatch <- 100
   if(is.null(crit.option$lo)) crit.option$lo <- 200
   if(is.null(crit.option$graph)) crit.option$graph <- TRUE
-
-  if (is.data.frame(X)){
-    X <- as.matrix(unname(X))
+  
+  if (!(is.matrix(X))){
+    if (!is.data.frame(X)){
+      stop("The sample X must be a matrix or a data frame")
+    }
   }
-  else if(!is.matrix(X)){
-    stop("The sample X must be a matrix or a data frame")
-  }
-
+  
   p <- ncol(X)
   nkx <- length(kernelX)
   if (!(nkx == 1 | nkx == p)){
@@ -331,7 +329,7 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
       stop("paramX must be of length 1 or p (number of input variables)")
     }
   }
-
+  
   if(test.method == "Asymptotic"){
     x <- list(model = model, X = X, target = target, cond = cond, kernelX = kernelX, paramX = paramX,
               kernelY = kernelY, paramY = paramY, nboot = nboot,
@@ -357,7 +355,7 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
               B = B, expl.var.PCA = expl.var.PCA, call = match.call())
   }
   class(x) <- "sensiHSIC"
-
+  
   #calcul of the response for explicit model
   if (!is.null(x$model)) {
     response(x, ...)
@@ -399,7 +397,7 @@ estim.sensiHSIC <- function(data, i=1:nrow(data), cond, kernelX, paramX,
       res <- HSIC(Xtemp, Ytemp, kernelX[i], paramX[i], kernelY, paramY, estimator.type = estimator.type)
     else
       res <- CHSIC(Xtemp, Ytemp, cond, kernelX[i], paramX[i], kernelY, paramY, estimator.type = estimator.type)
-
+    
     HSICXY[i] <- res$estimate   # HSIC
     S[i] <- res$estimate/sqrt(res$meanX*res$meanY)  # R2 HSIC
   }
@@ -422,7 +420,7 @@ estim.sensiHSIC.pvalue <- function(data, kernelX, paramX,
       warning("Only screening can be used in the case of univariate input variable. By default screening has been performed")
     }
   }
-
+  
   if(test.method == "Permutation"){
     for (i in 1:p){
       Xtemp <- as.matrix(X[,i])
@@ -431,7 +429,7 @@ estim.sensiHSIC.pvalue <- function(data, kernelX, paramX,
                              estimator.type = estimator.type, B = B)$pval
     }
   }
-
+  
   else if(test.method == "Seq_Permutation"){
     Estimated.value <- NULL
     for(i in 1:p)
@@ -457,14 +455,14 @@ estim.sensiHSIC.pvalue <- function(data, kernelX, paramX,
     {
       B_seq <- seq(crit.option$Bstart+crit.option$Bbatch,crit.option$Bfinal,by=crit.option$Bbatch)
       seq_HSIC <- matrix(NA,nrow=p,ncol=crit.option$Bfinal)
-
+      
       for(i in 1:p){
         Xtemp <- as.matrix(X[,i])
         Ytemp <- as.matrix(Y)
         p_eq <- perm_test_HSIC(Xtemp, Ytemp, kernelX[i], paramX[i], kernelY, paramY,estimator.type = estimator.type, B = crit.option$Bstart)$hsic.perm[-(crit.option$Bstart+1)]
         seq_HSIC[i,1:length(p_eq)] <- p_eq
       }
-
+      
       for(k in 1:length(B_seq))
       {
         for(i in 1:p)
@@ -477,14 +475,14 @@ estim.sensiHSIC.pvalue <- function(data, kernelX, paramX,
         }
         pvalue_sequence <- matrix(NA,nrow=p,ncol=B_seq[k]-1)
         for(m in 1:(B_seq[k]-1)) for(i in 1:p) {val <- c(seq_HSIC[i,1:(m+1)],Estimated.value[i]) ;  pvalue_sequence[i,m] <- length(val[val > Estimated.value[i]])/length(val) }
-
+        
         pvalue_screening <- pvalue_sequence
         pvalue_screening[pvalue_screening <= crit.option$alpha] <- 0 ; pvalue_screening[pvalue_screening > crit.option$alpha] <- 1
-
+        
         if(crit.option$stop.criterion == "ranking")
           if(dim(pvalue_sequence)[2] >= crit.option$lo &&
              all(apply(apply(pvalue_sequence[,(dim(pvalue_sequence)[2]- crit.option$lo):dim(pvalue_sequence)[2]],2,rank,ties.method ="first"),1,diff) == 0) == TRUE) break
-
+        
         if(crit.option$stop.criterion == "both")
           if(dim(pvalue_sequence)[2] >= crit.option$lo &&
              all(apply(pvalue_screening[,(dim(pvalue_screening)[2]- crit.option$lo):dim(pvalue_screening)[2]],1,diff) == 0) == TRUE &&
@@ -498,14 +496,14 @@ estim.sensiHSIC.pvalue <- function(data, kernelX, paramX,
       B_seq <- seq(crit.option$Bstart+crit.option$Bbatch,crit.option$Bfinal,by=crit.option$Bbatch)
       seq_HSIC <- matrix(NA,nrow=p,ncol=crit.option$Bfinal)
       PP <- matrix(NA,nrow=p,ncol=crit.option$Bfinal)
-
+      
       for(i in 1:p){
         Xtemp <- as.matrix(X[,i])
         Ytemp <- as.matrix(Y)
         p_eq <- perm_test_HSIC(Xtemp, Ytemp, kernelX[i], paramX[i], kernelY, paramY,estimator.type = estimator.type, B = crit.option$Bstart)$hsic.perm[-(crit.option$Bstart+1)]
         seq_HSIC[i,1:length(p_eq)] <- p_eq
       }
-
+      
       for(i in 1:p)
       {
         seq_HSIC_1D <- matrix(seq_HSIC[i,],nrow=1)
@@ -517,14 +515,14 @@ estim.sensiHSIC.pvalue <- function(data, kernelX, paramX,
                                  estimator.type = estimator.type, B = crit.option$Bbatch)$hsic.perm[-(crit.option$Bbatch+1)]
           muet <- seq_HSIC_1D[1,]
           seq_HSIC_1D[1,1:length(c(muet[!is.na(muet)],p_eq))] <- c(muet[!is.na(muet)],p_eq)
-
+          
           pvalue_sequence <- matrix(NA,nrow=1,ncol=B_seq[k]-1)
           dim(pvalue_sequence)
           for(m in 1:(B_seq[k]-1)){
             val <- c(seq_HSIC_1D[1,1:(m+1)],Estimated.value[i])
             pvalue_sequence[1,m] <- length(val[val > Estimated.value[i]])/length(val)
           }
-
+          
           pvalue_screening <- matrix(pvalue_sequence,nrow=1)
           pvalue_screening[pvalue_screening <= 0.05] <- 0
           pvalue_screening[pvalue_screening > 0.05] <- 1
@@ -538,7 +536,7 @@ estim.sensiHSIC.pvalue <- function(data, kernelX, paramX,
       }
     }
   }
-
+  
   else{
     for (i in 1:p){
       Xtemp <- as.matrix(X[,i])
@@ -559,14 +557,14 @@ estim.sensiCHSIC.pvalue <- function(data, cond, kernelX, paramX,
   Y <- data[,ptot]
   P = matrix(0,nrow=p,ncol=1)
   PP <- NULL
-
+  
   if(p==1 && test.method == "Seq_Permutation"){
     if(crit.option$stop.criterion == "ranking" | crit.option$stop.criterion == "both"){
       crit.option$stop.criterion = "screening"
       warning("Only screening can be used in the case of univariate input variable. By default screening has been performed")
     }
   }
-
+  
   if(test.method == "Permutation"){
     for (i in 1:p){
       Xtemp <- as.matrix(X[,i])
@@ -575,13 +573,13 @@ estim.sensiCHSIC.pvalue <- function(data, cond, kernelX, paramX,
                               estimator.type = estimator.type, B = B)$pval
     }
   }
-
+  
   else if(test.method == "Seq_Permutation"){
     Estimated.value <- NULL
     for(i in 1:p)
       Estimated.value[i] <- CHSIC(as.matrix(X[,i]), as.matrix(Y), cond, kernelX[i], paramX[i], kernelY, paramY,
                                   estimator.type  = estimator.type)$estimate
-
+    
     if(!(crit.option$stop.criterion == "screening" | crit.option$stop.criterion == "ranking" | crit.option$stop.criterion == "both")){
       crit.option$stop.criterion = "screening"
       warning("Type of stop.criterion must be screening or ranking. By default screening has been performed")
@@ -602,14 +600,14 @@ estim.sensiCHSIC.pvalue <- function(data, cond, kernelX, paramX,
     {
       B_seq <- seq(crit.option$Bstart+crit.option$Bbatch,crit.option$Bfinal,by=crit.option$Bbatch)
       seq_HSIC <- matrix(NA,nrow=p,ncol=crit.option$Bfinal)
-
+      
       for(i in 1:p){
         Xtemp <- as.matrix(X[,i])
         Ytemp <- as.matrix(Y)
         p_eq <- perm_test_CHSIC(Xtemp, Ytemp, cond, kernelX[i], paramX[i], kernelY, paramY,estimator.type = estimator.type, B = crit.option$Bstart)$hsic.perm[-(crit.option$Bstart+1)]
         seq_HSIC[i,1:length(p_eq)] <- p_eq
       }
-
+      
       for(k in 1:length(B_seq))
       {
         for(i in 1:p)
@@ -622,14 +620,14 @@ estim.sensiCHSIC.pvalue <- function(data, cond, kernelX, paramX,
         }
         pvalue_sequence <- matrix(NA,nrow=p,ncol=B_seq[k]-1)
         for(m in 1:(B_seq[k]-1)) for(i in 1:p) {val <- c(seq_HSIC[i,1:(m+1)],Estimated.value[i]) ;  pvalue_sequence[i,m] <- length(val[val > Estimated.value[i]])/length(val) }
-
+        
         pvalue_screening <- pvalue_sequence
         pvalue_screening[pvalue_screening <= crit.option$alpha] <- 0 ; pvalue_screening[pvalue_screening > crit.option$alpha] <- 1
-
+        
         if(crit.option$stop.criterion == "ranking")
           if(dim(pvalue_sequence)[2] >= crit.option$lo &&
              all(apply(apply(pvalue_sequence[,(dim(pvalue_sequence)[2]- crit.option$lo):dim(pvalue_sequence)[2]],2,rank,ties.method ="first"),1,diff) == 0) == TRUE) break
-
+        
         if(crit.option$stop.criterion == "both")
           if(dim(pvalue_sequence)[2] >= crit.option$lo &&
              all(apply(pvalue_screening[,(dim(pvalue_screening)[2]- crit.option$lo):dim(pvalue_screening)[2]],1,diff) == 0) == TRUE &&
@@ -643,14 +641,14 @@ estim.sensiCHSIC.pvalue <- function(data, cond, kernelX, paramX,
       B_seq <- seq(crit.option$Bstart+crit.option$Bbatch,crit.option$Bfinal,by=crit.option$Bbatch)
       seq_HSIC <- matrix(NA,nrow=p,ncol=crit.option$Bfinal)
       PP <- matrix(NA,nrow=p,ncol=crit.option$Bfinal)
-
+      
       for(i in 1:p){
         Xtemp <- as.matrix(X[,i])
         Ytemp <- as.matrix(Y)
         p_eq <- perm_test_CHSIC(Xtemp, Ytemp, cond, kernelX[i], paramX[i], kernelY, paramY,estimator.type = estimator.type, B = crit.option$Bstart)$hsic.perm[-(crit.option$Bstart+1)]
         seq_HSIC[i,1:length(p_eq)] <- p_eq
       }
-
+      
       for(i in 1:p)
       {
         seq_HSIC_1D <- matrix(seq_HSIC[i,],nrow=1)
@@ -662,18 +660,18 @@ estim.sensiCHSIC.pvalue <- function(data, cond, kernelX, paramX,
                                   estimator.type = estimator.type, B = crit.option$Bbatch)$hsic.perm[-(crit.option$Bbatch+1)]
           muet <- seq_HSIC_1D[1,]
           seq_HSIC_1D[1,1:length(c(muet[!is.na(muet)],p_eq))] <- c(muet[!is.na(muet)],p_eq)
-
+          
           pvalue_sequence <- matrix(NA,nrow=1,ncol=B_seq[k]-1)
           dim(pvalue_sequence)
           for(m in 1:(B_seq[k]-1)){
             val <- c(seq_HSIC_1D[1,1:(m+1)],Estimated.value[i])
             pvalue_sequence[1,m] <- length(val[val > Estimated.value[i]])/length(val)
           }
-
+          
           pvalue_screening <- matrix(pvalue_sequence,nrow=1)
           pvalue_screening[pvalue_screening <= 0.05] <- 0
           pvalue_screening[pvalue_screening > 0.05] <- 1
-
+          
           if( dim(pvalue_screening)[2] >= crit.option$lo ){
             print(all(as.numeric(pvalue_screening[1,(dim(pvalue_screening)[2]- crit.option$lo):dim(pvalue_screening)[2]]) == rep(1,crit.option$lo+1)))
             print(all(as.numeric(pvalue_screening[1,(dim(pvalue_screening)[2]- crit.option$lo):dim(pvalue_screening)[2]]) == rep(0,crit.option$lo+1)))
@@ -686,7 +684,7 @@ estim.sensiCHSIC.pvalue <- function(data, cond, kernelX, paramX,
       }
     }
   }
-
+  
   else{
     for (i in 1:p){
       Xtemp <- as.matrix(X[,i])
@@ -734,52 +732,67 @@ tell.sensiHSIC <- function(x, y = NULL, ...) {
   }
   n <- nrow(x$X)
   p <- ncol(x$X)
-
+  
   if (is.null(dim(x$y))){
     x$y <- matrix(x$y,ncol=1)
   }else{
     x$y <- as.matrix(unname(x$y))
   }
   q <- ncol(x$y)
-
-  if (q>1 & any(x$kernelY=="categ")){
-    stop("Cannot use a categorical kernel with multiple outputs yet")
+  
+  if (!is.null(x$expl.var.PCA) & any(x$kernelY=="categ")){
+    stop("Cannot perform PCA with a categorical kernel")
   }
-
+  
+  if (q>1){
+    if (!is.null(x$cond)){
+      stop("Cannot perform CSA with multiple outputs")
+    }
+    if (!is.null(x$target)){
+      stop("Cannot perform TSA with multiple outputs")
+    }
+  }
+  
   nkx <- length(x$kernelX)
   if (nkx==1) x$kernelX <- rep(x$kernelX,p)
-
+  
   if (is.na(x$paramX[1])){
     x$paramX <- matrix(nrow=1,ncol=p)
     for (i in 1:p){
-      if (x$kernelX[i]=="dcov"){
-        x$paramX[i] = 1
-      }
-      else{
-        x$paramX[i] = sd(x$X[,i])
+      if (x$kernelX[i]=="categ"){
+        x$paramX[i] <- 0
+      }else{
+        if (x$kernelX[i]=="dcov"){
+          x$paramX[i] = 1
+        }else{
+          x$paramX[i] = sd(x$X[,i])
+        }
       }
     }
   }else{
     if (length(x$paramX)==1) x$paramX <- rep(x$paramX,p)
   }
-
-  if (q>1){ # Multiple outputs
-    if (!is.null(x$expl.var.PCA)){ # We use a PCA transform on the outputs
-      # First remove constant outputs, if any
-      id.cst <- apply(x$y,2,sd,na.rm=TRUE)==0
-      # Perform PCA
-      pca.res <- prcomp(x$y[,!id.cst], retx = TRUE, center = TRUE, scale. = TRUE)
-      # Keep components until explained variance is greater than expl.var.PCA
-      expl.var <- cumsum(pca.res$sdev^2)/sum(pca.res$sdev^2)
-      k.pca <- min(which(expl.var>x$expl.var.PCA))
-      x$y <- unname(pca.res$x[,1:k.pca])
-      q <- k.pca
-    }
-    nky <- length(x$kernelY)
-    if (nky==1) x$kernelY <- rep(x$kernelY,q)
-    if (is.na(x$paramY[1])){
-      x$paramY <- matrix(nrow=1,ncol=q)
-      for (i in 1:q){
+  
+  if (!is.null(x$expl.var.PCA)){ # We use a PCA transform on the outputs
+    # First remove constant outputs, if any
+    id.cst <- apply(x$y,2,sd,na.rm=TRUE)==0
+    # Perform PCA
+    pca.res <- prcomp(x$y[,!id.cst], retx = TRUE, center = TRUE, scale. = TRUE)
+    # Keep components until explained variance is greater than expl.var.PCA
+    expl.var <- cumsum(pca.res$sdev^2)/sum(pca.res$sdev^2)
+    k.pca <- min(which(expl.var>x$expl.var.PCA))
+    x$y <- unname(pca.res$x[,1:k.pca])
+    q <- k.pca
+  }
+  
+  nky <- length(x$kernelY)
+  if (nky==1) x$kernelY <- rep(x$kernelY,q)
+  if (is.na(x$paramY[1])){
+    x$paramY <- numeric(q)
+    for (i in 1:q){
+      if (x$kernelY[i]=="categ"){
+        x$paramY[i] <- 0
+      }else{
         if (x$kernelY[i]=="dcov"){
           x$paramY[i] = 1
         }
@@ -787,32 +800,16 @@ tell.sensiHSIC <- function(x, y = NULL, ...) {
           x$paramY[i] = sd(x$y[,i])
         }
       }
-    }else{
-      if (length(x$paramY)==1) x$paramY <- rep(x$paramY,q)
     }
   }else{
-    # Categorical kernel is treated differently
-    if (x$kernelY=="categ"){
-      y.val <- unique(x$y)
-      ny.val <- length(y.val)
-      if (is.na(x$paramY[1]) | x$paramY[1]=="normal"){
-        x$paramY <- 0
-      }else if (x$paramY[1]=="weighted"){
-        x$paramY <- 1
-      }else{
-        stop("paramY for categorical kernel is not equal to normal or weighted")
-      }
-    }else if (is.na(x$paramY[1])){
-      if (x$kernelY=="dcov"){
-        x$paramY = 1
-      }else{
-        x$paramY = sd(x$y)
-      }
-    }
+    if (length(x$paramY)==1) x$paramY <- rep(x$paramY,q)
   }
-
-  data <- cbind(x$X,x$y)
-
+  
+  # Encoding if some inputs or outputs are categorical
+  data.temp <- cbind(x$X,x$y)
+  data.temp <- as.data.frame(data.temp)
+  data <- unname(data.matrix(data.temp)) # data is now an unnamed numeric matrix with categorical values replaced by their internal code.
+  
   if (x$nboot == 0) {
     res <- estim.sensiHSIC(data, 1:n, cond = x$cond, kernelX = x$kernelX, paramX = x$paramX,
                            kernelY = x$kernelY, paramY =x$paramY, estimator.type = x$estimator.type, q = q)
@@ -832,9 +829,8 @@ tell.sensiHSIC <- function(x, y = NULL, ...) {
                         kernelY = x$kernelY, paramY = x$paramY, estimator.type = x$estimator.type, q = q, R = x$nboot)
     x$HSICXY <- bootstats(HSICXY.boot, x$conf, "basic")
   }
-
+  
   # Computation of pvalue from independence tests with H0 : independence hypothesis
-
   if(x$test.method != "No"){
     if(is.null(x$cond)){
       res <- estim.sensiHSIC.pvalue(data, x$kernelX, x$paramX, x$kernelY, x$paramY,
@@ -847,8 +843,8 @@ tell.sensiHSIC <- function(x, y = NULL, ...) {
                                      B = x$B, crit.option = x$crit.option)
     }
   }
-
-
+  
+  
   if(x$test.method == "Seq_Permutation"){
     x$Pvalue <- data.frame((res$P))
     len <- apply(res$Pseq,1,function(x) length(na.omit(x)))
@@ -878,7 +874,7 @@ tell.sensiHSIC <- function(x, y = NULL, ...) {
 }
 
 print.sensiHSIC<- function(x, ...) {
-
+  
   cat("\nCall:\n", deparse(x$call), "\n", sep = "")
   if (! is.null(x$y)) {
     cat("\nModel runs:", length(x$y), "\n")
@@ -899,7 +895,7 @@ print.sensiHSIC<- function(x, ...) {
 }
 
 plot.sensiHSIC <- function(x, ylim = c(0,1), ...) {
-
+  
   if (! is.null(x$y)) {
     nodeplot(x$S, ylim = ylim)
     legend(x = "topright", legend = "HSIC Sensitivity Indices")
@@ -907,7 +903,7 @@ plot.sensiHSIC <- function(x, ylim = c(0,1), ...) {
 }
 
 ggplot.sensiHSIC <- function(x, ylim = c(0,1), ...) {
-
+  
   if (! is.null(x$y)) {
     nodeggplot(list(x$S), xname = "HSIC Sensitivity indices", ylim = ylim)
   }
@@ -935,55 +931,55 @@ ggplot.sensiHSIC <- function(x, ylim = c(0,1), ...) {
 # estimator.type : the type of estimation, "V-stat" for V-statistics or "U-stat" for U-statistics, see HSIC function and Meynaoui et al. (2019) for details
 
 asymp_test_HSIC <- function(X, Y, kernelX = "rbf", paramX = sd(X), kernelY = "rbf", paramY = sd(Y), estimator.type  = "V-stat"){
-
+  
   if (is.data.frame(X) | is.vector(X)) {
     X <- as.matrix(unname(X))
   }
   else if (!is.matrix(X)) {
     stop("The sample X must be a vector or a matrix or a data frame")
   }
-
+  
   d <- ncol(X) #number of scalar inputs
   n <- nrow(X) #sample size
-
+  
   if (is.data.frame(Y) | is.vector(Y)) {
     Y <- as.matrix(unname(Y))
   }
   else if (!is.matrix(Y)) {
     stop("The sample Y must be a vector or matrix or a data frame")
   }
-
+  
   if (nrow(Y) != n) {
     stop("The sample size of the inputs and the outputs is not the same")
   }
-
+  
   pval <- rep(0,d) #The vector of pvalues to be calculated by this function
-
+  
   H <- diag(n)-matrix(1/n,n,n) #Useful matrix from [Gretton2008] to estimate the shape and scale of the Gamma distribution
-
+  
   q <- ncol(as.matrix(Y))     #number of scalar outputs
   KY <- 1
   for (i in 1:q){
     KY <- KY * do.call(get(paste(kernelY,"_hsic",sep="")), list(x=Y[,i,drop=FALSE],param=paramY[i]))
   }
-
+  
   muy <- 1/(n*(n-1))*sum(KY-diag(KY)*diag(ncol(KY)))
   BY <- H%*%KY%*%H
-
+  
   for(s in 1:d){
     KX <- do.call(get(paste(kernelX,"_hsic",sep="")), list(x=X[,s],param=paramX)) #kernel matrix of the input X_s
-
+    
     mux <- 1/(n*(n-1))*sum(KX-diag(KX)*diag(ncol(KX)))
     BX <- H%*%KX%*%H
-
+    
     B <- (BX*BY)^2
-
+    
     HSMean <- 1/n*(1 + mux*muy - mux - muy)
     HSVariance <- (2*(n-4)*(n-5)/(n*(n-1)*(n-2)*(n-3)))*sum(B-diag(B)*diag(ncol(B)))/n/(n-1)
-
+    
     alpha <- (HSMean)^2/HSVariance
     beta  <- n*HSVariance/(HSMean)
-
+    
     if(estimator.type  == "U-stat"){# U-stat estimator (unbiased)
       nHSIC <- n*HSIC(as.matrix(X[,s]),cbind(Y),kernelX, paramX, kernelY, paramY, estimator.type  = "U-stat")$estimate
       pval[s] <- 1-pgamma(q = nHSIC + n*HSMean , shape = alpha, rate = 1/beta)
@@ -1006,47 +1002,47 @@ asymp_test_HSIC <- function(X, Y, kernelX = "rbf", paramX = sd(X), kernelY = "rb
 # B: number of permutations by default B = 1000
 
 perm_test_HSIC <- function(X, Y, kernelX = "rbf", paramX = sd(X), kernelY = "rbf", paramY = sd(Y), estimator.type  = "V-stat",B = B){
-
+  
   if (is.data.frame(X) | is.vector(X)) {
     X <- as.matrix(unname(X))
   }
   else if (!is.matrix(X)) {
     stop("The sample X must be a vector or a matrix or a data frame")
   }
-
+  
   d <- ncol(X) #number of scalar inputs
   n <- nrow(X) #sample size
-
+  
   if (is.data.frame(Y) | is.vector(Y)) {
     Y <- as.matrix(unname(Y))
   }
   else if (!is.matrix(Y)) {
     stop("The sample Y must be a vector or matrix or a data frame")
   }
-
+  
   if (nrow(Y) != n) {
     stop("The sample size of the inputs and the outputs is not the same")
   }
-
+  
   pval <- rep(0,d) #The vector of pvalues to be calculated by this function
-
+  
   q <- ncol(as.matrix(Y))     #number of scalar outputs
   KY <- 1
   for (i in 1:q){
     KY <- KY * do.call(get(paste(kernelY,"_hsic",sep="")), list(x=Y[,i,drop=FALSE],param=paramY[i]))
   }
-
+  
   if(estimator.type  == "U-stat"){
-
+    
     Estimated.value <- HSIC(X, Y, kernelX, paramX, kernelY, paramY, estimator.type  = "U-stat")$estimate
-
+    
     diag(KY) <- 0 #Put all the diagonal elements to zero
-
+    
     for(s in 1:d){
       KX <- do.call(get(paste(kernelX,"_hsic",sep="")), list(x=X[,s],param=paramX)) #kernel matrix of the input X_s
       diag(KX) <- 0 #Put all the diagonal elements to zero
-
-
+      
+      
       hsic.perm <- sapply(1:B,function(al){ #permutations under the null hypothesis of HSIC estimator
         shuf <- sample(n)
         KYY <- KY[shuf,shuf]
@@ -1054,9 +1050,9 @@ perm_test_HSIC <- function(X, Y, kernelX = "rbf", paramX = sd(X), kernelY = "rbf
         V <- sum(colSums(KX)%*%KYY)-U #We use this element twice
         W <- sum(KYY)*sum(KX) - 4*V -2*U
         U/(n*(n-1))+ W/(n*(n-1)*(n-2)*(n-3))-2*V/(n*(n-1)*(n-2))})
-
+      
       hsic.perm <- c(hsic.perm,Estimated.value[s]) #The new estimation method from [Meynaoui et al., 2019]
-
+      
       pval[s] <- length(hsic.perm[hsic.perm > Estimated.value[s]])/length(hsic.perm)}
   }
   else{  # V-stat estimator by default
@@ -1075,7 +1071,7 @@ perm_test_HSIC <- function(X, Y, kernelX = "rbf", paramX = sd(X), kernelY = "rbf
       hsic.perm <- c(hsic.perm,Estimated.value[s]) #The new estimation method from [Meynaoui et al., 2019]
       pval[s] <- length(hsic.perm[hsic.perm > Estimated.value[s]])/length(hsic.perm)}
   }
-
+  
   return(list(pval=pval,hsic.perm=hsic.perm))
 }
 
@@ -1090,53 +1086,53 @@ perm_test_HSIC <- function(X, Y, kernelX = "rbf", paramX = sd(X), kernelY = "rbf
 # estimator.type : the type of estimation, "V-stat" for V-statistics or "U-stat" for U-statistics, see HSIC function and Meynaoui et al. (2019) for details
 
 asymp_test_CHSIC <- function(X, Y, cond, kernelX = "rbf", paramX = sd(X), kernelY = "rbf", paramY = sd(Y), estimator.type  = "V-stat"){
-
+  
   if (is.data.frame(X) | is.vector(X)) {
     X <- as.matrix(unname(X))
   }
   else if (!is.matrix(X)) {
     stop("The sample X must be a vector or a matrix or a data frame")
   }
-
+  
   d <- ncol(X) #number of scalar inputs
   n <- nrow(X) #sample size
-
+  
   if (is.data.frame(Y) | is.vector(Y)) {
     Y <- as.matrix(unname(Y))
   }
   else if (!is.matrix(Y)) {
     stop("The sample Y must be a vector or matrix or a data frame")
   }
-
+  
   if (nrow(Y) != n) {
     stop("The sample size of the inputs and the outputs is not the same")
   }
-
+  
   weight <- weightTSA(Y, cond$c, cond$upper, cond$type, cond$param)
   weights <- diag(weight/mean(weight))
-
+  
   pval <- rep(0,d) #The vector of pvalues to be calculated by this function
-
+  
   H <- diag(n)-matrix(1/n,n,n) #Useful matrix from [Gretton2008] to estimate the shape and scale of the Gamma distribution
   KY <- do.call(get(paste(kernelY,"_hsic",sep="")), list(x=Y,param=paramY)) #Kernel matrix of Y
-
+  
   muy <- 1/(n*(n-1))*sum(KY-diag(KY)*diag(ncol(KY)))
   BY <- H%*%KY%*%H
-
+  
   for(s in 1:d){
     KX <- do.call(get(paste(kernelX,"_hsic",sep="")), list(x=X[,s],param=paramX)) #kernel matrix of the input X_s
-
+    
     mux <- 1/(n*(n-1))*sum(KX-diag(KX)*diag(ncol(KX)))
     BX <- H%*%KX%*%H
-
+    
     B <- (BX*BY)^2
-
+    
     HSMean <- 1/n*(1 + mux*muy - mux - muy)
     HSVariance <- (2*(n-4)*(n-5)/(n*(n-1)*(n-2)*(n-3)))*sum(B-diag(B)*diag(ncol(B)))/n/(n-1)
-
+    
     alpha <- (HSMean)^2/HSVariance
     beta  <- n*HSVariance/(HSMean)
-
+    
     if(estimator.type  == "U-stat"){# U-stat estimator (unbiased)
       nHSIC <- n*HSIC(as.matrix(X[,s]),cbind(Y),kernelX, paramX, kernelY, paramY, estimator.type  = "U-stat")$estimate
       pval[s] <- 1-pgamma(q = nHSIC + n*HSMean , shape = alpha, rate = 1/beta)
@@ -1161,45 +1157,45 @@ asymp_test_CHSIC <- function(X, Y, cond, kernelX = "rbf", paramX = sd(X), kernel
 
 perm_test_CHSIC <- function(X, Y, cond, kernelX = "rbf", paramX = sd(X), kernelY = "rbf", paramY = sd(Y),
                             estimator.type  = "V-stat",B = B){
-
+  
   if (is.data.frame(X) | is.vector(X)) {
     X <- as.matrix(unname(X))
   }
   else if (!is.matrix(X)) {
     stop("The sample X must be a vector or a matrix or a data frame")
   }
-
+  
   d <- ncol(X) #number of scalar inputs
   n <- nrow(X) #sample size
-
+  
   if (is.data.frame(Y) | is.vector(Y)) {
     Y <- as.matrix(unname(Y))
   }
   else if (!is.matrix(Y)) {
     stop("The sample Y must be a vector or matrix or a data frame")
   }
-
+  
   if (nrow(Y) != n) {
     stop("The sample size of the inputs and the outputs is not the same")
   }
-
+  
   pval <- rep(0,d) #The vector of pvalues to be calculated by this function
-
+  
   weight <- weightTSA(Y, cond$c, cond$upper, cond$type, cond$param)
   weights <- diag(weight/mean(weight))
   w1 <- t(apply(weights,1,function(x) rep(sum(x),length(x))))
   w2 <- (apply(weights,1,function(x) rep(sum(x),length(x))))
   W <- w1*w2
   nobsQ <- (length(which(weight!=0)))
-
+  
   if(estimator.type  == "U-stat"){
-
+    
     Estimated.value <- CHSIC(X, Y, cond, kernelX, paramX, kernelY, paramY, estimator.type  = "U-stat")$estimate
-
+    
     for(s in 1:d){
-
+      
       hsic.perm <- sapply(1:B,function(al){ #permutations under the null hypothesis of HSIC estimator
-
+        
         shuf <- sample(seq(1,n),n) #sample(n)
         #CHSIC(X, Y[shuf], cond, kernelX, paramX, kernelY, paramY, estimator.type  = "U-stat")$estimate
         Y_shuf <- Y[shuf]
@@ -1219,10 +1215,10 @@ perm_test_CHSIC <- function(X, Y, cond, kernelX = "rbf", paramX = sd(X), kernelY
       pval[s] <- length(hsic.perm[hsic.perm > Estimated.value[s]])/length(hsic.perm)}
   }
   else{
-
+    
     KY <- do.call(get(paste(kernelY,"_hsic",sep="")), list(x=Y,param=paramY)) #Kernel matrix of Y
     Estimated.value <- CHSIC(X,Y, cond, kernelX, paramX, kernelY, paramY, estimator.type  = "V-stat")$estimate
-
+    
     for(s in 1:d){
       KX <- do.call(get(paste(kernelX,"_hsic",sep="")), list(x=X[,s],param=paramX)) #kernel matrix of the input X_s
       hsic.perm <- sapply(1:B,function(al){ #permutations under the null hypothesis of HSIC estimator
@@ -1234,10 +1230,9 @@ perm_test_CHSIC <- function(X, Y, cond, kernelX = "rbf", paramX = sd(X), kernelY
         VXY <- sum((colSums(KX*ww1)%*%(KYY*WW)))
         WXY <- sum(KX*WW)*sum(KYY*WW)
         UXY/n^2 + WXY/n^4 - 2*VXY/n^3})
-
+      
       hsic.perm <- c(hsic.perm,Estimated.value[s]) #The new estimation method from [Meynaoui et al., 2019]
       pval[s] <- length(hsic.perm[hsic.perm > Estimated.value[s]])/length(hsic.perm)}
   }
   return(list(pval=pval,hsic.perm=hsic.perm))
 }
-

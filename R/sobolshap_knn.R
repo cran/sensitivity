@@ -18,6 +18,20 @@ rescale_inputs <- function(X){
 sobolshap_knn <- function(model = NULL, X, id.cat=NULL, U=NULL, method="knn", n.knn=2,
                           return.shap=FALSE, randperm=FALSE, n.perm=1e4, rescale=FALSE, n.limit=2000, noise=FALSE, ...) {
   
+  id.cat.detected <- which(sapply(X,class)=="factor")
+  if (length(id.cat.detected)){
+    # Some inputs are factors
+    if (is.null(id.cat)){
+      warning("Some inputs are factors but id.cat=NULL, replacing id.cat with the indices of the detected factor inputs")
+      id.cat <- id.cat.detected
+    }else{
+      if (!all(id.cat=id.cat.detected)){
+        warning("id.cat is not consistent with detected factors, replacing id.cat with the indices of the detected factor inputs")
+        id.cat <- id.cat.detected
+      }
+    }
+  }
+  
   if (!is.null(U) & return.shap){
     # return.shap can only be true if U is null (i.e. we generate all combinations)
     warning("We can only compute Shapley values if U is null, switching to return.shap=FALSE")
@@ -55,7 +69,7 @@ estim.sobolshap_knn <- function(data, i=1:nrow(data), q, id.cat,U,method,n.knn,
   
   ptot <- ncol(data)
   p <- ptot - q
-  X <- data.matrix(data[i,1:p])
+  X <- data[i,1:p]
   Y <- data[i,(p+1):(ptot),drop=FALSE]
   
   n.cat <- length(id.cat) # number of categorical input variables
@@ -67,8 +81,8 @@ estim.sobolshap_knn <- function(data, i=1:nrow(data), q, id.cat,U,method,n.knn,
     id.var <- vector("list",p)
     # Re-arrange X matrix with continuous variables first and rescale if necessary
     id.cont <- setdiff(1:p,id.cat)
-    Xtemp <- X[,id.cont,drop=FALSE]
-    if (rescale){
+    Xtemp <- as.matrix(X[,id.cont,drop=FALSE])
+    if (rescale & ncol(Xtemp) > 1){
       Xtemp <- rescale_inputs(Xtemp)
     }
     id.var[id.cont] <- 1:length(id.cont)
@@ -83,7 +97,8 @@ estim.sobolshap_knn <- function(data, i=1:nrow(data), q, id.cat,U,method,n.knn,
     X <- Xtemp
   }else{
     id.var <- as.list(1:p)
-    if (rescale){
+    X <- as.matrix(X)
+    if (rescale  & ncol(X) > 1){
       X <- rescale_inputs(X)
     }
   }
@@ -179,7 +194,7 @@ estim.sobolshap_knn <- function(data, i=1:nrow(data), q, id.cat,U,method,n.knn,
     }
     return(1-meanknn(Y,id.sort,n.knn)) # Estimate of Var(E(Y|Xu))/Var(Y)
   }) 
-  
+
   # Compute Shapley effects if asked, or Sobol first-order/total
   # --------------------------------------------------------------
   if (return.shap){

@@ -1,4 +1,19 @@
 
+Changes in version 1.23.0:
+
+  o New function qosa() computing quantile-oriented sensitivity analysis
+  via the contrast-function formulation
+
+  o Corrections in sensiHSIC() for 
+    - taking into account categorical inputs (and the choice of their 
+    hyperparameters)
+    -  taking into account multiple outputs when some are categorical 
+  
+  o Corrections in sobolshap_knn() for taking into account categorical  
+  inputs 
+  
+  o Correction in bootstats() relative to the use of sobolrep() fct
+  
 Changes in version 1.22.2:
 
   o Correction in PLIsuperquantile() for "bias=TRUE" & "type=VAR" case

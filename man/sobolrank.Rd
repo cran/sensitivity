@@ -7,7 +7,8 @@
 
 \title{First-order sensitivity indices estimation via ranking}
 
-\description{ \code{sobolrank} implements the estimation of all first-order indices using only N model evaluations via ranking following Gamboa et al. (2020) and inspired by Chatterjee (2019).
+\description{ \code{sobolrank} implements the estimation of all first-order indices using only N model evaluations 
+via ranking following Gamboa et al. (2020) and inspired by Chatterjee (2019).
 }
 
 \usage{
@@ -42,7 +43,6 @@ sobolrank(model = NULL, X, nboot = 0, conf = 0.95, nsample = round(0.8*nrow(X)),
   \item{y}{a vector of model responses.}
   \item{S}{the estimations of the Sobol' sensitivity indices.}
 }
-
 \details{
 		 The estimator used by sobolrank is defined in Gamboa et al. (2020).
      It is based on ranking the inputs as was first proposed by Chatterjee (2019) for a Cramer-Von Mises based estimator.
@@ -51,7 +51,9 @@ sobolrank(model = NULL, X, nboot = 0, conf = 0.95, nsample = round(0.8*nrow(X)),
      sampling without replacement with a sample size \code{nsample}.
 }
 \references{
-		 Gamboa, F., Gremaud, P., Klein, T., & Lagnoux, A. (2020). Global Sensitivity Analysis: a new generation of mighty estimators based on rank statistics. arXiv preprint arXiv:2003.01772.
+		 Gamboa, F., Gremaud, P., Klein, T., & Lagnoux, A. (2020). Global Sensitivity Analysis: 
+		 a new generation of mighty estimators based on rank statistics. arXiv preprint arXiv:2003.01772.
+		 
 		 Chatterjee, S. (2019). A new coefficient of correlation. arXiv preprint arXiv:1909.10140.
 }
 \author{
@@ -59,9 +61,8 @@ Sebastien Da Veiga
 }
 \seealso{
   \code{\link{sobol}, \link{sobol2002}, \link{sobolSalt}, \link{sobol2007}, \link{soboljansen}, \link{sobolmartinez},
-  \link{sobolSmthSpl}, \link{sobolEff}, , \link{sobolshap_knn}}
+  \link{sobolSmthSpl}, \link{sobolEff}, \link{sobolshap_knn}}
 }
-
 \examples{
 # Test case : the non-monotonic Sobol g-function
 # Example with a call to a numerical model
@@ -72,7 +73,6 @@ x <- sobolrank(model = sobol.fun, X = X, nboot = 100)
 print(x)
 library(ggplot2)
 ggplot(x)
-
 # Test case : the Ishigami function
 # Example with given data
 n <- 500

@@ -63,8 +63,10 @@ PLIsuperquantile(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=
       It mainly changes the CI at small delta values.}
   \item{bias}{defines the version of PLI-superquantile:
     \itemize{
-      \item If it is set at "TRUE", it gives the mean of outputs above the perturbed quantile
-      \item If it is set at "FALSE", it gives the mean of perturbed outputs above the perturbed quantile
+      \item If it is set at "TRUE", it gives the mean of outputs above the perturbed 
+      quantile (alternative formula)
+      \item If it is set at "FALSE", it gives the mean of perturbed outputs above the 
+      perturbed quantile (original formula)
         }}
 }
 
@@ -83,7 +85,8 @@ PLIsuperquantile(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=
 \references{
 B. Iooss, V. Verges and V. Larget, \emph{BEPU robustness analysis via perturbed-law based 
 sensitivity indices}, 
-ANS Best Estimate Plus Uncertainty International Conference (BEPU 2020), Sicily, Italy, October 2020.
+Submitted to ANS Best Estimate Plus Uncertainty International Conference (BEPU 2020),
+https://hal.archives-ouvertes.fr/hal-02864053.
 
 P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss, 2015, 
 \emph{Density modification based reliability sensitivity analysis}, Journal of Statistical 
