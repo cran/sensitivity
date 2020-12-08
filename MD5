@@ -1,6 +1,6 @@
-9891cea0a03536843603c4ecbfce5ffc *DESCRIPTION
+e4b747f8c5136307adb63cf6a426c7ea *DESCRIPTION
 718ebbfca54f983d8f659196579d2717 *NAMESPACE
-7b579f40f083447bd0d0203c8f7fc1b9 *NEWS
+c137b5e0864ca882c326e8ec758a2ccc *NEWS
 2614c0aff379c8436ebdb31061d8447e *R/PLI.R
 fd084b77ce8272b313a162abe7a57f43 *R/PLIquantile.r
 e9a8826f1ec1ddbe9da58111c8a42114 *R/PLIquantile_multivar.r
@@ -28,7 +28,7 @@ d85f3d1559a47cea036bce477557650e *R/pcc.R
 6d9daed7f3a38929eed0c9a174eaf6b6 *R/qosa.R
 bf43d459d1c5a097399bad5dd2a20fd5 *R/sb.R
 b73edd56ef7f0977e2621b5216d359ac *R/sensiFdiv.R
-bdb46d651078dafd192d6b6d776e758f *R/sensiHSIC.R
+fec67af9153aeb6ee69521466068e6e2 *R/sensiHSIC.R
 76db0e3159a12e4a4d88824b74897591 *R/shapleyBlockEstimation.R
 3e58b0fbfcf7a4809adad2896dc31680 *R/shapleyLinearGaussian.R
 195aaa56b9b5d40caa3af052d2f16e43 *R/shapleyPermEx.R
@@ -56,7 +56,7 @@ a9b9152e79cbdfcd1e506a8756764c3b *R/sobolrec.R
 41b40491a20c641504a3e36266277ab4 *R/sobolroa_subroutines.R
 5105e6aea0629b00687da54fe3883e7d *R/sobolroalhs.R
 ec5d3fc55570964af89fbab4aca31bab *R/sobolroauc.R
-75e19b6e6b9ad9455a458d400255e096 *R/sobolshap_knn.R
+a4cce0da33d5b414e9171565b6ba2133 *R/sobolshap_knn.R
 abc96b6448eec35cc7ec91a71525b2c8 *R/soboltouati.R
 51220e5018c402cd7cd5ea4817a91380 *R/squaredIntEstim.R
 99efb12863643535235d1f9f1e21083a *R/src.R

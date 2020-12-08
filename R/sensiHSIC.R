@@ -132,7 +132,7 @@ HSIC <- function(X, Y, kernelX, paramX, kernelY, paramY, estimator.type = "V-sta
   q <- ncol(as.matrix(Y))     #number of scalar outputs
   KY <- 1
   for (i in 1:q){
-    KY <- KY * do.call(get(paste(kernelY,"_hsic",sep="")), list(x=Y[,i,drop=FALSE],param=paramY[i]))
+    KY <- KY * do.call(get(paste(kernelY[i],"_hsic",sep="")), list(x=Y[,i,drop=FALSE],param=paramY[i]))
   }
   
   if(estimator.type == "V-stat"){
@@ -960,7 +960,7 @@ asymp_test_HSIC <- function(X, Y, kernelX = "rbf", paramX = sd(X), kernelY = "rb
   q <- ncol(as.matrix(Y))     #number of scalar outputs
   KY <- 1
   for (i in 1:q){
-    KY <- KY * do.call(get(paste(kernelY,"_hsic",sep="")), list(x=Y[,i,drop=FALSE],param=paramY[i]))
+    KY <- KY * do.call(get(paste(kernelY[i],"_hsic",sep="")), list(x=Y[,i,drop=FALSE],param=paramY[i]))
   }
   
   muy <- 1/(n*(n-1))*sum(KY-diag(KY)*diag(ncol(KY)))
@@ -979,13 +979,16 @@ asymp_test_HSIC <- function(X, Y, kernelX = "rbf", paramX = sd(X), kernelY = "rb
     
     alpha <- (HSMean)^2/HSVariance
     beta  <- n*HSVariance/(HSMean)
-    
-    if(estimator.type  == "U-stat"){# U-stat estimator (unbiased)
-      nHSIC <- n*HSIC(as.matrix(X[,s]),cbind(Y),kernelX, paramX, kernelY, paramY, estimator.type  = "U-stat")$estimate
-      pval[s] <- 1-pgamma(q = nHSIC + n*HSMean , shape = alpha, rate = 1/beta)
-    }else{# V-stat estimator by default (biased bu asymptotically unbiased and more practical for implementation)
-      nHSIC <- n*HSIC(as.matrix(X[,s]),cbind(Y),kernelX, paramX, kernelY, paramY, estimator.type  = "V-stat")$estimate
-      pval[s] <- 1-pgamma(q = nHSIC, shape = alpha, rate = 1/beta)}
+    if (beta > 0){
+      if(estimator.type  == "U-stat"){# U-stat estimator (unbiased)
+        nHSIC <- n*HSIC(as.matrix(X[,s]),cbind(Y),kernelX, paramX, kernelY, paramY, estimator.type  = "U-stat")$estimate
+        pval[s] <- 1-pgamma(q = nHSIC + n*HSMean , shape = alpha, rate = 1/beta)
+      }else{# V-stat estimator by default (biased bu asymptotically unbiased and more practical for implementation)
+        nHSIC <- n*HSIC(as.matrix(X[,s]),cbind(Y),kernelX, paramX, kernelY, paramY, estimator.type  = "V-stat")$estimate
+        pval[s] <- 1-pgamma(q = nHSIC, shape = alpha, rate = 1/beta)}
+    }else{
+      pval[s] <- NA
+    }
   }
   return(pval)
 }
@@ -1029,7 +1032,7 @@ perm_test_HSIC <- function(X, Y, kernelX = "rbf", paramX = sd(X), kernelY = "rbf
   q <- ncol(as.matrix(Y))     #number of scalar outputs
   KY <- 1
   for (i in 1:q){
-    KY <- KY * do.call(get(paste(kernelY,"_hsic",sep="")), list(x=Y[,i,drop=FALSE],param=paramY[i]))
+    KY <- KY * do.call(get(paste(kernelY[i],"_hsic",sep="")), list(x=Y[,i,drop=FALSE],param=paramY[i]))
   }
   
   if(estimator.type  == "U-stat"){

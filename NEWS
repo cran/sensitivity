@@ -1,4 +1,9 @@
 
+Changes in version 1.23.1:
+  o Bug of tests of sensiHSIC()
+  
+  o Bug in sobolshap_knn() (matrix option in argument U)
+  
 Changes in version 1.23.0:
 
   o New function qosa() computing quantile-oriented sensitivity analysis

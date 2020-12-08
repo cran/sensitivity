@@ -133,16 +133,15 @@ estim.sobolshap_knn <- function(data, i=1:nrow(data), q, id.cat,U,method,n.knn,
     if (is.matrix(U)){
       # Only subsets of variables given by the user in U
       order <- NULL
-    }
-    if (is.list(U)){
+    }else if (is.list(U)){
       # Only subsets of variables given by the user in U, transform the list into compatible matrix
       U <- t(sapply(U, function(u){
         row <- rep(0, p)
         row[u] <- 1
         return(row)
-      }))
+        }))
     }else{
-      # We have to compute Sobol first-order or total index
+    # We have to compute Sobol first-order or total index
       order <- U
       if (order==0){
         # Total index
