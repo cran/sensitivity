@@ -11,7 +11,13 @@
   The \pkg{sensitivity} package implements some global sensitivity analysis
   methods:
   \itemize{
-    \item Linear regression importance measures: SRC and SRRC (\code{\link{src}}), PCC, SPCC, PRCC and SPRCC (\code{\link{pcc}});
+    \item Linear regression importance measures (work in regression and classification contexts):
+  \itemize{
+    \item SRC and SRRC (\code{\link{src}}), 
+    \item PCC, SPCC, PRCC and SPRCC (\code{\link{pcc}}),
+    \item LMG and LMG on ranks (\code{\link{lmg}})
+    \item E-MVD and E-MVD on ranks (\code{\link{lmg}});
+    }
     \item Bettonvil's sequential bifurcations (Bettonvil and Kleijnen, 1996) (\code{\link{sb}});
     \item Morris's "OAT" elementary effects screening method (\code{\link{morris}});
     \item Derivative-based Global Sensitivity Measures:
@@ -100,7 +106,7 @@
 }
 
 
-\author{Bertrand Iooss, Sebastien Da Veiga, Alexandre Janon and Gilles Pujol with contributions from Paul Lemaitre for the \code{\link{PLI}} function, Thibault Delage and Roman Sueur for the \code{\link{PLIquantile}} function, Laurent Gilquin for the \code{\link{sobolroalhs}}, \code{\link{sobolroauc}}, \code{\link{sobolSalt}}, \code{\link{sobolrep}}, \code{\link{sobolrec}}, \code{\link{addelman_const}},\code{\link{discrepancyCriteria_cplus}} and \code{\link{maximin_cplus}} functions, Loic le Gratiet for the \code{\link{sobolGP}} function, Khalid Boumhaout, Taieb Touati and Bernardo Ramos for the \code{\link{sobolowen}} and \code{\link{soboltouati}} functions, Jana Fruth for the \code{\link{PoincareConstant}}, \code{\link{sobolTIIlo}} and \code{\link{sobolTIIpf}} functions, Amandine Marrel, Anouar Meynaoui and Reda El Amri for their contributions to the \code{\link{sensiHSIC}} function, Joseph Guillaume and Oldrich Rakovec for the \code{\link{delsa}} and \code{\link{parameterSets}} functions, Olivier Roustant for the \code{\link{PoincareOptimal}}, \code{\link{PoincareChaosSqCoef}}, \code{\link{squaredIntEstim}} and \code{\link{support}} functions, Eunhye Song, Barry L. Nelson and Jeremy Staum for the \code{\link{shapleyPermEx}} and \code{\link{shapleyPermRand}} functions, Baptiste Broto for the \code{\link{shapleySubsetMc}} and \code{\link{shapleyLinearGaussian}} functions, Filippo Monari for the (\code{\link{sobolSmthSpl}}) and (\code{\link{morrisMultOut}}) functions, Frank Weber and Roelof Oomen.
+\author{Bertrand Iooss, Sebastien Da Veiga, Alexandre Janon and Gilles Pujol with contributions from Paul Lemaitre for \code{\link{PLI}}, Thibault Delage and Roman Sueur for \code{\link{PLIquantile}}, Laurent Gilquin for \code{\link{sobolroalhs}}, \code{\link{sobolroauc}}, \code{\link{sobolSalt}}, \code{\link{sobolrep}}, \code{\link{sobolrec}}, \code{\link{addelman_const}},\code{\link{discrepancyCriteria_cplus}} and \code{\link{maximin_cplus}}, Loic le Gratiet for \code{\link{sobolGP}}, Khalid Boumhaout, Taieb Touati and Bernardo Ramos for \code{\link{sobolowen}} and \code{\link{soboltouati}}, Jana Fruth for \code{\link{PoincareConstant}}, \code{\link{sobolTIIlo}} and \code{\link{sobolTIIpf}}, Amandine Marrel, Anouar Meynaoui and Reda El Amri for their contributions to \code{\link{sensiHSIC}}, Joseph Guillaume and Oldrich Rakovec for \code{\link{delsa}} and \code{\link{parameterSets}}, Olivier Roustant for \code{\link{PoincareOptimal}}, \code{\link{PoincareChaosSqCoef}}, \code{\link{squaredIntEstim}} and \code{\link{support}}, Eunhye Song, Barry L. Nelson and Jeremy Staum for \code{\link{shapleyPermEx}} and \code{\link{shapleyPermRand}}, Baptiste Broto for \code{\link{shapleySubsetMc}}, \code{\link{shapleyLinearGaussian}} and \code{\link{shapleyBlockEstimation}}, Filippo Monari for (\code{\link{sobolSmthSpl}}) and (\code{\link{morrisMultOut}}), Marouane Il Idrissi for \code{\link{lmg}} and \code{\link{emvd}}, Frank Weber and Roelof Oomen for other contributions.
 
 (maintainer: Bertrand Iooss \email{biooss@yahoo.fr})}
 

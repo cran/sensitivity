@@ -111,7 +111,7 @@ Bertrand Iooss, Eunhye Song, Barry L. Nelson, Jeremy Staum
 }
 
 \seealso{
-  \code{\link{shapleyPermRand}, \link{shapleyLinearGaussian},  \link{shapleySubsetMc}, \link{sobolshap_knn}}
+  \code{\link{shapleyPermRand}, \link{shapleyLinearGaussian},  \link{shapleySubsetMc}, \link{sobolshap_knn}}, \code{\link{lmg}}
 }
 
 \examples{

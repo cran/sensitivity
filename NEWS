@@ -1,5 +1,14 @@
 
+Changes in version 1.24.0:
+
+  o New function lmg() for LMG sensitivity indices
+
+  o New function emvd() for E-MVD sensitivity indices
+  
+  o Package foreach is necessary (Imports)
+  
 Changes in version 1.23.1:
+
   o Bug of tests of sensiHSIC()
   
   o Bug in sobolshap_knn() (matrix option in argument U)

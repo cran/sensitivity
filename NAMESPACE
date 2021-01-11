@@ -1,12 +1,16 @@
 useDynLib(sensitivity,.registration=TRUE)
-importFrom(Rcpp, evalCpp)
+
 import(numbers)
 import(boot)
+import(foreach)
+import(ggplot2)
+importFrom(Rcpp, evalCpp)
+importFrom("methods", "is")
 
 importFrom("grDevices", "dev.interactive", "dev.new", "devAskNewPage")
 importFrom("graphics", "abline", "axis", "barplot", "box", "legend",
            "lines", "par", "plot", "points", "polygon", "segments",
-           "text", "title", "arrows", "matplot")
+           "text", "title", "arrows", "matplot", "grid")
 importFrom("stats", "coefficients", "cor", "cor.test", "cov", "dist",
            "dnorm", "dunif", "fft", "fitted", "formula", "lm",
            "model.matrix", "nlm", "optimize", "pnorm", "predict",
@@ -16,11 +20,11 @@ importFrom("stats", "coefficients", "cor", "cor.test", "cov", "dist",
            "pbeta", "pexp", "pweibull", "approxfun", "glm", "setNames",
            "prcomp", "na.omit")
 importFrom("utils", "combn", "methods", "head") 
-importFrom("methods", "is")
-importFrom("ggplot2","ggplot", "position_dodge","aes","geom_point",
-           "geom_errorbar","scale_shape_manual","coord_cartesian","labs",
-           "scale_x_discrete","theme_bw","theme","element_text",
-           "scale_x_continuous", "geom_line")
+
+#importFrom("ggplot2","ggplot", "position_dodge","aes","geom_point",
+#           "geom_errorbar","scale_shape_manual","coord_cartesian","labs",
+#           "scale_x_discrete","theme_bw","theme","element_text",
+#           "scale_x_continuous", "geom_line")
 
 export(ask,tell,extract)
 
@@ -49,6 +53,14 @@ export(pcc)
 S3method(print, pcc)
 S3method(plot, pcc)
 S3method(ggplot, pcc)
+
+export(lmg)
+S3method(print, lmg)
+S3method(plot, lmg)
+
+export(emvd)
+S3method(print, emvd)
+S3method(plot, emvd)
 
 export(morris)
 S3method(tell, morris)

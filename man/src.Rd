@@ -89,7 +89,7 @@ ggplot(x)
 }
 
 \seealso{
-\code{\link{pcc}}
+\code{\link{pcc}}, \code{\link{lmg}}
 }
 
 \keyword{regression}

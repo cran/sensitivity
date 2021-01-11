@@ -103,7 +103,7 @@ plot(x)
 }
 
 \seealso{
-\code{\link{src}}
+\code{\link{src}}, \code{\link{lmg}}
 }
 
 \keyword{regression}

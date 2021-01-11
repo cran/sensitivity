@@ -1,17 +1,18 @@
 Package: sensitivity
-Version: 1.23.1
+Version: 1.24.0
 Title: Global Sensitivity Analysis of Model Outputs
-Author: Bertrand Iooss, Sebastien Da Veiga, Alexandre Janon and Gilles Pujol, with contributions from Baptiste Broto, Khalid Boumhaout, Thibault Delage, Reda El Amri, Jana Fruth, Laurent Gilquin, Joseph Guillaume, Loic Le Gratiet, Paul Lemaitre, Amandine Marrel, Anouar Meynaoui, Barry L. Nelson, Filippo Monari, Roelof Oomen, Oldrich Rakovec, Bernardo Ramos, Olivier Roustant, Eunhye Song, Jeremy Staum, Roman Sueur, Taieb Touati, Frank Weber 
+Author: Bertrand Iooss, Sebastien Da Veiga, Alexandre Janon and Gilles Pujol, with contributions from Baptiste Broto, Khalid Boumhaout, Thibault Delage, Reda El Amri, Jana Fruth, Laurent Gilquin, Joseph Guillaume, Marouane Il Idrissi, Loic Le Gratiet, Paul Lemaitre, Amandine Marrel, Anouar Meynaoui, Barry L. Nelson, Filippo Monari, Roelof Oomen, Oldrich Rakovec, Bernardo Ramos, Olivier Roustant, Eunhye Song, Jeremy Staum, Roman Sueur, Taieb Touati, Frank Weber 
 Maintainer: Bertrand Iooss <biooss@yahoo.fr>
 Depends: R (>= 3.0.0)
-Imports: boot, numbers, methods, ggplot2, Rcpp
+Imports: boot, numbers, methods, ggplot2, Rcpp, foreach
 LinkingTo: Rcpp, RcppArmadillo
-Suggests: condMVNorm, DiceDesign, DiceKriging, evd, ggExtra, gplots,
-        gtools, igraph, ks, MASS, mc2d, mvtnorm, parallel, pracma,
-        randtoolbox, RANN, reshape2, rgl, triangle, TSP, whitening
+Suggests: condMVNorm, DiceDesign, DiceKriging, doParallel, evd,
+        ggExtra, gplots, gtools, igraph, ks, MASS, mc2d, mvtnorm,
+        parallel, pracma, randtoolbox, RANN, reshape2, rgl, triangle,
+        TSP, whitening
 Description: A collection of functions for factor screening, global sensitivity analysis and robustness analysis. Most of the functions have to be applied on model with scalar output, but several functions support multi-dimensional outputs.
 License: GPL-2
 NeedsCompilation: yes
 Repository: CRAN
-Packaged: 2020-12-07 16:49:31 UTC; F80570
-Date/Publication: 2020-12-08 18:00:02 UTC
+Packaged: 2021-01-08 17:44:38 UTC; F80570
+Date/Publication: 2021-01-11 19:10:02 UTC
