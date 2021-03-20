@@ -58,13 +58,13 @@ PLIquantile(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=TRUE,
   \item{nboot}{the number of bootstrap replicates.}
   \item{conf}{the confidence level for bootstrap confidence intervals.}
   \item{bootsample}{If TRUE, the uncertainty about the original quantile estimation
-      is taken into account in the PLI confidence intervals (see Iooss et al., 2020). 
+      is taken into account in the PLI confidence intervals (see Iooss et al., 2021). 
       If FALSE, standard confidence intervals are computed for the PLI.
       It mainly changes the CI at small delta values.}
 }
 
 \value{
-  \code{PLIquantile} returns a list of matrix (each column corresponds to an input, 
+  \code{PLIquantile} returns a list of matrices (each column corresponds to an input, 
   each line corresponds to a twist of amplitude delta) 
   containing the following components:
   \item{PLI}{the PLI.}
@@ -85,7 +85,7 @@ in uncertainty quantification of computer codes}, Preprint, https://hal.archives
 
 B. Iooss, V. Verges and V. Larget, \emph{BEPU robustness analysis via perturbed-law based 
 sensitivity indices}, 
-ANS Best Estimate Plus Uncertainty International Conference (BEPU 2020), Sicily, Italy, October 2020.
+ANS Best Estimate Plus Uncertainty International Conference (BEPU 2020), Sicily, Italy, June 2021.
 
 P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss, 2015, 
 \emph{Density modification based reliability sensitivity analysis}, Journal of Statistical 
@@ -105,7 +105,8 @@ Paul Lemaitre, Bertrand Iooss, Thibault Delage and Roman Sueur
 }
 
 \seealso{
-  \code{\link{PLI}, \link{PLIsuperquantile} \link{PLIquantile_multivar}}
+  \code{\link{PLI}, \link{PLIsuperquantile} \link{PLIquantile_multivar}, 
+  \link{PLIsuperquantile_multivar}}
 }
 
 \examples{
@@ -135,6 +136,7 @@ Paul Lemaitre, Bertrand Iooss, Thibault Delage and Roman Sueur
 	  percentage=FALSE,nboot=nboot)
 
 # Plotting the PLI
+
   par(mar=c(4,5,1,1))
 	plot(v_delta,toto$PLI[,2],ylim=c(-1.5,1.5),xlab=expression(delta),
 		ylab=expression(hat(PLI[i*delta])),pch=19,cex=1.5)
@@ -151,6 +153,7 @@ Paul Lemaitre, Bertrand Iooss, Thibault Delage and Roman Sueur
 		col=c("darkgreen","black","red"),pch=c(15,19,17),cex=1.5)
   
 # Plotting the perturbed quantiles
+
   par(mar=c(4,5,1,1))
 	plot(v_delta,toto$quantile[,2],ylim=c(1.5,6.5),xlab=expression(delta),
 		ylab=expression(hat(q[i*delta])),pch=19,cex=1.5)
@@ -166,7 +169,9 @@ Paul Lemaitre, Bertrand Iooss, Thibault Delage and Roman Sueur
 	legend(0.5,2.4,legend=c("X1","X2","X3"),
 		col=c("darkgreen","black","red"),pch=c(15,19,17),cex=1.5)
 		
+###########################################################		
 # Plotting the PLI in percentage with refined confidence intervals
+
 	toto = PLIquantile(0.95,X,Y,deltasvector=v_delta,
 	  InputDistributions=distribution,type="MOY",samedelta=TRUE,
 	  percentage=TRUE,nboot=nboot,bootsample=FALSE)
@@ -183,8 +188,10 @@ Paul Lemaitre, Bertrand Iooss, Thibault Delage and Roman Sueur
 	lines(v_delta,toto$PLICIinf[,3],col="red")
 	lines(v_delta,toto$PLICIsup[,3],col="red")
 	abline(h=0,lty=2)
-	legend(0.,1.,legend=c("X1","X2","X3"),
+	legend(0,0.6,legend=c("X1","X2","X3"),
 		col=c("darkgreen","black","red"),pch=c(15,19,17),cex=1.5)
-  
+		
+# another idea: use the plotCI() fct (from plotrix package) for the CI plotting
+	
 }
 }

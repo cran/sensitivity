@@ -1,19 +1,19 @@
-\name{PLIquantile_multivar}
-\alias{PLIquantile_multivar}
+\name{PLIsuperquantile_multivar}
+\alias{PLIsuperquantile_multivar}
 
 \title{
-  Perturbed-Law based sensitivity Indices (PLI) for quantile 
+  Perturbed-Law based sensitivity Indices (PLI) for superquantile 
   and simultaneous perturbations of 2 inputs}
 
 \description{
-  PLIquantile_multivar computes the Perturbed-Law based Indices (PLI) for quantile
+  PLIquantile_multivar computes the Perturbed-Law based Indices (PLI) for superquantile
   and simultaneous perturbations of the means of 2 inputs, 
   estimated by a Monte Carlo method.
 }
 
 \usage{
-PLIquantile_multivar(order,x,y,inputs,deltasvector,InputDistributions,samedelta=TRUE,
-            percentage=TRUE,nboot=0,conf=0.95,bootsample=TRUE)
+PLIsuperquantile_multivar(order,x,y,inputs,deltasvector,InputDistributions,samedelta=TRUE,
+            percentage=TRUE,nboot=0,conf=0.95,bootsample=TRUE,bias=TRUE)
 }
 
 \arguments{
@@ -43,7 +43,7 @@ PLIquantile_multivar(order,x,y,inputs,deltasvector,InputDistributions,samedelta=
       \item If it is set at FALSE, the initially proposed formula is used
       (see Sueur et al., 2017).
       \item If not (set as TRUE), the PLI is given in percentage of variation 
-      of the quantile (see Iooss et al., 2021).
+      of the superquantile (see Iooss et al., 2021).
         }}
   \item{nboot}{the number of bootstrap replicates.}
   \item{conf}{the confidence level for bootstrap confidence intervals.}
@@ -51,18 +51,25 @@ PLIquantile_multivar(order,x,y,inputs,deltasvector,InputDistributions,samedelta=
       is taken into account in the PLI confidence intervals (see Iooss et al., 2021). 
       If FALSE, standard confidence intervals are computed for the PLI.
       It mainly changes the CI at small delta values.}
+  \item{bias}{defines the version of PLI-superquantile:
+    \itemize{
+      \item If it is set at "TRUE", it gives the mean of outputs above the perturbed 
+      quantile (alternative formula)
+      \item If it is set at "FALSE", it gives the mean of perturbed outputs above the 
+      perturbed quantile (original formula)
+        }}
 }
 
 \value{
-  \code{PLIquantile_multivar} returns a list of matrices 
+  \code{PLIsuperquantile_multivar} returns a list of matrices 
   (delta twist of input 1 (in rows) vs. delta twist of input 2 (in columns)) 
   containing the following components:
   \item{PLI}{the PLI.}
   \item{PLICIinf}{the bootstrap lower confidence interval values of the PLI.}
   \item{PLICIsup}{the bootstrap upper confidence interval values of the PLI.}
   \item{quantile}{the perturbed quantile.}
-  \item{quantileCIinf}{the bootstrap lower confidence interval values of the perturbed quantile.}
-  \item{quantileCIsup}{the bootstrap upper confidence interval values of the perturbed quantile.}
+  \item{quantileCIinf}{the bootstrap lower confidence interval values of the perturbed superquantile.}
+  \item{quantileCIsup}{the bootstrap upper confidence interval values of the perturbed superquantile.}
 }
 
 \details{
@@ -96,7 +103,7 @@ Bertrand Iooss
 }
 
 \seealso{
-  \code{\link{PLI}, \link{PLIquantile}, \link{PLIsuperquantile}, \link{PLIsuperquantile_multivar}}
+  \code{\link{PLI}, \link{PLIquantile}, \link{PLIsuperquantile}, \link{PLIquantile_multivar}}
 }
 
 \examples{
@@ -112,11 +119,13 @@ for(i in 1:3) X[,i] = rnorm(N,0,1)
 Y = 2 * X[,1] + X[,2] + X[,3]/2
 
 q95 = quantile(Y,0.95)
+sq95a <- mean(Y*(Y>q95)/(1-0.95)) ; sq95b <- mean(Y[Y>q95])
+  
 v_delta = seq(-1,1,1/10) 
-toto12 = PLIquantile_multivar(0.95,X,Y,c(1,2),deltasvector=v_delta,
-    InputDistributions=distribution,samedelta=TRUE)
-toto = PLIquantile(0.95,X,Y,deltasvector=v_delta,InputDistributions=distribution,
-    type="MOY",samedelta=TRUE,nboot=0)
+toto12 = PLIsuperquantile_multivar(0.95,X,Y,c(1,2),deltasvector=v_delta,
+    InputDistributions=distribution,samedelta=TRUE,bias=FALSE)
+toto = PLIsuperquantile(0.95,X,Y,deltasvector=v_delta,InputDistributions=distribution,
+    type="MOY",samedelta=TRUE,nboot=0,bias=FALSE)
 
 par(mar=c(4,5,1,1))
 plot(v_delta,diag(toto12$PLI),,ylim=c(-1,1),xlab=expression(delta),
@@ -132,10 +141,10 @@ legend(-1,1.,legend=c("X1","X2","X3","X1X2"),col=c("darkgreen","black","red","bl
 
 v_delta = seq(-1,1,2/10) 
 
-toto12 = PLIquantile_multivar(0.95,X,Y,c(1,2),deltasvector=v_delta,
-    InputDistributions=distribution,samedelta=TRUE,nboot=20,bootsample=FALSE)
-toto = PLIquantile(0.95,X,Y,deltasvector=v_delta,InputDistributions=distribution,
-    type="MOY",samedelta=TRUE,nboot=20,bootsample=FALSE)
+toto12 = PLIsuperquantile_multivar(0.95,X,Y,c(1,2),deltasvector=v_delta,
+    InputDistributions=distribution,samedelta=TRUE,nboot=20,bootsample=FALSE,bias=FALSE)
+toto = PLIsuperquantile(0.95,X,Y,deltasvector=v_delta,InputDistributions=distribution,
+    type="MOY",samedelta=TRUE,nboot=20,bootsample=FALSE,bias=FALSE)
 
 par(mar=c(4,5,1,1))
 plot(v_delta,diag(toto12$PLI),ylim=c(-1,1),xlab=expression(delta),

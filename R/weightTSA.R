@@ -1,6 +1,6 @@
 # Author : Bertrand Iooss (2020)
 
-weightTSA <- function(Y, c, upper = TRUE, type = "indicTh", param = 1) {
+weightTSA <- function(Y, c, upper = TRUE, type="indicTh", param=1) {
   # Y = the output vector
   # c = the threshold
   # upper = TRUE for upper threshold and FALSE for lower threshold
@@ -9,6 +9,10 @@ weightTSA <- function(Y, c, upper = TRUE, type = "indicTh", param = 1) {
   # logistic: logistic transf. at the threshold,
   # exp1side: exponential transf. below the threshold
   # param = the parameter value for "logistic" and "exp1side" types
+
+  if(is.data.frame(Y) == TRUE){
+    Y <- as.matrix(Y)
+  }
 
   if (upper){
     if (type == "indicTh") wY <- as.numeric(Y>c)
@@ -21,5 +25,5 @@ weightTSA <- function(Y, c, upper = TRUE, type = "indicTh", param = 1) {
     if (type == "logistic") wY <- 1 / (1 + exp(-param * (c-Y) / abs(c)) ) # Spagnol & Da Veiga
     if (type == "exp1side") wY <- exp( - (Y-c)*((Y-c)>0) / (param * sd(Y)/5) ) # Raguet & Marrel
   }
-  return(wY)
+  return(as.vector(wY))
 }

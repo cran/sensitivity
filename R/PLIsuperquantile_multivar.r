@@ -1,9 +1,9 @@
 # library(evd)
 
-PLIquantile_multivar = function(order,x,y,inputs,deltasvector,InputDistributions,samedelta=TRUE,percentage=TRUE,nboot=0,conf=0.95,bootsample=TRUE){
+PLIsuperquantile_multivar = function(order,x,y,inputs,deltasvector,InputDistributions,samedelta=TRUE,percentage=TRUE,nboot=0,conf=0.95,bootsample=TRUE,bias=TRUE){
   
   # This function allows the estimation of Density Modification Based Reliability Sensitivity Indices
-  # called PLI (Perturbed-Law based sensitivity Indices) for a quantile
+  # called PLI (Perturbed-Law based sensitivity Indices) for a superquantile
   #
   # It is adapted for taking into account simultaneous perturbations of 2 inputs
   #
@@ -13,7 +13,7 @@ PLIquantile_multivar = function(order,x,y,inputs,deltasvector,InputDistributions
   ## Description of input parameters
   ###################################
   #  
-  # order is the order of the quantile to estimate.
+  # order is the order of the superquantile to estimate.
   # x is the matrix of simulation points coordinates (one column per variable).
   # y is the vector of model outputs.
   # inputs is the vector of the two inputs' indices
@@ -23,16 +23,19 @@ PLIquantile_multivar = function(order,x,y,inputs,deltasvector,InputDistributions
   # samedelta is a boolean used with the value "MOY" for type. If it is set at TRUE, the mean perturbation will be the same for all the variables. 
   #   If not, the mean perturbation will be new_mean = mean+sigma*delta where mean, sigma are parameters defined in InputDistributions and delta is a value of deltasvector. See subsection 4.3.3 of the reference for an exemple of use. 
   # percentage defines the formula used for the PLI. If percentage=FALSE, the classical formula used in the bibliographic references is used.
-  #   If percentage=TRUE, the PLI is given in percentage of variation of the quantile (even if it is negative). 
+  #   If percentage=TRUE, the PLI is given in percentage of variation of the superquantile (even if it is negative). 
   # nboot is the number of bootstrap replicates
   # conf is the required bootstrap confidence interval
   # bootsample defines if the sampling uncertainty is taken into account in computing the boostrap confidence intervals of the PLI
+  # bias defines which type of PLI-superquantile is computed:
+  #   "TRUE" gives the mean of outputs above the perturbed quantile (alternative formula)
+  #   "FALSE" gives the the mean of perturbed outputs above the perturbed quantile (original formula)
   #
   ###################################
   ## Description of output parameters
   ###################################
   #
-  # The output is a list of matrices where the PLI and quantiles are stored
+  # The output is a list of matrices where the PLI and superquantiles are stored
   #
   ########################################
   ## Creation of local variables	
@@ -87,6 +90,8 @@ PLIquantile_multivar = function(order,x,y,inputs,deltasvector,InputDistributions
   ########################################
   
   quantilehat <- quantile(y,order) # quantile estimate
+  sqhat <- mean( y[y >= quantilehat] ) # superquantile estimate
+  
   ys = sort(y,index.return=T) # ordered output
   xs = x[ys$ix,] # inputs ordered by increasing output
   
@@ -98,7 +103,7 @@ PLIquantile_multivar = function(order,x,y,inputs,deltasvector,InputDistributions
   
   if (nboot > 0){
     lqidb=array(0,dim=c(nmbrededeltas,nmbrededeltas,nboot)) # pour bootstrap 
-    quantilehatb=NULL
+    sqhatb=NULL
   }
   
   ## definition of local variables
@@ -404,11 +409,12 @@ PLIquantile_multivar = function(order,x,y,inputs,deltasvector,InputDistributions
     for (K1 in 1:nmbrededeltas){
       for (K2 in 1:nmbrededeltas){
         if ((vdd1[K1]!=0) & (vdd2[K2]!=0)){
-          res=NULL		
+          res=NULL ; respts=NULL
           pti1=phi1(vlambda1[K1])
           pti2=phi2(vlambda2[K2])
           for (j in 1:nmbredepoints){	
             res[j]=exp(vlambda1[K1]*xs[j,inputs[1]]-pti1 + vlambda2[K2]*xs[j,inputs[2]]-pti2)
+            respts[j]=exp(vlambda1[K1]*x[j,inputs[1]]-pti1 + vlambda2[K2]*x[j,inputs[2]]-pti2)
           }
           sum_res = sum(res)
           kid = 1
@@ -419,8 +425,9 @@ PLIquantile_multivar = function(order,x,y,inputs,deltasvector,InputDistributions
             res1 = res1 + res[kid]
             res2 = res1/sum_res
           }
-          lqid[K1,K2] = ys$x[kid]
-        } else lqid[K1,K2] = quantilehat
+          if (bias){ lqid[K1,K2] = mean(y[y >= ys$x[kid]]) # ys$x[kid] = quantile
+          } else lqid[K1,K2] = mean(y * respts * ( y >= ys$x[kid] ) / (1-order))
+        } else lqid[K1,K2] = sqhat
       }
     }
     
@@ -434,18 +441,21 @@ PLIquantile_multivar = function(order,x,y,inputs,deltasvector,InputDistributions
         xb <- x[ib,]
         yb <- y[ib]
         
-        quantilehatb <- c(quantilehatb, quantile(yb,order)) # quantile estimate
+        quantilehatb <- quantile(yb,order) # quantile estimate
+        sqhatb <- c(sqhatb, mean( yb * (yb >= quantilehatb) / ( 1 - order ))) # superquantile estimate
+        
         ysb = sort(yb,index.return=T) # ordered output
         xsb = xb[ysb$ix,] # inputs ordered by increasing output
         
         for (K1 in 1:nmbrededeltas){
           for (K2 in 1:nmbrededeltas){
             if ((vdd1[K1]!=0) & (vdd2[K2]!=0)){
-              res=NULL		
+              res=NULL ; respts=NULL
               pti1=phi1(vlambda1[K1])
               pti2=phi2(vlambda2[K2])
               for (j in 1:nmbredepoints){	
                 res[j]=exp(vlambda1[K1]*xsb[j,inputs[1]]-pti1 + vlambda2[K2]*xsb[j,inputs[2]]-pti2)
+                respts[j]=exp(vlambda1[K1]*xb[j,inputs[1]]-pti1 + vlambda2[K2]*xb[j,inputs[2]]-pti2)
               }
               sum_res = sum(res)
               kid = 1
@@ -456,8 +466,9 @@ PLIquantile_multivar = function(order,x,y,inputs,deltasvector,InputDistributions
                 res1 = res1 + res[kid]
                 res2 = res1/sum_res
               }
-              lqidb[K1,K2,b] = ysb$x[kid]
-              } else lqidb[K1,K2,b] = quantilehatb[b]
+              if (bias){ lqidb[K1,K2,b] = mean(yb[yb >= ysb$x[kid]]) # ysb$x[kid] = quantile
+              } else lqidb[K1,K2,b] = mean(yb * respts * (yb >= ysb$x[kid] ) / (1-order))
+            } else lqidb[K1,K2,b] = sqhatb[b]
           }
         }
       } # end of bootstrap loop
@@ -472,32 +483,32 @@ PLIquantile_multivar = function(order,x,y,inputs,deltasvector,InputDistributions
   for (i in 1:nmbrededeltas){
     for (j in 1:nmbrededeltas){
       J[i,j]=lqid[i,j]
-      if (percentage==FALSE) I[i,j]=transinverse(lqid[i,j],quantilehat,quantilehat)
-      else I[i,j]=lqid[i,j]/quantilehat-1
+      if (percentage==FALSE) I[i,j]=transinverse(lqid[i,j],sqhat,sqhat)
+      else I[i,j]=lqid[i,j]/sqhat-1
       
       if (nboot > 0){
         # ICI = PLI bootstrap including or excluding sampling uncertainty
         # JCI = quantile bootstrap 
-        qinf <- quantile(lqidb[i,j,],(1-conf)/2)
-        qsup <- quantile(lqidb[i,j,],(1+conf)/2)
-        JCIinf[i,j]=qinf
-        JCIsup[i,j]=qsup
-        qb <- mean(quantilehatb)
+        sqinf <- quantile(lqidb[i,j,],(1-conf)/2)
+        sqsup <- quantile(lqidb[i,j,],(1+conf)/2)
+        JCIinf[i,j]=sqinf
+        JCIsup[i,j]=sqsup
+        sqb <- mean(sqhatb)
         if (percentage==FALSE){
           if (bootsample){
-            ICIinf[i,j]=transinverse(qinf,qb,qb)
-            ICIsup[i,j]=transinverse(qsup,qb,quantilehat)
+            ICIinf[i,j]=transinverse(sqinf,sqb,sqb)
+            ICIsup[i,j]=transinverse(sqsup,sqb,sqhat)
           } else{
-            ICIinf[i,j]=quantile(transinverse(lqidb[i,j,],quantilehatb,quantilehatb),(1-conf)/2)
-            ICIsup[i,j]=quantile(transinverse(lqidb[i,j,],quantilehatb,quantilehatb),(1+conf)/2)
+            ICIinf[i,j]=quantile(transinverse(lqidb[i,j,],sqhatb,sqhatb),(1-conf)/2)
+            ICIsup[i,j]=quantile(transinverse(lqidb[i,j,],sqhatb,sqhatb),(1+conf)/2)
           }
         } else {
           if (bootsample){
-            ICIinf[i,j]=qinf/qb-1
-            ICIsup[i,j]=qsup/qb-1
+            ICIinf[i,j]=sqinf/sqb-1
+            ICIsup[i,j]=sqsup/sqb-1
           } else{
-            ICIinf[i,j]=quantile((lqidb[i,j,]/quantilehatb-1),(1-conf)/2)
-            ICIsup[i,j]=quantile((lqidb[i,j,]/quantilehatb-1),(1+conf)/2)
+            ICIinf[i,j]=quantile((lqidb[i,j,]/sqhatb-1),(1-conf)/2)
+            ICIsup[i,j]=quantile((lqidb[i,j,]/sqhatb-1),(1+conf)/2)
           }
         }
       }

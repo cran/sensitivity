@@ -13,7 +13,8 @@
 }
 
 \usage{
-lmg(X, y, logistic = FALSE,  rank = FALSE, nboot = 0, conf = 0.95, parl = NULL)
+lmg(X, y, logistic = FALSE,  rank = FALSE, nboot = 0, 
+    conf = 0.95, max.iter = 1000, parl = NULL)
 \method{print}{lmg}(x, \dots)
 \method{plot}{lmg}(x, ylim = c(0,1), \dots)
 }
@@ -31,6 +32,8 @@ lmg(X, y, logistic = FALSE,  rank = FALSE, nboot = 0, conf = 0.95, parl = NULL)
   \item{nboot}{the number of bootstrap replicates for the computation
   of confidence intervals.}
   \item{conf}{the confidence level of the bootstrap confidence intervals.}
+  \item{max.iter}{if \code{logistic=TRUE}, the maximum number of iterative 
+  optimization steps allowed for the logistic regression. Default is \code{1000}.} 
   \item{parl}{number of cores on which to parallelize the computation. If
   \code{NULL}, then no parallelization is done.}
   \item{x}{the object returned by \code{lmg}.}
@@ -82,22 +85,27 @@ lmg(X, y, logistic = FALSE,  rank = FALSE, nboot = 0, conf = 0.95, parl = NULL)
 }
 
 \references{
-  Lindeman RH, Merenda PF, Gold RZ (1980). \emph{Introduction to Bivariate and Multivariate
-  Analysis.} Scott, Foresman, Glenview, IL.
 
+  Broto B., Bachoc F. and Depecker M. (2020) \emph{Variance Reduction for Estimation
+  of Shapley Effects and Adaptation to Unknown Input Distribution.} SIAM/ASA Journal
+  on Uncertainty Quantification, 8(2).
+  
   D.V. Budescu (1993). \emph{Dominance analysis: A new approach to the problem of relative
   importance of predictors in multiple regression.} Psychological Bulletin, 114:542-551.
 
   U. Gromping (2006). \emph{Relative importance for linear regression in R: the Package
   relaimpo.}  Journal of Statistical Software, 17:1-27.
 
-  Broto B., Bachoc F. and Depecker M. (2020) \emph{Variance Reduction for Estimation
-  of Shapley Effects and Adaptation to Unknown Input Distribution.} SIAM/ASA Journal
-  on Uncertainty Quantification, Vol.8, Number 2.
-
   M. Il Idrissi, V. Chabridon and B. Iooss (2021). \emph{Developments and applications
   of Shapley effects   to reliability-oriented sensitivity analysis with correlated inputs.}
-  Preprint
+  Preprint, \url{https://hal.archives-ouvertes.fr/hal-03106452}
+  
+  M. Il Idrissi, V. Chabridon and B. Iooss (2021). \emph{Mesures d'importance relative  
+  par decompositions de la performance de modeles de regression,} Preprint, 52emes Journees 
+  de Statistiques de la Societe Francaise de Statistique (SFdS), Nice, France, Juin 2021
+  
+  Lindeman RH, Merenda PF, Gold RZ (1980). \emph{Introduction to Bivariate and Multivariate
+  Analysis.} Scott, Foresman, Glenview, IL.
 }
 
 \author{

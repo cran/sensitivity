@@ -1,4 +1,27 @@
 
+Changes in version 1.25.0:
+
+  o New function PLIsuperquantile_multivar()
+
+  o Bootstrap added in PLIquantile_multivar()
+  
+  o Bug corrected in weightTSA() (data structures)
+  
+  o Change in lmg(): new \code{max.iter} argument to increase the maximum
+  number of iterative optimization step for logistic regression
+  
+  o Change in emvd():
+	  - new \code{max.iter} argument to increase the maximum number of iterative optimization step for logistic regression
+	  - new \code{tol} argument to detect spurious variables
+	  - faster implementation
+	  - recursive emvd computation can now be partially done in parallel 
+	  
+	o Add an example with Gaussian inverse transforms in PLI() fct
+
+Changes in version 1.24.1:
+
+  o Bug for y format in lmg() and emvd(): allow dataframe
+  
 Changes in version 1.24.0:
 
   o New function lmg() for LMG sensitivity indices
@@ -21,7 +44,7 @@ Changes in version 1.23.0:
   o Corrections in sensiHSIC() for 
     - taking into account categorical inputs (and the choice of their 
     hyperparameters)
-    -  taking into account multiple outputs when some are categorical 
+    - taking into account multiple outputs when some are categorical 
   
   o Corrections in sobolshap_knn() for taking into account categorical  
   inputs 

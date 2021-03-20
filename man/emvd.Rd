@@ -18,7 +18,8 @@
 }
 
 \usage{
-emvd(X, y, logistic = FALSE,  rank = FALSE, nboot = 0, conf = 0.95, parl = NULL)
+emvd(X, y, logistic = FALSE, tol = NULL, rank = FALSE, nboot = 0, 
+    conf = 0.95, max.iter = 1000, parl = NULL)
 \method{print}{emvd}(x, \dots)
 \method{plot}{emvd}(x, ylim = c(0,1), \dots)
 }
@@ -31,11 +32,16 @@ emvd(X, y, logistic = FALSE,  rank = FALSE, nboot = 0, conf = 0.95, parl = NULL)
   of zeros and ones, or a logical vector, or a factor.}
   \item{logistic}{logical. If \code{TRUE}, the analysis is done via a
   logistic regression(binomial GLM).}
+  \item{tol}{covariates with absolute marginal contributions less or equal to 
+    \code{tol} are omitted. By default, if \code{tol=NULL}, only covariates with no 
+    marginal contribution are omitted.}
   \item{rank}{logical. If \code{TRUE}, the analysis is done on the
     ranks.}
   \item{nboot}{the number of bootstrap replicates for the computation
   of confidence intervals.}
   \item{conf}{the confidence level of the bootstrap confidence intervals.}
+  \item{max.iter}{if \code{logistic=TRUE}, the maximum number of iterative 
+  optimization steps allowed for the logistic regression. Default is \code{1000}.} 
   \item{parl}{number of cores on which to parallelize the computation. If
   \code{NULL}, then no parallelization is done.}
   \item{x}{the object returned by \code{lmg}.}
@@ -87,10 +93,22 @@ emvd(X, y, logistic = FALSE,  rank = FALSE, nboot = 0, conf = 0.95, parl = NULL)
 
   If too many cores for the machine are passed on to the \code{parl} argument,
   the chosen number of cores is defaulted to the available cores minus one.
+  
+  Spurious covariates are defined by the \code{tol} argument. If \code{null},
+  then covariates with:
+  \deqn{w(\{i\}) = 0}{w(\{i\})=0}
+  are omitted, and their \code{emvd} index is set to zero. In other cases, the 
+  spurious covariates are detected by:
+  \deqn{|w(\{i\})| \leq \textrm{tol}}{|w(\{i\})| <= tol}
 
 }
 
 \references{
+
+  Broto B., Bachoc F. and Depecker M. (2020) \emph{Variance Reduction for Estimation
+  of Shapley Effects and Adaptation to Unknown Input Distribution.} SIAM/ASA Journal
+  on Uncertainty Quantification, 8(2).
+  
   D.V. Budescu (1993). \emph{Dominance analysis: A new approach to the problem of relative
   importance of predictors in multiple regression.} Psychological Bulletin, 114:542-551.
 
@@ -98,10 +116,11 @@ emvd(X, y, logistic = FALSE,  rank = FALSE, nboot = 0, conf = 0.95, parl = NULL)
 
   U. Gromping (2006). \emph{Relative importance for linear regression in R: the Package
   relaimpo.}  Journal of Statistical Software, 17:1-27.
+  
+  M. Il Idrissi, V. Chabridon and B. Iooss (2021). \emph{Mesures d'importance relative  
+  par decompositions de la performance de modeles de regression,} Preprint, 52emes Journees 
+  de Statistiques de la Societe Francaise de Statistique (SFdS), Nice, France, Juin 2021
 
-  Broto B., Bachoc F. and Depecker M. (2020) \emph{Variance Reduction for Estimation
-  of Shapley Effects and Adaptation to Unknown Input Distribution.} SIAM/ASA Journal
-  on Uncertainty Quantification, Vol.8, Number 2.
 }
 
 \author{

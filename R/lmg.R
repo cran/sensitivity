@@ -8,7 +8,7 @@
 
 ############################################
 #R2 estimation
-estim.R2<-function(dataX,y, subset, logistic, any.cat){
+estim.R2<-function(dataX,y, subset, logistic, any.cat, max.iter){
   # Function estim.R2:
   #   Computes the R2 (explained variance) statistic for linear/logistic
   #   regression for a specified sub-model (subset of inputs)
@@ -55,11 +55,14 @@ estim.R2<-function(dataX,y, subset, logistic, any.cat){
   }else{
     #######################
     #Logistic Model
-
+    #Maximum optimization iterations
+    fit.control=glm.control(maxit=max.iter)
     #Subsetting X
     X_<-dataX[,as.vector(subset)]
     dat<-data.frame(y,X_)
-    sum_glm<-summary(glm(y~., data=dat, family="binomial"))
+    sum_glm<-summary(glm(y~., data=dat, 
+                         family="binomial",
+                         control=fit.control))
 
     #Computing Logistic R2 estimate
     R2<-1-(sum_glm$deviance/sum_glm$null.deviance)
@@ -69,7 +72,7 @@ estim.R2<-function(dataX,y, subset, logistic, any.cat){
 
 ############################################
 # LMG computation function
-calc.lmg<-function(X, y, d, logistic, indices, comb_weights, any.cat, parl,clus, boot, i=1:nrow(X)){
+calc.lmg<-function(X, y, d, logistic, indices, comb_weights, any.cat, parl,clus, boot,max.iter, i=1:nrow(X)){
 
   ###############################
   #Pre-Processing
@@ -93,7 +96,8 @@ calc.lmg<-function(X, y, d, logistic, indices, comb_weights, any.cat, parl,clus,
                                      dataX=X,
                                      y=y,
                                      logistic=logistic,
-                                     any.cat=any.cat)
+                                     any.cat=any.cat,
+                                     max.iter=max.iter)
     }else{
       #############################
       #R2 estimation
@@ -101,7 +105,8 @@ calc.lmg<-function(X, y, d, logistic, indices, comb_weights, any.cat, parl,clus,
                         dataX=X,
                         y=y,
                         logistic=logistic,
-                        any.cat=any.cat)
+                        any.cat=any.cat,
+                        max.iter=max.iter)
     }
   }
   ###############################
@@ -168,7 +173,7 @@ calc.lmg<-function(X, y, d, logistic, indices, comb_weights, any.cat, parl,clus,
 
 ############################################
 # Main function
-lmg<-function(X, y, logistic = FALSE,  rank=FALSE, nboot = 0, conf=0.95, parl=NULL){
+lmg<-function(X, y, logistic = FALSE,  rank=FALSE, nboot = 0, conf=0.95, max.iter=1000, parl=NULL){
   ###########################################
   #Pre-processing
 
@@ -259,7 +264,6 @@ lmg<-function(X, y, logistic = FALSE,  rank=FALSE, nboot = 0, conf=0.95, parl=NU
   #Preparing parallel cluster
   if(!is.null(parl)){
     cl=parallel::makeCluster(parl)
-
     doParallel::registerDoParallel(cl)
   }else{
     cl=NULL
@@ -275,6 +279,7 @@ lmg<-function(X, y, logistic = FALSE,  rank=FALSE, nboot = 0, conf=0.95, parl=NU
                    any.cat=any.cat,
                    parl=parl,
                    clus=cl,
+                   max.iter=max.iter,
                    boot=F)
   #Retrieving input names
   res_lmg$lmg<-matrix(res_lmg$lmg, ncol=1)
@@ -314,6 +319,7 @@ lmg<-function(X, y, logistic = FALSE,  rank=FALSE, nboot = 0, conf=0.95, parl=NU
                      parl=NULL,
                      clus=NULL,
                      boot=boot,
+                     max.iter=max.iter,
                      stype="i")
     }else{
       boot_lmg<-boot(data=cbind(X),
@@ -331,6 +337,7 @@ lmg<-function(X, y, logistic = FALSE,  rank=FALSE, nboot = 0, conf=0.95, parl=NU
                      stype="i",
                      parallel="snow",
                      ncpus=parl,
+                     max.iter=max.iter,
                      cl=cl)
     }
 

@@ -17,8 +17,8 @@ importFrom("stats", "coefficients", "cor", "cor.test", "cov", "dist",
            "qnorm", "quantile", "rnorm", "runif", "sd", "update", 
            "var", "dbeta", "dexp", "dgamma", "dlnorm", "dweibull",
            "integrate", "smooth.spline", "ecdf", "pgamma", 
-           "pbeta", "pexp", "pweibull", "approxfun", "glm", "setNames",
-           "prcomp", "na.omit")
+           "pbeta", "pexp", "pweibull", "approxfun", "glm", "glm.control",
+           "setNames", "prcomp", "na.omit")
 importFrom("utils", "combn", "methods", "head") 
 
 #importFrom("ggplot2","ggplot", "position_dodge","aes","geom_point",
@@ -197,6 +197,7 @@ export(PLI)
 export(PLIquantile)
 export(PLIsuperquantile)
 export(PLIquantile_multivar)
+export(PLIsuperquantile_multivar)
 
 export(PoincareConstant)
 export(PoincareOptimal)

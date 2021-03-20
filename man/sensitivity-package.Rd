@@ -62,9 +62,9 @@
 	    \item Estimation of Shapley effects from data using nearest neighbors method (Broto et al., 2018) (\code{\link{shapleySubsetMc}}),
 	    \item Estimation of Shapley effects and all Sobol indices from data using nearest neighbors (Broto et al., 2018) using a fast approximate algorithm, and ranking (Gamboa et al., 2020) (\code{\link{sobolshap_knn}});
 	  }
-    \item First-order quantile-oriented sensitivity indices as defined in Fort et al. (2016) via a kernel-based estimator related (Maume-Deschamps and Niang, 2018) (\code{\link{qosa}});
     \item Support index functions (\code{\link{support}}) of Fruth et al. (2016);
     \item Sensitivity Indices based on Csiszar f-divergence (\code{\link{sensiFdiv}}) (particular cases: Borgonovo's indices and mutual-information based indices) and Hilbert-Schmidt Independence Criterion (\code{\link{sensiHSIC}}) (Da Veiga, 2015; Meynaoui et al., 2019);
+    \item First-order quantile-oriented sensitivity indices as defined in Fort et al. (2016) via a kernel-based estimator related (Maume-Deschamps and Niang, 2018) (\code{\link{qosa}});
     \item Target Sensitivity Analysis via Hilbert-Schmidt Independence Criterion (\code{\link{sensiHSIC}}) (Spagnol et al., 2019);
     \item Robustness analysis by the Perturbed-Law based Indices (\code{\link{PLI}}) of Lemaitre et al. (2015), (\code{\link{PLIquantile}}) of Sueur et al. (2017), and extension as (\code{\link{PLIquantile_multivar}}) and (\code{\link{PLIsuperquantile}}) ;
     \item Extensions to multidimensional outputs for:

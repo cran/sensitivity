@@ -6,7 +6,7 @@
 
 ############################################
 #R2 estimation
-estim.R2<-function(dataX,y, subset, logistic, any.cat){
+estim.R2<-function(dataX,y, subset, logistic, any.cat, max.iter){
   # Function estim.R2:
   #   Computes the R2 (explained variance) statistic for linear/logistic
   #   regression for a specified sub-model (subset of inputs)
@@ -53,11 +53,14 @@ estim.R2<-function(dataX,y, subset, logistic, any.cat){
   }else{
     #######################
     #Logistic Model
-
+    #Maximum optimization iterations
+    fit.control=glm.control(maxit=max.iter)
     #Subsetting X
     X_<-dataX[,as.vector(subset)]
     dat<-data.frame(y,X_)
-    sum_glm<-summary(glm(y~., data=dat, family="binomial"))
+    sum_glm<-summary(glm(y~., data=dat, 
+                         family="binomial",
+                         control=fit.control))
 
     #Computing Logistic R2 estimate
     R2<-1-(sum_glm$deviance/sum_glm$null.deviance)
@@ -67,7 +70,7 @@ estim.R2<-function(dataX,y, subset, logistic, any.cat){
 
 ######################################
 #Recursive E-MVD computation
-calc.emvd.rec.boot<-function(X, y, d, indices, logistic, any.cat, i=1:nrow(X)){
+calc.emvd.rec.boot<-function(X, y, indices, logistic, max.iter,tol, any.cat, i=1:nrow(X)){
   # Function calc.emvd.rec.boot
   #   Computes the E-MVD indices using the recursive algorithm of Feldman (2005)
   #   for bootstrap confidence interval computations.
@@ -85,10 +88,11 @@ calc.emvd.rec.boot<-function(X, y, d, indices, logistic, any.cat, i=1:nrow(X)){
 
   #################################
   # Pre-Processing
-
+  #Dimension
+  d=ncol(X)
   #Bootstrap row selection
   X<-X[i,]
-  y<-y[i,]
+  y<-matrix(y,ncol=1)[i,]
 
   #Initiating the conditional elements object
   R2s<-rep(list(0), d+1)
@@ -102,108 +106,104 @@ calc.emvd.rec.boot<-function(X, y, d, indices, logistic, any.cat, i=1:nrow(X)){
                         dataX=X,
                         y=y,
                         logistic=logistic,
-                        any.cat=any.cat)
+                        any.cat=any.cat,
+                        max.iter=max.iter)
   }
 
   #################################
   # E-MVD indices computation
-
-  #Finding inputs with w({i})=0 (i.e., R2(full model) - R2(full model\i)=0)
-  idx_null<-which(R2s[[d+1]]-R2s[[d]]==0)
-
-  if(length(idx_null)!=0){
-    #######################################
-    #If there are any inputs with w({i})=0
-
-    #Number of inputs with w({i})=0
-    nv_null<-length(idx_null)
-    #Position of inputs with w({i})=0
-    v_null<-rev(1:d)[idx_null]
-    #New number of dimension
-    d_n<-d-nv_null
-    #Preparing the recursive computation result, ommiting the excluded covariates
-    Ps<-rep(list(0), d_n+1)
-    #Same thing for the indices reference object
-    indices_<-rep(list(0), d_n+1)
-    for(j in 1:d_n){
-      indices_[[j+1]]<-t(gtools::combinations(n=d_n, r=j))
-      Ps[[j+1]]<-matrix(NA, ncol=choose(n=d_n, k=j), nrow=1)
-    }
-  }else{
-    ###############################
-    #If no excluded covariates
-    indices_<-indices
-    Ps<-rep(list(0), d+1)
-    for(j in 1:d){
-      Ps[[j+1]]<-matrix(NA, ncol=choose(n=d, k=j), nrow=1)
-    }
-    d_n<-d
-  }
-
+  
   #Preparing the recursive computation of the E-MVD indices
   #Full model indices
-  N=1:d_n
-  #Setting up w({emptyset})=1
-  Ps[[1]]=1
+  N=1:d
+  #Initiating P(S)
+  Ps<-rep(list(0), d+1)
+  #Computing w({i}) forall i
+  Ps[[1]]=rev(R2s[[d+1]] - R2s[[d]])
+  
+  #Finding if any w({i})=0 or |w({i})|<tol
+  if(is.null(tol)){
+    logi.zeros<-Ps[[1]]==0
+  }else{
+    logi.zeros<-abs(Ps[[1]])<tol
+  }
+  
+  if(any(logi.zeros)){
+    var_null<-which(logi.zeros)
+    nb_null<-length(var_null)
+    idx_ind_null=rep(list(0), d-nb_null+1)
+    indices_<-rep(list(0), d-nb_null)
+    for(i in 1:(d-nb_null)){
+      checkmat<-matrix(is.element(indices[[i+1]], var_null), i, ncol(indices[[i+1]]))
+      idx_ind_null[[i]] <- as.vector(which(colSums(checkmat) == 0))
+      indices_[[i]]<-matrix(indices[[i+1]][, idx_ind_null[[i]]],ncol=length(idx_ind_null[[i]]))
+    }
+    p=d #Original number of dimensions
+    d=d-nb_null #Number of dimensions after removing spurious covariates
+    Ps[[1]]<-Ps[[1]][setdiff(N, var_null)] #Only keeping w({i}) for non-spurious covariates
+  }else{
+    p=d
+    nb_null=0
+  }
   #Value of R2(full_model) to avoid a lot of search
-  R2_comp<-R2s[[d+1]]
-
-  for (ord in 1:(length(Ps)-1)){
-    #For every input orders
-    for(j in 1:ncol(Ps[[ord+1]])){
-      #For every element of Ps, in each order
-      #Find the corresponding subset
-      S<-c(indices_[[ord+1]][,j])
-      #Find the indices of the subset full_model\S
-      NpS<-setdiff(N,S)
-      if(ord==1){
-        #If the subset is of size 1, then find the index of NpS in indices
-        idx_nps<-which(apply(indices_[[d_n-ord+1]], 2,
-                             function(x) all(x %in% c(NpS))))
-        #Its P(.) value is initialized to R2(Full model) - R2(NpS)
-        Ps[[ord + 1]][,j]=R2_comp - R2s[[d_n-ord+1]][idx_nps]
-      }else if(ord==d_n){
-        #If the subset is of size d, then w(S)=R2(full model)
-        #Computing its P(.) value according to Feldman (2005)
-        Ps[[ord+1]]=R2_comp*(1/sum(1/Ps[[ord]]))
-      }else{
-        #If the size of the subset is between 0 and d
-        #Find the index of NpS in indices
-        idx_nps<-which(apply(indices_[[d_n-ord+1]], 2,
-                             function(x) all(x %in% c(NpS))))
-        #Matrix of the S\i (on each column) for all i in S
-        Spi<-matrix(sapply(S, function(x) setdiff(S, x)), ncol=length(S))
-        #Vector of the positions of all the Spi in indices
-        idx_Spi<-rep(0, ncol(Spi))
-        for(k in 1:ncol(Spi)){
-          idx_Spi[k]<-which(apply(indices_[[ord]],2,
-                                  function(x) all(x %in%c(Spi[,k]))))
+  R2_comp<-R2s[[p+1]]
+  
+  for(ord in 2:d){
+    #For every input orders : we start at 2 because Ps[[1]] has already been computed
+    if(ord==d){
+      #If this is the last order
+      Ps[[ord]]=R2_comp*(1/sum(1/Ps[[ord-1]]))
+    }else{
+      if(any(logi.zeros)){
+        #########################
+        #If any spurious variables
+        #Computing w(S) for all S of order ord
+        Ws<-rev(R2_comp - R2s[[d+1-ord]][idx_ind_null[[d-ord]]])
+        nbset<-ncol(indices_[[ord]]) #Number of subsets S
+        Ps[[ord]]<-rep(0, nbset) #Setting up the Ps results
+        for(i in 1:nbset){
+          S<-c(indices_[[ord]][,i]) #For every possible subset S of order ord
+          idx_Spi=which(colSums(matrix(indices_[[ord-1]]%in%S, nrow=length(S)-1, ncol=ncol(indices_[[ord-1]])))==length(S)-1) #Find every S\{i} for all i
+          Ps[[ord]][i]=Ws[i]/sum(1/(Ps[[ord-1]][idx_Spi])) #Recursively compute Ps
         }
-        #Value of w(S)= R2(full model) - R2(full model\S)
-        wS=R2_comp - R2s[[d-ord+1]][idx_nps]
-        #Compute P(S) according to Feldman(2005)
-        Ps[[ord+1]][,j]=wS*(1/sum(1/Ps[[ord]][,idx_Spi]))
+        
+      }else{
+        ########################
+        #If no spurious variables
+        #Computing w(S) for all S of order ord
+        Ws<-rev(R2_comp - R2s[[d+1-ord]])
+        nbset<-ncol(indices[[ord+1]])#Number of subsets S
+        Ps[[ord]]<-rep(0, nbset)#Setting up the Ps results
+        for(i in 1:nbset){
+          S<-c(indices[[ord+1]][,i]) #For every possible subset S of order ord
+          idx_Spi=which(colSums(matrix(indices[[ord]]%in%S, nrow=length(S)-1, ncol=ncol(indices[[ord]])))==length(S)-1)#Find every S\{i} for all i
+          Ps[[ord]][i]=Ws[i]/sum(1/(Ps[[ord-1]][idx_Spi]))#Recursively compute Ps
+        }
       }
     }
   }
-  #Prepare the output of the function
-  if(length(idx_null)==0){
-    #If there aren't any ommited covariate
-    res<-matrix(rev(Ps[[d+1]]/Ps[[d]]), nrow=1)
-  }else{
-    #If there is any, setting up their E-MVD index to 0
-    res_<-rep(0,d)
-    res_[setdiff(1:d, v_null)]<-rev(Ps[[d_n+1]]/Ps[[d_n]])
-    res<-matrix(res_, nrow=1)
+  
+  pmd<-matrix(rev(Ps[[d]]/Ps[[d-1]]), nrow=1)
+  if(any(logi.zeros)){
+    #If spurious variable, we set their value to 0
+    index <- 1
+    pmd_ <- rep(0, p)
+    for (i in 1:p) {
+      if (!is.element(i, var_null)) {
+        pmd_[i] <- pmd[index]
+        index <- index + 1
+      }
+    }
+    pmd=matrix(pmd_, nrow=1)
   }
-  colnames(res)=colnames(X)
-  return(res)
+  colnames(pmd)=colnames(X)
+  return(pmd)
 }
 
 
 ############################################
 # Main function
-emvd<-function(X, y, logistic = FALSE,  rank=FALSE, nboot = 0, conf=0.95, parl=NULL){
+emvd<-function(X, y, logistic = FALSE,  tol=NULL, rank=FALSE, nboot = 0, conf=0.95,  max.iter=1000, parl=NULL){
   ###########################################
   #Pre-processing
 
@@ -312,7 +312,8 @@ emvd<-function(X, y, logistic = FALSE,  rank=FALSE, nboot = 0, conf=0.95, parl=N
                                        dataX=X,
                                        y=y,
                                        logistic=logistic,
-                                       any.cat=any.cat)
+                                       any.cat=any.cat,
+                                       max.iter=max.iter)
       }else{
         #############################
         #R2 estimation
@@ -320,106 +321,118 @@ emvd<-function(X, y, logistic = FALSE,  rank=FALSE, nboot = 0, conf=0.95, parl=N
                           dataX=X,
                           y=y,
                           logistic=logistic,
-                          any.cat=any.cat)
+                          any.cat=any.cat,
+                          max.iter=max.iter)
       }
     }
 
     #################################
     # E-MVD indices computation
-
-    #Finding inputs with w({i})=0 (i.e., R2(full model) - R2(full model\i)=0)
-    idx_null<-which(R2s[[d+1]]-R2s[[d]]==0)
-
-    if(length(idx_null)!=0){
-      #######################################
-      #If there are any inputs with w({i})=0
-
-      #Number of inputs with w({i})=0
-      nv_null<-length(idx_null)
-      #Position of inputs with w({i})=0
-      v_null<-rev(1:d)[idx_null]
-      #New number of dimension
-      d_n<-d-nv_null
-      #Preparing the recursive computation result, ommiting the excluded covariates
-      Ps<-rep(list(0), d_n+1)
-      #Same thing for the indices reference object
-      indices_<-rep(list(0), d_n+1)
-      for(j in 1:d_n){
-        indices_[[j+1]]<-t(gtools::combinations(n=d_n, r=j))
-        Ps[[j+1]]<-matrix(NA, ncol=choose(n=d_n, k=j), nrow=1)
-      }
-    }else{
-      ###############################
-      #If no excluded covariates
-      indices_<-indices
-      Ps<-rep(list(0), d+1)
-      for(j in 1:d){
-        Ps[[j+1]]<-matrix(NA, ncol=choose(n=d, k=j), nrow=1)
-      }
-      d_n<-d
-    }
-
-
     #Preparing the recursive computation of the E-MVD indices
     #Full model indices
-    N=1:d_n
-    #Setting up w({emptyset})=1
-    Ps[[1]]=1
-    #Value of R2(full_model) to avoid searching for it a lot
-    R2_comp<-R2s[[d+1]]
-
-    for (ord in 1:(length(Ps)-1)){
-      #For every input orders
-      for(j in 1:ncol(Ps[[ord+1]])){
-        #For every element of Ps, in each order
-        #Find the corresponding subset
-        S<-c(indices_[[ord+1]][,j])
-        #Find the indices of the subset full_model\S
-        NpS<-setdiff(N,S)
-        if(ord==1){
-          #If the subset is of size 1, then find the index of NpS in indices
-          idx_nps<-which(apply(indices_[[d_n-ord+1]], 2,
-                               function(x) all(x %in% c(NpS))))
-          #Its P(.) value is initialized to R2(Full model) - R2(NpS)
-          Ps[[ord + 1]][,j]=R2_comp - R2s[[d_n-ord+1]][idx_nps]
-        }else if(ord==d_n){
-          #If the subset is of size d, then w(S)=R2(full model)
-          #Computing its P(.) value according to Feldman (2005)
-          Ps[[ord+1]]=R2_comp*(1/sum(1/Ps[[ord]]))
-        }else{
-          #If the size of the subset is between 0 and d
-          #Find the index of NpS in indices
-          idx_nps<-which(apply(indices_[[d_n-ord+1]], 2,
-                               function(x) all(x %in% c(NpS))))
-          #Matrix of the S\i (on each column) for all i in S
-          Spi<-matrix(sapply(S, function(x) setdiff(S, x)), ncol=length(S))
-          #Vector of the positions of all the Spi in indices
-          idx_Spi<-rep(0, ncol(Spi))
-          for(k in 1:ncol(Spi)){
-            idx_Spi[k]<-which(apply(indices_[[ord]],2,
-                                    function(x) all(x %in%c(Spi[,k]))))
+    N=1:d
+    #Initiating P(S)
+    Ps<-rep(list(0), d+1)
+    #Computing w({i}) forall i
+    Ps[[1]]=rev(R2s[[d+1]] - R2s[[d]])
+    
+    #Finding if any w({i})=0 or |w({i})|<tol
+    if(is.null(tol)){
+      logi.zeros<-Ps[[1]]==0
+    }else{
+      logi.zeros<-abs(Ps[[1]])<tol
+    }
+    
+    if(any(logi.zeros)){
+      var_null<-which(logi.zeros)
+      nb_null<-length(var_null)
+      idx_ind_null=rep(list(0), d-nb_null+1)
+      indices_<-rep(list(0), d-nb_null)
+      for(i in 1:(d-nb_null)){
+        checkmat<-matrix(is.element(indices[[i+1]], var_null), i, ncol(indices[[i+1]]))
+        idx_ind_null[[i]] <- as.vector(which(colSums(checkmat) == 0))
+        indices_[[i]]<-matrix(indices[[i+1]][, idx_ind_null[[i]]],ncol=length(idx_ind_null[[i]]))
+      }
+      p=d #Original number of dimensions
+      d=d-nb_null #Number of dimensions after removing spurious covariates
+      Ps[[1]]<-Ps[[1]][setdiff(N, var_null)] #Only keeping w({i}) for non-spurious covariates
+    }else{
+      p=d
+      nb_null=0
+    }
+    #Value of R2(full_model) to avoid a lot of search
+    R2_comp<-R2s[[p+1]]
+    
+    if(!is.null(parl)){doParallel::registerDoParallel(cl)}
+    for(ord in 2:d){
+      #For every input orders : we start at 2 because Ps[[1]] has already been computed
+      if(ord==d){
+        #If this is the last order
+        Ps[[ord]]=R2_comp*(1/sum(1/Ps[[ord-1]]))
+      }else{
+        if(any(logi.zeros)){
+          #########################
+          #If any spurious variables
+          #Computing w(S) for all S of order ord
+          Ws<-rev(R2_comp - R2s[[d+1-ord]][idx_ind_null[[d-ord]]])
+          nbset<-ncol(indices_[[ord]]) #Number of subsets S
+         
+          if(!is.null(parl)){
+            Ps[[ord]]<-foreach::foreach(i=1:nbset, .combine=cbind)%dopar%{
+              S<-c(indices_[[ord]][,i])
+              idx_Spi=which(colSums(matrix(indices_[[ord-1]]%in%S, nrow=length(S)-1, ncol=ncol(indices_[[ord-1]])))==length(S)-1)
+              res=Ws[i]/sum(1/(Ps[[ord-1]][idx_Spi]))
+              res
+            }
+          }else{
+            Ps[[ord]]<-rep(0, nbset) #Setting up the Ps results
+            for(i in 1:nbset){
+              S<-c(indices_[[ord]][,i]) #For every possible subset S of order ord
+              idx_Spi=which(colSums(matrix(indices_[[ord-1]]%in%S, nrow=length(S)-1, ncol=ncol(indices_[[ord-1]])))==length(S)-1) #Find every S\{i} for all i
+              Ps[[ord]][i]=Ws[i]/sum(1/(Ps[[ord-1]][idx_Spi])) #Recursively compute Ps
+            }
           }
-          #Value of w(S)= R2(full model) - R2(full model\S)
-          wS=R2_comp - R2s[[d-ord+1]][idx_nps]
-          #Compute P(S) according to Feldman(2005)
-          Ps[[ord+1]][,j]=wS*(1/sum(1/Ps[[ord]][,idx_Spi]))
+        }else{
+          ########################
+          #If no spurious variables
+          #Computing w(S) for all S of order ord
+          Ws<-rev(R2_comp - R2s[[d+1-ord]])
+          nbset<-ncol(indices[[ord+1]])#Number of subsets S
+         
+          if(!is.null(parl)){
+            Ps[[ord]]<-foreach::foreach(i=1:nbset, .combine=cbind)%dopar%{
+              S<-c(indices[[ord+1]][,i])
+              idx_Spi=which(colSums(matrix(indices[[ord]]%in%S, nrow=length(S)-1, ncol=ncol(indices[[ord]])))==length(S)-1)
+              res=Ws[i]/sum(1/(Ps[[ord-1]][idx_Spi]))
+              res
+            }
+          }else{
+            Ps[[ord]]<-rep(0, nbset)#Setting up the Ps results
+            for(i in 1:nbset){
+              S<-c(indices[[ord+1]][,i]) #For every possible subset S of order ord
+              idx_Spi=which(colSums(matrix(indices[[ord]]%in%S, nrow=length(S)-1, ncol=ncol(indices[[ord]])))==length(S)-1)#Find every S\{i} for all i
+              Ps[[ord]][i]=Ws[i]/sum(1/(Ps[[ord-1]][idx_Spi]))#Recursively compute Ps
+            }
+          }
         }
       }
     }
-
-    if(length(idx_null)==0){
-      #If there aren't any ommited covariates
-      emvd<-matrix(rev(Ps[[d+1]]/Ps[[d]]), ncol=1)
-      rownames(emvd)=colnames(X)
-      colnames(emvd)=c("original")
-    }else{
-      #If there is any, setting up their E-MVD index to 0
-      res<-rep(0,d)
-      res[setdiff(1:d, v_null)]<-rev(Ps[[d_n+1]]/Ps[[d_n]])
-      emvd<-matrix(res, ncol=1)
-      rownames(emvd)=colnames(X)
-      colnames(emvd)=c("original")
+    
+    emvd<-matrix(rev(Ps[[d]]/Ps[[d-1]]), ncol=1)
+    if(any(logi.zeros)){
+      #If spurious variable, we set their value to 0
+      index <- 1
+      emvd_ <- rep(0, p)
+      for (i in 1:p) {
+        if (!is.element(i, var_null)) {
+          emvd_[i] <- emvd[index]
+          index <- index + 1
+        }
+      }
+      emvd=matrix(emvd_, ncol=1)
     }
+    rownames(emvd)=colnames(X)
+    colnames(emvd)=c("original")
 
     #Preparing the output.
     out<-list("call"=match.call(),
@@ -452,7 +465,8 @@ emvd<-function(X, y, logistic = FALSE,  rank=FALSE, nboot = 0, conf=0.95, parl=N
                                        dataX=X,
                                        y=y,
                                        logistic=logistic,
-                                       any.cat=any.cat)
+                                       any.cat=any.cat,
+                                       max.iter=max.iter)
       }else{
         #############################
         #R2 estimation
@@ -460,7 +474,8 @@ emvd<-function(X, y, logistic = FALSE,  rank=FALSE, nboot = 0, conf=0.95, parl=N
                           dataX=X,
                           y=y,
                           logistic=logistic,
-                          any.cat=any.cat)
+                          any.cat=any.cat,
+                          max.iter=max.iter)
       }
     }
 
@@ -469,18 +484,20 @@ emvd<-function(X, y, logistic = FALSE,  rank=FALSE, nboot = 0, conf=0.95, parl=N
       boot_emvd<-boot::boot(data=cbind(X),
                       statistic=calc.emvd.rec.boot,
                       R=nboot,
-                      d=d,
+                      # d=d,
                       y=y,
                       logistic=logistic,
                       indices=indices,
                       any.cat=any.cat,
+                      tol=tol,
+                      max.iter=max.iter,
                       stype="i")
     }else{
       #Parallelized Bootstrap confidence interval estimation
       boot_emvd<-boot::boot(data=cbind(X),
                      statistic=calc.emvd.rec.boot,
                      R=nboot,
-                     d=d,
+                     # d=d,
                      y=y,
                      logistic=logistic,
                      indices=indices,
@@ -488,6 +505,8 @@ emvd<-function(X, y, logistic = FALSE,  rank=FALSE, nboot = 0, conf=0.95, parl=N
                      stype="i",
                      parallel="snow",
                      ncpus=parl,
+                     tol=tol,
+                     max.iter=max.iter,
                      cl=cl)
 
     }

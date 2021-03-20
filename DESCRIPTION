@@ -1,5 +1,5 @@
 Package: sensitivity
-Version: 1.24.0
+Version: 1.25.0
 Title: Global Sensitivity Analysis of Model Outputs
 Author: Bertrand Iooss, Sebastien Da Veiga, Alexandre Janon and Gilles Pujol, with contributions from Baptiste Broto, Khalid Boumhaout, Thibault Delage, Reda El Amri, Jana Fruth, Laurent Gilquin, Joseph Guillaume, Marouane Il Idrissi, Loic Le Gratiet, Paul Lemaitre, Amandine Marrel, Anouar Meynaoui, Barry L. Nelson, Filippo Monari, Roelof Oomen, Oldrich Rakovec, Bernardo Ramos, Olivier Roustant, Eunhye Song, Jeremy Staum, Roman Sueur, Taieb Touati, Frank Weber 
 Maintainer: Bertrand Iooss <biooss@yahoo.fr>
@@ -14,5 +14,5 @@ Description: A collection of functions for factor screening, global sensitivity 
 License: GPL-2
 NeedsCompilation: yes
 Repository: CRAN
-Packaged: 2021-01-08 17:44:38 UTC; F80570
-Date/Publication: 2021-01-11 19:10:02 UTC
+Packaged: 2021-03-20 09:45:04 UTC; bertrand
+Date/Publication: 2021-03-20 20:40:02 UTC

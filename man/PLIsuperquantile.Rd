@@ -71,7 +71,7 @@ PLIsuperquantile(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=
 }
 
 \value{
-  \code{PLIsuperquantile} returns a list of matrix (each column corresponds to an input, 
+  \code{PLIsuperquantile} returns a list of matrices (each column corresponds to an input, 
   each line corresponds to a twist of amplitude delta) 
   containing the following components:
   \item{PLI}{the PLI.}
@@ -85,8 +85,7 @@ PLIsuperquantile(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=
 \references{
 B. Iooss, V. Verges and V. Larget, \emph{BEPU robustness analysis via perturbed-law based 
 sensitivity indices}, 
-Submitted to ANS Best Estimate Plus Uncertainty International Conference (BEPU 2020),
-https://hal.archives-ouvertes.fr/hal-02864053.
+ANS Best Estimate Plus Uncertainty International Conference (BEPU 2020), Sicily, Italy, June 2021.
 
 P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss, 2015, 
 \emph{Density modification based reliability sensitivity analysis}, Journal of Statistical 
@@ -102,7 +101,7 @@ Bertrand Iooss
 }
 
 \seealso{
-  \code{\link{PLI}, \link{PLIquantile}}
+  \code{\link{PLI}, \link{PLIquantile}, \link{PLIsuperquantile_multivar}}
 }
 
 \examples{
