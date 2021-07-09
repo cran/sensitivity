@@ -94,7 +94,7 @@ Paul Lemaitre
   
 # Monte Carlo sampling to obtain failure points
 
-  N = 10^5
+  N = 100000
 	X = matrix(0,ncol=3,nrow=N)
 	for( i in 1:3){
     X[,i] = runif(N,-pi,pi)

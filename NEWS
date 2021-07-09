@@ -1,4 +1,30 @@
 
+Changes in version 1.26.0:
+
+  o New function shapleysobol_knn() which allows optimized and parallelized 
+  computations of Shapley effects/Sobol' indices using the 
+  nearest-neighbors method. This fct also replicates the same functionalities 
+  than sobolshap_knn() that will be removed in a future package's version
+  
+  o \donttest examples have been changed in the .Rd of several functions 
+  in order to shorten their execution (because the tests are judged too long
+  by CRAN)
+
+  o Bug corrected in all PLIxxx() fcts:
+    - conditions (delta != 0) replaced by conditions (delta != mu), 
+    mu being the input mean)
+    - pti=phi(lambda[K]) is not recomputed at each bootstrap iteration 
+    (causing numerical instabilities)
+  
+  o Bug corrected in PLIquantile_multivar() and PLIsuperquantile_multivar()
+  fcts (conditions "|" instead of "&")
+  
+  o Correction in docs of PLIquantile_multivar() and 
+  PLIsuperquantile_multivar() to precise that the delta are perturbed means
+  
+  o In the fct shapleyPermrand(), the test about 'Multiserver queue model'
+  has been suppressed (unsolved bug in Xset)
+
 Changes in version 1.25.0:
 
   o New function PLIsuperquantile_multivar()
@@ -11,7 +37,8 @@ Changes in version 1.25.0:
   number of iterative optimization step for logistic regression
   
   o Change in emvd():
-	  - new \code{max.iter} argument to increase the maximum number of iterative optimization step for logistic regression
+	  - new \code{max.iter} argument to increase the maximum number of 
+	  iterative optimization step for logistic regression
 	  - new \code{tol} argument to detect spurious variables
 	  - faster implementation
 	  - recursive emvd computation can now be partially done in parallel 

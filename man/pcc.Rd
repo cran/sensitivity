@@ -77,6 +77,7 @@ Gilles Pujol and Bertrand Iooss
 }
 
 \examples{
+\donttest{
 # a 100-sample with X1 ~ U(0.5, 1.5)
 #                   X2 ~ U(1.5, 4.5)
 #                   X3 ~ U(4.5, 13.5)
@@ -100,6 +101,7 @@ ggplot(x)
 x <- pcc(X, y, semi = TRUE, nboot = 100)
 print(x)
 plot(x)
+}
 }
 
 \seealso{

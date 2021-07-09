@@ -270,17 +270,18 @@ see Da Veiga (2015) for an illustration.
 
   # Test case: functional toy fct 'Arctangent temporal function' with PCA pre-processing
   # step and a dummy variable
-  n <- 500
-  X <- data.frame(matrix(runif(3*n,-7,7), nrow = n)) # We add a dummy variable
-  Y <- atantemp.fun(X)
-  x <- sensiHSIC(model = NULL, X, kernelX = "dcov", kernelY = "dcov", expl.var.PCA = 0.95,
-                   test.method = "Permutation")
-  tell(x,Y)
-  print(x)
-  ggplot(x)
+  # Put in comment because too long for the CRAN tests
+  #n <- 500
+  #X <- data.frame(matrix(runif(3*n,-7,7), nrow = n)) # We add a dummy variable
+  #Y <- atantemp.fun(X)
+  #x <- sensiHSIC(model = NULL, X, kernelX = "dcov", kernelY = "dcov", expl.var.PCA = 0.95,
+  #                 test.method = "Permutation")
+  #tell(x,Y)
+  #print(x)
+  #ggplot(x)
 
   # Test case: Multiclass classification
-  n <- 500
+  n <- 200 # put n=500 for more consistency
   X <- data.frame(matrix(-pi+2*pi*runif(3 * n), nrow = n))
   Ytemp <- ishigami.fun(X)
   # Create output variable

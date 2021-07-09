@@ -23,8 +23,8 @@ PLIsuperquantile_multivar(order,x,y,inputs,deltasvector,InputDistributions,samed
     \item{y}{the vector of model outputs.}
   \item{inputs}{the vector of the two inputs' indices for which
     the indices will be computed.}  
-	\item{deltasvector}{a vector containing the values of delta for which
-    the indices will be computed.}
+	\item{deltasvector}{a vector containing the values of delta (perturbed means) 
+	  for which the indices will be computed.}
 	\item{InputDistributions}{a list of list. Each list contains, as a list,
     the name of the distribution to be used and the parameters.
 	  Implemented cases so far (for a mean perturbation): 
@@ -137,32 +137,32 @@ abline(h=0,lty=2)
 legend(-1,1.,legend=c("X1","X2","X3","X1X2"),col=c("darkgreen","black","red","blue"),
     pch=c(15,19,17,16),cex=1.5)
 
-# with bootstrap
+# with bootstrap (put in comment because too long for the CRAN tests)
 
-v_delta = seq(-1,1,2/10) 
+#v_delta = seq(-1,1,2/10) 
 
-toto12 = PLIsuperquantile_multivar(0.95,X,Y,c(1,2),deltasvector=v_delta,
-    InputDistributions=distribution,samedelta=TRUE,nboot=20,bootsample=FALSE,bias=FALSE)
-toto = PLIsuperquantile(0.95,X,Y,deltasvector=v_delta,InputDistributions=distribution,
-    type="MOY",samedelta=TRUE,nboot=20,bootsample=FALSE,bias=FALSE)
+#toto12 = PLIsuperquantile_multivar(0.95,X,Y,c(1,2),deltasvector=v_delta,
+#    InputDistributions=distribution,samedelta=TRUE,nboot=20,bootsample=FALSE,bias=FALSE)
+#toto = PLIsuperquantile(0.95,X,Y,deltasvector=v_delta,InputDistributions=distribution,
+#    type="MOY",samedelta=TRUE,nboot=20,bootsample=FALSE,bias=FALSE)
 
-par(mar=c(4,5,1,1))
-plot(v_delta,diag(toto12$PLI),ylim=c(-1,1),xlab=expression(delta),
-    ylab=expression(hat(PLI[i*delta])),pch=16,cex=1.5,col="blue")
-points(v_delta,toto$PLI[,1],col="darkgreen",pch=15,cex=1.5)
-points(v_delta,toto$PLI[,2],col="black",pch=19,cex=1.5)
-points(v_delta,toto$PLI[,3],col="red",pch=17,cex=1.5)
-lines(v_delta,diag(toto12$PLICIinf),col="blue")
-lines(v_delta,diag(toto12$PLICIsup),col="blue")
-lines(v_delta,toto$PLICIinf[,2],col="black")
-lines(v_delta,toto$PLICIsup[,2],col="black")
-lines(v_delta,toto$PLICIinf[,1],col="darkgreen")
-lines(v_delta,toto$PLICIsup[,1],col="darkgreen")
-lines(v_delta,toto$PLICIinf[,3],col="red")
-lines(v_delta,toto$PLICIsup[,3],col="red")
-abline(h=0,lty=2)
-legend(-1,1,legend=c("X1","X2","X3","X1X2"),col=c("darkgreen","black","red","blue"),
-    pch=c(15,19,17,16),cex=1.5)
+#par(mar=c(4,5,1,1))
+#plot(v_delta,diag(toto12$PLI),ylim=c(-1,1),xlab=expression(delta),
+#    ylab=expression(hat(PLI[i*delta])),pch=16,cex=1.5,col="blue")
+#points(v_delta,toto$PLI[,1],col="darkgreen",pch=15,cex=1.5)
+#points(v_delta,toto$PLI[,2],col="black",pch=19,cex=1.5)
+#points(v_delta,toto$PLI[,3],col="red",pch=17,cex=1.5)
+#lines(v_delta,diag(toto12$PLICIinf),col="blue")
+#lines(v_delta,diag(toto12$PLICIsup),col="blue")
+#lines(v_delta,toto$PLICIinf[,2],col="black")
+#lines(v_delta,toto$PLICIsup[,2],col="black")
+#lines(v_delta,toto$PLICIinf[,1],col="darkgreen")
+#lines(v_delta,toto$PLICIsup[,1],col="darkgreen")
+#lines(v_delta,toto$PLICIinf[,3],col="red")
+#lines(v_delta,toto$PLICIsup[,3],col="red")
+#abline(h=0,lty=2)
+#legend(-1,1,legend=c("X1","X2","X3","X1X2"),col=c("darkgreen","black","red","blue"),
+#    pch=c(15,19,17,16),cex=1.5)
 
 }
 }

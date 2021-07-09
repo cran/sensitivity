@@ -122,7 +122,7 @@ Bertrand Iooss
 	q95 = quantile(Y,0.95)
   sq95a <- mean(Y*(Y>q95)/(1-0.95)) ; sq95b <- mean(Y[Y>q95])
 	
-	nboot=200
+	nboot=20 # change to nboot=200 for consistency
 	
 # sensitivity indices with perturbation of the mean 
   

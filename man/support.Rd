@@ -64,6 +64,7 @@ S3 methods \code{plot} and \code{scatterplot}: \code{\link{plot.support}}
 
 \examples{
 
+\donttest{
 # -----------------
 # ishigami function
 # -----------------
@@ -93,5 +94,6 @@ b <- support(model = ishigami.fun, X, Xnew)
 
 plot(b, col = c("lightskyblue4", "lightskyblue1", "black"), xprob = FALSE)
 scatterplot(b, xprob = FALSE, type = "histogram", bins = 10, cex = 1, cex.lab = 1.5)
+}
 }
 

@@ -55,7 +55,7 @@ PLIquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",same
   nmbredepoints=dim(x)[1]			# number of points
   nmbrededeltas=length(deltasvector)	# number of perturbations
   
-  ## some storage matrices 
+  ## some storage vectors and matrices 
   I <- J <- ICIinf <- ICIsup <- JCIinf <- JCIsup <- matrix(0,ncol=nmbredevariables,nrow=nmbrededeltas) 
   colnames(I) <- colnames(J) <- colnames(ICIinf) <- colnames(ICIsup) <- colnames(JCIinf) <- colnames(JCIsup) <- lapply(1:nmbredevariables, function(k) paste("X",k,sep="_", collapse=""))
   
@@ -162,7 +162,7 @@ PLIquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",same
       # Function gt allowing to minimise phit(tau)-(delta-a)*tau is also implemented.
         a=Loi.Entree[[2]][1]
         b=Loi.Entree[[2]][2]
-        m=(a+b)/2
+        mu=(a+b)/2
       
         Mx=function(tau){
           if (tau==0){ 1 }
@@ -170,7 +170,7 @@ PLIquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",same
         }
         phi=function(tau){
           if(tau==0){0}
-          else { log ( Mx(tau))}
+          else { log(Mx(tau))}
         }	
         phit=function(tau){
           if (tau==0){0}
@@ -182,7 +182,7 @@ PLIquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",same
         vlambda=c();
         for (l in 1:nmbrededeltas){
           tm=nlm(gt,0,vdd[l])$estimate					
-          vlambda[l]=tm					
+          vlambda[l]=tm						
         } 	
      }	# end for Uniform input, mean twisting
     
@@ -197,7 +197,7 @@ PLIquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",same
         a=Loi.Entree[[2]][1]
         b=Loi.Entree[[2]][2]
         c=Loi.Entree[[2]][3] # reminder: c is between a and b
-        m=(a+b+c)/3	
+        mu=(a+b+c)/3	
       
         Mx=function(tau){
           if (tau !=0){
@@ -321,13 +321,13 @@ PLIquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",same
     ############# Computation of q_i_delta for the mean twisting
     ###############################################################
     
-    
+      pti=rep(0,nmbrededeltas)
       for (K in 1:nmbrededeltas){
-        if(vdd[K]!=0){
+        if(vdd[K]!=mu){
           res=NULL		
-          pti=phi(vlambda[K])
+          pti[K]=phi(vlambda[K])
           for (j in 1:nmbredepoints){	
-            res[j]=exp(vlambda[K]*xs[j,i]-pti)
+            res[j]=exp(vlambda[K]*xs[j,i]-pti[K])
           }
           sum_res = sum(res)
           kid = 1
@@ -357,11 +357,10 @@ PLIquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",same
           xsb = xb[ysb$ix,] # inputs ordered by increasing output
       
           for (K in 1:nmbrededeltas){
-            if(vdd[K]!=0){
+            if(vdd[K]!=mu){
               res=NULL		
-              pti=phi(vlambda[K])
               for (j in 1:nmbredepoints){	
-                res[j]=exp(vlambda[K]*xsb[j,i]-pti)
+                res[j]=exp(vlambda[K]*xsb[j,i]-pti[K])
               }
               sum_res = sum(res)
               kid = 1
@@ -371,7 +370,7 @@ PLIquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",same
                 kid = kid + 1
                 res1 = res1 + res[kid]
                 res2 = res1/sum_res
-             }
+              }
               lqidb[K,b] = ysb$x[kid]
             } else lqidb[K,b] = quantilehatb[b]
          }
@@ -414,7 +413,7 @@ PLIquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",same
       #		Then, for each perturbed variance, the Lagrange function and its gradient are defined and minimised.
         a=Loi.Entree[[2]][1]
         b=Loi.Entree[[2]][2]
-        m=(a+b)/2
+        mu=(a+b)/2
       
         lambda1=c()
         lambda2=c()
@@ -459,18 +458,18 @@ PLIquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",same
           
             fctaint=function(y){y*dunif(y,a,b)*exp(l[1]*y+l[2]*y*y)}
             cste=simpson_v2(fctaint,a,b,2000)
-            resultat1=cste/epl-m
+            resultat1=cste/epl-mu
           
             fctaint=function(y){y*y*dunif(y,a,b)*exp(l[1]*y+l[2]*y*y)}
             cste=simpson_v2(fctaint,a,b,2000)
-            resultat2=cste/epl-(deltasvector[w]+m^2)
+            resultat2=cste/epl-(deltasvector[w]+mu^2)
           
             return(c(resultat1,resultat2))
           }
         
         
           lagrangefun=function(l){
-            res=phi1(l)-l[1]*m-l[2]*(deltasvector[w]+m^2)
+            res=phi1(l)-l[1]*mu-l[2]*(deltasvector[w]+mu^2)
             attr(res, "gradient")=gr(l)
             attr(res, "hessian")=hess(l)
             return(res)
@@ -486,12 +485,14 @@ PLIquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",same
     ###############################################################
     ############# Computation of q_i_delta for the variance twisting
     ###############################################################
+      
+     pti=rep(0,nmbrededeltas)
      for (K in 1:nmbrededeltas){
         if(deltasvector[K]!=0){
           res=0
-          pti=phi1(c(lambda1[K],lambda2[K]))
+          pti[K]=phi1(c(lambda1[K],lambda2[K]))
           for (j in 1:nmbredepoints){	
-            res[j]=exp(lambda1[K]*xs[j,i]+lambda2[K]*xs[j,i]^2-pti) 
+            res[j]=exp(lambda1[K]*xs[j,i]+lambda2[K]*xs[j,i]^2-pti[K]) 
           }
           sum_res = sum(res)
           kid = 1
@@ -523,9 +524,8 @@ PLIquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY",same
           for (K in 1:nmbrededeltas){
             if(deltasvector[K]!=0){
               res=0
-              pti=phi1(c(lambda1[K],lambda2[K]))
               for (j in 1:nmbredepoints){	
-                res[j]=exp(lambda1[K]*xsb[j,i]+lambda2[K]*xsb[j,i]^2-pti) 
+                res[j]=exp(lambda1[K]*xsb[j,i]+lambda2[K]*xsb[j,i]^2-pti[K]) 
               }
               sum_res = sum(res)
               kid = 1

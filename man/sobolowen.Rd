@@ -94,7 +94,7 @@ X3 <- data.frame(matrix(runif(8 * n), nrow = n))
 # sensitivity analysis
 
 \donttest{
-x <- sobolowen(model = sobol.fun, X1, X2, X3, nboot = 100)
+x <- sobolowen(model = sobol.fun, X1, X2, X3, nboot = 10) # put nboot=100
 print(x)
 plot(x)
 

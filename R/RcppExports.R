@@ -2,66 +2,66 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 DisC2_Crossprod <- function(X, d) {
-    .Call('_sensitivity_DisC2_Crossprod', PACKAGE = 'sensitivity', X, d)
+    .Call(`_sensitivity_DisC2_Crossprod`, X, d)
 }
 
 DisC2_Rowprod <- function(x, d) {
-    .Call('_sensitivity_DisC2_Rowprod', PACKAGE = 'sensitivity', x, d)
+    .Call(`_sensitivity_DisC2_Rowprod`, x, d)
 }
 
 DisL2_Crossprod <- function(X, d) {
-    .Call('_sensitivity_DisL2_Crossprod', PACKAGE = 'sensitivity', X, d)
+    .Call(`_sensitivity_DisL2_Crossprod`, X, d)
 }
 
 DisL2_Rowprod <- function(x, d) {
-    .Call('_sensitivity_DisL2_Rowprod', PACKAGE = 'sensitivity', x, d)
+    .Call(`_sensitivity_DisL2_Rowprod`, x, d)
 }
 
 DisL2star_Crossprod <- function(X, d) {
-    .Call('_sensitivity_DisL2star_Crossprod', PACKAGE = 'sensitivity', X, d)
+    .Call(`_sensitivity_DisL2star_Crossprod`, X, d)
 }
 
 DisM2_Crossprod <- function(X, d) {
-    .Call('_sensitivity_DisM2_Crossprod', PACKAGE = 'sensitivity', X, d)
+    .Call(`_sensitivity_DisM2_Crossprod`, X, d)
 }
 
 DisM2_Rowprod <- function(x, d) {
-    .Call('_sensitivity_DisM2_Rowprod', PACKAGE = 'sensitivity', x, d)
+    .Call(`_sensitivity_DisM2_Rowprod`, x, d)
 }
 
 DisS2_Crossprod <- function(X, d) {
-    .Call('_sensitivity_DisS2_Crossprod', PACKAGE = 'sensitivity', X, d)
+    .Call(`_sensitivity_DisS2_Crossprod`, X, d)
 }
 
 DisS2_Rowprod <- function(x, d) {
-    .Call('_sensitivity_DisS2_Rowprod', PACKAGE = 'sensitivity', x, d)
+    .Call(`_sensitivity_DisS2_Rowprod`, x, d)
 }
 
 DisW2_Crossprod <- function(X, d) {
-    .Call('_sensitivity_DisW2_Crossprod', PACKAGE = 'sensitivity', X, d)
+    .Call(`_sensitivity_DisW2_Crossprod`, X, d)
 }
 
 cpp_get_indices <- function(data, RP, I, bootsample, d) {
-    .Call('_sensitivity_cpp_get_indices', PACKAGE = 'sensitivity', data, RP, I, bootsample, d)
+    .Call(`_sensitivity_cpp_get_indices`, data, RP, I, bootsample, d)
 }
 
 cpp_get_total_indices <- function(data, bootsample) {
-    .Call('_sensitivity_cpp_get_total_indices', PACKAGE = 'sensitivity', data, bootsample)
+    .Call(`_sensitivity_cpp_get_total_indices`, data, bootsample)
 }
 
 Compar_array <- function(X, Y) {
-    .Call('_sensitivity_Compar_array', PACKAGE = 'sensitivity', X, Y)
+    .Call(`_sensitivity_Compar_array`, X, Y)
 }
 
 maximin_cpp <- function(X) {
-    .Call('_sensitivity_maximin_cpp', PACKAGE = 'sensitivity', X)
+    .Call(`_sensitivity_maximin_cpp`, X)
 }
 
 nested_permu_cplus <- function(layers) {
-    .Call('_sensitivity_nested_permu_cplus', PACKAGE = 'sensitivity', layers)
+    .Call(`_sensitivity_nested_permu_cplus`, layers)
 }
 
 nested_lhs_cplus <- function(d, layers) {
-    .Call('_sensitivity_nested_lhs_cplus', PACKAGE = 'sensitivity', d, layers)
+    .Call(`_sensitivity_nested_lhs_cplus`, d, layers)
 }
 

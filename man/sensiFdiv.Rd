@@ -87,11 +87,11 @@ n <- 100
 X <- data.frame(matrix(runif(8 * n), nrow = n))
 
 # Density-based sensitivity analysis
-x <- sensiFdiv(model = sobol.fun, X = X, fdiv = c("TV","KL"), nboot=30)
-print(x)
-
-library(ggplot2)
-ggplot(x)
+# the next lines are put in comment because too long for CRAN tests
+#x <- sensiFdiv(model = sobol.fun, X = X, fdiv = c("TV","KL"), nboot=30)
+#print(x)
+#library(ggplot2)
+#ggplot(x)
 }
 }
 

@@ -160,7 +160,7 @@ PLI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
         # Function gt allowing to minimise phit(tau)-(delta-a)*tau is also implemented.
         a=Loi.Entree[[2]][1]
         b=Loi.Entree[[2]][2]
-        m=(a+b)/2
+        mu=(a+b)/2
         
         Mx=function(tau){
           if (tau==0){ 1 }
@@ -195,7 +195,7 @@ PLI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
         a=Loi.Entree[[2]][1]
         b=Loi.Entree[[2]][2]
         c=Loi.Entree[[2]][3] # reminder: c is between a and b
-        m=(a+b+c)/3	
+        mu=(a+b+c)/3	
         
         Mx=function(tau){
           if (tau !=0){
@@ -320,7 +320,7 @@ PLI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
       ###############################################################
       
       for (K in 1:nmbrededeltas){
-        if(vdd[K]!=0){
+        if(vdd[K]!=mu){
           res=0			
           pti=phi(vlambda[K])
           for (j in 1:nmbredefailurepoints){	
@@ -367,7 +367,7 @@ PLI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
         #		Then, for each perturbated variance, the Lagrange function and its gradient are defined and minimised.
         a=Loi.Entree[[2]][1]
         b=Loi.Entree[[2]][2]
-        m=(a+b)/2
+        mu=(a+b)/2
         
         lambda1=c()
         lambda2=c()
@@ -412,18 +412,18 @@ PLI = function(failurepoints,failureprobabilityhat,samplesize,deltasvector,
             
             fctaint=function(y){y*dunif(y,a,b)*exp(l[1]*y+l[2]*y*y)}
             cste=simpson_v2(fctaint,a,b,2000)
-            resultat1=cste/epl-m
+            resultat1=cste/epl-mu
             
             fctaint=function(y){y*y*dunif(y,a,b)*exp(l[1]*y+l[2]*y*y)}
             cste=simpson_v2(fctaint,a,b,2000)
-            resultat2=cste/epl-(deltasvector[w]+m^2)
+            resultat2=cste/epl-(deltasvector[w]+mu^2)
             
             return(c(resultat1,resultat2))
           }
           
           
           lagrangefun=function(l){
-            res=phi1(l)-l[1]*m-l[2]*(deltasvector[w]+m^2)
+            res=phi1(l)-l[1]*mu-l[2]*(deltasvector[w]+mu^2)
             attr(res, "gradient")=gr(l)
             attr(res, "hessian")=hess(l)
             return(res)

@@ -177,15 +177,18 @@ candidate <- data.frame(matrix(runif(d * 100), nrow = 100))
 # Kriging-based Sobol
 #--------------------------------------#
 
+nsim <- 10 # put nsim <- 100
+nboot <- 10 # put nboot <- 100
+
 res <- sobolGP(
 model = m,
 type="UK",
 MCmethod="sobol",
 X1,
 X2,
-nsim = 100,
+nsim = nsim,
 conf = 0.95,
-nboot=100,
+nboot = nboot,
 sequential = TRUE,
 candidate,
 sequential.tot=FALSE,
@@ -194,12 +197,15 @@ max_iter = 1000
 
 res
 plot(res)
+
 x <- ask(res)
 y <- branin(x)
+
 # The following line doesn't work (uncorrected bug: 
 #     unused argument in km(), passed by update(), eval(), tell.sobolGP() ??)
 #res.new <- tell(res,y,x)
 #res.new
+
 }
 }
 

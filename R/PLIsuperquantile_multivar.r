@@ -156,7 +156,7 @@ PLIsuperquantile_multivar = function(order,x,y,inputs,deltasvector,InputDistribu
       # Function gt allowing to minimise phit(tau)-(delta-a)*tau is also implemented.
       a1=Loi.Entree[[2]][1]
       b1=Loi.Entree[[2]][2]
-      m1=(a1+b1)/2
+      mu1=(a1+b1)/2
       
       Mx1=function(tau){
         if (tau==0){ 1 }
@@ -191,7 +191,7 @@ PLIsuperquantile_multivar = function(order,x,y,inputs,deltasvector,InputDistribu
       a1=Loi.Entree[[2]][1]
       b1=Loi.Entree[[2]][2]
       c1=Loi.Entree[[2]][3] # reminder: c is between a and b
-      m1=(a1+b1+c1)/3	
+      mu1=(a1+b1+c1)/3	
       
       Mx1=function(tau){
         if (tau !=0){
@@ -305,7 +305,7 @@ PLIsuperquantile_multivar = function(order,x,y,inputs,deltasvector,InputDistribu
       # Function gt allowing to minimise phit(tau)-(delta-a)*tau is also implemented.
       a2=Loi.Entree[[2]][1]
       b2=Loi.Entree[[2]][2]
-      m2=(a2+b2)/2
+      mu2=(a2+b2)/2
       
       Mx2=function(tau){
         if (tau==0){ 1 }
@@ -340,7 +340,7 @@ PLIsuperquantile_multivar = function(order,x,y,inputs,deltasvector,InputDistribu
       a2=Loi.Entree[[2]][1]
       b2=Loi.Entree[[2]][2]
       c2=Loi.Entree[[2]][3] # reminder: c is between a and b
-      m2=(a2+b2+c2)/3	
+      mu2=(a2+b2+c2)/3	
       
       Mx2=function(tau){
         if (tau !=0){
@@ -405,16 +405,17 @@ PLIsuperquantile_multivar = function(order,x,y,inputs,deltasvector,InputDistribu
     ############# Computation of q_i_delta for the mean twisting
     ###############################################################
     
-    
+    pti1=rep(0,nmbrededeltas)
+    pti2=rep(0,nmbrededeltas)
     for (K1 in 1:nmbrededeltas){
       for (K2 in 1:nmbrededeltas){
-        if ((vdd1[K1]!=0) & (vdd2[K2]!=0)){
+        if ((vdd1[K1]!=mu1) | (vdd2[K2]!=mu2)){
           res=NULL ; respts=NULL
-          pti1=phi1(vlambda1[K1])
-          pti2=phi2(vlambda2[K2])
+          pti1[K1]=phi1(vlambda1[K1])
+          pti2[K2]=phi2(vlambda2[K2])
           for (j in 1:nmbredepoints){	
-            res[j]=exp(vlambda1[K1]*xs[j,inputs[1]]-pti1 + vlambda2[K2]*xs[j,inputs[2]]-pti2)
-            respts[j]=exp(vlambda1[K1]*x[j,inputs[1]]-pti1 + vlambda2[K2]*x[j,inputs[2]]-pti2)
+            res[j]=exp(vlambda1[K1]*xs[j,inputs[1]]-pti1[K1] + vlambda2[K2]*xs[j,inputs[2]]-pti2[K2])
+            respts[j]=exp(vlambda1[K1]*x[j,inputs[1]]-pti1[K1] + vlambda2[K2]*x[j,inputs[2]]-pti2[K2])
           }
           sum_res = sum(res)
           kid = 1
@@ -449,13 +450,11 @@ PLIsuperquantile_multivar = function(order,x,y,inputs,deltasvector,InputDistribu
         
         for (K1 in 1:nmbrededeltas){
           for (K2 in 1:nmbrededeltas){
-            if ((vdd1[K1]!=0) & (vdd2[K2]!=0)){
+            if ((vdd1[K1]!=mu1) | (vdd2[K2]!=mu2)){
               res=NULL ; respts=NULL
-              pti1=phi1(vlambda1[K1])
-              pti2=phi2(vlambda2[K2])
               for (j in 1:nmbredepoints){	
-                res[j]=exp(vlambda1[K1]*xsb[j,inputs[1]]-pti1 + vlambda2[K2]*xsb[j,inputs[2]]-pti2)
-                respts[j]=exp(vlambda1[K1]*xb[j,inputs[1]]-pti1 + vlambda2[K2]*xb[j,inputs[2]]-pti2)
+                res[j]=exp(vlambda1[K1]*xsb[j,inputs[1]]-pti1[K1] + vlambda2[K2]*xsb[j,inputs[2]]-pti2[K2])
+                respts[j]=exp(vlambda1[K1]*xb[j,inputs[1]]-pti1[K1] + vlambda2[K2]*xb[j,inputs[2]]-pti2[K2])
               }
               sum_res = sum(res)
               kid = 1

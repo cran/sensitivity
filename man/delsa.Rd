@@ -41,9 +41,9 @@ each parameter, and may be a vector.}
   Can be used instead of specifying sampling \code{method}}
   \item{varprior}{Prior variance. If \code{X0} is specified, \code{varprior} 
   must also be specified.}
-  \item{varoutput}{Output variance. If \code{"summation"} is specified, the ouput variance
-  is computed by summing the first order effects. If \code{"empirical"} is specified, 
-  the ouput variance is estimated frome the output sample.}
+  \item{varoutput}{Output variance. If \code{"summation"} is specified (default value), 
+  the ouput variance is computed by summing the first order effects. If \code{"empirical"} 
+  is specified, the ouput variance is estimated frome the output sample.}
   \item{\dots}{any other arguments for \code{model} which are passed
     unchanged each time it is called.}
   \item{x}{a list of class \code{"delsa"} storing the state of the

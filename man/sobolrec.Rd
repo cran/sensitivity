@@ -90,7 +90,7 @@ L. Gilquin, E. Arnaud, H. Monod and C. Prieur, 2016, \emph{Recursive estimation 
 
 
 \examples{
-	\dontrun{
+	\donttest{
 # Test case: the non-monotonic Sobol g-function
 
 # The method of sobol requires 2 samples
@@ -107,21 +107,23 @@ x <- sobolrec(model = sobol.fun, factors = 8, layers=11^2, order=2,
 print(x)
 
 
-# Test case: dealing with external model
+# Test case: dealing with external model 
+# put in comment because of bug with ask use !
 
-x <- sobolrec(model = NULL, factors = 8, layers=rep(2,each=15), order=1,
-              precision = c(5*10^(-2),2), method=NULL, tail=TRUE)
-toy <- sobol.fun
-k <- 1
-stop_crit <- FALSE
-while(!(stop_crit) & (k<length(x$layers))){
-  ask(x, index=k)
-  y <- toy(x$block)
-  tell(x, y, index=k)
-  stop_crit <- x$stop_crit
-  k <- k+1
-}
-print(x)
+#x <- sobolrec(model = NULL, factors = 8, layers=rep(2,each=15), order=1,
+#              precision = c(5*10^(-2),2), method=NULL, tail=TRUE)
+#toy <- sobol.fun
+#k <- 1
+#stop_crit <- FALSE
+#while(!(stop_crit) & (k<length(x$layers))){
+#  ask(x, index=k)
+#  y <- toy(x$block)
+#  tell(x, y, index=k)
+#  stop_crit <- x$stop_crit
+#  k <- k+1
+#}
+#print(x)
+
 }
 }
 

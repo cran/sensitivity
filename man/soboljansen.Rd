@@ -143,8 +143,8 @@ sobol.fun_array <- function(X){
 x_array <- soboljansen(model = sobol.fun_array, X1, X2)
 plot(x_array, y_col = 2, y_dim3 = 2)
 title(main = "y_col = 2, y_dim3 = 2")
-}
 
+}
 }
 
 \keyword{design}

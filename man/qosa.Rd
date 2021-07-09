@@ -84,7 +84,7 @@ library(ggplot2)
 library(boot)
 
 # Test case : difference of two exponential distributions (Fort et al. (2016))
-# We use two samples with different size
+# We use two samples with different sizes
 n1 <- 5000
 X1 <- data.frame(matrix(rexp(2 * n1,1), nrow = n1))
 n2 <- 1000
@@ -98,7 +98,7 @@ ggplot(x)
 
 # Test case : difference of two exponential distributions (Fort et al. (2016))
 # We use only one sample
-n <- 10000
+n <- 1000 # put n=10000 for more consistency
 X <- data.frame(matrix(rexp(2 * n,1), nrow = n))
 Y <- X[,1] - X[,2]
 x <- qosa(model = NULL, X1 = X, type = "quantile", alpha = 0.7)
@@ -108,10 +108,13 @@ ggplot(x)
 
 # Test case : the Ishigami function
 # We estimate first-order Sobol' indices (by specifying 'mean')
-n <- 5000
-X <- data.frame(matrix(-pi+2*pi*runif(3 * n), nrow = n))
-x <- qosa(model = ishigami.fun, X1 = X, type = "mean", nboot = 50)
-print(x)
-ggplot(x)
+# Next lines are put in comment because too long fro CRAN tests
+#n <- 5000 
+#nboot <- 50 
+#X <- data.frame(matrix(-pi+2*pi*runif(3 * n), nrow = n))
+#x <- qosa(model = ishigami.fun, X1 = X, type = "mean", nboot = nboot)
+#print(x)
+#ggplot(x)
+
 }
 }

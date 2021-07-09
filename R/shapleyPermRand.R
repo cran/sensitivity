@@ -52,7 +52,7 @@ shapleyPermRand <- function(model = NULL, Xall, Xset, d, Nv, m, No = 1, Ni = 3, 
         xjc <- xjcM[l,]
           
         # sample values of inputs in Sj conditional on xjc
-        xj <- Xset(Ni, Sj, Sjc, xjc) 
+        xj <- Xset(Ni, Sj, Sjc, xjc)
         xx <- cbind(xj, matrix(xjc,nrow=Ni,ncol=length(xjc),byrow=T))
         X[(Nv+(p-1)*(d-1)*No*Ni+(j-1)*No*Ni+(l-1)*Ni+1):(Nv+(p-1)*(d-1)*No*Ni+(j-1)*No*Ni+l*Ni),] <- xx[,pi_s]
       }

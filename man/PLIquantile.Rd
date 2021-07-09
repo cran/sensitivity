@@ -119,14 +119,14 @@ Paul Lemaitre, Bertrand Iooss, Thibault Delage and Roman Sueur
   
 # Monte Carlo sampling 
 
-  N = 10000
+  N = 5000
 	X = matrix(0,ncol=3,nrow=N)
 	for(i in 1:3) X[,i] = rnorm(N,0,1)
      
 	Y = 2 * X[,1] + X[,2] + X[,3]/2
 	q95 = quantile(Y,0.95)
 	
-	nboot=200
+	nboot=20 # put nboot=200 for consistency
 	
 # sensitivity indices with perturbation of the mean 
   

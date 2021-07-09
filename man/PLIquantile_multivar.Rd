@@ -23,8 +23,8 @@ PLIquantile_multivar(order,x,y,inputs,deltasvector,InputDistributions,samedelta=
     \item{y}{the vector of model outputs.}
   \item{inputs}{the vector of the two inputs' indices for which
     the indices will be computed.}  
-	\item{deltasvector}{a vector containing the values of delta for which
-    the indices will be computed.}
+	\item{deltasvector}{a vector containing the values of delta (perturbed means) 
+	  for which the indices will be computed.}
 	\item{InputDistributions}{a list of list. Each list contains, as a list,
     the name of the distribution to be used and the parameters.
 	  Implemented cases so far (for a mean perturbation): 
@@ -106,7 +106,7 @@ Bertrand Iooss
 
 distribution = list()
 for (i in 1:3) distribution[[i]]=list("norm",c(0,1))
-N = 10000
+N = 5000
 X = matrix(0,ncol=3,nrow=N)
 for(i in 1:3) X[,i] = rnorm(N,0,1)
 Y = 2 * X[,1] + X[,2] + X[,3]/2

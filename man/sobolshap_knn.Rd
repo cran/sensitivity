@@ -45,7 +45,7 @@
     can only be TRUE if \code{U=NULL}.}
   \item{randperm}{a logical indicating if random permutations are used to estimate Shapley effects, 
     only if \code{U=NULL} and \code{return.shap=TRUE}.}
-  \item{n.perm}{the number of random permuations used for estimation if \code{randperm=TRUE}.}
+  \item{n.perm}{the number of random permutations used for estimation if \code{randperm=TRUE}.}
   \item{rescale}{a logical indicating if continuous inputs must be rescaled before distance computations.
     If TRUE, continuous inputs are first whitened with the ZCA-cor whitening procedure 
     (cf. whiten() function in package \code{whitening}). If the inputs are independent, 
@@ -130,7 +130,7 @@
 }
 
 \seealso{
-  \code{\link{sobolrank}, \link{shapleySubsetMc}}
+  \code{\link{sobolrank}, \link{shapleysobol_knn}, \link{shapleySubsetMc}}
 }
 
 \examples{

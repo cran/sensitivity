@@ -163,14 +163,17 @@ x<-lmg(X,y, logistic = TRUE)
 plot(x)
 print(x)
 
+\donttest{
 # Parallel computing
 x<-lmg(X,y, logistic = TRUE, parl=2)
 plot(x)
 print(x)
 }
 
+}
+
 \seealso{
-\code{\link{pcc}}, \code{\link{src}}, \code{\link{shapleyPermEx}}, \code{\link{sobolshap_knn}}, \code{\link{emvd}}
+\code{\link{pcc}}, \code{\link{src}}, \code{\link{shapleyPermEx}}, \code{\link{shapleysobol_knn}}, \code{\link{emvd}}
 }
 
 \keyword{shapley}

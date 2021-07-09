@@ -152,5 +152,6 @@ eigenDerFun <- approxfun(x = out$knots, y = out$der[, 2])
 x <- runif(n = 3, min = -1/2, max = 1/2)
 eigenFun(x)
 eigenDerFun(x)
+
 }
 }

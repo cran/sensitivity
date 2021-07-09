@@ -171,7 +171,7 @@ PLIsuperquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY"
         # Function gt allowing to minimise phit(tau)-(delta-a)*tau is also implemented.
         a=Loi.Entree[[2]][1]
         b=Loi.Entree[[2]][2]
-        m=(a+b)/2
+        mu=(a+b)/2
         
         Mx=function(tau){
           if (tau==0){ 1 }
@@ -206,7 +206,7 @@ PLIsuperquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY"
         a=Loi.Entree[[2]][1]
         b=Loi.Entree[[2]][2]
         c=Loi.Entree[[2]][3] # reminder: c is between a and b
-        m=(a+b+c)/3	
+        mu=(a+b+c)/3	
         
         Mx=function(tau){
           if (tau !=0){
@@ -331,13 +331,14 @@ PLIsuperquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY"
       ###############################################################
       
       #    ecdfy <- ecdf(y)
+      pti=rep(0,nmbrededeltas)
       for (K in 1:nmbrededeltas){
-        if(vdd[K]!=0){
+        if(vdd[K]!=mu){
           res=NULL ; respts=NULL	
-          pti=phi(vlambda[K])
+          pti[K]=phi(vlambda[K])
           for (j in 1:nmbredepoints){	
-            res[j]=exp(vlambda[K]*xs[j,i]-pti)
-            respts[j]=exp(vlambda[K]*x[j,i]-pti)
+            res[j]=exp(vlambda[K]*xs[j,i]-pti[K])
+            respts[j]=exp(vlambda[K]*x[j,i]-pti[K])
           }
           sum_res = sum(res)
           kid = 1
@@ -371,12 +372,11 @@ PLIsuperquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY"
           xsb = xb[ysb$ix,] # inputs ordered by increasing output
           
           for (K in 1:nmbrededeltas){
-            if(vdd[K]!=0){
-              res=NULL ; respts=NULL	
-              pti=phi(vlambda[K])
+            if(vdd[K]!=mu){
+              res=NULL ; respts=NULL
               for (j in 1:nmbredepoints){	
-                res[j]=exp(vlambda[K]*xsb[j,i]-pti)
-                respts[j]=exp(vlambda[K]*xb[j,i]-pti)
+                res[j]=exp(vlambda[K]*xsb[j,i]-pti[K])
+                respts[j]=exp(vlambda[K]*xb[j,i]-pti[K])
               }
               sum_res = sum(res)
               kid = 1
@@ -430,7 +430,7 @@ PLIsuperquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY"
         #		Then, for each perturbed variance, the Lagrange function and its gradient are defined and minimised.
         a=Loi.Entree[[2]][1]
         b=Loi.Entree[[2]][2]
-        m=(a+b)/2
+        mu=(a+b)/2
         
         lambda1=c()
         lambda2=c()
@@ -475,18 +475,18 @@ PLIsuperquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY"
             
             fctaint=function(y){y*dunif(y,a,b)*exp(l[1]*y+l[2]*y*y)}
             cste=simpson_v2(fctaint,a,b,2000)
-            resultat1=cste/epl-m
+            resultat1=cste/epl-mu
             
             fctaint=function(y){y*y*dunif(y,a,b)*exp(l[1]*y+l[2]*y*y)}
             cste=simpson_v2(fctaint,a,b,2000)
-            resultat2=cste/epl-(deltasvector[w]+m^2)
+            resultat2=cste/epl-(deltasvector[w]+mu^2)
             
             return(c(resultat1,resultat2))
           }
           
           
           lagrangefun=function(l){
-            res=phi1(l)-l[1]*m-l[2]*(deltasvector[w]+m^2)
+            res=phi1(l)-l[1]*mu-l[2]*(deltasvector[w]+mu^2)
             attr(res, "gradient")=gr(l)
             attr(res, "hessian")=hess(l)
             return(res)
@@ -502,13 +502,15 @@ PLIsuperquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY"
       ###############################################################
       ############# Computation of q_i_delta for the variance twisting
       ###############################################################
+      
+      pti=rep(0,nmbrededeltas)
       for (K in 1:nmbrededeltas){
         if(deltasvector[K]!=0){
           res=NULL ; respts=NULL
-          pti=phi1(c(lambda1[K],lambda2[K]))
+          pti[K]=phi1(c(lambda1[K],lambda2[K]))
           for (j in 1:nmbredepoints){	
-            res[j]=exp(lambda1[K]*xs[j,i]+lambda2[K]*xs[j,i]^2-pti) 
-            respts[j]=exp(lambda1[K]*x[j,i]+lambda2[K]*x[j,i]^2-pti) 
+            res[j]=exp(lambda1[K]*xs[j,i]+lambda2[K]*xs[j,i]^2-pti[K]) 
+            respts[j]=exp(lambda1[K]*x[j,i]+lambda2[K]*x[j,i]^2-pti[K]) 
           }
           sum_res = sum(res)
           kid = 1
@@ -543,10 +545,9 @@ PLIsuperquantile = function(order,x,y,deltasvector,InputDistributions,type="MOY"
           for (K in 1:nmbrededeltas){
             if(deltasvector[K]!=0){
               res=NULL ; respts=NULL
-              pti=phi1(c(lambda1[K],lambda2[K]))
               for (j in 1:nmbredepoints){	
-                res[j]=exp(lambda1[K]*xsb[j,i]+lambda2[K]*xsb[j,i]^2-pti) 
-                respts[j]=exp(lambda1[K]*xb[j,i]+lambda2[K]*xb[j,i]^2-pti) 
+                res[j]=exp(lambda1[K]*xsb[j,i]+lambda2[K]*xsb[j,i]^2-pti[K]) 
+                respts[j]=exp(lambda1[K]*xb[j,i]+lambda2[K]*xb[j,i]^2-pti[K]) 
               }
               sum_res = sum(res)
               kid = 1

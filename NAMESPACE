@@ -18,7 +18,7 @@ importFrom("stats", "coefficients", "cor", "cor.test", "cov", "dist",
            "var", "dbeta", "dexp", "dgamma", "dlnorm", "dweibull",
            "integrate", "smooth.spline", "ecdf", "pgamma", 
            "pbeta", "pexp", "pweibull", "approxfun", "glm", "glm.control",
-           "setNames", "prcomp", "na.omit")
+           "setNames", "prcomp", "na.omit","complete.cases")
 importFrom("utils", "combn", "methods", "head") 
 
 #importFrom("ggplot2","ggplot", "position_dodge","aes","geom_point",
@@ -256,6 +256,13 @@ S3method(extract, sobolshap_knn)
 S3method(print, sobolshap_knn)
 S3method(plot, sobolshap_knn)
 S3method(ggplot, sobolshap_knn)
+
+export(shapleysobol_knn)
+S3method(tell, shapleysobol_knn)
+S3method(print, shapleysobol_knn)
+S3method(plot, shapleysobol_knn)
+S3method(print, sobol_knn)
+S3method(plot, sobol_knn)
 
 export(sobolrank)
 S3method(tell, sobolrank)

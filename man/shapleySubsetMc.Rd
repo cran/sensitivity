@@ -60,7 +60,7 @@ Baptiste Broto
 }
 
 \seealso{
-\link{shapleyPermEx}, \link{shapleyPermRand}, \link{shapleyLinearGaussian}, \link{sobolrank}, \link{sobolshap_knn}
+\link{shapleyPermEx}, \link{shapleyPermRand}, \link{shapleyLinearGaussian}, \link{sobolrank}, \link{shapleysobol_knn}
 }
 
 \examples{
@@ -69,11 +69,11 @@ Baptiste Broto
 # First example: the linear Gaussian framework
 
 # we generate a covariance matrice Sigma
-p=4 #dimension
-A=matrix(rnorm(p^2),nrow=p,ncol=p)
-Sigma=t(A)\%*\%A # it means t(A)%*%A
-C=chol(Sigma)
-n=2000 #sample size
+p <- 4 #dimension
+A <- matrix(rnorm(p^2),nrow=p,ncol=p)
+Sigma <- t(A)\%*\%A # it means t(A)%*%A
+C <- chol(Sigma)
+n <- 500 #sample size (put n=2000 for more consistency)
 
 Z=matrix(rnorm(p*n),nrow=n,ncol=p)
 X=Z\%*\%C # X is a gaussian vector with zero mean and covariance Sigma
@@ -88,7 +88,7 @@ p=8 #dimension
 A=matrix(rnorm(p^2),nrow=p,ncol=p)
 Sigma=t(A)\%*\%A
 C=chol(Sigma)
-n=5000 #sample size
+n=500 #sample size (put n=5000 for more consistency)
 
 Z=matrix(rnorm(p*n),nrow=n,ncol=p)
 X=Z%*%C+1 # X is a gaussian vector with mean (1,1,..,1) and covariance Sigma
@@ -103,8 +103,8 @@ cat=c(1,2)  # we choose to take X1 and X2 as categorical variables (with the dis
 discrete=c(4,6) # we indicate that X4 and X6 can take several times the same value
 
 Y=sobol.fun(X)
-
-Shap=shapleySubsetMc(X=X,Y=Y, cat=cat, discrete=discrete,Ntot=20000, Ni=10)
+Ntot <- 2000 # put Ntot=20000 for more consistency
+Shap=shapleySubsetMc(X=X,Y=Y, cat=cat, discrete=discrete, Ntot=Ntot, Ni=10)
 
 plot(Shap)
 }
