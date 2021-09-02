@@ -8,9 +8,10 @@
 
 \description{
   \code{emvd} computes the E-MVD indices derived from Feldman (2005) applied to
-  the explained variance (\eqn{R^2}{R-squared}) as a performance metric. They allow
-  for relative importance indices by \eqn{R^2}{R-squared} decomposition for linear
-  and logistic regression models. These indices allocate a share of
+  the explained variance (\eqn{R^2}{R-squared}) as a performance metric. They are
+  also known under the name PMVD (Proportional Marginal Variance Decomposition). 
+  They allow for relative importance indices by \eqn{R^2}{R-squared} decomposition 
+  for linear and logistic regression models. These indices allocate a share of
   \eqn{R^2}{R-squared} to each input based on a Proportional attribution system,
   allowing for covariates with null regression coefficients to have indices
   equal to 0, despite their potential dependence with other covariates (Exclusion
@@ -118,8 +119,9 @@ emvd(X, y, logistic = FALSE, tol = NULL, rank = FALSE, nboot = 0,
   relaimpo.}  Journal of Statistical Software, 17:1-27.
   
   M. Il Idrissi, V. Chabridon and B. Iooss (2021). \emph{Mesures d'importance relative  
-  par decompositions de la performance de modeles de regression,} Preprint, 52emes Journees 
-  de Statistiques de la Societe Francaise de Statistique (SFdS), Nice, France, Juin 2021
+  par decompositions de la performance de modeles de regression,} Actes des 52emes Journees 
+  de Statistiques de la Societe Francaise de Statistique (SFdS), pp 497-502,
+  Nice, France, Juin 2021
 
 }
 

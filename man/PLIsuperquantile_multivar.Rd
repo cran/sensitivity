@@ -23,8 +23,9 @@ PLIsuperquantile_multivar(order,x,y,inputs,deltasvector,InputDistributions,samed
     \item{y}{the vector of model outputs.}
   \item{inputs}{the vector of the two inputs' indices for which
     the indices will be computed.}  
-	\item{deltasvector}{a vector containing the values of delta (perturbed means) 
-	  for which the indices will be computed.}
+	\item{deltasvector}{a vector containing the values of the perturbed means
+	  for which the indices will be computed. Warning: if samedelta=FALSE, 
+	  deltasvector has to be the vector of deltas (mean perturbations)}
 	\item{InputDistributions}{a list of list. Each list contains, as a list,
     the name of the distribution to be used and the parameters.
 	  Implemented cases so far (for a mean perturbation): 
@@ -81,9 +82,9 @@ T. Delage, R. Sueur and B. Iooss, 2018, \emph{Robustness analysis of epistemic u
 propagation studies in LOCA assessment thermal-hydraulic model}, 
 ANS Best Estimate Plus Uncertainty International Conference (BEPU 2018), Lucca, Italy, May 13-19, 2018.
 
-B. Iooss, V. Verges and V. Larget, \emph{BEPU robustness analysis via perturbed-law based 
-sensitivity indices}, 
-ANS Best Estimate Plus Uncertainty International Conference (BEPU 2020), Sicily, Italy, June 2021.
+B. Iooss, V. Verges and V. Larget, 2021, \emph{BEPU robustness analysis via perturbed law-based 
+sensitivity indices}, Proceedings of the Institution of Mechanical Engineers, 
+Part O: Journal of Risk and Reliability, doi:10.1177/1748006X211036569
 
 P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss, 2015, 
 \emph{Density modification based reliability sensitivity analysis}, Journal of Statistical 
@@ -117,14 +118,16 @@ N = 10000
 X = matrix(0,ncol=3,nrow=N)
 for(i in 1:3) X[,i] = rnorm(N,0,1)
 Y = 2 * X[,1] + X[,2] + X[,3]/2
+alpha <- 0.95
+nboot <- 20 # put nboot=200 for consistency
 
-q95 = quantile(Y,0.95)
-sq95a <- mean(Y*(Y>q95)/(1-0.95)) ; sq95b <- mean(Y[Y>q95])
+q95 = quantile(Y,alpha)
+sq95a <- mean(Y*(Y>q95)/(1-alpha)) ; sq95b <- mean(Y[Y>q95])
   
 v_delta = seq(-1,1,1/10) 
-toto12 = PLIsuperquantile_multivar(0.95,X,Y,c(1,2),deltasvector=v_delta,
+toto12 = PLIsuperquantile_multivar(alpha,X,Y,c(1,2),deltasvector=v_delta,
     InputDistributions=distribution,samedelta=TRUE,bias=FALSE)
-toto = PLIsuperquantile(0.95,X,Y,deltasvector=v_delta,InputDistributions=distribution,
+toto = PLIsuperquantile(alpha,X,Y,deltasvector=v_delta,InputDistributions=distribution,
     type="MOY",samedelta=TRUE,nboot=0,bias=FALSE)
 
 par(mar=c(4,5,1,1))
@@ -139,30 +142,63 @@ legend(-1,1.,legend=c("X1","X2","X3","X1X2"),col=c("darkgreen","black","red","bl
 
 # with bootstrap (put in comment because too long for the CRAN tests)
 
-#v_delta = seq(-1,1,2/10) 
+v_delta = seq(-1,1,2/10) 
 
-#toto12 = PLIsuperquantile_multivar(0.95,X,Y,c(1,2),deltasvector=v_delta,
-#    InputDistributions=distribution,samedelta=TRUE,nboot=20,bootsample=FALSE,bias=FALSE)
-#toto = PLIsuperquantile(0.95,X,Y,deltasvector=v_delta,InputDistributions=distribution,
-#    type="MOY",samedelta=TRUE,nboot=20,bootsample=FALSE,bias=FALSE)
+toto12 = PLIsuperquantile_multivar(alpha,X,Y,c(1,2),deltasvector=v_delta,
+    InputDistributions=distribution,samedelta=TRUE,nboot=nboot,bootsample=FALSE,bias=FALSE)
+toto = PLIsuperquantile(alpha,X,Y,deltasvector=v_delta,InputDistributions=distribution,
+    type="MOY",samedelta=TRUE,nboot=nboot,bootsample=FALSE,bias=FALSE)
 
-#par(mar=c(4,5,1,1))
-#plot(v_delta,diag(toto12$PLI),ylim=c(-1,1),xlab=expression(delta),
-#    ylab=expression(hat(PLI[i*delta])),pch=16,cex=1.5,col="blue")
-#points(v_delta,toto$PLI[,1],col="darkgreen",pch=15,cex=1.5)
-#points(v_delta,toto$PLI[,2],col="black",pch=19,cex=1.5)
-#points(v_delta,toto$PLI[,3],col="red",pch=17,cex=1.5)
-#lines(v_delta,diag(toto12$PLICIinf),col="blue")
-#lines(v_delta,diag(toto12$PLICIsup),col="blue")
-#lines(v_delta,toto$PLICIinf[,2],col="black")
-#lines(v_delta,toto$PLICIsup[,2],col="black")
-#lines(v_delta,toto$PLICIinf[,1],col="darkgreen")
-#lines(v_delta,toto$PLICIsup[,1],col="darkgreen")
-#lines(v_delta,toto$PLICIinf[,3],col="red")
-#lines(v_delta,toto$PLICIsup[,3],col="red")
-#abline(h=0,lty=2)
-#legend(-1,1,legend=c("X1","X2","X3","X1X2"),col=c("darkgreen","black","red","blue"),
-#    pch=c(15,19,17,16),cex=1.5)
+par(mar=c(4,5,1,1))
+plot(v_delta,diag(toto12$PLI),ylim=c(-1,1),xlab=expression(delta),
+    ylab=expression(hat(PLI[i*delta])),pch=16,cex=1.5,col="blue")
+points(v_delta,toto$PLI[,1],col="darkgreen",pch=15,cex=1.5)
+points(v_delta,toto$PLI[,2],col="black",pch=19,cex=1.5)
+points(v_delta,toto$PLI[,3],col="red",pch=17,cex=1.5)
+lines(v_delta,diag(toto12$PLICIinf),col="blue")
+lines(v_delta,diag(toto12$PLICIsup),col="blue")
+lines(v_delta,toto$PLICIinf[,2],col="black")
+lines(v_delta,toto$PLICIsup[,2],col="black")
+lines(v_delta,toto$PLICIinf[,1],col="darkgreen")
+lines(v_delta,toto$PLICIsup[,1],col="darkgreen")
+lines(v_delta,toto$PLICIinf[,3],col="red")
+lines(v_delta,toto$PLICIsup[,3],col="red")
+abline(h=0,lty=2)
+legend(-1,1,legend=c("X1","X2","X3","X1X2"),col=c("darkgreen","black","red","blue"),
+    pch=c(15,19,17,16),cex=1.5)
+
+###################################################		
+# another visualizations by using the plotrix, 
+# viridisLite, lattice and grid packages (from Vanessa Verges)
+
+library(plotrix)
+parameters = list(colors=c("darkgreen","black","red"),symbols=c(15,19,17))
+par(mar=c(4,5,1,1),xpd=TRUE)
+plotCI(v_delta,diag(toto12$PLI),ui=diag(toto12$PLICIsup),li=diag(toto12$PLICIinf),
+       xlab=expression(delta),ylab=expression(hat(PLI[i*delta])),
+       main=bquote("PLI-superquantile (N ="~.(N) ~ ","~alpha~"="~.(alpha)~
+       ") on "~X[1]~"and"~X[2]~"of Y="~2*X[1] + X[2] + X[3]/2),
+       cex=1.5,col="blue",pch=16)
+for (i in 1:3){
+  plotCI(v_delta,toto$PLI[,i],ui=toto$PLICIsup[,i],li=toto$PLICIinf[,i],
+         cex=1.5,col=parameters$colors[i],pch=parameters$symbols[i],
+         add=TRUE)
+}
+abline(h=0,lty=2)
+legend("topleft",legend=c("X1","X2","X3","X1X2"),
+        col=c(parameters$colors,"blue"),pch=c(parameters$symbols,16),cex=1.5)
+
+# Visu of all the PLIs (at any paired combinations of deltas)
+
+library(viridisLite)
+library(lattice)
+library(grid)
+
+colnames(toto12$PLI) = round(v_delta,2)
+rownames(toto12$PLI) = round(v_delta,2)
+coul = viridis(100)
+levelplot(toto12$PLI,col.regions=coul,main=bquote(hat(PLI)[superquantile[~X[1]~X[2]]]),
+          xlab=bquote(delta[X~.(1)]),ylab=bquote(delta[X~.(2)]))
 
 }
 }

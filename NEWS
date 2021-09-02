@@ -1,4 +1,15 @@
 
+Changes in version 1.26.1:
+
+  o Simplification in shapleyBlockestimation.R and 
+  parameter values changes in shapleyBlockestimation.Rd
+  
+  o extract and ggplot functionalities added in shapleysobol_knn() fct
+  
+  o new examples for nice visualizations (via plotCI() of plotrix package)
+  in fcts PLIquantile(), PLIsuperquantile(), PLIquantile_multivar() 
+  and PLIsuperquantile_multivar()
+  
 Changes in version 1.26.0:
 
   o New function shapleysobol_knn() which allows optimized and parallelized 

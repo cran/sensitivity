@@ -8,7 +8,7 @@
 with an unknown block-diagonal covariance matrix}
 
 \description{
-\code{shapleyBlockEstimation} estimates the Shaplay effects of a Gaussian linear model
+\code{shapleyBlockEstimation} estimates the Shapley effects of a Gaussian linear model
 when the parameters are unknown and when the number of inputs is large,
 choosing the most likely block-diagonal structure of the covariance matrix.
 }
@@ -23,9 +23,9 @@ shapleyBlockEstimationX(X, Y, delta=NULL, M=20, tol=10^(-6))
   \item{S}{Empirical covariance matrix of the inputs. Has to be positive semi-definite matrix with same size that Beta.}
   \item{X}{Matrix containing an i.i.d. sample of the inputs.}
   \item{Y}{Vector containing the corresponding i.i.d. sample of the (noisy) output.}
-  \item{kappa}{The positive penalization coefficient that promotes block-diagonal matrices.}
+  \item{kappa}{The positive penalization coefficient that promotes block-diagonal matrices. It is advised to choose \code{kappa=0} to get the largest block structure such that the maximal block size is \code{M}.}
   \item{delta}{Positive number that fixes the positive penalization coefficient
-  \code{kappa} to \eqn{1/(p n^{delta})}. It is advised to choose \code{delta} to 3/2.}
+  \code{kappa} to \eqn{1/(p n^{delta})}. It is advised to choose \code{delta} to 2/3 for a positive penalisation or \code{delta=NULL} to get the largest block structure such that the maximal block size is \code{M}.}
   \item{M}{Maximal size of the estimate of the block-diagonal structure. The computation time grows exponentially with \code{M}.}
   \item{tol}{A relative tolerance to detect zero singular values of Sigma.}
 }
@@ -45,8 +45,8 @@ shapleyBlockEstimationX(X, Y, delta=NULL, M=20, tol=10^(-6))
 }
 
 \references{
-   B. Broto, F. Bachoc, L. Clouvel and J-M Martinez, 2020.\emph{Block-diagonal covariance estimation
-   and application to the Shapley effects in sensitivity analysis}. arXiv preprint arXiv:1907.12780.
+   B. Broto, F. Bachoc, and J-M Martinez, 2019.\emph{Block-diagonal covariance estimation
+   and application to the Shapley effects in sensitivity analysis}. arXiv:1907.12780.
 
    B. Broto, F. Bachoc, M. Depecker, and J-M. Martinez, 2019, \emph{Sensitivity indices
 for independent groups of variables}, Mathematics and Computers in Simulation, 163, 19--31.
@@ -69,15 +69,13 @@ Baptiste Broto, CEA LIST
 
 \examples{
 
-\donttest{
 # packages for the plots of the matrices
-library(ggplot2)
-library(graphics)
 library(gplots)
+library(graphics)
 
 
 # the following function improves the plots of the matrices
-sig=function(x,alpha=1)
+sig=function(x,alpha=0.4)
 {
   return(1/(1+exp(-x/alpha)))
 }
@@ -96,7 +94,8 @@ p=sum(pk)
 Sigma_ord=matrix(0,nrow=p, ncol=p)
 ind_min=0
 L=5
-for(k in 1:K){
+for(k in 1:K)
+{
   p_k=pk[k]
   ind=ind_min+(1:p_k)
   ind_min=ind_min+p_k
@@ -106,9 +105,9 @@ for(k in 1:K){
 }
 
 
-image((0:p)+0.5,(0:p)+0.5,z=sig(Sigma_ord,1),col=rev(redblue(100)), zlim=c(0,1),
-      ylim=c(p+0.5,0.5), main=expression(Sigma["order"]), cex.main=3,ylab = "", 
-      xlab = "",axes=FALSE)
+image((0:p)+0.5,(0:p)+0.5,z=sig(Sigma_ord),col=cm.colors(100), zlim=c(0,1),
+      ylim=c(p+0.5,0.5), main=expression(Sigma["order"]), 
+      cex.main=3,ylab = "", xlab = "",axes=FALSE)
 box()
 
 
@@ -122,8 +121,9 @@ barplot(eta_ord,main=expression(eta["order"]),cex.axis = 2,cex.main=3)
 samp=sample(1:p)
 Sigma=Sigma_ord[samp,samp]
 
-image((0:p)+0.5,(0:p)+0.5,z=sig(Sigma,1),col=rev(redblue(100)), zlim=c(0,1),
-      ylim=c(p+0.5,0.5), main=expression(Sigma), cex.main=3,ylab = "",xlab = "",axes=FALSE)
+image((0:p)+0.5,(0:p)+0.5,z=sig(Sigma),col=cm.colors(100), zlim=c(0,1),
+      ylim=c(p+0.5,0.5), main=expression(Sigma), 
+      cex.main=3,ylab = "",xlab = "",axes=FALSE)
 box()
 
 
@@ -144,9 +144,9 @@ X0=matrix(rnorm(p*n),ncol=p)
 X=X0\%*\%C
 
 S=var(X) #empirical covariance matrix
-image((0:p)+0.5,(0:p)+0.5,z=sig(S,1),col=rev(redblue(100)), zlim=c(0,1),
-      ylim=c(p+0.5,0.5), main=expression(S), cex.main=3,ylab = "", xlab = "",
-      axes=FALSE)
+image((0:p)+0.5,(0:p)+0.5,z=sig(S),col=cm.colors(100), zlim=c(0,1),
+      ylim=c(p+0.5,0.5), main=expression(S), 
+      cex.main=3,ylab = "", xlab = "",axes=FALSE)
 box()
 
 beta0=rnorm(1)
@@ -154,7 +154,8 @@ Y=X\%*\%as.matrix(Beta)+beta0+0.2*rnorm(p)
 
 
 
-# 4) We estimate the block-diagonal covariance matrix and the Shapley effects using the observations
+# 4) We estimate the block-diagonal covariance matrix 
+# and the Shapley effects using the observations
 # We assume that we know that the groups are smaller than 15
 
 Estim=shapleyBlockEstimationX(X,Y,delta=3/4, M=15, tol=10^(-6))
@@ -162,15 +163,13 @@ Estim=shapleyBlockEstimationX(X,Y,delta=3/4, M=15, tol=10^(-6))
 eta_hat=Estim$Shapley
 S_B=Estim$S_B
 
-image((0:p)+0.5,(0:p)+0.5,z=sig(S_B,1),col=rev(redblue(100)), zlim=c(0,1),
-      ylim=c(p+0.5,0.5), main=expression(S[hat(B)]), cex.main=3,ylab = "",
-      xlab = "",axes=FALSE)
+image((0:p)+0.5,(0:p)+0.5,z=sig(S_B),col=cm.colors(100), zlim=c(0,1),
+      ylim=c(p+0.5,0.5), main=expression(S[hat(B)]), 
+      cex.main=3,ylab = "",xlab = "",axes=FALSE)
 box()
 
 barplot(eta_hat,main=expression(hat(eta)),cex.axis = 2,cex.main=3)
 
 
 sum(abs(eta_hat-eta))
-}
-
 }

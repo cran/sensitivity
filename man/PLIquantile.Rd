@@ -80,12 +80,13 @@ T. Delage, R. Sueur and B. Iooss, 2018, \emph{Robustness analysis of epistemic u
 propagation studies in LOCA assessment thermal-hydraulic model}, 
 ANS Best Estimate Plus Uncertainty International Conference (BEPU 2018), Lucca, Italy, May 13-19, 2018.
 
-C. Gauchy, J. Stenger, R. Sueur and B. Iooss, \emph{ An information geometry approach for robustness analysis 
-in uncertainty quantification of computer codes}, Preprint, https://hal.archives-ouvertes.fr/hal-02425477 
+C. Gauchy, J. Stenger, R. Sueur and B. Iooss, 2021, \emph{ An information geometry approach 
+for robustness analysis in uncertainty quantification of computer codes}, 
+Technometrics, doi:10.1080/00401706.2021.1905072
 
-B. Iooss, V. Verges and V. Larget, \emph{BEPU robustness analysis via perturbed-law based 
-sensitivity indices}, 
-ANS Best Estimate Plus Uncertainty International Conference (BEPU 2020), Sicily, Italy, June 2021.
+B. Iooss, V. Verges and V. Larget, 2021, \emph{BEPU robustness analysis via perturbed law-based 
+sensitivity indices}, Proceedings of the Institution of Mechanical Engineers, 
+Part O: Journal of Risk and Reliability, doi:10.1177/1748006X211036569
 
 P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss, 2015, 
 \emph{Density modification based reliability sensitivity analysis}, Journal of Statistical 
@@ -124,14 +125,16 @@ Paul Lemaitre, Bertrand Iooss, Thibault Delage and Roman Sueur
 	for(i in 1:3) X[,i] = rnorm(N,0,1)
      
 	Y = 2 * X[,1] + X[,2] + X[,3]/2
-	q95 = quantile(Y,0.95)
+	alpha <- 0.95 # quantile order
+	
+	q95 = quantile(Y,alpha)
 	
 	nboot=20 # put nboot=200 for consistency
 	
 # sensitivity indices with perturbation of the mean 
   
 	v_delta = seq(-1,1,1/10) 
-	toto = PLIquantile(0.95,X,Y,deltasvector=v_delta,
+	toto = PLIquantile(alpha,X,Y,deltasvector=v_delta,
 	  InputDistributions=distribution,type="MOY",samedelta=TRUE,
 	  percentage=FALSE,nboot=nboot)
 
@@ -172,7 +175,7 @@ Paul Lemaitre, Bertrand Iooss, Thibault Delage and Roman Sueur
 ###########################################################		
 # Plotting the PLI in percentage with refined confidence intervals
 
-	toto = PLIquantile(0.95,X,Y,deltasvector=v_delta,
+	toto = PLIquantile(alpha,X,Y,deltasvector=v_delta,
 	  InputDistributions=distribution,type="MOY",samedelta=TRUE,
 	  percentage=TRUE,nboot=nboot,bootsample=FALSE)
 	  
@@ -190,8 +193,27 @@ Paul Lemaitre, Bertrand Iooss, Thibault Delage and Roman Sueur
 	abline(h=0,lty=2)
 	legend(0,0.6,legend=c("X1","X2","X3"),
 		col=c("darkgreen","black","red"),pch=c(15,19,17),cex=1.5)
-		
-# another idea: use the plotCI() fct (from plotrix package) for the CI plotting
+
+###################################################		
+# another visualization by using the plotCI() fct 
+# (from plotrix package) for the CI plotting(from Vanessa Verges)
+
+  library(plotrix)
+  parameters = list(colors=c("darkgreen","black","red"),
+                  symbols=c(15,19,17),overlay=c(FALSE,TRUE,TRUE))
+  par(mar=c(4,5,1,1),xpd=TRUE)
+  for (i in 1:3){
+    plotCI(v_delta,toto$PLI[,i],ui=toto$PLICIsup[,i],li=toto$PLICIinf[,i],
+         cex=1.5,col=parameters$colors[i],pch=parameters$symbols[i],
+         add=parameters$overlay[i], xlab="", ylab="")
+  }
+  title(xlab=expression(delta),ylab=expression(hat(PLI[i*delta])),
+       main=bquote("PLI-quantile (N ="~.(N) ~ ","~alpha~"="~.(alpha)~
+       ") of Y="~2*X[1] + X[2] + X[3]/2))
+  abline(h=0,lty=2)
+  legend("topleft",legend=c("X1","X2","X3"),col=parameters$colors,
+          pch=parameters$symbols,cex=1.5)
+
 	
 }
 }

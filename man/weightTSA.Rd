@@ -43,6 +43,10 @@ The vector sample of the transformed variable
 H. Raguet and A. Marrel, \emph{Target and conditional sensitivity analysis with emphasis
 on dependence measures}, Preprint, https://hal.archives-ouvertes.fr/hal-01694129
 
+A. Marrel and V. Chabridon, 2021, \emph{Statistical developments for target and conditional 
+sensitivity analysis: Application on safety studies for nuclear reactor}, 
+Reliability Engineering & System Safety, 214:107711.
+
 A. Spagnol, \emph{Kernel-based sensitivity indices for high-dimensional optimization problems},
 PhD Thesis, Universite de Lyon, 2020
 

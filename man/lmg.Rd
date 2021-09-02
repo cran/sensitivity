@@ -98,11 +98,12 @@ lmg(X, y, logistic = FALSE,  rank = FALSE, nboot = 0,
 
   M. Il Idrissi, V. Chabridon and B. Iooss (2021). \emph{Developments and applications
   of Shapley effects   to reliability-oriented sensitivity analysis with correlated inputs.}
-  Preprint, \url{https://hal.archives-ouvertes.fr/hal-03106452}
+  Environmental Modelling & Software, 143, 105115, 2021
   
   M. Il Idrissi, V. Chabridon and B. Iooss (2021). \emph{Mesures d'importance relative  
-  par decompositions de la performance de modeles de regression,} Preprint, 52emes Journees 
-  de Statistiques de la Societe Francaise de Statistique (SFdS), Nice, France, Juin 2021
+  par decompositions de la performance de modeles de regression,} Actes des 52emes Journees 
+  de Statistiques de la Societe Francaise de Statistique (SFdS), pp 497-502,
+  Nice, France, Juin 2021
   
   Lindeman RH, Merenda PF, Gold RZ (1980). \emph{Introduction to Bivariate and Multivariate
   Analysis.} Scott, Foresman, Glenview, IL.

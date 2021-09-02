@@ -1,10 +1,14 @@
 \name{shapleysobol_knn}
 \alias{shapleysobol_knn}
 \alias{tell.shapleysobol_knn}
+\alias{extract.shapleysobol_knn}
 \alias{print.shapleysobol_knn}
 \alias{plot.shapleysobol_knn}
+\alias{ggplot.shapleysobol_knn}
 \alias{print.sobol_knn}
 \alias{plot.sobol_knn}
+
+
 
 \title{Data given Shapley effects estimation via nearest-neighbors procedure}
 
@@ -27,8 +31,10 @@ shapleysobol_knn(model=NULL, X, method = "knn", n.knn = 2, n.limit = 2000, U = N
           n.perm = NULL, noise = F, rescale = F, nboot = NULL, boot.level = 0.8, 
           conf=0.95, parl=NULL, \dots)
 \method{tell}{shapleysobol_knn}(x, y, \dots)
+\method{extract}{shapleysobol_knn}(x, \dots)
 \method{print}{shapleysobol_knn}(x, \dots)
 \method{plot}{shapleysobol_knn}(x, ylim = c(0,1), \dots)
+\method{ggplot}{shapleysobol_knn}(x, ylim = c(0, 1), \dots)
 \method{print}{sobol_knn}(x, \dots)
 \method{plot}{sobol_knn}(x, ylim = c(0,1), \dots)
 }
@@ -64,7 +70,7 @@ shapleysobol_knn(model=NULL, X, method = "knn", n.knn = 2, n.limit = 2000, U = N
   \item{parl}{number of cores on which to parallelize the computation. If
   \code{NULL}, then no parallelization is done.}
   \item{x}{the object returned by \code{shapleysobol_knn}.}
-  \item{y}{a numeric vector containing the observed outputs.}
+  \item{y}{a numeric univariate vector containing the observed outputs.}
   \item{ylim}{the y-coordinate limits for plotting.}
   \item{\dots}{additional arguments to be passed to \code{model}, or to the 
   methods, such as graphical parameters (see \code{par}).}
@@ -160,6 +166,9 @@ shapleysobol_knn(model=NULL, X, method = "knn", n.knn = 2, n.limit = 2000, U = N
   Sobol' indices are returned, or the estimated closed Sobol' indices for the 
   selected subsets. The Shapley effects are not computed, and thus, not returned.
   
+  The \code{extract} method can be used for extracting first-order and total
+  Sobol' indices, after the Shapley effects have been computed. It returns a list
+  containing both sensitivity indices.
 }
 
 \references{
@@ -180,13 +189,12 @@ shapleysobol_knn(model=NULL, X, method = "knn", n.knn = 2, n.limit = 2000, U = N
   
   M. Il Idrissi, V. Chabridon and B. Iooss (2021). \emph{Developments and applications
   of Shapley effects   to reliability-oriented sensitivity analysis with correlated inputs.}
-  Preprint, \url{https://hal.archives-ouvertes.fr/hal-03106452}
+  Environmental Modelling & Software, 143, 105115.
   
   M. Il Idrissi, V. Chabridon and B. Iooss (2021). \emph{Mesures d'importance relative  
   par decompositions de la performance de modeles de regression,} Preprint, 52emes Journees 
-  de Statistiques de la Societe Francaise de Statistique (SFdS), Nice, France, Juin 2021
-  \url{https://hal.archives-ouvertes.fr/hal-03149764}
-  
+  de Statistiques de la Societe Francaise de Statistique (SFdS), pp. 497-502, 
+  Nice, France, Juin 2021
 }
 
 \author{
@@ -230,6 +238,9 @@ x<-shapleysobol_knn(model=NULL, X=X,
 tell(x,y)
 print(x)
 plot(x)
+
+#Using the extract method to get first-order and total Sobol' indices
+extract(x)
 
 # With Boostrap confidence intervals
 x<-shapleysobol_knn(model=NULL, X=X,
@@ -294,16 +305,16 @@ X <- data.frame(matrix(runif(8 * n), nrow = n))
 x <- shapleysobol_knn(model = sobol.fun, X = X, U = 1, method = "rank")
 print(x)
 plot(x)
-# WARNING
-#library(ggplot2) ; ggplot(x)
+
+library(ggplot2) ; ggplot(x)
 
 # We can use the output sample generated for this estimation to compute total indices 
 # without additional calls to the model
 x2 <- shapleysobol_knn(model = NULL, X = X, U = 0, method = "knn", n.knn = 5)
 tell(x2,x$y)
 plot(x2)
-# WARNING
-#ggplot(x2)
+
+ggplot(x2)
 
 
 #####################################################
@@ -316,12 +327,11 @@ x <- shapleysobol_knn(model = NULL, X = X, U = NULL, method = "knn", n.knn = 5,
                        n.limit = 2000)
 tell(x,Y)
 plot(x)
-# WARNING
-#library(ggplot2) ; ggplot(x)
 
-# WARNING
+library(ggplot2) ; ggplot(x)
+
 # Extract first-order and total Sobol indices
-#x1 <- extract(x) ; print(x1)
+x1 <- extract(x) ; print(x1)
     
 ######################################################
 # Test case : Linear model (3 Gaussian inputs including 2 dependent) with scaling
@@ -342,21 +352,6 @@ x <- shapleysobol_knn(model = modlin, X = X, U = NULL, method = "knn", n.knn = 5
                        rescale = TRUE, n.limit = 2000)
 print(x)
 plot(x)
-    
-##########################################################
-# Test case: functional toy fct 'Arctangent temporal function'
-n <- 3000
-X <- data.frame(matrix(runif(2*n,-7,7), nrow = n))
-Y <- atantemp.fun(X)
-x <- shapleysobol_knn(model = NULL, X = X, U = NULL, method = "knn", n.knn = 5, 
-                       n.limit = 2000)
-tell(x,Y)
-
-# WARNING
-library(ggplot2)
-library(reshape2)
-#ggplot(x, type.multout="lines")
-
 }
 }
 

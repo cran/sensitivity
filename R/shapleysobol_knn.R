@@ -934,6 +934,22 @@ tell.shapleysobol_knn<-function(x,y,...){
   return(res)
 }
 
+extract.shapleysobol_knn<- function(x, ...){
+  if (is.null(x$VE) | is.null(x$Shap)){
+    stop("The Shapley effects must be computed (U=NULL) prior to extracting first-order and total Sobol' indices.")
+  }
+  d<-ncol(x$X)
+  Sob<-as.matrix(x$VE[[2]], ncol=1)
+  Sob.tot<-1-as.matrix(rev(x$VE[[d]]), ncol=1)
+  colnames(Sob)<-"Sobol"
+  rownames(Sob)<-rownames(x$Shap)
+  colnames(Sob.tot)<-"Total Sobol"
+  rownames(Sob.tot)<-rownames(x$Shap)
+  return(list("Sobol"=Sob,
+              "Sobol.tot"=Sob.tot))
+}
+
+#Plotting the Sobol' indices
 plot.sobol_knn<-function(x, ylim=c(0,1), ...){
   if(class(x$U)[1]%in%c("integer", "numeric")){
     if(x$U==0){
@@ -989,6 +1005,7 @@ plot.sobol_knn<-function(x, ylim=c(0,1), ...){
   }
 }
 
+#Printing the Sobol' indices
 print.sobol_knn<-function(x, ...){
   cat("\nCall:\n", deparse(x$call), "\n", sep = "")
   if(class(x$U)[1]%in%c("integer", "numeric")){
@@ -1019,4 +1036,34 @@ print.sobol_knn<-function(x, ...){
   }else{
     print(x$Sobol)
   }
+}
+
+ggplot.shapleysobol_knn<-function(x, ylim = c(0, 1), ...) {
+  if (!is.null(x$Shap)){
+    shap <- as.data.frame(x$Shap) 
+    colnames(shap) <- "original"
+    nodeggplot(list(shap), xname = "Shapley effects", ylim = ylim)
+  }else{
+    stop("No plot available")
+  }
+}
+
+ggplot.sobol_knn<-function(x, ylim=c(0,1), ...){
+  if(!is.null(x$Sobol)){
+    sobols<-as.data.frame(x$Sobol)
+    colnames(sobols)<-"original"
+    if(class(x$U)=="list"){
+      x_name<-"Closed Sobol'"
+    }else{
+      if(x$U==1){
+        x_name<-"First Order Sobol'"
+      }else if (x$U==0){
+        x_name<-"Total Sobol'"
+      }
+    }
+    nodeggplot(list(sobols), xname=x_name, ylim=ylim)
+  }else{
+    stop("No plot available")
+  }
+
 }

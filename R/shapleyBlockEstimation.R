@@ -160,31 +160,34 @@ EstimCov=function(S,kappa,M=NULL,cond=FALSE)
   
   
   
-  labels=unique(labelsPath) # we remove the groups that occure several times
+  labels=unique(labelsPath) # we remove the groups that occur several times
   
   G=length(labels)
-  
-  Max=unlist(lapply(labels, function(x) max(table(x))))
-  
-  Phi<-function (groups) # -log likelihood + penalization
+  if(kappa==0)
   {
-    K=max(groups)
-    phi=0
-    for(k in 1:K)
+    label=labels[[G]]
+  }else{
+    Max=unlist(lapply(labels, function(x) max(table(x))))
+    
+    Phi<-function (groups) # -log likelihood + penalization
     {
-      Ind=which(groups==k)
-      phi=phi+log(det(as.matrix(S[Ind,Ind])))/p+kappa*length(Ind)^2
+      K=max(groups)
+      phi=0
+      for(k in 1:K)
+      {
+        Ind=which(groups==k)
+        phi=phi+log(det(as.matrix(S[Ind,Ind])))/p+kappa*length(Ind)^2
+      }
+      return(phi)
     }
-    return(phi)
+    
+    PHI=unlist(lapply(labels,Phi))
+    
+    Estim=list("labels"=labels, "Max"=Max, "Phi"=PHI)
+    
+    l=which.min(Estim$Phi)
+    label=Estim$labels[[l]]
   }
-  
-  PHI=unlist(lapply(labels,Phi))
-  
-  Estim=list("labels"=labels, "Max"=Max, "Phi"=PHI)
-  
-  l=which.min(Estim$Phi)
-  label=Estim$labels[[l]]
-  
   K=max(label)
   
   S_B=matrix(0,nrow=p,ncol=p)

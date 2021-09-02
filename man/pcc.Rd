@@ -67,9 +67,9 @@ pcc(X, y, rank = FALSE, semi = FALSE, logistic = FALSE, nboot = 0, conf = 0.95)
 A. Saltelli, K. Chan and E. M. Scott eds, 2000, \emph{Sensitivity
   Analysis}, Wiley.
   
-J.W. Johnson and J.M. LeBreton, \emph{History and use of relative 
+J.W. Johnson and J.M. LeBreton, 2004, \emph{History and use of relative 
 importance indices in organizational research}, Organizational 
-Research Methods, 7:238-257, 2004.
+Research Methods, 7:238-257.
 }
 
 \author{

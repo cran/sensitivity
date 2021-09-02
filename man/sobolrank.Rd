@@ -50,15 +50,19 @@ sobolrank(model = NULL, X, nboot = 0, conf = 0.95, nsample = round(0.8*nrow(X)),
      Since boostrap creates ties which are not accounted for in the algorithm, confidence intervals are obtained by 
      sampling without replacement with a sample size \code{nsample}.
 }
+
 \references{
-		 Gamboa, F., Gremaud, P., Klein, T., & Lagnoux, A. (2020). Global Sensitivity Analysis: 
-		 a new generation of mighty estimators based on rank statistics. arXiv preprint arXiv:2003.01772.
+		 Gamboa, F., Gremaud, P., Klein, T., & Lagnoux, A., 2020, \emph{Global Sensitivity Analysis: 
+		 a new generation of mighty estimators based on rank statistics}, arXiv preprint arXiv:2003.01772.
 		 
-		 Chatterjee, S. (2019). A new coefficient of correlation. arXiv preprint arXiv:1909.10140.
+		 Chatterjee, S., 2019, \emph{A new coefficient of correlation}, Journal of the American 
+		 Statistical Association, doi:10.1080/01621459.2020.1758115
 }
+
 \author{
 Sebastien Da Veiga
 }
+
 \seealso{
   \code{\link{sobol}, \link{sobol2002}, \link{sobolSalt}, \link{sobol2007}, \link{soboljansen}, \link{sobolmartinez},
   \link{sobolSmthSpl}, \link{sobolEff}, \link{sobolshap_knn}}

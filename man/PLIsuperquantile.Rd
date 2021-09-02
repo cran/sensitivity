@@ -83,17 +83,14 @@ PLIsuperquantile(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=
 }
 
 \references{
-B. Iooss, V. Verges and V. Larget, \emph{BEPU robustness analysis via perturbed-law based 
-sensitivity indices}, 
-ANS Best Estimate Plus Uncertainty International Conference (BEPU 2020), Sicily, Italy, June 2021.
+B. Iooss, V. Verges and V. Larget, 2021, \emph{BEPU robustness analysis via perturbed law-based 
+sensitivity indices}, Proceedings of the Institution of Mechanical Engineers, 
+Part O: Journal of Risk and Reliability, doi:10.1177/1748006X211036569
 
 P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss, 2015, 
 \emph{Density modification based reliability sensitivity analysis}, Journal of Statistical 
 Computation and Simulation, 85:1200-1223. 
 
-R. Sueur, B. Iooss and T. Delage, 2017,
-\emph{Sensitivity analysis using perturbed-law based indices for quantiles and application to an industrial case}, 
-10th International Conference on Mathematical Methods in Reliability (MMR 2017), Grenoble, France, July 2017.
 }
 
 \author{
@@ -119,15 +116,17 @@ Bertrand Iooss
 	for(i in 1:3) X[,i] = rnorm(N,0,1)
      
 	Y = 2 * X[,1] + X[,2] + X[,3]/2
-	q95 = quantile(Y,0.95)
-  sq95a <- mean(Y*(Y>q95)/(1-0.95)) ; sq95b <- mean(Y[Y>q95])
+	alpha <- 0.95
+	
+	q95 = quantile(Y,alpha)
+  sq95a <- mean(Y*(Y>q95)/(1-alpha)) ; sq95b <- mean(Y[Y>q95])
 	
 	nboot=20 # change to nboot=200 for consistency
 	
 # sensitivity indices with perturbation of the mean 
   
 	v_delta = seq(-1,1,1/10) 
-	toto = PLIsuperquantile(0.95,X,Y,deltasvector=v_delta,
+	toto = PLIsuperquantile(alpha,X,Y,deltasvector=v_delta,
 	  InputDistributions=distribution,type="MOY",samedelta=TRUE,
 	  percentage=FALSE,nboot=nboot,bias=TRUE)
 
@@ -164,7 +163,7 @@ Bertrand Iooss
 		col=c("darkgreen","black","red"),pch=c(15,19,17),cex=1.5)
 		
 # Plotting the unbiased PLI in percentage with refined confidence intervals
-	toto = PLIsuperquantile(0.95,X,Y,deltasvector=v_delta,
+	toto = PLIsuperquantile(alpha,X,Y,deltasvector=v_delta,
 	  InputDistributions=distribution,type="MOY",samedelta=TRUE,percentage=TRUE,
 	  nboot=nboot,bootsample=FALSE,bias=FALSE)
 	  
@@ -182,6 +181,26 @@ Bertrand Iooss
 	abline(h=0,lty=2)
 	legend(-1,0.5,legend=c("X1","X2","X3"),
 		col=c("darkgreen","black","red"),pch=c(15,19,17),cex=1.5)
-  
+
+##################################################
+# another visualization by using the plotCI() fct 
+# (from plotrix package) for the CI plotting (from Vanessa Verges)
+
+	library(plotrix)
+	parameters = list(colors=c("darkgreen","black","red"),symbols=c(15,19,17),
+	  overlay=c(FALSE,TRUE,TRUE))
+  par(mar=c(4,5,1,1),xpd=TRUE)
+  for (i in 1:3){
+  plotCI(v_delta,toto$PLI[,i],ui=toto$PLICIsup[,i],li=toto$PLICIinf[,i],
+         cex=1.5,col=parameters$colors[i],pch=parameters$symbols[i],
+         add=parameters$overlay[i], xlab="", ylab="")
+  }
+  title(xlab=expression(delta),ylab=expression(hat(PLI[i*delta])),
+      main=bquote("PLI-superquantile (N ="~.(N) ~ ","~alpha~"="~.(alpha)~
+      ") of Y="~2*X[1] + X[2] + X[3]/2))
+  abline(h=0,lty=2)
+  legend("topleft",legend=c("X1","X2","X3"),
+          col=parameters$colors,pch=parameters$symbols,cex=1.5)
+
 }
 }

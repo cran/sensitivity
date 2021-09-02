@@ -259,10 +259,13 @@ S3method(ggplot, sobolshap_knn)
 
 export(shapleysobol_knn)
 S3method(tell, shapleysobol_knn)
+S3method(extract, shapleysobol_knn)
 S3method(print, shapleysobol_knn)
 S3method(plot, shapleysobol_knn)
 S3method(print, sobol_knn)
 S3method(plot, sobol_knn)
+S3method(ggplot, shapleysobol_knn)
+S3method(ggplot, sobol_knn)
 
 export(sobolrank)
 S3method(tell, sobolrank)
