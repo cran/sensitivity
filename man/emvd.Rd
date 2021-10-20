@@ -178,13 +178,14 @@ plot(x)
 print(x)
 
 # Parallel computing
-x<-emvd(X,y, logistic = TRUE, parl=2)
-plot(x)
-print(x)
+#x<-emvd(X,y, logistic = TRUE, parl=2)
+#plot(x)
+#print(x)
+
 }
 
 \seealso{
-\code{\link{pcc}}, \code{\link{src}}, \code{\link{lmg}}
+\code{\link{pcc}}, \code{\link{src}}, \code{\link{lmg}}, \code{\link{pme_knn}}
 }
 
 \keyword{shapley}

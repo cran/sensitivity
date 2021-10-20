@@ -43,7 +43,7 @@ WARNING: This function can give bad results for reasons that have not been yet i
 }
 
 \examples{
-	X = matrix(runif(10000), ncol = 10)
+	X = matrix(runif(5000), ncol = 10)
 	Y = sobol.fun(X)
 	sa = sobolSmthSpl(Y, X)
 	plot(sa)

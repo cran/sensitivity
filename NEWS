@@ -1,4 +1,10 @@
 
+Changes in version 1.27.0:
+
+  o New fct pme_knn() for proportional marginal effects computation
+  
+  o Addition of an example about visualiz. of perturbed law in PLI() fct
+  
 Changes in version 1.26.1:
 
   o Simplification in shapleyBlockestimation.R and 

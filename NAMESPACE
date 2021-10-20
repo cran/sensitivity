@@ -62,6 +62,12 @@ export(emvd)
 S3method(print, emvd)
 S3method(plot, emvd)
 
+export(pme_knn)
+S3method(print, pme_knn)
+S3method(plot, pme_knn)
+S3method(tell, pme_knn)
+S3method(ggplot, pme_knn)
+
 export(morris)
 S3method(tell, morris)
 S3method(print, morris)

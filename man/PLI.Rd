@@ -96,10 +96,7 @@ Paul Lemaitre
 
   N = 100000
 	X = matrix(0,ncol=3,nrow=N)
-	for( i in 1:3){
-    X[,i] = runif(N,-pi,pi)
-    }
-     
+	for( i in 1:3) X[,i] = runif(N,-pi,pi)
 	T = ishigami.fun(X)
 	s = sum(as.numeric(T < -7)) # Number of failure
 	pdefchap = s/N      # Failure probability
@@ -114,7 +111,7 @@ Paul Lemaitre
 	BIshm = Toto[[1]]
 	SIshm = Toto[[2]]
 
-	par(mar=c(4,5,1,1))
+	par(mfrow=c(1,1),mar=c(4,5,1,1))
 	plot(v_delta,BIshm[,2],ylim=c(-4,4),xlab=expression(delta),
 		ylab=expression(hat(PLI[i*delta])),pch=19,cex=1.5)
 	points(v_delta,BIshm[,1],col="darkgreen",pch=15,cex=1.5)
@@ -165,7 +162,18 @@ Paul Lemaitre
 		pch=c(15,19,17),cex=1.5)
   
 ##############################################################
-# Example with an inverse probability transform (to obtain Gaussian inputs)
+# Example with an inverse probability transform 
+# (to obtain Gaussian inputs from Uniform ones)
+
+# Monte Carlo sampling (the inputs are Uniform)
+
+  N = 100000
+	X = matrix(0,ncol=3,nrow=N)
+	for( i in 1:3) X[,i] = runif(N,-pi,pi)
+	T = ishigami.fun(X)
+	s = sum(as.numeric(T < -7)) # Number of failure
+	pdefchap = s/N      # Failure probability
+	
 # Empirical transform (applied on the sample)
 
   Xn <- matrix(0,nrow=N,ncol=3)
@@ -175,8 +183,14 @@ Paul Lemaitre
     Xn[,i] <- qnorm(q) # Gaussian anamorphosis
     # infinite max values => putting the symetrical values of min values
     Xn[which(Xn[,i]==Inf),i] <- - Xn[which.min(Xn[,i]),i] 
-    # backtransform: Xtr[,i] <- quantile(ecdfx,pnorm(Xn[,i]+qnorm(alpha[2])))
     }
+# Visualization of a perturbed density (the one of X1 perturbed on the mean)
+  delta_mean_gauss <- 1 # perturbed value on the mean of the Gaussian transform
+  Xtr <- quantile(ecdfx,pnorm(Xn[,1] + delta_mean_gauss)) # backtransform
+	par(mfrow=c(1,1))
+  plot(density(Xtr), col="red") ; lines(density(X[,1]))
+  
+# sensitivity indices with perturbation of the mean 
   
   distributionIshigami = list()
 	for (i in 1:3){
@@ -184,8 +198,8 @@ Paul Lemaitre
 		distributionIshigami[[i]]$r=("rnorm")
 	}
 	
-# sensitivity indices with perturbation of the mean 
-  
+	ptsdef = Xn[T < -7,]	# Failure points # failure points with Gaussian distrib.
+	
 	v_delta = seq(-1.5,1.5,1/20) 
 	Toto = PLI(failurepoints=ptsdef,failureprobabilityhat=pdefchap,samplesize=N,
 		deltasvector=v_delta,InputDistributions=distributionIshigami,type="MOY",
@@ -193,7 +207,7 @@ Paul Lemaitre
 	BIshm = Toto[[1]]
 	SIshm = Toto[[2]]
 
-	par(mar=c(4,5,1,1))
+	par(mfrow=c(1,1),mar=c(4,5,1,1))
 	plot(v_delta,BIshm[,2],ylim=c(-4,4),xlab=expression(delta),
 		ylab=expression(hat(PLI[i*delta])),pch=19,cex=1.5)
 	points(v_delta,BIshm[,1],col="darkgreen",pch=15,cex=1.5)
