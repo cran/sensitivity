@@ -360,7 +360,8 @@ shapleysobol_knn <- function(model=NULL, X, method="knn", n.knn = 2, n.limit = 2
   #Arguments check
   
   #X
-  if(!(class(X)[1]=="matrix" | class(X)[1]=="data.frame")){
+#  if(!(class(X)[1]=="matrix" | class(X)[1]=="data.frame")){
+  if(!(inherits(X, "matrix") | inherits(X, "data.frame"))){
     stop("X must be either a matrix of a data frame.")
   }
   #Setting-up colnames
@@ -388,14 +389,16 @@ shapleysobol_knn <- function(model=NULL, X, method="knn", n.knn = 2, n.limit = 2
   }
   #Extracting Sobols
   if(!is.null(U)){
-    if(!class(U)[1]%in%c("numeric","matrix","integer", "list")){
+#    if(!class(U)[1]%in%c("numeric","matrix","integer", "list")){
+    if(!inherits(U, "numeric") && !inherits(U, "matrix") && !inherits(U, "integer") && typeof(U) != "list"){
       stop("U must be either 0 (Total Sobol' indices), 1 (First-Order indices), a list of subsets, or a matrix.")
-    }else if(class(U)[1]%in%c("integer","numeric")){
+#    }else if(class(U)[1]%in%c("integer","numeric")){
+    }else if(inherits(U, "integer") || inherits(U,"numeric")){
       if(!U%in%c(0,1)){
         stop("U must be either 0 (Total Sobol' indices), 1 (First-Order indices), a list of subsets, or a matrix.")
       }
     } 
-    if(class(U)[1]%in%"matrix"){
+    if(inherits(U, "matrix")){
       if(ncol(U)!=d){
         stop("U must have exactly ncol(X) columns.")
       }
@@ -669,7 +672,8 @@ compute.shapleysobol_knn<-function(X, y, method, n.knn, n.limit, U, n.perm, nois
     #Extracting Sobols
     
     #Formatting indices
-    if(class(U)[1]%in%c("integer", "numeric")){
+#    if(class(U)[1]%in%c("integer", "numeric")){
+    if(inherits(U, "integer") || inherits(U, "numeric")){
       if(U==0){
         #Only Total Sobol indices
         indices<-rep(list(0),2)
@@ -689,10 +693,10 @@ compute.shapleysobol_knn<-function(X, y, method, n.knn, n.limit, U, n.perm, nois
       rnames<-colnames(X)
     }else{
       #Computing Sobols of subsets
-      if(class(U)[1]=="matrix"){
+      if(inherits(U, "matrix")){
         #If U is a matrix, transform it to a list of subsets
         U<-apply(U,1,function(x) which(as.logical(x)))
-        if(class(U)!="list"){
+        if(typeof(U)!="list"){
           U<-as.list(U)
         }
       }
@@ -746,7 +750,7 @@ compute.shapleysobol_knn<-function(X, y, method, n.knn, n.limit, U, n.perm, nois
                  noise=T, 
                  i=1:nrow(X), 
                  get.sob=T)
-    if(class(U)[1]%in%c("integer", "numeric")){
+    if(inherits(U, "integer") || inherits(U, "numeric")){
       if(U==0){
         S<-1-S
       }
@@ -831,7 +835,7 @@ compute.shapleysobol_knn<-function(X, y, method, n.knn, n.limit, U, n.perm, nois
       
       #Bootstraped results for Total indices
       out$conf_int<-bootstats(res.boot, conf, "basic")
-      if(class(U)[1]%in%c("integer", "numeric")){
+      if(inherits(U, "integer") || inherits(U, "numeric")){
         if(U==0){
           out$conf_int[,c(1,4,5)]<-1-out$conf_int[,c(1,4,5)]
           #Switching min/max CI names
@@ -951,7 +955,7 @@ extract.shapleysobol_knn<- function(x, ...){
 
 #Plotting the Sobol' indices
 plot.sobol_knn<-function(x, ylim=c(0,1), ...){
-  if(class(x$U)[1]%in%c("integer", "numeric")){
+  if(inherits(x$U, "integer") || inherits(x$U, "numeric")){
     if(x$U==0){
       if(x$method=="knn"){
         plot_title=("\nTotal Sobol' indices estimation by nearest-neighbor procedure\n")
@@ -1008,7 +1012,7 @@ plot.sobol_knn<-function(x, ylim=c(0,1), ...){
 #Printing the Sobol' indices
 print.sobol_knn<-function(x, ...){
   cat("\nCall:\n", deparse(x$call), "\n", sep = "")
-  if(class(x$U)[1]%in%c("integer", "numeric")){
+  if(inherits(x$U, "integer") || inherits(x$U, "numeric")){
     if(x$U==0){
       if(x$method=="knn"){
         cat("\nTotal Sobol' indices estimation by nearest-neighbor procedure\n")
@@ -1052,7 +1056,7 @@ ggplot.sobol_knn<-function(x, ylim=c(0,1), ...){
   if(!is.null(x$Sobol)){
     sobols<-as.data.frame(x$Sobol)
     colnames(sobols)<-"original"
-    if(class(x$U)=="list"){
+    if(typeof(x$U)=="list"){
       x_name<-"Closed Sobol'"
     }else{
       if(x$U==1){

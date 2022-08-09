@@ -5,18 +5,18 @@
 
 \title{Sensitivity Analysis}
 
-\description{Methods and functions for global sensitivity analysis}
+\description{Methods and functions for global sensitivity analysis of model outputs and machine learning interpretability}
 
 \details{
   The \pkg{sensitivity} package implements some global sensitivity analysis
   methods:
   \itemize{
-    \item Linear regression importance measures (work in regression and classification contexts):
+    \item Linear regression importance measures in regression or classification contexts (Iooss et al., 2022):
   \itemize{
     \item SRC and SRRC (\code{\link{src}}), 
     \item PCC, SPCC, PRCC and SPRCC (\code{\link{pcc}}),
     \item LMG and LMG on ranks (\code{\link{lmg}})
-    \item E-MVD and E-MVD on ranks (\code{\link{lmg}});
+    \item PMVD and PMVD on ranks (\code{\link{pmvd}});
     }
     \item Bettonvil's sequential bifurcations (Bettonvil and Kleijnen, 1996) (\code{\link{sb}});
     \item Morris's "OAT" elementary effects screening method (\code{\link{morris}});
@@ -108,7 +108,7 @@
 }
 
 
-\author{Bertrand Iooss, Sebastien Da Veiga, Alexandre Janon and Gilles Pujol with contributions from Paul Lemaitre for \code{\link{PLI}}, Thibault Delage and Roman Sueur for \code{\link{PLIquantile}}, Vanessa Verges for \code{\link{PLIquantile}}, \code{\link{PLIsuperquantile}}, \code{\link{PLIquantile_multivar}} and \code{\link{PLIsuperquantile_multivar}}, Laurent Gilquin for \code{\link{sobolroalhs}}, \code{\link{sobolroauc}}, \code{\link{sobolSalt}}, \code{\link{sobolrep}}, \code{\link{sobolrec}}, as well as \code{\link{addelman_const}}, \code{\link{discrepancyCriteria_cplus}} and \code{\link{maximin_cplus}}, Loic le Gratiet for \code{\link{sobolGP}}, Khalid Boumhaout, Taieb Touati and Bernardo Ramos for \code{\link{sobolowen}} and \code{\link{soboltouati}}, Jana Fruth for \code{\link{PoincareConstant}}, \code{\link{sobolTIIlo}} and \code{\link{sobolTIIpf}}, Amandine Marrel, Anouar Meynaoui and Reda El Amri for their contributions to \code{\link{sensiHSIC}}, Joseph Guillaume and Oldrich Rakovec for \code{\link{delsa}} and \code{\link{parameterSets}}, Olivier Roustant for \code{\link{PoincareOptimal}}, \code{\link{PoincareChaosSqCoef}}, \code{\link{squaredIntEstim}} and \code{\link{support}}, Eunhye Song, Barry L. Nelson and Jeremy Staum for \code{\link{shapleyPermEx}} and \code{\link{shapleyPermRand}}, Baptiste Broto for \code{\link{shapleySubsetMc}}, \code{\link{shapleyLinearGaussian}} and \code{\link{shapleyBlockEstimation}}, Filippo Monari for (\code{\link{sobolSmthSpl}}) and (\code{\link{morrisMultOut}}), Marouane Il Idrissi for \code{\link{lmg}}, \code{\link{emvd}} and \code{\link{shapleysobol_knn}}, associated to Margot Herin for \code{\link{pme_knn}}, Frank Weber and Roelof Oomen for other contributions.
+\author{Bertrand Iooss, Sebastien Da Veiga, Alexandre Janon and Gilles Pujol with contributions from Paul Lemaitre for \code{\link{PLI}}, Thibault Delage and Roman Sueur for \code{\link{PLIquantile}}, Vanessa Verges for \code{\link{PLIquantile}}, \code{\link{PLIsuperquantile}}, \code{\link{PLIquantile_multivar}} and \code{\link{PLIsuperquantile_multivar}}, Laurent Gilquin for \code{\link{sobolroalhs}}, \code{\link{sobolroauc}}, \code{\link{sobolSalt}}, \code{\link{sobolrep}}, \code{\link{sobolrec}}, as well as \code{\link{addelman_const}}, \code{\link{discrepancyCriteria_cplus}} and \code{\link{maximin_cplus}}, Loic le Gratiet for \code{\link{sobolGP}}, Khalid Boumhaout, Taieb Touati and Bernardo Ramos for \code{\link{sobolowen}} and \code{\link{soboltouati}}, Jana Fruth for \code{\link{PoincareConstant}}, \code{\link{sobolTIIlo}} and \code{\link{sobolTIIpf}}, Amandine Marrel, Anouar Meynaoui and Reda El Amri for their contributions to \code{\link{sensiHSIC}}, Joseph Guillaume and Oldrich Rakovec for \code{\link{delsa}} and \code{\link{parameterSets}}, Olivier Roustant for \code{\link{PoincareOptimal}}, \code{\link{PoincareChaosSqCoef}}, \code{\link{squaredIntEstim}} and \code{\link{support}}, Eunhye Song, Barry L. Nelson and Jeremy Staum for \code{\link{shapleyPermEx}} and \code{\link{shapleyPermRand}}, Baptiste Broto for \code{\link{shapleySubsetMc}}, \code{\link{shapleyLinearGaussian}} and \code{\link{shapleyBlockEstimation}}, Filippo Monari for (\code{\link{sobolSmthSpl}}) and (\code{\link{morrisMultOut}}), Marouane Il Idrissi for \code{\link{lmg}}, \code{\link{pmvd}} and \code{\link{shapleysobol_knn}}, associated to Margot Herin for \code{\link{pme_knn}}, Frank Weber and Roelof Oomen for other contributions.
 
 (maintainer: Bertrand Iooss \email{biooss@yahoo.fr})}
 
@@ -116,6 +116,14 @@
 S. Da Veiga, F. Gamboa, B. Iooss and C. Prieur, \emph{Basics and trends in sensitivity analysis, Theory and practice in R}, SIAM, 2021.
 
 R. Faivre, B. Iooss, S. Mahevas, D. Makowski, H. Monod, editors, 2013, \emph{Analyse de sensibilite et exploration de modeles. Applications aux modeles environnementaux}, Editions Quae.
+
+B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance 
+measures for machine learning model interpretability}, Congres lambda-mu23,
+Saclay, France, 10-13 octobre 2022
+\url{https://hal.archives-ouvertes.fr/hal-03741384}
+  
+
+B. Iooss, R. Kennet and P. Secchi, 2022, \emph{Different views of interpretability}, In: \emph{Interpretability for Industry 4.0: Statistical and Machine Learning Approaches}, A. Lepore, B. Palumbo and J-M. Poggi (Eds), Springer.
 
 B. Iooss and A. Saltelli, 2017, \emph{Introduction: Sensitivity analysis.} In: \emph{Springer Handbook on Uncertainty Quantification}, R. Ghanem, D. Higdon and H. Owhadi (Eds), Springer.
 

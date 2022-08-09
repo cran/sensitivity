@@ -8,8 +8,8 @@
 \title{Data-given proportional marginal effects estimation via nearest-neighbors procedure}
 
 \description{
-\code{pme_knn} computes the proportional marginal effects (PME) via a nearest neighbor
-estimation.
+\code{pme_knn} computes the proportional marginal effects (PME), from Herin et al. (2022) 
+via a nearest neighbor estimation.
 Parallelized computations are possible to accelerate the estimation process.
   It can be used with categorical inputs (which are transformed with one-hot encoding before computing the nearest-neighbors), 
   dependent inputs and multiple outputs.
@@ -144,18 +144,25 @@ pme_knn(model=NULL, X, method = "knn", tol = NULL, marg = T, n.knn = 2,
   of Shapley Effects and Adaptation to Unknown Input Distribution.} SIAM/ASA Journal
   on Uncertainty Quantification, 8(2).
   
+  M. Herin, M. Il Idrissi, V. Chabridon and B. Iooss, Proportional marginal effects for 
+  sensitivity analysis with correlated inputs, Proceedings of the 10th International
+  Conferenceon Sensitivity Analysis of Model Output (SAMO 2022), p 42-43, 
+  Tallahassee, Florida, March 2022.
+  
+  M. Herin, M. Il Idrissi, V. Chabridon and B. Iooss, Proportional marginal effects 
+  for global sensitivity analysis, Preprint, 2022.
+  
   M. Il Idrissi, V. Chabridon and B. Iooss (2021). \emph{Developments and applications
   of Shapley effects   to reliability-oriented sensitivity analysis with correlated inputs.}
   Environmental Modelling & Software, 143, 105115.
   
-  M. Il Idrissi, V. Chabridon and B. Iooss (2021). \emph{Mesures d'importance relative  
-  par decompositions de la performance de modeles de regression,} Preprint, 52emes Journees 
-  de Statistiques de la Societe Francaise de Statistique (SFdS), pp. 497-502, 
-  Nice, France, Juin 2021
+  B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance 
+  measures for machine learning model interpretability}, Congres lambda-mu23,
+  Saclay, France, 10-13 octobre 2022
+  \url{https://hal.archives-ouvertes.fr/hal-03741384}
   
   Feldman, B. (2005) \emph{Relative Importance and Value} SSRN Electronic Journal.
   
-  M. Il Idrissi, M. Herin, B. Iooss and V. Chabridon, Cooperative Game Theory and Global Sensitivity Analysis, Ecole Thematique sur les Incertitudes en Calcul Scientifique (ETICS), Erdeven, France, September 2021.
 }
 
 \author{
@@ -247,7 +254,7 @@ plot(x)
 }
 
 \seealso{
-\code{\link{sobolrank}}, \code{\link{shapleysobol_knn}}, \code{\link{shapleyPermEx}}, \code{\link{shapleySubsetMc}}, \code{\link{lmg}}, \code{\link{emvd}}
+\code{\link{sobolrank}}, \code{\link{shapleysobol_knn}}, \code{\link{shapleyPermEx}}, \code{\link{shapleySubsetMc}}, \code{\link{lmg}}, \code{\link{pmvd}}
 }
 
 \keyword{proportional values}

@@ -54,6 +54,11 @@ src(X, y, rank = FALSE, logistic = FALSE, nboot = 0, conf = 0.95)
 }
 
 \references{
+B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance 
+measures for machine learning model interpretability}, Congres lambda-mu23,
+Saclay, France, 10-13 octobre 2022
+\url{https://hal.archives-ouvertes.fr/hal-03741384}
+  
 A. Saltelli, K. Chan and E. M. Scott eds, 2000, \emph{Sensitivity
   Analysis}, Wiley.
 }
@@ -89,7 +94,7 @@ ggplot(x)
 }
 
 \seealso{
-\code{\link{pcc}}, \code{\link{lmg}}
+\code{\link{pcc}}, \code{\link{lmg}}, \code{\link{pmvd}}
 }
 
 \keyword{regression}

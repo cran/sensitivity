@@ -219,22 +219,24 @@ calc.pv<-function(X,y, method, d, indices, parl, clus, boot, n.limit, n.knn, noi
     
   }
   #Allowing the effects not to sum up to one, but to V(E[Y|X])
-  if(!noise){
-    # if(method=="knn"){
-    #   VEX<-estim.VE.knn(dataX=X,
-    #                     y=y,
-    #                     subset=indices[[d+1]],
-    #                     n=n,
-    #                     n.knn=n.knn,
-    #                     n.limit=n.limit)
-    # }else if (method=="rank"){
-    #   VEX<-estim.VE.rank(dataX=X,
-    #                     y=y,
-    #                     subset=indices[[d+1]],
-    #                     n=n)
-    # }
-    # VEs[[d+1]]=VEX
-  # }else{
+  if(noise){
+    #If noise == T, then we estimate V(E[Y|X])
+    if(method=="knn"){
+      VEX<-estim.VE.knn(dataX=X,
+                        y=y,
+                        subset=indices[[d+1]],
+                        n=n,
+                        n.knn=n.knn,
+                        n.limit=n.limit)
+      }else if (method=="rank"){
+        VEX<-estim.VE.rank(dataX=X,
+                          y=y,
+                          subset=indices[[d+1]],
+                          n=n)
+      }
+      VEs[[d+1]]=VEX
+    }else{
+    #If noise == F, V(E[Y|X]) is equal to 1
     VEs[[d+1]]=1
   }
   
@@ -242,47 +244,46 @@ calc.pv<-function(X,y, method, d, indices, parl, clus, boot, n.limit, n.knn, noi
   if(marg){
     VEs<-get.SobolT(VEs)
   }
-  
   #################################################
   #PV Computation
   
   #Identifying inputs with 0 Total Sobol (zero players)
   if(!is.null(tol)){
-    idx.z<-indices[[2]][,which(VEs[[2]]<=tol)]
+    idx.z<-indices[[2]][,which(abs(VEs[[2]])<=tol)]
   }else{
     idx.z<-indices[[2]][,which(VEs[[2]]==0)]
   }
-  
   if(any(idx.z)){
     #Checking if there are other zero (or under tol) coalitions in each order
     if(!is.null(tol)){
-      Z.coal.order<-which(sapply(VEs, function(x) any(x<tol)))
+      Z.coal.order<-which(sapply(VEs, function(x) any(abs(x)<=tol)))
       #Which coalitions are null coalitions, may be useful someday
       #Z.coal.idx<-sapply(a.coal.order, function(x) return(indices[[x]][,which(VEs[[x]]<=tol),drop=FALSE]), simplify=F)
     }else{
-      Z.coal.order<-which(sapply(VEs, function(x) any(x<=0)))
+      Z.coal.order<-which(sapply(VEs, function(x) any(x==0)))
       #Which coalitions are null coalitions, may be useful someday
       #Z.coal.idx<-sapply(a.coal.order, function(x) return(indices[[x]][,which(VEs[[x]]<=tol),drop=FALSE]), simplify=F)
     }
-
     #Getting the cardinality of the biggest zero (or under tol) coalition
     Z.cardMax<-max(Z.coal.order)-1 #It should always be over or equal to 1 since there are zero players
     #Biggest zero coalitions of max cardinality
     if(!is.null(tol)){
-      Z.coal.cardMax<-indices[[Z.cardMax+1]][,which(VEs[[Z.cardMax+1]]<tol), drop=F]
+      Z.coal.cardMax<-indices[[Z.cardMax+1]][,which(abs(VEs[[Z.cardMax+1]])<=tol), drop=F]
     }else{
-      Z.coal.cardMax<-indices[[Z.cardMax+1]][,which(VEs[[Z.cardMax+1]]<=0), drop=F]
+      Z.coal.cardMax<-indices[[Z.cardMax+1]][,which(VEs[[Z.cardMax+1]]==0), drop=F]
     }
-    
     #Boolean of size card(idx.z) indicating if they are in all the zero coalitions of max cardinality
-    z.zeroPV<-sapply(idx.z, function(x) sum(colSums(Z.coal.cardMax==x))==Z.cardMax)
+    z.zeroPV<-sapply(idx.z, function(x) sum(colSums(Z.coal.cardMax==x))==1)
     #First case: Z.cardMax=d, no one gets anything (should not happen too often)
     if(Z.cardMax==d){
       PV=rep(0,d)
+      PV=matrix(PV, ncol=1)
     }else if(Z.cardMax==d-1){
       #Second case: Z.cardMax=d-1, no need to loop
       PV=rep(0,d)
-      PV[idx.z[z.zeroPV]] = 1/ncol(Z.coal.cardMax)
+      idx.pv=setdiff(1:d,idx.z[z.zeroPV])
+      PV[idx.pv] = VEs[[d+1]]/nrow(Z.coal.cardMax)
+      PV=matrix(PV, ncol=1)
     }else{
       #Third case: Recursive computing
       PS.i<-rep(0,d)
@@ -318,6 +319,7 @@ calc.pv<-function(X,y, method, d, indices, parl, clus, boot, n.limit, n.knn, noi
       }
       PV=matrix(PS.i/PS.N, ncol=1)
     }
+
   }else{
     PS<-recur.PV(indices=indices,
                  VEs=VEs,

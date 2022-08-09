@@ -10,7 +10,7 @@
 \description{
   
   \code{morris} implements the Morris's elementary effects screening
-  method (Morris 1991). This method, based on design of experiments,
+  method (Morris, 1991). This method, based on design of experiments,
   allows to identify the few important factors at a cost of \eqn{r
   \times (p+1)}{r * (p + 1)} simulations (where \eqn{p}{p} is the number
   of factors). This implementation includes some improvements of the
@@ -217,7 +217,7 @@ M. D. Morris, 1991, \emph{Factorial sampling plans for preliminary
 computational experiments}, Technometrics, 33, 161--174.
 
 F. Campolongo, J. Cariboni and A. Saltelli, 2007, \emph{An effective
-screening design for sensitivity}, Environmental Modelling \&
+screening design for sensitivity}, Environmental Modelling and
   Software, 22, 1509--1518.
 
 G. Pujol, 2009, \emph{Simplex-based screening designs for estimating

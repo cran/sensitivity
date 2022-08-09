@@ -371,7 +371,8 @@ plot.sobolrec <- function(x, ylim = c(0, 1), ...) {
 sobolrec.response <- function(x, block_id = NULL, ...) {
   id <- deparse(substitute(x))
   
-  if (class(x$model) == "function") {
+#  if (class(x$model) == "function") {
+  if (inherits(x$model, "function")){
     if (!is.null(block_id)) {
       n <- nrow(x$X)
       y <- numeric(n)
@@ -385,7 +386,8 @@ sobolrec.response <- function(x, block_id = NULL, ...) {
     stop("The model isn't a function or does not have a predict method")
   }
   
-  if (class(y) != "numeric") {
+#  if (class(y) != "numeric") {
+  if (!inherits(y, "numeric")){
     y <- as.numeric(y)
     warning("Conversion of the response to numeric")
   }

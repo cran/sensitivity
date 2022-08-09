@@ -58,9 +58,9 @@ export(lmg)
 S3method(print, lmg)
 S3method(plot, lmg)
 
-export(emvd)
-S3method(print, emvd)
-S3method(plot, emvd)
+export(pmvd)
+S3method(print, pmvd)
+S3method(plot, pmvd)
 
 export(pme_knn)
 S3method(print, pme_knn)

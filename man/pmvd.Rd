@@ -1,15 +1,14 @@
-\name{emvd}
-\alias{emvd}
-\alias{print.emvd}
-\alias{plot.emvd}
+\name{pmvd}
+\alias{pmvd}
+\alias{print.pmvd}
+\alias{plot.pmvd}
 
-\title{Exclusion-respecting Marginal explained-Variance Decomposition indices
+\title{Proportional Marginal Variance Decomposition indices
       for linear and logistic models}
 
 \description{
-  \code{emvd} computes the E-MVD indices derived from Feldman (2005) applied to
-  the explained variance (\eqn{R^2}{R-squared}) as a performance metric. They are
-  also known under the name PMVD (Proportional Marginal Variance Decomposition). 
+  \code{pmvd} computes the PMVD indices derived from Feldman (2005) applied to
+  the explained variance (\eqn{R^2}{R-squared}) as a performance metric. 
   They allow for relative importance indices by \eqn{R^2}{R-squared} decomposition 
   for linear and logistic regression models. These indices allocate a share of
   \eqn{R^2}{R-squared} to each input based on a Proportional attribution system,
@@ -19,10 +18,10 @@
 }
 
 \usage{
-emvd(X, y, logistic = FALSE, tol = NULL, rank = FALSE, nboot = 0, 
+pmvd(X, y, logistic = FALSE, tol = NULL, rank = FALSE, nboot = 0, 
     conf = 0.95, max.iter = 1000, parl = NULL)
-\method{print}{emvd}(x, \dots)
-\method{plot}{emvd}(x, ylim = c(0,1), \dots)
+\method{print}{pmvd}(x, \dots)
+\method{plot}{pmvd}(x, ylim = c(0,1), \dots)
 }
 
 \arguments{
@@ -52,11 +51,11 @@ emvd(X, y, logistic = FALSE, tol = NULL, rank = FALSE, nboot = 0,
 }
 
 \value{
-  \code{emvd} returns a list of class \code{"emvd"}, containing the following
+  \code{pmvd} returns a list of class \code{"pmvd"}, containing the following
   components:
 
   \item{call}{the matched call.}
-  \item{emvd}{the estimations of the E-MVD indices.}
+  \item{pmvd}{the estimations of the PMVD indices.}
   \item{R2s}{the estimations of the \eqn{R^2}{R-squared} for all possible sub-models.}
   \item{indices}{list of all subsets corresponding to the structure of R2s.}
   \item{P}{the values of \eqn{P(.)} of all subsets for recursive computing. Equal to
@@ -76,11 +75,11 @@ emvd(X, y, logistic = FALSE, tol = NULL, rank = FALSE, nboot = 0,
 
 \details{
 
-  The computation of the E-MVD is done using the recursive method defined in
+  The computation of the PMVD is done using the recursive method defined in
   Feldman (2005), but using the subset procedure defined in Broto, Bachoc
   and Depecker (2020), that is computing all the \eqn{R^2}{R-squared} for all
   possible sub-models first, and then computing \eqn{P(.)} recursively for all
-  subsets of covariates.
+  subsets of covariates. See Il Idrissi et al. (2021).
 
   For logistic regression (\code{logistic=TRUE}), the \eqn{R^2}{R-squared}
   value is equal to:
@@ -98,7 +97,7 @@ emvd(X, y, logistic = FALSE, tol = NULL, rank = FALSE, nboot = 0,
   Spurious covariates are defined by the \code{tol} argument. If \code{null},
   then covariates with:
   \deqn{w(\{i\}) = 0}{w(\{i\})=0}
-  are omitted, and their \code{emvd} index is set to zero. In other cases, the 
+  are omitted, and their \code{pmvd} index is set to zero. In other cases, the 
   spurious covariates are detected by:
   \deqn{|w(\{i\})| \leq \textrm{tol}}{|w(\{i\})| <= tol}
 
@@ -123,6 +122,12 @@ emvd(X, y, logistic = FALSE, tol = NULL, rank = FALSE, nboot = 0,
   de Statistiques de la Societe Francaise de Statistique (SFdS), pp 497-502,
   Nice, France, Juin 2021
 
+  B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance 
+  measures for machine learning model interpretability}, Congres lambda-mu23,
+  Saclay, France, 10-13 octobre 2022
+  \url{https://hal.archives-ouvertes.fr/hal-03741384}
+  
+  
 }
 
 \author{
@@ -156,29 +161,29 @@ X <-rmvnorm(n, rep(0,3), sigma)
 y <- X\%*\%beta + rnorm(n)
 
 # Without Bootstrap confidence intervals
-x<-emvd(X, y)
+x<-pmvd(X, y)
 print(x)
 plot(x)
 
 # With Boostrap confidence intervals
-x<-emvd(X, y, nboot=100, conf=0.95)
+x<-pmvd(X, y, nboot=100, conf=0.95)
 print(x)
 plot(x)
 
 # Rank-based analysis
-x<-emvd(X, y, rank=TRUE, nboot=100, conf=0.95)
+x<-pmvd(X, y, rank=TRUE, nboot=100, conf=0.95)
 print(x)
 plot(x)
 
 ############################
 # Logistic Regression
 y<-as.numeric(X\%*\%beta + rnorm(n)>0)
-x<-emvd(X,y, logistic = TRUE)
+x<-pmvd(X,y, logistic = TRUE)
 plot(x)
 print(x)
 
 # Parallel computing
-#x<-emvd(X,y, logistic = TRUE, parl=2)
+#x<-pmvd(X,y, logistic = TRUE, parl=2)
 #plot(x)
 #print(x)
 

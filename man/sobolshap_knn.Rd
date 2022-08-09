@@ -8,7 +8,8 @@
 
 \title{Flexible sensitivity analysis via ranking / nearest neighbours}
 
-\description{\code{sobolshap_knn} implements the estimation of several sensitivity indices using 
+\description{WARNING: DEPRECATED function: use \code{shapleysobol_knn} instead.
+  \code{sobolshap_knn} implements the estimation of several sensitivity indices using 
   only N model evaluations via ranking (following Gamboa et al. (2020) and Chatterjee (2019)) 
   or nearest neighbour search (Broto et al. (2020) and Azadkia & Chatterjee (2020)). 
   It can be used with categorical inputs (which are transformed with one-hot encoding), 

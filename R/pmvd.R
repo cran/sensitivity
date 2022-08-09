@@ -69,10 +69,10 @@ estim.R2<-function(dataX,y, subset, logistic, any.cat, max.iter){
 }
 
 ######################################
-#Recursive E-MVD computation
-calc.emvd.rec.boot<-function(X, y, indices, logistic, max.iter,tol, any.cat, i=1:nrow(X)){
-  # Function calc.emvd.rec.boot
-  #   Computes the E-MVD indices using the recursive algorithm of Feldman (2005)
+#Recursive PMVD computation
+calc.pmvd.rec.boot<-function(X, y, indices, logistic, max.iter,tol, any.cat, i=1:nrow(X)){
+  # Function calc.pmvd.rec.boot
+  #   Computes the PMVD indices using the recursive algorithm of Feldman (2005)
   #   for bootstrap confidence interval computations.
   # Inputs:
   #   X: matrix of data frame.
@@ -84,7 +84,7 @@ calc.emvd.rec.boot<-function(X, y, indices, logistic, max.iter,tol, any.cat, i=1
   #   any.cat: logical. If TRUE, then at least one column of dataX is a factor.
   #   i: integer vector. Used for bootstrap estimation.
   # Output:
-  #   res: (1xd) matrix. E-MVD value for all covariates.
+  #   res: (1xd) matrix. PMVD value for all covariates.
 
   #################################
   # Pre-Processing
@@ -111,9 +111,9 @@ calc.emvd.rec.boot<-function(X, y, indices, logistic, max.iter,tol, any.cat, i=1
   }
 
   #################################
-  # E-MVD indices computation
+  # PMVD indices computation
   
-  #Preparing the recursive computation of the E-MVD indices
+  #Preparing the recursive computation of the PMVD indices
   #Full model indices
   N=1:d
   #Initiating P(S)
@@ -203,7 +203,7 @@ calc.emvd.rec.boot<-function(X, y, indices, logistic, max.iter,tol, any.cat, i=1
 
 ############################################
 # Main function
-emvd<-function(X, y, logistic = FALSE,  tol=NULL, rank=FALSE, nboot = 0, conf=0.95,  max.iter=1000, parl=NULL){
+pmvd <- function(X, y, logistic = FALSE,  tol=NULL, rank=FALSE, nboot = 0, conf=0.95,  max.iter=1000, parl=NULL){
   ###########################################
   #Pre-processing
 
@@ -289,7 +289,7 @@ emvd<-function(X, y, logistic = FALSE,  tol=NULL, rank=FALSE, nboot = 0, conf=0.
   }
 
   #####################################################
-  # E-MVD Computing
+  # PMVD Computing
 
   #Preparing parallel cluster
   if(!is.null(parl)){
@@ -327,8 +327,8 @@ emvd<-function(X, y, logistic = FALSE,  tol=NULL, rank=FALSE, nboot = 0, conf=0.
     }
 
     #################################
-    # E-MVD indices computation
-    #Preparing the recursive computation of the E-MVD indices
+    # PMVD indices computation
+    #Preparing the recursive computation of the PMVD indices
     #Full model indices
     N=1:d
     #Initiating P(S)
@@ -418,25 +418,25 @@ emvd<-function(X, y, logistic = FALSE,  tol=NULL, rank=FALSE, nboot = 0, conf=0.
       }
     }
     
-    emvd<-matrix(rev(Ps[[d]]/Ps[[d-1]]), ncol=1)
+    pmvd<-matrix(rev(Ps[[d]]/Ps[[d-1]]), ncol=1)
     if(any(logi.zeros)){
       #If spurious variable, we set their value to 0
       index <- 1
-      emvd_ <- rep(0, p)
+      pmvd_ <- rep(0, p)
       for (i in 1:p) {
         if (!is.element(i, var_null)) {
-          emvd_[i] <- emvd[index]
+          pmvd_[i] <- pmvd[index]
           index <- index + 1
         }
       }
-      emvd=matrix(emvd_, ncol=1)
+      pmvd=matrix(pmvd_, ncol=1)
     }
-    rownames(emvd)=colnames(X)
-    colnames(emvd)=c("original")
+    rownames(pmvd)=colnames(X)
+    colnames(pmvd)=c("original")
 
     #Preparing the output.
     out<-list("call"=match.call(),
-              "emvd"=emvd,
+              "pmvd"=pmvd,
               "R2s"=R2s,
               "indices"=indices,
               "P"=Ps,
@@ -481,8 +481,8 @@ emvd<-function(X, y, logistic = FALSE,  tol=NULL, rank=FALSE, nboot = 0, conf=0.
 
     if(is.null(parl)){
       #Bootstrap confidence interval estimation
-      boot_emvd<-boot::boot(data=cbind(X),
-                      statistic=calc.emvd.rec.boot,
+      boot_pmvd<-boot::boot(data=cbind(X),
+                      statistic=calc.pmvd.rec.boot,
                       R=nboot,
                       # d=d,
                       y=y,
@@ -494,8 +494,8 @@ emvd<-function(X, y, logistic = FALSE,  tol=NULL, rank=FALSE, nboot = 0, conf=0.
                       stype="i")
     }else{
       #Parallelized Bootstrap confidence interval estimation
-      boot_emvd<-boot::boot(data=cbind(X),
-                     statistic=calc.emvd.rec.boot,
+      boot_pmvd<-boot::boot(data=cbind(X),
+                     statistic=calc.pmvd.rec.boot,
                      R=nboot,
                      # d=d,
                      y=y,
@@ -511,13 +511,13 @@ emvd<-function(X, y, logistic = FALSE,  tol=NULL, rank=FALSE, nboot = 0, conf=0.
 
     }
 
-    res.boot<-bootstats(boot_emvd, conf, "basic")
+    res.boot<-bootstats(boot_pmvd, conf, "basic")
     rownames(res.boot)<-colnames(X)
-    emvd<-matrix(res.boot[,1], ncol=1)
-    colnames(emvd)=c("original")
-    rownames(emvd)=colnames(X)
+    pmvd<-matrix(res.boot[,1], ncol=1)
+    colnames(pmvd)=c("original")
+    rownames(pmvd)=colnames(X)
     out<-list("call"=match.call(),
-              "emvd"=emvd,
+              "pmvd"=pmvd,
               "R2s"=R2s,
               "indices"=indices,
               "P"=NULL,
@@ -535,44 +535,44 @@ emvd<-function(X, y, logistic = FALSE,  tol=NULL, rank=FALSE, nboot = 0, conf=0.
   #Stopping the cluster after parallelized computation
   if(!is.null(parl)){parallel::stopCluster(cl)}
 
-  class(out)<-"emvd"
+  class(out)<-"pmvd"
 
   return(out)
 }
 
 #######################################
 # Custom methods
-print.emvd<-function(x, ...){
+print.pmvd<-function(x, ...){
   cat("\nCall:\n", deparse(x$call), "\n", sep = "")
   if(x$logistic){
-    cat("\nE-MVD decomposition of R2 for logistic model\n")
+    cat("\nPMVD decomposition of R2 for logistic model\n")
   }else{
-    cat("\nE-MVD decomposition of R2 for linear model\n")
+    cat("\nPMVD decomposition of R2 for linear model\n")
   }
   if(x$boot){
     print(x$conf_int)
   }else{
-    print(x$emvd)
+    print(x$pmvd)
   }
 }
 
 
-plot.emvd<-function(x, ylim=c(0,1), ...){
+plot.pmvd<-function(x, ylim=c(0,1), ...){
   if(x$logistic){
-    plot_title="E-MVD decomposition of R2 for logistic model"
+    plot_title="PMVD decomposition of R2 for logistic model"
   }else{
-    plot_title="E-MVD decomposition of R2 for linear model"
+    plot_title="PMVD decomposition of R2 for linear model"
   }
 
-  plot(x$emvd,
+  plot(x$pmvd,
        ylim=ylim,
        axes=F,
        xlab="Inputs",
-       ylab="E-MVD",
+       ylab="PMVD",
        main=plot_title,
        ...)
   axis(2)
-  axis(1, at=seq_along(x$emvd), labels=colnames(x$X))
+  axis(1, at=seq_along(x$pmvd), labels=colnames(x$X))
   box()
   graphics::grid()
 
@@ -584,13 +584,13 @@ plot.emvd<-function(x, ylim=c(0,1), ...){
     legend("topright",
            pch=c(1,NA),
            lty=c(NA,1),
-           legend=c("E-MVD values",
+           legend=c("PMVD values",
                     paste(x$conf*100, "% Confidence interval", sep="")),
            bg="white")
   }else{
     legend("topright",
            pch=1,
-           legend=c("E-MVD Values"),
+           legend=c("PMVD Values"),
            bg="white")
   }
 }

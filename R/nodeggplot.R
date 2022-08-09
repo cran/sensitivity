@@ -35,13 +35,15 @@ nodeggplot <- function(listx, xname, xlim = NULL, ylim = NULL, labels = TRUE, ti
     title <- title
   }
   
-  if (class(labels) == "logical") {
+#  if (class(labels) == "logical") {
+  if (inherits(labels, "logical")){
     if (labels) {
       l <- rownames(listx[[1]])
     } else {
       l <- NULL
     }
-  } else if (class(labels) == "character") {
+#  } else if (class(labels) == "character") {
+  } else if (inherits(labels, "character")){
     l <- labels
   }
   

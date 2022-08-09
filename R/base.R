@@ -16,7 +16,8 @@ extract <- function(x, ...) # fct added in 2020 for sobolshap_knn()
 response <- function(x, loop = FALSE, other_types_allowed = FALSE, ...) {
   id <- deparse(substitute(x))
   
-  if (class(x$model) == "function") {
+#  if (class(x$model) == "function") {
+  if (inherits(x$model, "function")){
     if (loop) {
       n <- nrow(x$X)
       y <- sapply(1:n, function(i){

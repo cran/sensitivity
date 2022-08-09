@@ -25,13 +25,15 @@ nodeplot <- function(x, xlim = NULL, ylim = NULL, labels = TRUE,
   
   plot(0, xlim = xlim, ylim = ylim, axes = FALSE,
        xlab = "", ylab = "", type = "n", ...)
-  if (class(labels) == "logical") {
+#  if (class(labels) == "logical") {
+  if (inherits(labels, "logical")){
     if (labels) {
       axis(side = 1, at = at, labels = rownames(x))
     } else {
       axis(side = 1, at = at, labels = FALSE, tick = FALSE)
     }
-  } else if (class(labels) == "character") {
+#  } else if (class(labels) == "character") {
+  } else if (inherits(labels, "character")){
     axis(side = 1, at = at, labels = labels)
   }
   axis(side = 2)

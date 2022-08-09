@@ -19,11 +19,11 @@
   Parallelized computations are possible to accelerate the estimation process.
   It can be used with categorical inputs (which are transformed with one-hot encoding), 
   dependent inputs and multiple outputs. Sensitivity indices of any group of inputs can be computed,
-  which means that in particular first-order/total Sobol indices and Shapley effects are accessible. 
-  For large sample sizes, the nearest neightbour algorithm can be significantly accelerated 
-  by using approximate nearest neighbour search. It is also possible to estimate Shapley effects 
-  with the random permutation approach of Castro et al.(2009), where all the terms are obtained 
-  with ranking or nearest neighbours.
+  which means that in particular (full) first-order, (independent) total Sobol indices 
+  and Shapley effects are accessible. For large sample sizes, the nearest neightbour algorithm 
+  can be significantly accelerated   by using approximate nearest neighbour search. 
+  It is also possible to estimate Shapley effects   with the random permutation approach of 
+  Castro et al.(2009), where all the terms are obtained with ranking or nearest neighbours.
 }
 
 \usage{
@@ -129,8 +129,8 @@ shapleysobol_knn(model=NULL, X, method = "knn", n.knn = 2, n.limit = 2000, U = N
 
 \details{
   For \code{method="rank"}, the estimator is defined in Gamboa et al. (2020) 
-  following Chatterjee (2019).For first-order indices it is based on an input 
-  ranking   (same algorithm as in \code{sobolrank}) while for higher orders, 
+  following Chatterjee (2019). For first-order indices it is based on an input 
+  ranking (same algorithm as in \code{sobolrank}) while for higher orders, 
   it uses an approximate heuristic solution of the traveling salesman problem 
   applied to the input sample distances (cf. TSP() function in package 
   \code{TSP}).  For \code{method="knn"}, ranking and TSP are replaced by a 

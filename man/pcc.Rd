@@ -67,6 +67,11 @@ pcc(X, y, rank = FALSE, semi = FALSE, logistic = FALSE, nboot = 0, conf = 0.95)
 A. Saltelli, K. Chan and E. M. Scott eds, 2000, \emph{Sensitivity
   Analysis}, Wiley.
   
+B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance 
+measures for machine learning model interpretability}, Congres lambda-mu23,
+Saclay, France, 10-13 octobre 2022
+\url{https://hal.archives-ouvertes.fr/hal-03741384}
+  
 J.W. Johnson and J.M. LeBreton, 2004, \emph{History and use of relative 
 importance indices in organizational research}, Organizational 
 Research Methods, 7:238-257.
@@ -105,7 +110,7 @@ plot(x)
 }
 
 \seealso{
-\code{\link{src}}, \code{\link{lmg}}
+\code{\link{src}}, \code{\link{lmg}}, \code{\link{pmvd}}
 }
 
 \keyword{regression}

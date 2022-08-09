@@ -97,13 +97,18 @@ lmg(X, y, logistic = FALSE,  rank = FALSE, nboot = 0,
   relaimpo.}  Journal of Statistical Software, 17:1-27.
 
   M. Il Idrissi, V. Chabridon and B. Iooss (2021). \emph{Developments and applications
-  of Shapley effects   to reliability-oriented sensitivity analysis with correlated inputs.}
-  Environmental Modelling & Software, 143, 105115, 2021
+  of Shapley effects   to reliability-oriented sensitivity analysis with correlated 
+  inputs}, Environmental Modelling & Software, 143, 105115, 2021
   
   M. Il Idrissi, V. Chabridon and B. Iooss (2021). \emph{Mesures d'importance relative  
-  par decompositions de la performance de modeles de regression,} Actes des 52emes Journees 
-  de Statistiques de la Societe Francaise de Statistique (SFdS), pp 497-502,
+  par decompositions de la performance de modeles de regression,} Actes des 52emes
+  Journees   de Statistiques de la Societe Francaise de Statistique (SFdS), pp 497-502,
   Nice, France, Juin 2021
+  
+  B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance 
+  measures for machine learning model interpretability}, Congres lambda-mu23,
+  Saclay, France, 10-13 octobre 2022
+  \url{https://hal.archives-ouvertes.fr/hal-03741384}
   
   Lindeman RH, Merenda PF, Gold RZ (1980). \emph{Introduction to Bivariate and Multivariate
   Analysis.} Scott, Foresman, Glenview, IL.
@@ -172,7 +177,7 @@ print(x)
 }
 
 \seealso{
-\code{\link{pcc}}, \code{\link{src}}, \code{\link{shapleyPermEx}}, \code{\link{shapleysobol_knn}}, \code{\link{emvd}}, \code{\link{pme_knn}}
+\code{\link{pcc}}, \code{\link{src}}, \code{\link{shapleyPermEx}}, \code{\link{shapleysobol_knn}}, \code{\link{pmvd}}, \code{\link{pme_knn}}
 }
 
 \keyword{shapley}

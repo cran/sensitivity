@@ -30,16 +30,16 @@ parameterSets<-function(par.ranges,samples,method=c("sobol","innergrid","grid"))
            points=lapply(1:length(par.ranges),
                          function(i) seq(par.ranges[[i]][1]+offsets[i],
                                          par.ranges[[i]][2]-offsets[i],
-                                         length.out=samples[[1]]))
+                                         length.out=samples[[i]]))
            names(points)<-names(par.ranges)
            return(as.matrix(do.call(expand.grid,points)))
          },
          "grid"={
            if(length(samples)==1) samples<-rep(samples,length(par.ranges))
-           points=lapply(par.ranges,
-                         function(r) seq(r[1],
-                                         r[2],
-                                         length.out=samples[[1]]))
+           points=lapply(1:length(par.ranges),
+                         function(i) seq(par.ranges[[i]][1],
+                                         par.ranges[[i]][1],
+                                         length.out=samples[[i]]))
            names(points)<-names(par.ranges)
            return(as.matrix(do.call(expand.grid,points)))
          }

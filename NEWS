@@ -1,4 +1,18 @@
 
+Changes in version 1.27.1:
+
+  o Adding the topic of 'interpretability of machine learning models' 
+  in the description of the package
+
+  o emvd() fct and names have been changed to pmvd()
+
+  o Several bugs corrected in pme_knn()
+  
+  o R requirements: Changes from 'class()' to 'inherits()' in several fcts
+  
+  o Corrections in parameterSets(), 
+  see https://github.com/cran/sensitivity/pull/2
+  
 Changes in version 1.27.0:
 
   o New fct pme_knn() for proportional marginal effects computation
