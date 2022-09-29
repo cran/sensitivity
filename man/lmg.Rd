@@ -93,6 +93,10 @@ lmg(X, y, logistic = FALSE,  rank = FALSE, nboot = 0,
   D.V. Budescu (1993). \emph{Dominance analysis: A new approach to the problem of relative
   importance of predictors in multiple regression.} Psychological Bulletin, 114:542-551.
 
+  V. Chabridon, L. Clouvel, B. Iooss, M. Il Idrissi and F. Robin, 2022,
+  \emph{Variance-based importance measures in the linear regression context: Review, 
+  new insights and applications}, Preprint.
+
   U. Gromping (2006). \emph{Relative importance for linear regression in R: the Package
   relaimpo.}  Journal of Statistical Software, 17:1-27.
 

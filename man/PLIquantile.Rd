@@ -80,13 +80,13 @@ T. Delage, R. Sueur and B. Iooss, 2018, \emph{Robustness analysis of epistemic u
 propagation studies in LOCA assessment thermal-hydraulic model}, 
 ANS Best Estimate Plus Uncertainty International Conference (BEPU 2018), Lucca, Italy, May 13-19, 2018.
 
-C. Gauchy, J. Stenger, R. Sueur and B. Iooss, 2021, \emph{ An information geometry approach 
+C. Gauchy, J. Stenger, R. Sueur and B. Iooss, 2022, \emph{An information geometry approach 
 for robustness analysis in uncertainty quantification of computer codes}, 
-Technometrics, doi:10.1080/00401706.2021.1905072
+Technometrics, 64:80-91.
 
-B. Iooss, V. Verges and V. Larget, 2021, \emph{BEPU robustness analysis via perturbed law-based 
+B. Iooss, V. Verges and V. Larget, 2022, \emph{BEPU robustness analysis via perturbed law-based 
 sensitivity indices}, Proceedings of the Institution of Mechanical Engineers, 
-Part O: Journal of Risk and Reliability, doi:10.1177/1748006X211036569
+Part O: Journal of Risk and Reliability, 236:855-865.
 
 P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss, 2015, 
 \emph{Density modification based reliability sensitivity analysis}, Journal of Statistical 

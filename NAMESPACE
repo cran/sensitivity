@@ -7,13 +7,15 @@ import(ggplot2)
 importFrom(Rcpp, evalCpp)
 importFrom("methods", "is")
 
+importFrom("dtwclust", "gak")
+
 importFrom("grDevices", "dev.interactive", "dev.new", "devAskNewPage")
 importFrom("graphics", "abline", "axis", "barplot", "box", "legend",
            "lines", "par", "plot", "points", "polygon", "segments",
            "text", "title", "arrows", "matplot", "grid")
 importFrom("stats", "coefficients", "cor", "cor.test", "cov", "dist",
            "dnorm", "dunif", "fft", "fitted", "formula", "lm",
-           "model.matrix", "nlm", "optimize", "pnorm", "predict",
+           "median", "model.matrix", "nlm", "optimize", "pnorm", "predict",
            "qnorm", "quantile", "rnorm", "runif", "sd", "update", 
            "var", "dbeta", "dexp", "dgamma", "dlnorm", "dweibull",
            "integrate", "smooth.spline", "ecdf", "pgamma", 
@@ -38,11 +40,13 @@ export(dnorm.trunc,pnorm.trunc,qnorm.trunc,rnorm.trunc)
 export(dgumbel.trunc,pgumbel.trunc,qgumbel.trunc,rgumbel.trunc)
 
 export(sobol.fun, ishigami.fun, morris.fun, atantemp.fun, campbell1D.fun, 
-       linkletter.fun, heterdisc.fun, friedman.fun)
+       linkletter.fun, heterdisc.fun, friedman.fun, matyas.fun)
 
 export(squaredIntEstim, PoincareChaosSqCoef)
 
 export(weightTSA)
+
+export(correlRatio)
 
 export(src)
 S3method(print, src)
@@ -219,10 +223,13 @@ S3method(plot, sensiFdiv)
 S3method(ggplot, sensiFdiv)
 
 export(sensiHSIC)
-S3method(tell, sensiHSIC)
-S3method(print, sensiHSIC)
-S3method(plot, sensiHSIC)
-S3method(ggplot, sensiHSIC)
+S3method(tell,sensiHSIC)
+S3method(print,sensiHSIC)
+S3method(plot,sensiHSIC)
+
+export(testHSIC)
+S3method(print,testHSIC)
+S3method(plot,testHSIC)
 
 export(sobolSalt)
 S3method(tell, sobolSalt)

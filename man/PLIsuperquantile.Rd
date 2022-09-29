@@ -83,9 +83,9 @@ PLIsuperquantile(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=
 }
 
 \references{
-B. Iooss, V. Verges and V. Larget, 2021, \emph{BEPU robustness analysis via perturbed law-based 
+B. Iooss, V. Verges and V. Larget, 2022, \emph{BEPU robustness analysis via perturbed law-based 
 sensitivity indices}, Proceedings of the Institution of Mechanical Engineers, 
-Part O: Journal of Risk and Reliability, doi:10.1177/1748006X211036569
+Part O: Journal of Risk and Reliability, 236:855-865.
 
 P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss, 2015, 
 \emph{Density modification based reliability sensitivity analysis}, Journal of Statistical 

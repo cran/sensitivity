@@ -8,11 +8,12 @@
 \alias{linkletter.fun}
 \alias{heterdisc.fun}
 \alias{friedman.fun}
+\alias{matyas.fun}
 
 \title{Test Models for Sensitivity Analysis}
 
 \description{
-  These functions are standard testcase for sensitivity analysis
+  These functions are standard testcases for sensitivity analysis
   benchmarks. For a scalar output 
   (see Saltelli et al. 2000 and https://www.sfu.ca/~ssurjano/):
   \itemize{
@@ -23,7 +24,8 @@
     (Linkletter et al. (2006));
     \item the heterdisc function with 4 inputs, X ~ U[0,20];
     \item the Friedman function with 5 inputs, X ~ U[0,1] 
-    (Friedman, 1991).
+    (Friedman, 1991);
+    \item the Matyas function with 2 inputs, X ~ U[0,1].
   }
   For functional output cases:
   \itemize{
@@ -43,6 +45,7 @@ campbell1D.fun(X, theta = -90:90)
 linkletter.fun(X)
 heterdisc.fun(X)
 friedman.fun(X)
+matyas.fun(X)
 }
 
 \arguments{

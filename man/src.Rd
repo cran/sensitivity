@@ -54,6 +54,11 @@ src(X, y, rank = FALSE, logistic = FALSE, nboot = 0, conf = 0.95)
 }
 
 \references{
+
+V. Chabridon, L. Clouvel, B. Iooss, M. Il Idrissi and F. Robin, 2022,
+\emph{Variance-based importance measures in the linear regression context: 
+Review, new insights and applications}, Preprint
+  
 B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance 
 measures for machine learning model interpretability}, Congres lambda-mu23,
 Saclay, France, 10-13 octobre 2022
@@ -61,6 +66,7 @@ Saclay, France, 10-13 octobre 2022
   
 A. Saltelli, K. Chan and E. M. Scott eds, 2000, \emph{Sensitivity
   Analysis}, Wiley.
+  
 }
 
 \author{

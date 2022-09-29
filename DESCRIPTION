@@ -1,18 +1,19 @@
 Package: sensitivity
-Version: 1.27.1
+Version: 1.28.0
 Title: Global Sensitivity Analysis of Model Outputs
-Author: Bertrand Iooss, Sebastien Da Veiga, Alexandre Janon and Gilles Pujol, with contributions from Baptiste Broto, Khalid Boumhaout, Thibault Delage, Reda El Amri, Jana Fruth, Laurent Gilquin, Joseph Guillaume, Margot Herin, Marouane Il Idrissi, Loic Le Gratiet, Paul Lemaitre, Amandine Marrel, Anouar Meynaoui, Barry L. Nelson, Filippo Monari, Roelof Oomen, Oldrich Rakovec, Bernardo Ramos, Olivier Roustant, Eunhye Song, Jeremy Staum, Roman Sueur, Taieb Touati, Vanessa Verges, Frank Weber 
+Author: Bertrand Iooss, Sebastien Da Veiga, Alexandre Janon and Gilles Pujol, with contributions from Baptiste Broto, Khalid Boumhaout, Thibault Delage, Reda El Amri, Jana Fruth, Laurent Gilquin, Joseph Guillaume, Margot Herin, Marouane Il Idrissi, Loic Le Gratiet, Paul Lemaitre, Amandine Marrel, Anouar Meynaoui, Barry L. Nelson, Filippo Monari, Roelof Oomen, Oldrich Rakovec, Bernardo Ramos, Olivier Roustant, Gabriel Sarazin, Eunhye Song, Jeremy Staum, Roman Sueur, Taieb Touati, Vanessa Verges, Frank Weber 
 Maintainer: Bertrand Iooss <biooss@yahoo.fr>
 Depends: R (>= 3.0.0)
-Imports: boot, numbers, methods, ggplot2, Rcpp, foreach
+Imports: boot, numbers, methods, ggplot2, Rcpp, foreach, dtwclust
 LinkingTo: Rcpp, RcppArmadillo
 Suggests: condMVNorm, DiceDesign, DiceKriging, doParallel, evd,
-        ggExtra, grid, gplots, gtools, igraph, ks, lattice, MASS, mc2d,
-        mvtnorm, parallel, plotrix, pracma, randtoolbox, RANN,
-        reshape2, rgl, triangle, TSP, viridisLite, whitening
+        ggExtra, grid, gplots, gtools, igraph, IncDTW, ks, lattice,
+        MASS, mc2d, mvtnorm, parallel, plotrix, pracma, proxy,
+        randtoolbox, RANN, reshape2, rgl, stringr, triangle, TSP,
+        viridisLite, whitening
 Description: A collection of functions for sensitivity analysis of model outputs (factor screening, global sensitivity analysis and robustness analysis), as well as for interpretability of machine learning models. Most of the functions have to be applied on scalar output, but several functions support multi-dimensional outputs.
 License: GPL-2
 NeedsCompilation: yes
 Repository: CRAN
-Packaged: 2022-08-08 23:10:43 UTC; bertrand
-Date/Publication: 2022-08-09 08:30:02 UTC
+Packaged: 2022-09-29 09:04:36 UTC; F80570
+Date/Publication: 2022-09-29 10:30:02 UTC

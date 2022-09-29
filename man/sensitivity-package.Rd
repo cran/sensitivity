@@ -13,7 +13,7 @@
   \itemize{
     \item Linear regression importance measures in regression or classification contexts (Iooss et al., 2022):
   \itemize{
-    \item SRC and SRRC (\code{\link{src}}), 
+    \item SRC and SRRC (\code{\link{src}}), and correlation ratio (\code{\link{correlRatio}})
     \item PCC, SPCC, PRCC and SPRCC (\code{\link{pcc}}),
     \item LMG and LMG on ranks (\code{\link{lmg}})
     \item PMVD and PMVD on ranks (\code{\link{pmvd}});
@@ -31,17 +31,17 @@
       \item Estimation of the Sobol' first order indices with with B-spline Smoothing (Ratto and Pagano, 2010) (\code{\link{sobolSmthSpl}}),
       \item Monte Carlo estimation of Sobol' indices with independent inputs (also called pick-freeze method): 
       \itemize{
-		    \item Sobol' scheme (Sobol, 1993) to compute the indices given by the variance decomposition up to a specified order (\code{\link{sobol}}),
+		  \item Sobol' scheme (Sobol, 1993) to compute the indices given by the variance decomposition up to a specified order (\code{\link{sobol}}),
   		  \item Saltelli's scheme (Saltelli, 2002) to compute first order, second order and total indices  (\code{\link{sobolSalt}}), 
   		  \item Saltelli's scheme (Saltelli, 2002) to compute first order and total indices (\code{\link{sobol2002}}), 
 	  	  \item Mauntz-Kucherenko's scheme (Sobol et al., 2007) to compute first order and total indices using improved formulas for small indices (\code{\link{sobol2007}}),
 	  	  \item Jansen-Sobol's scheme (Jansen, 1999) to compute first order and total indices using improved formulas (\code{\link{soboljansen}}),
-    	  \item Martinez's scheme using correlation coefficient-based formulas (Martinez, 2011; Touati, 2016) to compute first order and total indices, associated with theoretical confidence intervals (\code{\link{sobolmartinez}} and \code{\link{soboltouati}}), 
+    	          \item Martinez's scheme using correlation coefficient-based formulas (Martinez, 2011; Touati, 2016) to compute first order and total indices, associated with theoretical confidence intervals (\code{\link{sobolmartinez}} and \code{\link{soboltouati}}), 
 	  	  \item Janon-Monod's scheme (Monod et al., 2006; Janon et al., 2013) to compute first order indices with optimal asymptotic variance (\code{\link{sobolEff}}),
 	  	  \item Mara's scheme (Mara and Joseph, 2008) to compute first order indices with a cost independent of the dimension, via permutations on a single matrix (\code{\link{sobolmara}}),
 	  	  \item Mighty estimator of first-order sensitivity indices based on rank statistics (correlation coefficient of Chatterjee, 2019; Gamboa et al., 2020) (\code{\link{sobolrank}}),
-		    \item Owen's scheme (Owen, 2013) to compute first order and total indices using improved formulas (via 3 input independent matrices) for small indices (\code{\link{sobolowen}}),
-        \item Total Interaction Indices using Liu-Owen's scheme (Liu and Owen, 2006) (\code{\link{sobolTIIlo}}) and pick-freeze scheme (Fruth et al., 2014) (\code{\link{sobolTIIpf}}),
+		  \item Owen's scheme (Owen, 2013) to compute first order and total indices using improved formulas (via 3 input independent matrices) for small indices (\code{\link{sobolowen}}),
+                  \item Total Interaction Indices using Liu-Owen's scheme (Liu and Owen, 2006) (\code{\link{sobolTIIlo}}) and pick-freeze scheme (Fruth et al., 2014) (\code{\link{sobolTIIpf}}),
       }
       \item Replication-based procedures:
       \itemize{
@@ -65,7 +65,7 @@
 	    \item Estimation of Proportional Marginal Effects (PME) (Il Idrissi et al., 2021) (\code{\link{pme_knn}});
 	  }
     \item Support index functions (\code{\link{support}}) of Fruth et al. (2016);
-    \item Sensitivity Indices based on Csiszar f-divergence (\code{\link{sensiFdiv}}) (particular cases: Borgonovo's indices and mutual-information based indices) and Hilbert-Schmidt Independence Criterion (\code{\link{sensiHSIC}}) (Da Veiga, 2015; Meynaoui et al., 2019);
+    \item Sensitivity Indices based on Csiszar f-divergence (\code{\link{sensiFdiv}}) (particular cases: Borgonovo's indices and mutual-information based indices) and Hilbert-Schmidt Independence Criterion (\code{\link{sensiHSIC}} and \code{\link{testHSIC}}) (Da Veiga, 2015; De Lozzo and Marrel, 2016; Meynaoui et al., 2019);
     \item First-order quantile-oriented sensitivity indices as defined in Fort et al. (2016) via a kernel-based estimator related (Maume-Deschamps and Niang, 2018) (\code{\link{qosa}});
     \item Target Sensitivity Analysis via Hilbert-Schmidt Independence Criterion (\code{\link{sensiHSIC}}) (Spagnol et al., 2019);
     \item Robustness analysis by the Perturbed-Law based Indices (\code{\link{PLI}}) of Lemaitre et al. (2015), (\code{\link{PLIquantile}}) of Sueur et al. (2017), (\code{\link{PLIsuperquantile}}) of Iooss et al. (2021), and extension as (\code{\link{PLIquantile_multivar}}) and (\code{\link{PLIsuperquantile_multivar}}) ;
@@ -117,11 +117,9 @@ S. Da Veiga, F. Gamboa, B. Iooss and C. Prieur, \emph{Basics and trends in sensi
 
 R. Faivre, B. Iooss, S. Mahevas, D. Makowski, H. Monod, editors, 2013, \emph{Analyse de sensibilite et exploration de modeles. Applications aux modeles environnementaux}, Editions Quae.
 
-B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance 
-measures for machine learning model interpretability}, Congres lambda-mu23,
-Saclay, France, 10-13 octobre 2022
-\url{https://hal.archives-ouvertes.fr/hal-03741384}
+V. Chabridon, L. Clouvel, B. Iooss, M. Il Idrissi and F. Robin, 2022, \emph{Variance-based importance measures in the linear regression context: Review, new insights and applications}, Preprint
   
+B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance measures for machine learning model interpretability}, Congres lambda-mu23, Saclay, France, 10-13 octobre 2022. \url{https://hal.archives-ouvertes.fr/hal-03741384}
 
 B. Iooss, R. Kennet and P. Secchi, 2022, \emph{Different views of interpretability}, In: \emph{Interpretability for Industry 4.0: Statistical and Machine Learning Approaches}, A. Lepore, B. Palumbo and J-M. Poggi (Eds), Springer.
 

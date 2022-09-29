@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // DisC2_Crossprod
 double DisC2_Crossprod(NumericVector X, int d);
 RcppExport SEXP _sensitivity_DisC2_Crossprod(SEXP XSEXP, SEXP dSEXP) {
@@ -200,8 +205,8 @@ BEGIN_RCPP
 END_RCPP
 }
 
-extern "C" void LG_estimator(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern "C" void LG_rowsort(void *, void *, void *, void *, void *);
+RcppExport void LG_estimator(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
+RcppExport void LG_rowsort(void *, void *, void *, void *, void *);
 
 static const R_CallMethodDef CallEntries[] = {
     {"_sensitivity_DisC2_Crossprod", (DL_FUNC) &_sensitivity_DisC2_Crossprod, 2},
@@ -220,16 +225,12 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sensitivity_maximin_cpp", (DL_FUNC) &_sensitivity_maximin_cpp, 1},
     {"_sensitivity_nested_permu_cplus", (DL_FUNC) &_sensitivity_nested_permu_cplus, 1},
     {"_sensitivity_nested_lhs_cplus", (DL_FUNC) &_sensitivity_nested_lhs_cplus, 2},
+    {"LG_estimator", (DL_FUNC) &LG_estimator, 10},
+    {"LG_rowsort",   (DL_FUNC) &LG_rowsort,    5},
     {NULL, NULL, 0}
 };
 
-static const R_CMethodDef CEntries[] = {
-	{"LG_estimator", (DL_FUNC) &LG_estimator, 10},
-	{"LG_rowsort",   (DL_FUNC) &LG_rowsort,    5},
-	{NULL, NULL, 0}
-};
-
 RcppExport void R_init_sensitivity(DllInfo *dll) {
-    R_registerRoutines(dll, CEntries, CallEntries, NULL, NULL);
-    R_useDynamicSymbols(dll, FALSE);
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, TRUE);
 }

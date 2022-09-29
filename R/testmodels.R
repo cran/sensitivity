@@ -164,3 +164,30 @@ friedman.fun <- function(X){
 }
 
 ##################################################################
+# Matyas function (from the Virtual Library of Simulation Experiments)
+# see: https://www.sfu.ca/~ssurjano/matya.html
+
+matyas.fun <- function(X){
+  
+  ### input ###
+  
+  # X:      n x 2     matrix    (input samples)
+  
+  ### output ###
+  
+  # Y:      n x 2     matrix    (output samples)
+  
+  a <- 10
+  
+  A <- 0.26
+  B <- 0.48
+  
+  Z <- a*(2*X-1)
+  z1 <- Z[,1]
+  z2 <- Z[,2]
+  
+  y <- A*(z1^2+z2^2)-B*z1*z2
+  
+  return(y)
+  
+}
