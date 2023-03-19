@@ -10,7 +10,7 @@
   \code{pcc} computes the Partial Correlation Coefficients (PCC),
   Semi-Partial Correlation Coefficients (SPCC), Partial Rank Correlation 
   Coefficients (PRCC) or Semi-Partial Rank Correlation Coefficients (SPRCC), 
-  which are sensitivity indices based on linear (resp. monotonic) 
+  which are variance-based measures based on linear (resp. monotonic) 
   assumptions, in the case of (linearly) correlated factors.
 }
 
@@ -18,7 +18,8 @@
 pcc(X, y, rank = FALSE, semi = FALSE, logistic = FALSE, nboot = 0, conf = 0.95)
 \method{print}{pcc}(x, \dots)
 \method{plot}{pcc}(x, ylim = c(-1,1), \dots)
-\method{ggplot}{pcc}(x, ylim = c(-1,1), \dots)
+\method{ggplot}{pcc}(data, mapping = aes(), \dots, environment
+                 = parent.frame(), ylim = c(-1,1))
 }
 
 \arguments{
@@ -34,7 +35,11 @@ pcc(X, y, rank = FALSE, semi = FALSE, logistic = FALSE, nboot = 0, conf = 0.95)
   \item{nboot}{the number of bootstrap replicates.}
   \item{conf}{the confidence level of the bootstrap confidence intervals.}
   \item{x}{the object returned by \code{pcc}.}
+  \item{data}{the object returned by \code{pcc}.}
   \item{ylim}{the y-coordinate limits of the plot.}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{arguments to be passed to methods, such as graphical
     parameters (see \code{par}).}
 }
@@ -107,6 +112,7 @@ plot(x)
 
 library(ggplot2)
 ggplot(x)
+ggplot(x, ylim = c(-1.5,1.5))
 
 x <- pcc(X, y, semi = TRUE, nboot = 100)
 print(x)

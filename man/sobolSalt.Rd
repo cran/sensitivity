@@ -18,7 +18,8 @@ sobolSalt(model = NULL, X1, X2, scheme="A", nboot = 0, conf = 0.95, \dots)
 \method{tell}{sobolSalt}(x, y = NULL, \dots)
 \method{print}{sobolSalt}(x, \dots)
 \method{plot}{sobolSalt}(x, ylim = c(0, 1), choice, \dots)
-\method{ggplot}{sobolSalt}(x, ylim = c(0, 1), choice, \dots)
+\method{ggplot}{sobolSalt}(data, mapping = aes(), ylim = c(0, 1), choice, \dots, environment
+                 = parent.frame())
 }
 
 \arguments{
@@ -29,11 +30,16 @@ sobolSalt(model = NULL, X1, X2, scheme="A", nboot = 0, conf = 0.95, \dots)
   \item{scheme}{a letter \code{"A"} or \code{"B"} indicating which scheme to use (see "Details")}
   \item{nboot}{the number of bootstrap replicates.}
   \item{conf}{the confidence level for bootstrap confidence intervals.}
-  \item{x}{a list of class \code{"sobol"} storing the state of the
+  \item{x}{a list of class \code{"sobolSalt"} storing the state of the
+  sensitivity study (parameters, data, estimates).}
+  \item{data}{a list of class \code{"sobolSalt"} storing the state of the
   sensitivity study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
   \item{ylim}{y-coordinate plotting limits.}
   \item{choice}{an integer specifying which indices to plot: \code{1} for first-order and total effect indices, \code{2} for second-order indices.}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{any other arguments for \code{model} which are passed
     unchanged each time it is called}
 }

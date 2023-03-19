@@ -175,7 +175,8 @@ plot.sobol <- function(x, ylim = c(0, 1), ...) {
   }
 }
 
-ggplot.sobol <- function(x, ylim = c(0, 1), ...) {
+ggplot.sobol <- function(data, mapping = aes(), ylim = c(0,1), ..., environment = parent.frame()) {
+  x <- data
   if (! is.null(x$y)) {
     nodeggplot(listx = list(x$S), xname="",ylim = ylim)
   }

@@ -85,7 +85,7 @@ print.pcc <- function(x, ...) {
 }
 
 
-plot.pcc <- function(x, ylim = c(-1,1), ...) {  
+plot.pcc <- function(x, ylim = c(-1,1), ...) {
   if ("PCC" %in% names(x)) {
     nodeplot(x$PCC, ylim = ylim, main = "PCC")
   } else if ("PRCC" %in% names(x)) {
@@ -98,7 +98,8 @@ plot.pcc <- function(x, ylim = c(-1,1), ...) {
 }
 
 
-ggplot.pcc <- function(x, ylim = c(-1,1), ...) {  
+ggplot.pcc <- function(data, mapping = aes(), ..., environment = parent.frame(), ylim = c(-1,1)) {
+  x <- data
   if ("PCC" %in% names(x)) {
     nodeggplot(listx = list(x$PCC), xname = "PCC", ylim = ylim, title = "PCC")
   } else if ("PRCC" %in% names(x)) {

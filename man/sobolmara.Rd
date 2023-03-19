@@ -20,19 +20,25 @@ sobolmara(model = NULL, X1, \dots)
 \method{print}{sobolmara}(x, \dots)
 \method{plot}{sobolmara}(x, ylim = c(0, 1), \dots)
   \method{plotMultOut}{sobolmara}(x, ylim = c(0, 1), \dots)
-\method{ggplot}{sobolmara}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{sobolmara}(data, mapping = aes(), ylim = c(0, 1), \dots, environment
+                 = parent.frame())
 }
 
 \arguments{
   \item{model}{a function, or a model with a \code{predict} method,
     defining the model to analyze.}
   \item{X1}{the random sample.}
-  \item{x}{a list of class \code{"sobolEff"} storing the state of the
+  \item{x}{a list of class \code{"sobolmara"} storing the state of the
+  sensitivity study (parameters, data, estimates).}
+  \item{data}{a list of class \code{"sobolmara"} storing the state of the
   sensitivity study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
   \item{return.var}{a vector of character strings giving further
     internal variables names to store in  the output object \code{x}.}
   \item{ylim}{y-coordinate plotting limits.}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{any other arguments for \code{model} which are passed
     unchanged each time it is called.}
 }

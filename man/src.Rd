@@ -17,7 +17,8 @@
 src(X, y, rank = FALSE, logistic = FALSE, nboot = 0, conf = 0.95)
 \method{print}{src}(x, \dots)
 \method{plot}{src}(x, ylim = c(-1,1), \dots)
-\method{ggplot}{src}(x, ylim = c(-1,1), \dots)
+\method{ggplot}{src}(data,  mapping = aes(), ylim = c(-1, 1), \dots, environment
+                 = parent.frame())
 }
 
 \arguments{
@@ -32,7 +33,11 @@ src(X, y, rank = FALSE, logistic = FALSE, nboot = 0, conf = 0.95)
   \item{nboot}{the number of bootstrap replicates.}
   \item{conf}{the confidence level of the bootstrap confidence intervals.}
   \item{x}{the object returned by \code{src}.}
+  \item{data}{the object returned by \code{src}.}
   \item{ylim}{the y-coordinate limits of the plot.}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{arguments to be passed to methods, such as graphical
     parameters (see \code{par}).}
 }

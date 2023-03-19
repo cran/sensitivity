@@ -19,7 +19,8 @@ sobolowen(model = NULL, X1, X2, X3, nboot = 0, conf = 0.95, varest = 2, \dots)
 \method{tell}{sobolowen}(x, y = NULL, return.var = NULL, varest = 2, \dots)
 \method{print}{sobolowen}(x, \dots)
 \method{plot}{sobolowen}(x, ylim = c(0, 1), \dots)
-\method{ggplot}{sobolowen}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{sobolowen}(data, mapping = aes(), ylim = c(0, 1), \dots, environment
+                 = parent.frame())
 }
 
 \arguments{
@@ -33,12 +34,17 @@ sobolowen(model = NULL, X1, X2, X3, nboot = 0, conf = 0.95, varest = 2, \dots)
   \item{varest}{choice for the variance estimator for the denominator of
   the Sobol' indices. varest=1 is for a classical estimator.
   varest=2 (default) is for the estimator proposed in Janon et al. (2012).}
-  \item{x}{a list of class \code{"sobol"} storing the state of the
+  \item{x}{a list of class \code{"sobolowen"} storing the state of the
+  sensitivity study (parameters, data, estimates).}
+  \item{data}{a list of class \code{"sobolowen"} storing the state of the
   sensitivity study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
   \item{return.var}{a vector of character strings giving further
     internal variables names to store in  the output object \code{x}.}
   \item{ylim}{y-coordinate plotting limits.}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{any other arguments for \code{model} which are passed
     unchanged each time it is called}
 }

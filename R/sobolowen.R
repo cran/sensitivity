@@ -137,7 +137,8 @@ plot.sobolowen <- function(x, ylim = c(0, 1), ...) {
   }
 }
 
-ggplot.sobolowen <- function(x, ylim = c(0, 1), ...) {
+ggplot.sobolowen <- function(data, mapping = aes(), ylim = c(0,1), ..., environment = parent.frame()) {
+  x <- data
   if (!is.null(x$y)) {
     p <- ncol(x$X1)
     pch = c(21, 24)

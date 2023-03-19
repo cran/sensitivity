@@ -312,7 +312,8 @@ plot.sobolroalhs <- function(x, ylim = c(0, 1), ...) {
   }
 }
 
-ggplot.sobolroalhs <- function(x, ylim = c(0, 1), ...) {
+ggplot.sobolroalhs <- function(data, mapping = aes(), ylim = c(0,1), ..., environment = parent.frame()) {
+  x <- data
   
   if (!is.null(x$y)) {
     if (x$order==1){

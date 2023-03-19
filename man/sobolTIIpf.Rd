@@ -16,7 +16,8 @@ sobolTIIpf(model = NULL, X1, X2, \dots)
 \method{tell}{sobolTIIpf}(x, y = NULL, \dots)
 \method{print}{sobolTIIpf}(x, \dots)
 \method{plot}{sobolTIIpf}(x, ylim = NULL, \dots)
-\method{ggplot}{sobolTIIpf}(x, ylim = NULL, \dots)
+\method{ggplot}{sobolTIIpf}(data, mapping = aes(), ylim = NULL, \dots, environment
+                 = parent.frame())
 \method{plotFG}{sobolTIIpf}(x)
 }
 
@@ -27,7 +28,12 @@ sobolTIIpf(model = NULL, X1, X2, \dots)
   \item{X2}{the second random sample.}
   \item{x}{a list of class \code{"sobolTIIpf"} storing the state of the
   sensitivity study (parameters, data, estimates).}
+  \item{data}{a list of class \code{"sobolTIIpf"} storing the state of the
+  sensitivity study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{any other arguments for \code{model} which are passed
     unchanged each time it is called.}
   \item{ylim}{optional, the y limits of the plot.}

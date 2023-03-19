@@ -37,12 +37,9 @@ Centered L2-discrepancy is computed using the analytical expression done by Hick
 
 \value{A list containing the L2-discrepancies of the \code{design}.}
 
-\references{Fang K.T, Li R. and Sudjianto A. (2006) Design and Modeling for
+\references{
+Fang K.T, Li R. and Sudjianto A. (2006) Design and Modeling for
 	Computer Experiments, \emph{Chapman & Hall}.
-
-Franco J. (2008) Planification d'experiences numerique en phase exploratoire pour
-la simulation des phenomenes complexes, \emph{PhD thesis, Ecole Nationale Superieure
-des Mines de Saint Etienne}.
 
 Hickernell F.J. (1998) A generalized discrepancy and quadrature error bound.
 	\emph{Mathematics of Computation}, \bold{67}, 299-322.

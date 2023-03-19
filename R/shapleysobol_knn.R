@@ -1042,7 +1042,8 @@ print.sobol_knn<-function(x, ...){
   }
 }
 
-ggplot.shapleysobol_knn<-function(x, ylim = c(0, 1), ...) {
+ggplot.shapleysobol_knn<-function(data, mapping = aes(), ylim = c(0,1), ..., environment = parent.frame()) {
+  x <- data
   if (!is.null(x$Shap)){
     shap <- as.data.frame(x$Shap) 
     colnames(shap) <- "original"
@@ -1052,7 +1053,8 @@ ggplot.shapleysobol_knn<-function(x, ylim = c(0, 1), ...) {
   }
 }
 
-ggplot.sobol_knn<-function(x, ylim=c(0,1), ...){
+ggplot.sobol_knn<-function(data, mapping = aes(), ylim = c(0,1), ..., environment = parent.frame()){
+  x <- data
   if(!is.null(x$Sobol)){
     sobols<-as.data.frame(x$Sobol)
     colnames(sobols)<-"original"

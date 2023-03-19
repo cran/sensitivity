@@ -22,7 +22,8 @@ soboltouati(model = NULL, X1, X2, conf = 0.95, \dots)
 \method{tell}{soboltouati}(x, y = NULL, return.var = NULL, \dots)
 \method{print}{soboltouati}(x, \dots)
 \method{plot}{soboltouati}(x, ylim = c(0, 1), \dots)
-\method{ggplot}{soboltouati}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{soboltouati}(data,  mapping = aes(), ylim = c(0, 1), \dots, environment
+                 = parent.frame())
 }
 
 \arguments{
@@ -32,12 +33,17 @@ soboltouati(model = NULL, X1, X2, conf = 0.95, \dots)
   \item{X2}{the second random sample.}
   \item{conf}{the confidence level for confidence intervals, or zero to
   avoid their computation if they are not needed.}
-  \item{x}{a list of class \code{"sobol"} storing the state of the
+  \item{x}{a list of class \code{"soboltouati"} storing the state of the
+  sensitivity study (parameters, data, estimates).}
+  \item{data}{a list of class \code{"soboltouati"} storing the state of the
   sensitivity study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
   \item{return.var}{a vector of character strings giving further
     internal variables names to store in  the output object \code{x}.}
   \item{ylim}{y-coordinate plotting limits.}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{any other arguments for \code{model} which are passed
     unchanged each time it is called}
 }

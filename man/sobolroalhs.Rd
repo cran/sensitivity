@@ -15,7 +15,8 @@ sobolroalhs(model = NULL, factors, N, p=1, order, tail=TRUE, conf=0.95, nboot=0,
 \method{tell}{sobolroalhs}(x, y = NULL, \dots)
 \method{print}{sobolroalhs}(x, \dots)
 \method{plot}{sobolroalhs}(x, ylim = c(0,1), \dots)
-\method{ggplot}{sobolroalhs}(x, ylim = c(0,1), \dots)
+\method{ggplot}{sobolroalhs}(data, mapping = aes(), ylim = c(0, 1), \dots, environment
+                 = parent.frame())
 }
 
 \arguments{
@@ -30,8 +31,13 @@ sobolroalhs(model = NULL, factors, N, p=1, order, tail=TRUE, conf=0.95, nboot=0,
   \item{nboot}{the number of bootstrap replicates.}
   \item{x}{a list of class \code{"sobolroalhs"} storing the state of the
   sensitivity study (parameters, data, estimates).}
+  \item{data}{a list of class \code{"sobolroalhs"} storing the state of the
+  sensitivity study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
   \item{ylim}{y-coordinate plotting limits.}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{any other arguments for \code{model} which are passed
     unchanged each time it is called.}
 }

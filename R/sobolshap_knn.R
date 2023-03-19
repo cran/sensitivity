@@ -422,7 +422,8 @@ plot.sobolshap_knn <- function(x, ylim = c(0, 1), type.multout="lines", ...) {
   }
 }
 
-ggplot.sobolshap_knn <- function(x, ylim = c(0, 1), type.multout="lines", ...) {
+ggplot.sobolshap_knn <- function(data, mapping = aes(), ylim = c(0, 1), type.multout="lines", ..., environment = parent.frame()) {
+  x <- data
   
   if (! is.null(x$y)) {
     if (!is.null(x$order)){

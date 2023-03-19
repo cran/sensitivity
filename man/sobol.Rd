@@ -23,7 +23,8 @@ sobol(model = NULL, X1, X2, order = 1, nboot = 0, conf = 0.95, \dots)
 \method{print}{sobol}(x, \dots)
 \method{plot}{sobol}(x, ylim = c(0, 1), \dots)
   \method{plotMultOut}{sobol}(x, ylim = c(0, 1), \dots)
-\method{ggplot}{sobol}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{sobol}(data, mapping = aes(), ylim = c(0, 1), \dots, environment
+                 = parent.frame())
 }
 
 \arguments{
@@ -39,10 +40,15 @@ sobol(model = NULL, X1, X2, order = 1, nboot = 0, conf = 0.95, \dots)
   \item{conf}{the confidence level for bootstrap confidence intervals.}
   \item{x}{a list of class \code{"sobol"} storing the state of the
   sensitivity study (parameters, data, estimates).}
+  \item{data}{a list of class \code{"sobol"} storing the state of the
+  sensitivity study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
   \item{return.var}{a vector of character strings giving further
     internal variables names to store in  the output object \code{x}.}
   \item{ylim}{y-coordinate plotting limits.}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{any other arguments for \code{model} which are passed
     unchanged each time it is called.}
 }

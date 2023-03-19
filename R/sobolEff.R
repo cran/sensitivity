@@ -181,7 +181,8 @@ plot.sobolEff <- function(x, ylim = c(0, 1), ...) {
   }
 }
 
-ggplot.sobolEff <- function(x, ylim = c(0, 1), ...) {
+ggplot.sobolEff <- function(data, mapping = aes(), ylim = c(0,1), ..., environment = parent.frame()) {
+  x <- data
   
   if (! is.null(x$y)) {
     if (x$order==1){

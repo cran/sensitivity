@@ -16,7 +16,8 @@ sobolrank(model = NULL, X, nboot = 0, conf = 0.95, nsample = round(0.8*nrow(X)),
 \method{tell}{sobolrank}(x, y = NULL, \dots)
 \method{print}{sobolrank}(x, \dots)
 \method{plot}{sobolrank}(x, ylim = c(0, 1), \dots)
-\method{ggplot}{sobolrank}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{sobolrank}(data, mapping = aes(), \dots, environment
+                 = parent.frame(), ylim = c(0, 1))
 }
 
 \arguments{
@@ -28,8 +29,13 @@ sobolrank(model = NULL, X, nboot = 0, conf = 0.95, nsample = round(0.8*nrow(X)),
   \item{nsample}{the size of the bootstrap sample, see details.}
   \item{x}{a list of class \code{"sobolrank"} storing the state of the
   sensitivity study (parameters, data, estimates).}
+  \item{data}{a list of class \code{"sobolrank"} storing the state of the
+  sensitivity study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
   \item{ylim}{y-coordinate plotting limits.}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{any other arguments for \code{model} which are passed
     unchanged each time it is called.}
 }
@@ -52,11 +58,12 @@ sobolrank(model = NULL, X, nboot = 0, conf = 0.95, nsample = round(0.8*nrow(X)),
 }
 
 \references{
-		 Gamboa, F., Gremaud, P., Klein, T., & Lagnoux, A., 2020, \emph{Global Sensitivity Analysis: 
-		 a new generation of mighty estimators based on rank statistics}, arXiv preprint arXiv:2003.01772.
+		 Gamboa, F., Gremaud, P., Klein, T., & Lagnoux, A., 2022, \emph{Global Sensitivity Analysis: 
+		 a novel generation of mighty estimators based on rank statistics}, 
+		 Bernoulli 28: 2345-2374.
 		 
-		 Chatterjee, S., 2019, \emph{A new coefficient of correlation}, Journal of the American 
-		 Statistical Association, doi:10.1080/01621459.2020.1758115
+		 Chatterjee, S., 2021, \emph{A new coefficient of correlation}, Journal of the American 
+		 Statistical Association, 116:2009-2022. 
 }
 
 \author{

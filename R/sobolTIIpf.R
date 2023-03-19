@@ -106,8 +106,8 @@ plot.sobolTIIpf <- function(x, ylim = NULL, ...)
   }
 }
 
-ggplot.sobolTIIpf <- function(x, ylim = NULL, ...)
-{
+ggplot.sobolTIIpf <- function(data, mapping = aes(), ylim = NULL, ..., environment = parent.frame()){
+  x <- data
   if (is.null(ylim)){
     ylim <- range(x$tii.scaled[,1])
   }

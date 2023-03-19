@@ -69,7 +69,8 @@ plot.src <- function(x, ylim = c(-1,1), ...) {
   }
 }
 
-ggplot.src <- function(x, ylim = c(-1,1), ...) {  
+ggplot.src <- function(data, mapping = aes(), ylim = c(-1,1), ..., environment = parent.frame()) {  
+  x <- data
   if ("SRRC" %in% names(x)) {
     nodeggplot(listx = list(x$SRRC), xname = "SRRC", ylim = ylim, title = "SRRC")
   } else if ("SRC" %in% names(x)) {

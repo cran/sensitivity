@@ -85,7 +85,8 @@ This criterion is tested for the last \eqn{l_0}{l_0} steps (including the curren
 \references{
 A.S. Hedayat, N.J.A. Sloane and J. Stufken, 1999, \emph{Orthogonal Arrays: Theory and Applications}, Springer Series in Statistics.
 
-L. Gilquin, E. Arnaud, H. Monod and C. Prieur, 2016, \emph{Recursive estimation procedure of Sobol' indices based on replicated designs}, preprint available at: \url{https://hal.inria.fr/hal-01291769}.
+L. Gilquin, E. Arnaud, H. Monod and C. Prieur, 2021, \emph{Recursive estimation procedure of Sobol' indices based on replicated designs}, 
+Computational and Applied Mathematics, 40:1--23. 
 }
 
 

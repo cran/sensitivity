@@ -16,7 +16,8 @@ sobolroauc(model = NULL, factors, constraints = NULL, N, p = 1, order,
 \method{tell}{sobolroauc}(x, y = NULL, \dots)
 \method{print}{sobolroauc}(x, \dots)
 \method{plot}{sobolroauc}(x, ylim = c(0,1), \dots)
-\method{ggplot}{sobolroauc}(x, ylim = c(0,1), \dots)
+\method{ggplot}{sobolroauc}(data, mapping = aes(), ylim = c(0, 1), \dots, environment
+                 = parent.frame())
 }
 
 \arguments{
@@ -32,8 +33,13 @@ sobolroauc(model = NULL, factors, constraints = NULL, N, p = 1, order,
   \item{nboot}{the number of bootstrap replicates.}
   \item{x}{a list of class \code{"sobolroauc"} storing the state of the
   sensitivity study (parameters, data, estimates).}
+  \item{data}{a list of class \code{"sobolroauc"} storing the state of the
+  sensitivity study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
   \item{ylim}{y-coordinate plotting limits.}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{any other arguments for \code{model} which are passed
     unchanged each time it is called.}
 }

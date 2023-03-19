@@ -24,7 +24,8 @@ pme_knn(model=NULL, X, method = "knn", tol = NULL, marg = T, n.knn = 2,
 \method{tell}{pme_knn}(x, y, \dots)
 \method{print}{pme_knn}(x, \dots)
 \method{plot}{pme_knn}(x, ylim = c(0,1), \dots)
-\method{ggplot}{pme_knn}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{pme_knn}(data, mapping = aes(), ylim = c(0, 1), \dots, environment
+                 = parent.frame())
 }
 
 \arguments{
@@ -54,8 +55,12 @@ pme_knn(model=NULL, X, method = "knn", tol = NULL, marg = T, n.knn = 2,
   \item{parl}{number of cores on which to parallelize the computation. If
   \code{NULL}, then no parallelization is done.}
   \item{x}{the object returned by \code{pme_knn}.}
+  \item{data}{the object returned by \code{pme_knn}.}
   \item{y}{a numeric univariate vector containing the observed outputs.}
   \item{ylim}{the y-coordinate limits for plotting.}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{additional arguments to be passed to \code{model}, or to the 
   methods, such as graphical parameters (see \code{par}).}
 }

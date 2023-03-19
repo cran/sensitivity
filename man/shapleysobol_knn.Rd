@@ -34,7 +34,8 @@ shapleysobol_knn(model=NULL, X, method = "knn", n.knn = 2, n.limit = 2000, U = N
 \method{extract}{shapleysobol_knn}(x, \dots)
 \method{print}{shapleysobol_knn}(x, \dots)
 \method{plot}{shapleysobol_knn}(x, ylim = c(0,1), \dots)
-\method{ggplot}{shapleysobol_knn}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{shapleysobol_knn}(data, mapping = aes(), ylim = c(0, 1), \dots, environment
+                 = parent.frame())
 \method{print}{sobol_knn}(x, \dots)
 \method{plot}{sobol_knn}(x, ylim = c(0,1), \dots)
 }
@@ -70,8 +71,12 @@ shapleysobol_knn(model=NULL, X, method = "knn", n.knn = 2, n.limit = 2000, U = N
   \item{parl}{number of cores on which to parallelize the computation. If
   \code{NULL}, then no parallelization is done.}
   \item{x}{the object returned by \code{shapleysobol_knn}.}
+  \item{data}{the object returned by \code{shapleysobol_knn}.}
   \item{y}{a numeric univariate vector containing the observed outputs.}
   \item{ylim}{the y-coordinate limits for plotting.}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{additional arguments to be passed to \code{model}, or to the 
   methods, such as graphical parameters (see \code{par}).}
 }
@@ -175,10 +180,12 @@ shapleysobol_knn(model=NULL, X, method = "knn", n.knn = 2, n.limit = 2000, U = N
   Azadkia M., Chatterjee S. (2019). A simple measure of conditional dependence. 
   arXiv preprint arXiv:1910.12327.
   
-  Chatterjee S. (2019). A new coefficient of correlation. arXiv preprint arXiv:1909.10140.
+		 Chatterjee, S., 2021, \emph{A new coefficient of correlation}, Journal of the American 
+		 Statistical Association, 116:2009-2022. 
   
-  Gamboa F., Gremaud P., Klein T., Lagnoux A. (2020). Global Sensitivity Analysis: 
-  a new generation of mighty estimators based on rank statistics. arXiv preprint arXiv:2003.01772.
+		 Gamboa, F., Gremaud, P., Klein, T., & Lagnoux, A., 2022, \emph{Global Sensitivity Analysis: 
+		 a novel generation of mighty estimators based on rank statistics}, 
+		 Bernoulli 28: 2345-2374.
     
   Broto B., Bachoc F. and Depecker M. (2020) \emph{Variance Reduction for Estimation
   of Shapley Effects and Adaptation to Unknown Input Distribution.} SIAM/ASA Journal

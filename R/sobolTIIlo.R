@@ -112,8 +112,8 @@ plot.sobolTIIlo <- function(x, ylim = NULL, ...)
   }
 }
 
-ggplot.sobolTIIlo <- function(x, ylim = NULL, ...)
-{
+ggplot.sobolTIIlo <- function(data, mapping = aes(), ylim = NULL, ..., environment = parent.frame()){
+  x <- data
   if (is.null(ylim)){
     ylim <- c(min(rbind(0,x$tii.scaled["min. c.i."])), max(x$tii.scaled["max. c.i."]))
   }

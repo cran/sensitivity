@@ -1,3 +1,5 @@
+
+
 sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL, 
                       kernelX = "rbf", paramX = NA,
                       kernelY = "rbf", paramY = NA,
@@ -830,7 +832,7 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
   
   if(!is.null(x$model)){ 
     response(x, other_types_allowed=TRUE, ...)
-    x <- tell(x, ...)
+    tell(x, ...)
   }
 
   return(x)
@@ -840,6 +842,8 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
 ### tell.sensiHSIC #############################################################
 
 tell.sensiHSIC <- function(x, y = NULL, ...){
+  
+  id <- deparse(substitute(x))
 
   # How to start from given data?
   
@@ -1273,9 +1277,8 @@ tell.sensiHSIC <- function(x, y = NULL, ...){
     }
     
   }
-
-  return(x)
   
+  assign(id, x, parent.frame())
 }
 
 ### estim.sensiHSIC ############################################################

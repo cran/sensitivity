@@ -149,7 +149,6 @@ tell.qosa <- function(x, y = NULL, ...) {
   }
   
   assign(id, x, parent.frame())
-  return(x)
 }
 
 print.qosa<- function(x, ...) {
@@ -184,7 +183,8 @@ plot.qosa <- function(x, ylim = c(0, 1), ...) {
   }
 }
 
-ggplot.qosa <- function(x, ylim = c(0, 1), ...) {
+ggplot.qosa <- function(data, mapping = aes(), ylim = c(0,1), ..., environment = parent.frame()) {
+  x <- data
   
   if (! is.null(x$y)) {
     if (x$type=="mean"){

@@ -63,6 +63,10 @@ PLI(failurepoints,failureprobabilityhat,samplesize,deltasvector,
 }
 
 \references{
+C. Gauchy and J. Stenger and R. Sueur and B. Iooss, \emph{An information geometry
+approach for robustness analysis in uncertainty quantification of computer codes},
+Technometrics, 64:80-91, 2022.
+
 P. Lemaitre, E. Sergienko, A. Arnaud, N. Bousquet, F. Gamboa and B. Iooss,
 \emph{Density modification based reliability sensitivity analysis}, Journal of Statistical 
 Computation and Simulation, 85:1200-1223. 
@@ -72,7 +76,7 @@ In: \emph{Springer Handbook on UQ}, R. Ghanem, D. Higdon and H. Owhadi (Eds).
 }
 
 \author{
-Paul Lemaitre
+Paul Lemaitre and Bertrand Iooss
 }
 
 \seealso{

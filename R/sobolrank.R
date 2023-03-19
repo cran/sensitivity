@@ -88,9 +88,10 @@ plot.sobolrank <- function(x, ylim = c(0, 1), ...) {
   }
 }
 
-ggplot.sobolrank <- function(x, ylim = c(0, 1), ...) {
+ggplot.sobolrank <- function(data, mapping = aes(), ..., environment = parent.frame(), ylim = c(0,1)) {
+  x <- data
   
   if (! is.null(x$y)) {
-    nodeggplot(list(x$S), xname = "First-order indices", ylim = ylim)
+    nodeggplot(list(x$S), xname = "First-order indices")
   }
 }

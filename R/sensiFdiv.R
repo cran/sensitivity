@@ -184,7 +184,8 @@ plot.sensiFdiv <- function(x, ylim = c(0, 1), ...) {
   }
 }
 
-ggplot.sensiFdiv <- function(x, ylim = c(0, 1), ...) {
+ggplot.sensiFdiv <- function(data, mapping = aes(), ylim = c(0,1), ..., environment = parent.frame()) {
+  x <- data
   
   if (! is.null(x$y)) {
     nf <- length(x$fdiv)

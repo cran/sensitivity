@@ -31,8 +31,9 @@ shapleyLinearGaussian(Beta, Sigma, tol=10^(-6))
    B. Broto, F. Bachoc, M. Depecker, and J-M. Martinez, 2019, \emph{Sensitivity indices
 for independent groups of variables}, Mathematics and Computers in Simulation, 163, 19--31.
    
-   B. Broto, F. Bachoc, and J-M Martinez, 2019.\emph{Block-diagonal covariance estimation
- and application to the Shapley effects in sensitivity analysis}. arXiv:1907.12780.
+   B. Broto, F. Bachoc, L. Clouvel and J-M Martinez, 2022,\emph{Block-diagonal
+   covariance estimation and application to the Shapley effects in sensitivity analysis},
+   SIAM/ASA Journal on Uncertainty Quantification, 10, 379--403.
 
    B. Iooss and C. Prieur, 2019, \emph{Shapley effects for sensitivity analysis with 
 correlated inputs: comparisons with Sobol' indices, numerical estimation and 

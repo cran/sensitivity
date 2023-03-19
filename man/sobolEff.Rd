@@ -14,7 +14,8 @@ sobolEff(model = NULL, X1, X2, order=1, nboot = 0, conf = 0.95, \dots)
 \method{tell}{sobolEff}(x, y = NULL, \dots)
 \method{print}{sobolEff}(x, \dots)
 \method{plot}{sobolEff}(x, ylim = c(0, 1), \dots)
-\method{ggplot}{sobolEff}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{sobolEff}(data, mapping = aes(), ylim = c(0, 1), \dots, environment
+                 = parent.frame())
 }
 
 \arguments{
@@ -28,8 +29,13 @@ sobolEff(model = NULL, X1, X2, order=1, nboot = 0, conf = 0.95, \dots)
   \item{conf}{the confidence level for confidence intervals.}
   \item{x}{a list of class \code{"sobolEff"} storing the state of the
   sensitivity study (parameters, data, estimates).}
+  \item{data}{a list of class \code{"sobolEff"} storing the state of the
+  sensitivity study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
   \item{ylim}{y-coordinate plotting limits.}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{any other arguments for \code{model} which are passed
     unchanged each time it is called.}
 }

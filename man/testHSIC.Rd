@@ -206,6 +206,7 @@ In Marrel and Chabridon (2021), \acronym{HSIC} indices were adapted to \bold{tar
   El Amri, M. R. and Marrel, A. (2022), \emph{Optimized \acronym{HSIC}-based tests for sensitivity analysis: application to thermalhydraulic simulation of accidental scenario on nuclear reactor}, Quality and Reliability Engineering International, 38(3), 1386-1403.
 
   El Amri, M. R. and Marrel, A. (2021), \emph{More powerful \acronym{HSIC}-based independence tests, extension to space-filling designs and functional data}.
+  \url{https://hal-cea.archives-ouvertes.fr/cea-03406956/}
 
   Fukumizu, K., Bach, F. R. and Jordan, M. I. (2004), \emph{Dimensionality reduction for supervised learning with reproducing kernel Hilbert spaces}, Journal of Machine Learning Research, 5(Jan), 73-99.
   

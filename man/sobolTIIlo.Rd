@@ -16,7 +16,8 @@ sobolTIIlo(model = NULL, X1, X2, conf = 0.95, \dots)
 \method{tell}{sobolTIIlo}(x, y = NULL, \dots)
 \method{print}{sobolTIIlo}(x, \dots)
 \method{plot}{sobolTIIlo}(x, ylim = NULL, \dots)
-\method{ggplot}{sobolTIIlo}(x, ylim = NULL, \dots)
+\method{ggplot}{sobolTIIlo}(data, mapping = aes(), ylim = NULL, \dots, environment
+                 = parent.frame())
 \method{plotFG}{sobolTIIlo}(x)
 }
 
@@ -28,7 +29,12 @@ sobolTIIlo(model = NULL, X1, X2, conf = 0.95, \dots)
  \item{conf}{the confidence level for asymptotic confidence intervals, defaults to 0.95.}
   \item{x}{a list of class \code{"sobolTIIlo"} storing the state of the
   sensitivity study (parameters, data, estimates).}
+  \item{data}{a list of class \code{"sobolTIIlo"} storing the state of the
+  sensitivity study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{any other arguments for \code{model} which are passed
     unchanged each time it is called.}
   \item{ylim}{optional, the y limits of the plot.}

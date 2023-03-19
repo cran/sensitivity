@@ -286,8 +286,10 @@ plot.soboljansen <- function(x, ylim = c(0, 1),
   }
 }
 
-ggplot.soboljansen <- function(x, ylim = c(0, 1), 
-                             y_col = NULL, y_dim3 = NULL, ...) {
+ggplot.soboljansen <- function(data, mapping = aes(), ylim = c(0, 1), 
+                             y_col = NULL, y_dim3 = NULL, ..., environment = parent.frame()) {
+  x <- data
+  
   if (!is.null(x$y)) {
     p <- ncol(x$X1)
     pch = c(21, 24)

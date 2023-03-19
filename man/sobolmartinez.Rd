@@ -20,7 +20,8 @@ sobolmartinez(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
 \method{tell}{sobolmartinez}(x, y = NULL, return.var = NULL, \dots)
 \method{print}{sobolmartinez}(x, \dots)
 \method{plot}{sobolmartinez}(x, ylim = c(0, 1), y_col = NULL, y_dim3 = NULL, \dots)
-\method{ggplot}{sobolmartinez}(x, ylim = c(0, 1), y_col = NULL, y_dim3 = NULL, \dots)
+\method{ggplot}{sobolmartinez}(data, mapping = aes(), ylim = c(0, 1), y_col = NULL,
+                 y_dim3 = NULL, \dots, environment = parent.frame())
 }
 
 \arguments{
@@ -32,7 +33,9 @@ sobolmartinez(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
   formulas based on confidence interfaces of correlation coefficient 
   (Martinez, 2011).}
   \item{conf}{the confidence level for bootstrap confidence intervals.}
-  \item{x}{a list of class \code{"sobol"} storing the state of the
+  \item{x}{a list of class \code{"sobolmartinez"} storing the state of the
+  sensitivity study (parameters, data, estimates).}
+  \item{data}{a list of class \code{"sobolmartinez"} storing the state of the
   sensitivity study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
   \item{return.var}{a vector of character strings giving further
@@ -49,6 +52,9 @@ sobolmartinez(model = NULL, X1, X2, nboot = 0, conf = 0.95, \dots)
     (only applies if \code{x$y} is an array). If set to \code{NULL} (as per 
     default) and \code{x$y} is a three-dimensional array, the first element in 
     the third dimension of \code{x$y} is used (i.e. \code{y_dim3 = 1}).}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{for \code{sobolmartinez}: any other arguments for \code{model} 
     which are passed unchanged each time it is called}
 }

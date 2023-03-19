@@ -643,7 +643,8 @@ plot.pme_knn<-function(x, ylim=c(0,1), ...){
   }
 }
 
-ggplot.pme_knn<-function(x, ylim = c(0, 1), ...) {
+ggplot.pme_knn<-function(data, mapping = aes(), ylim = c(0,1), ..., environment = parent.frame()) {
+  x <- data
   if (!is.null(x$PME)){
     pme <- as.data.frame(x$PME) 
     colnames(pme) <- "original"

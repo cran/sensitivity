@@ -24,7 +24,8 @@ shapleyPermEx(model = NULL, Xall, Xset, d, Nv, No, Ni = 3, colnames = NULL, \dot
 \method{tell}{shapleyPermEx}(x, y = NULL, return.var = NULL, \dots)
 \method{print}{shapleyPermEx}(x, \dots)
 \method{plot}{shapleyPermEx}(x, ylim = c(0, 1), \dots)
-\method{ggplot}{shapleyPermEx}(x, ylim = c(0, 1), title = NULL, \dots)
+\method{ggplot}{shapleyPermEx}(data, mapping = aes(), ylim = c(0, 1), title = NULL,
+                 \dots, environment = parent.frame())
 }
 
 \arguments{
@@ -45,11 +46,16 @@ shapleyPermEx(model = NULL, Xall, Xset, d, Nv, No, Ni = 3, colnames = NULL, \dot
   \item{colnames}{Optional: A vector containing the names of the inputs.}
   \item{x}{a list of class \code{"shapleyPermEx"} storing the state of the
   sensitivity study (parameters, data, estimates).}
+  \item{data}{a list of class \code{"shapleyPermEx"} storing the state of the
+  sensitivity study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
   \item{return.var}{a vector of character strings giving further
     internal variables names to store in the output object \code{x}.}
   \item{ylim}{y-coordinate plotting limits.}
   \item{title}{a title of the plot with ggplot() function.}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{any other arguments for \code{model} which are passed
     unchanged each time it is called.}
 }

@@ -1,4 +1,12 @@
 
+Changes in version 1.28.1:
+
+  o Bug corrected in fct parameterSets()
+
+  o Bugs corrected about all the ggplot.xxx() fcts issues (required by CRAN)
+  
+  o Correction in the tell() fct of sensiHSIC() for direct call
+
 Changes in version 1.28.0:
 
   o New fct correlratio()

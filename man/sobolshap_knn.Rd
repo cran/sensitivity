@@ -29,7 +29,8 @@
   \method{extract}{sobolshap_knn}(x, \dots)
   \method{print}{sobolshap_knn}(x, \dots)
   \method{plot}{sobolshap_knn}(x, ylim = c(0, 1), type.multout = "lines", \dots)
-  \method{ggplot}{sobolshap_knn}(x, ylim = c(0, 1), type.multout = "lines", \dots)
+  \method{ggplot}{sobolshap_knn}(data,  mapping = aes(), ylim = c(0, 1), type.multout =
+                 "lines", \dots, environment = parent.frame())
 }
 
 \arguments{
@@ -57,10 +58,15 @@
   \item{noise}{a logical which is TRUE if the model or the output sample is noisy, see details.}
   \item{x}{a list of class \code{"sobolshap_knn"} storing the state of the sensitivity study 
     (parameters, data, estimates).}
+  \item{data}{a list of class \code{"sobolshap_knn"} storing the state of the sensitivity study 
+    (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
   \item{ylim}{y-coordinate plotting limits.}
   \item{type.multout}{the plotting method in the case of multiple outputs, either "points" or "lines", 
     see examples.}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{any other arguments for \code{model} which are passed unchanged each time it is called.}
 }
 
@@ -120,10 +126,12 @@
   Castro J., Gomez D, Tejada J. (2009). Polynomial calculation of the Shapley value based on sampling. 
   Computers & Operations Research, 36(5):1726-1730.
   
-  Chatterjee S. (2019). A new coefficient of correlation. arXiv preprint arXiv:1909.10140.
+		 Chatterjee, S., 2021, \emph{A new coefficient of correlation}, Journal of the American 
+		 Statistical Association, 116:2009-2022. 
   
-  Gamboa F., Gremaud P., Klein T., Lagnoux A. (2020). Global Sensitivity Analysis: 
-    a new generation of mighty estimators based on rank statistics. arXiv preprint arXiv:2003.01772.
+		 Gamboa, F., Gremaud, P., Klein, T., & Lagnoux, A., 2022, \emph{Global Sensitivity Analysis: 
+		 a novel generation of mighty estimators based on rank statistics}, 
+		 Bernoulli 28: 2345-2374.
 }
 
 \author{

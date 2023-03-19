@@ -98,7 +98,8 @@ plot.sobolmara <- function(x, ylim = c(0, 1), ...) {
   }
 }
 
-ggplot.sobolmara <- function(x, ylim = c(0, 1), ...) {
+ggplot.sobolmara <- function(data, mapping = aes(), ylim = c(0,1), ..., environment = parent.frame()) {
+  x <- data
   if (! is.null(x$y)) {
     nodeggplot(listx = list(x$S), xname="",ylim = ylim)
   }

@@ -258,7 +258,8 @@ plot.sobolSalt <- function(x, ylim = c(0, 1), choice, ...) {
   }
 }
 
-ggplot.sobolSalt <- function(x, ylim = c(0, 1), choice, ...) {
+ggplot.sobolSalt <- function(data, mapping = aes(), ylim = c(0,1), choice, ..., environment = parent.frame()) {
+  x <- data
   
   if (! is.null(x$y)) {
     p <- ncol(x$X)

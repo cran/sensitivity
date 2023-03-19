@@ -19,7 +19,8 @@ nsample = 1e4, nboot = 0, conf = 0.95, \dots)
 \method{tell}{qosa}(x, y = NULL, \dots)
 \method{print}{qosa}(x, \dots)
 \method{plot}{qosa}(x, ylim = c(0, 1), \dots)
-\method{ggplot}{qosa}(x, ylim = c(0, 1), \dots)
+\method{ggplot}{qosa}(data, mapping = aes(), ylim = c(0, 1), \dots, environment
+                 = parent.frame())
 }
 
 \arguments{
@@ -39,8 +40,13 @@ nsample = 1e4, nboot = 0, conf = 0.95, \dots)
   \item{conf}{the confidence level for confidence intervals.}
   \item{x}{a list of class \code{"sobolrank"} storing the state of the
   sensitivity study (parameters, data, estimates).}
+  \item{data}{a list of class \code{"sobolrank"} storing the state of the
+  sensitivity study (parameters, data, estimates).}
   \item{y}{a vector of model responses.}
   \item{ylim}{y-coordinate plotting limits.}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{any other arguments for \code{model} which are passed
     unchanged each time it is called.}
 }

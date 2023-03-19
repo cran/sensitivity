@@ -22,7 +22,8 @@
   \method{print}{sobolMultOut}(x, \dots)
   \method{plot}{sobolMultOut}(x, ylim = c(0, 1), \dots)
   \method{plotMultOut}{sobolMultOut}(x, ylim = c(0, 1), \dots)
-  \method{ggplot}{sobolMultOut}(x, ylim = c(0, 1), \dots)
+  \method{ggplot}{sobolMultOut}(data, mapping = aes(), ylim = c(0, 1), \dots, environment
+                 = parent.frame())
 }
 
 \arguments{
@@ -38,7 +39,12 @@
   \item{ubiquitous}{if TRUE, 1D functional Sobol indices are computed (default=FALSE).}
   \item{x}{a list of class \code{MCmethod} storing the state of the
     sensitivity study (parameters, data, estimates).}
+  \item{data}{a list of class \code{MCmethod} storing the state of the
+    sensitivity study (parameters, data, estimates).}
   \item{ylim}{y-coordinate plotting limits.}
+  \item{mapping}{Default list of aesthetic mappings to use for plot. If not specified, 
+    must be supplied in each layer added to the plot.}
+  \item{environment}{[Deprecated] Used prior to tidy evaluation.}
   \item{\dots}{any other arguments for \code{model} which are passed
     unchanged each time it is called}
 }

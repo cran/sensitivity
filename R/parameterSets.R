@@ -38,7 +38,7 @@ parameterSets<-function(par.ranges,samples,method=c("sobol","innergrid","grid"))
            if(length(samples)==1) samples<-rep(samples,length(par.ranges))
            points=lapply(1:length(par.ranges),
                          function(i) seq(par.ranges[[i]][1],
-                                         par.ranges[[i]][1],
+                                         par.ranges[[i]][2],
                                          length.out=samples[[i]]))
            names(points)<-names(par.ranges)
            return(as.matrix(do.call(expand.grid,points)))

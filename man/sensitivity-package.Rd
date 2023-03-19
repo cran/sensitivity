@@ -60,7 +60,7 @@
 	    \item Estimation of Shapley effects by examining all permutations of inputs (Song et al., 2016) (\code{\link{shapleyPermEx}}),
 	    \item Estimation of Shapley effects by randomly sampling permutations of inputs (Song et al., 2016) (\code{\link{shapleyPermRand}}),
 	    \item Estimation of Shapley effects from data using nearest neighbors method (Broto et al., 2018) (\code{\link{shapleySubsetMc}}),
-	    \item Estimation of Shapley effects and all Sobol indices from data using nearest neighbors (Broto et al., 2018) using a fast approximate algorithm, and ranking (Gamboa et al., 2020) (\code{\link{shapleysobol_knn}}) and (\code{\link{sobolshap_knn}}),
+	    \item Estimation of Shapley effects and all Sobol indices from data using nearest neighbors (Broto et al., 2018) (using a fast approximate algorithm) or ranking (Gamboa et al., 2020) (\code{\link{shapleysobol_knn}}) and (\code{\link{sobolshap_knn}}),
 	    \item Estimation of Shapley effects from data using nearest neighbors method (Broto et al., 2018) with an optimized/parallelized computations and bootstrap confidence intervals estimations  (\code{\link{shapleysobol_knn}}),
 	    \item Estimation of Proportional Marginal Effects (PME) (Il Idrissi et al., 2021) (\code{\link{pme_knn}});
 	  }
@@ -124,8 +124,6 @@ B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance measure
 B. Iooss, R. Kennet and P. Secchi, 2022, \emph{Different views of interpretability}, In: \emph{Interpretability for Industry 4.0: Statistical and Machine Learning Approaches}, A. Lepore, B. Palumbo and J-M. Poggi (Eds), Springer.
 
 B. Iooss and A. Saltelli, 2017, \emph{Introduction: Sensitivity analysis.} In: \emph{Springer Handbook on Uncertainty Quantification}, R. Ghanem, D. Higdon and H. Owhadi (Eds), Springer.
-
-B. Iooss and P. Lemaitre, 2015, \emph{A review on global sensitivity analysis methods}. In \emph{Uncertainty management in Simulation-Optimization of Complex Systems: Algorithms and Applications}, C. Meloni and G. Dellino (eds), Springer.
 
 A. Saltelli, K. Chan and E. M. Scott eds, 2000, \emph{Sensitivity Analysis}, Wiley.
 }

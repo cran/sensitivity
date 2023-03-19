@@ -23,10 +23,10 @@ importFrom("stats", "coefficients", "cor", "cor.test", "cov", "dist",
            "setNames", "prcomp", "na.omit","complete.cases")
 importFrom("utils", "combn", "methods", "head") 
 
-#importFrom("ggplot2","ggplot", "position_dodge","aes","geom_point",
-#           "geom_errorbar","scale_shape_manual","coord_cartesian","labs",
-#           "scale_x_discrete","theme_bw","theme","element_text",
-#           "scale_x_continuous", "geom_line")
+importFrom("ggplot2","ggplot", "ylim", "position_dodge","aes","geom_point",
+           "geom_errorbar","scale_shape_manual","coord_cartesian","labs",
+           "scale_x_discrete","theme_bw","theme","element_text",
+           "scale_x_continuous", "geom_line")
 
 export(ask,tell,extract)
 
