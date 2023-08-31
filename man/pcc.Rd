@@ -70,14 +70,15 @@ pcc(X, y, rank = FALSE, semi = FALSE, logistic = FALSE, nboot = 0, conf = 0.95)
 
 \references{
   
-V. Chabridon, L. Clouvel, B. Iooss, M. Il Idrissi and F. Robin, 2022,
+L. Clouvel, V. Chabridon, B. Iooss, M. Il Idrissi and F. Robin, 2023,
 \emph{Variance-based importance measures in the linear regression context: 
 Review, new insights and applications}, Preprint.
+\url{https://hal.science/hal-04102053}
 
 B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance 
 measures for machine learning model interpretability}, Congres lambda-mu23,
 Saclay, France, 10-13 octobre 2022
-\url{https://hal.archives-ouvertes.fr/hal-03741384}
+\url{https://hal.science/hal-03741384}
   
 J.W. Johnson and J.M. LeBreton, 2004, \emph{History and use of relative 
 importance indices in organizational research}, Organizational 

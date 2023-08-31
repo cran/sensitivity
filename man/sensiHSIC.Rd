@@ -677,7 +677,7 @@ As explained above, the \acronym{HSIC-ANOVA} indices can only be computed if all
   Da Veiga, S. (2021). \emph{Kernel-based \acronym{ANOVA} decomposition and Shapley effects: application to global sensitivity analysis}, arXiv preprint arXiv:2101.05487.
   
   El Amri, M. R. and Marrel, A. (2021), \emph{More powerful \acronym{HSIC}-based independence tests, extension to space-filling designs and functional data}.
-  \url{https://hal-cea.archives-ouvertes.fr/cea-03406956/}
+  \url{https:/cea.hal.science/cea-03406956/}
 
   Fukumizu, K., Bach, F. R. and Jordan, M. I. (2004), \emph{Dimensionality reduction for supervised learning with reproducing kernel Hilbert spaces}, Journal of Machine Learning Research, 5(Jan), 73-99.
   

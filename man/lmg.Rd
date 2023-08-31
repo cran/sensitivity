@@ -47,7 +47,7 @@ lmg(X, y, logistic = FALSE,  rank = FALSE, nboot = 0,
   components:
 
   \item{call}{the matched call.}
-  \item{lmg}{the estimations of the LMG indices.}
+  \item{lmg}{a data frame containing the estimations of the LMG indices, bias and confidence intervals.}
   \item{R2s}{the estimations of the \eqn{R^2}{R-squared} for all possible sub-models.}
   \item{indices}{list of all subsets corresponding to the structure of R2s.}
   \item{w}{the Shapley weights.}
@@ -93,9 +93,10 @@ lmg(X, y, logistic = FALSE,  rank = FALSE, nboot = 0,
   D.V. Budescu (1993). \emph{Dominance analysis: A new approach to the problem of relative
   importance of predictors in multiple regression.} Psychological Bulletin, 114:542-551.
 
-  V. Chabridon, L. Clouvel, B. Iooss, M. Il Idrissi and F. Robin, 2022,
+  L. Clouvel, B. Iooss, V. Chabridon, M. Il Idrissi and F. Robin, 2023,
   \emph{Variance-based importance measures in the linear regression context: Review, 
   new insights and applications}, Preprint.
+  \url{https://hal.science/hal-04102053}
 
   U. Gromping (2006). \emph{Relative importance for linear regression in R: the Package
   relaimpo.}  Journal of Statistical Software, 17:1-27.
@@ -112,7 +113,7 @@ lmg(X, y, logistic = FALSE,  rank = FALSE, nboot = 0,
   B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance 
   measures for machine learning model interpretability}, Congres lambda-mu23,
   Saclay, France, 10-13 octobre 2022
-  \url{https://hal.archives-ouvertes.fr/hal-03741384}
+  \url{https://hal.science/hal-03741384}
   
   Lindeman RH, Merenda PF, Gold RZ (1980). \emph{Introduction to Bivariate and Multivariate
   Analysis.} Scott, Foresman, Glenview, IL.

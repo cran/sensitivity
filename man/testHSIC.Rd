@@ -2,15 +2,12 @@
 \alias{testHSIC}
 \alias{print.testHSIC}
 \alias{plot.testHSIC}
-
-
+\alias{seq.permutation.test.testHSIC}
+\alias{gamma.test.testHSIC}
+\alias{mean.nondiag.testHSIC}
 
 
 \title{Tests of Independence based on the Hilbert-Schmidt Independence Criterion (HSIC)}
-
-
-
-
 
 
 \description{ 
@@ -28,7 +25,7 @@ testHSIC(sensi, test.method = "Asymptotic", B = 3000,
          seq.options = list(criterion = "screening", alpha = 0.05,
                             Bstart = 200, Bfinal = 5000, Bbatch = 100, Bconv = 200,
                             graph = TRUE) )
-                            
+
 \method{print}{testHSIC}(x, ...)
 
 \method{plot}{testHSIC}(x, ylim = c(0, 1), err, ...)
@@ -206,7 +203,7 @@ In Marrel and Chabridon (2021), \acronym{HSIC} indices were adapted to \bold{tar
   El Amri, M. R. and Marrel, A. (2022), \emph{Optimized \acronym{HSIC}-based tests for sensitivity analysis: application to thermalhydraulic simulation of accidental scenario on nuclear reactor}, Quality and Reliability Engineering International, 38(3), 1386-1403.
 
   El Amri, M. R. and Marrel, A. (2021), \emph{More powerful \acronym{HSIC}-based independence tests, extension to space-filling designs and functional data}.
-  \url{https://hal-cea.archives-ouvertes.fr/cea-03406956/}
+  \url{https://cea.hal.science/cea-03406956/}
 
   Fukumizu, K., Bach, F. R. and Jordan, M. I. (2004), \emph{Dimensionality reduction for supervised learning with reproducing kernel Hilbert spaces}, Journal of Machine Learning Research, 5(Jan), 73-99.
   

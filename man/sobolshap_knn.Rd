@@ -116,8 +116,8 @@
 }
 
 \references{
-  Azadkia M., Chatterjee S. (2019). A simple measure of conditional dependence. 
-  arXiv preprint arXiv:1910.12327.
+  Azadkia M., Chatterjee S., 2021), \emph{A simple measure of conditional dependence}, 
+  Ann. Statist. 49(6):3070-3102.
   
   Broto B., Bachoc F., Depecker M. (2020), Variance reduction for estimation of Shapley effects 
   and adaptation to unknown input distribution, SIAM/ASA Journal of Uncertainty Quantification, 
@@ -126,12 +126,12 @@
   Castro J., Gomez D, Tejada J. (2009). Polynomial calculation of the Shapley value based on sampling. 
   Computers & Operations Research, 36(5):1726-1730.
   
-		 Chatterjee, S., 2021, \emph{A new coefficient of correlation}, Journal of the American 
-		 Statistical Association, 116:2009-2022. 
+  Chatterjee, S., 2021, \emph{A new coefficient of correlation}, Journal of the American 
+  Statistical Association, 116:2009-2022. 
   
-		 Gamboa, F., Gremaud, P., Klein, T., & Lagnoux, A., 2022, \emph{Global Sensitivity Analysis: 
-		 a novel generation of mighty estimators based on rank statistics}, 
-		 Bernoulli 28: 2345-2374.
+  Gamboa, F., Gremaud, P., Klein, T., & Lagnoux, A., 2022, \emph{Global Sensitivity Analysis: 
+  a novel generation of mighty estimators based on rank statistics}, 
+  Bernoulli 28: 2345-2374.
 }
 
 \author{

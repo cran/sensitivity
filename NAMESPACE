@@ -66,6 +66,11 @@ export(pmvd)
 S3method(print, pmvd)
 S3method(plot, pmvd)
 
+export(johnson)
+S3method(print, johnson)
+S3method(plot, johnson)
+S3method(ggplot, johnson)
+
 export(pme_knn)
 S3method(print, pme_knn)
 S3method(plot, pme_knn)

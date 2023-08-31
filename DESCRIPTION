@@ -1,7 +1,7 @@
 Package: sensitivity
-Version: 1.28.1
+Version: 1.29.0
 Title: Global Sensitivity Analysis of Model Outputs
-Author: Bertrand Iooss, Sebastien Da Veiga, Alexandre Janon and Gilles Pujol, with contributions from Baptiste Broto, Khalid Boumhaout, Thibault Delage, Reda El Amri, Jana Fruth, Laurent Gilquin, Joseph Guillaume, Margot Herin, Marouane Il Idrissi, Loic Le Gratiet, Paul Lemaitre, Amandine Marrel, Anouar Meynaoui, Barry L. Nelson, Filippo Monari, Roelof Oomen, Oldrich Rakovec, Bernardo Ramos, Olivier Roustant, Gabriel Sarazin, Eunhye Song, Jeremy Staum, Roman Sueur, Taieb Touati, Vanessa Verges, Frank Weber 
+Author: Bertrand Iooss, Sebastien Da Veiga, Alexandre Janon and Gilles Pujol, with contributions from Baptiste Broto, Khalid Boumhaout, Laura Clouvel, Thibault Delage, Reda El Amri, Jana Fruth, Laurent Gilquin, Joseph Guillaume, Margot Herin, Marouane Il Idrissi, Loic Le Gratiet, Paul Lemaitre, Amandine Marrel, Anouar Meynaoui, Barry L. Nelson, Filippo Monari, Roelof Oomen, Oldrich Rakovec, Bernardo Ramos, Olivier Roustant, Gabriel Sarazin, Eunhye Song, Jeremy Staum, Roman Sueur, Taieb Touati, Vanessa Verges, Frank Weber 
 Maintainer: Bertrand Iooss <biooss@yahoo.fr>
 Depends: R (>= 3.0.0)
 Imports: boot, numbers, methods, ggplot2, Rcpp, foreach, dtwclust
@@ -15,5 +15,5 @@ Description: A collection of functions for sensitivity analysis of model outputs
 License: GPL-2
 NeedsCompilation: yes
 Repository: CRAN
-Packaged: 2023-03-19 08:23:22 UTC; F80570
-Date/Publication: 2023-03-19 19:10:02 UTC
+Packaged: 2023-08-31 09:06:12 UTC; F80570
+Date/Publication: 2023-08-31 10:10:02 UTC

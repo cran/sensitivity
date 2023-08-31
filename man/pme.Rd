@@ -137,13 +137,15 @@ pme_knn(model=NULL, X, method = "knn", tol = NULL, marg = T, n.knn = 2,
 }
 
 \references{
-  Azadkia M., Chatterjee S. (2019). A simple measure of conditional dependence. 
-  arXiv preprint arXiv:1910.12327.
+  Azadkia M., Chatterjee S., 2021), \emph{A simple measure of conditional dependence}, 
+  Ann. Statist. 49(6):3070-3102.
   
-  Chatterjee S. (2019). A new coefficient of correlation. arXiv preprint arXiv:1909.10140.
+		 Chatterjee, S., 2021, \emph{A new coefficient of correlation}, Journal of the American 
+		 Statistical Association, 116:2009-2022. 
   
-  Gamboa F., Gremaud P., Klein T., Lagnoux A. (2020). Global Sensitivity Analysis: 
-  a new generation of mighty estimators based on rank statistics. arXiv preprint arXiv:2003.01772.
+		 Gamboa, F., Gremaud, P., Klein, T., & Lagnoux, A., 2022, \emph{Global Sensitivity Analysis: 
+		 a novel generation of mighty estimators based on rank statistics}, 
+		 Bernoulli 28: 2345-2374.
     
   Broto B., Bachoc F. and Depecker M. (2020) \emph{Variance Reduction for Estimation
   of Shapley Effects and Adaptation to Unknown Input Distribution.} SIAM/ASA Journal
@@ -155,7 +157,7 @@ pme_knn(model=NULL, X, method = "knn", tol = NULL, marg = T, n.knn = 2,
   Tallahassee, Florida, March 2022.
   
   M. Herin, M. Il Idrissi, V. Chabridon and B. Iooss, Proportional marginal effects 
-  for global sensitivity analysis, Preprint, 2022.
+  for global sensitivity analysis, Preprint, 2023.
   
   M. Il Idrissi, V. Chabridon and B. Iooss (2021). \emph{Developments and applications
   of Shapley effects   to reliability-oriented sensitivity analysis with correlated inputs.}
@@ -164,7 +166,7 @@ pme_knn(model=NULL, X, method = "knn", tol = NULL, marg = T, n.knn = 2,
   B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance 
   measures for machine learning model interpretability}, Congres lambda-mu23,
   Saclay, France, 10-13 octobre 2022
-  \url{https://hal.archives-ouvertes.fr/hal-03741384}
+  \url{https://hal.science/hal-03741384}
   
   Feldman, B. (2005) \emph{Relative Importance and Value} SSRN Electronic Journal.
   

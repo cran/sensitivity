@@ -302,7 +302,7 @@ testHSIC <- function(sensi,
     
   }else if(test.method %in% c("Gamma", "Tot_Gamma")){
     
-    res <- gamma.test(HSIC.obs, KX, KY, measure.def)
+    res <- gammatest(HSIC.obs, KX, KY, measure.def)
     
   }else if(test.method %in% c("Permutation", "Tot_Permutation")){
     
@@ -311,7 +311,7 @@ testHSIC <- function(sensi,
     
   }else if(test.method %in% c("Seq_Permutation", "Tot_Seq_Permutation")){
     
-    res <- seq.permutation.test(HSIC.obs, KX, KY,
+    res <- seqpermutation.test(HSIC.obs, KX, KY,
                                 measure.def, sensi$estimator.type, seq.options)
     
   }
@@ -655,7 +655,7 @@ asymptotic.test <- function(HSIC.obs, KX, KY, estimator.type){
 
   # output Gram matrix
   EY <- mean(diag(KY))            # mean of diagonal coefficients
-  EYY <- mean.nondiag(KY)         # mean of non-diagonal coefficients
+  EYY <- meannondiag(KY)# mean of non-diagonal coefficients
   BY <- double.centering(KY)      # the rows and columns are now centered
   
   for(i in 1:p){
@@ -663,14 +663,14 @@ asymptotic.test <- function(HSIC.obs, KX, KY, estimator.type){
     # input Gram matrix
     KXi <- KX[,,i]                  # i-th input Gram matrix
     EXi <- mean(diag(KXi))          # mean of diagonal coefficients
-    EXiXi <- mean.nondiag(KXi)      # mean of non-diagonal coefficients
+    EXiXi <- meannondiag(KXi)# mean of non-diagonal coefficients
     BXi <- double.centering(KXi)    # double-centering 
     
     Bi <- (BXi*BY)^2
     
     # estimation of the mean and variance of the V-statistic
     HSIC.mean <- (EXi-EXiXi)*(EY-EYY)/n
-    HSIC.var <- 2*(n-4)*(n-5)/(n*(n-1)*(n-2)*(n-3))*mean.nondiag(Bi)
+    HSIC.var <- 2*(n-4)*(n-5)/(n*(n-1)*(n-2)*(n-3))*meannondiag(Bi)
     
     # method of moments
     alpha <- param[1,i] <- (HSIC.mean^2)/HSIC.var
@@ -799,9 +799,9 @@ permutation.test <- function(HSIC.obs, KX, KY,
   
 }
 
-### seq.permutation.test #######################################################
+### seqpermutation.test ###########################################
 
-seq.permutation.test <- function(HSIC.obs, KX, KY,
+seqpermutation.test <- function(HSIC.obs, KX, KY,
                                  measure.def, estimator.type, seq.options){
   
   ### inputs ###
@@ -998,9 +998,9 @@ seq.permutation.test <- function(HSIC.obs, KX, KY,
   
 }
 
-### gamma.test #################################################################
+### gammatest #################################################################
 
-gamma.test <- function(HSIC.obs, KX, KY, measure.def){
+gammatest <- function(HSIC.obs, KX, KY, measure.def){
 
   ### inputs ###
 
@@ -1248,9 +1248,9 @@ compute.mom.TrAW <- function(A, W, measure.def){
   
 }
 
-### mean.nondiag ###############################################################
+### meannondiag ################################################
 
-mean.nondiag <- function(A){
+meannondiag <- function(A){
   
   ### input ###
   

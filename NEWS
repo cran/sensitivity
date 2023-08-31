@@ -1,4 +1,11 @@
 
+Changes in version 1.29.0:
+
+  o New fct johnson()
+  
+  o Bugs corrected in testHSIC.R concerning some functions' names
+  that have been renamed
+
 Changes in version 1.28.1:
 
   o Bug corrected in fct parameterSets()

@@ -1015,23 +1015,23 @@ print.sobol_knn<-function(x, ...){
   if(inherits(x$U, "integer") || inherits(x$U, "numeric")){
     if(x$U==0){
       if(x$method=="knn"){
-        cat("\nTotal Sobol' indices estimation by nearest-neighbor procedure\n")
+        cat("\n(independent) Total Sobol' indices estimation by nearest-neighbor\n")
       }else if(x$method=="rank"){
-        cat("\nTotal Sobol' indices estimation by ranking procedure\n")
+        cat("\n(independent) Total Sobol' indices estimation by ranking\n")
       }
       
     }else if(x$U==1){
       if(x$method=="knn"){
-        cat("\nFirst order Sobol' indices estimation by nearest-neighbor procedure\n")
+        cat("\n(full) First order Sobol' indices estimation by nearest-neighbor\n")
       }else if(x$method=="rank"){
-        cat("\nFirst order Sobol' indices estimation by ranking procedure\n")
+        cat("\n(full) First order Sobol' indices estimation by ranking\n")
       }
     }
   }else{
     if(x$method=="knn"){
-      cat("\nClosed Sobol' indices estimation by nearest-neighbor procedure\n")
+      cat("\nClosed Sobol' indices estimation by nearest-neighbor\n")
     }else if(x$method=="rank"){
-      cat("\nClosed Sobol' indices estimation by ranking procedure\n")
+      cat("\nClosed Sobol' indices estimation by ranking\n")
     }
   }
   
@@ -1062,9 +1062,9 @@ ggplot.sobol_knn<-function(data, mapping = aes(), ylim = c(0,1), ..., environmen
       x_name<-"Closed Sobol'"
     }else{
       if(x$U==1){
-        x_name<-"First Order Sobol'"
+        x_name<-"(full) First Order Sobol'"
       }else if (x$U==0){
-        x_name<-"Total Sobol'"
+        x_name<-"(independent) Total Sobol'"
       }
     }
     nodeggplot(list(sobols), xname=x_name, ylim=ylim)
