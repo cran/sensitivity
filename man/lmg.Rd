@@ -47,7 +47,7 @@ lmg(X, y, logistic = FALSE,  rank = FALSE, nboot = 0,
   components:
 
   \item{call}{the matched call.}
-  \item{lmg}{a data frame containing the estimations of the LMG indices, bias and confidence intervals.}
+  \item{lmg}{a data frame containing the estimations of the LMG indices.}
   \item{R2s}{the estimations of the \eqn{R^2}{R-squared} for all possible sub-models.}
   \item{indices}{list of all subsets corresponding to the structure of R2s.}
   \item{w}{the Shapley weights.}
@@ -94,8 +94,8 @@ lmg(X, y, logistic = FALSE,  rank = FALSE, nboot = 0,
   importance of predictors in multiple regression.} Psychological Bulletin, 114:542-551.
 
   L. Clouvel, B. Iooss, V. Chabridon, M. Il Idrissi and F. Robin, 2023,
-  \emph{Variance-based importance measures in the linear regression context: Review, 
-  new insights and applications}, Preprint.
+  \emph{A review on variance-based importance measures in the linear regression context},
+  Preprint.
   \url{https://hal.science/hal-04102053}
 
   U. Gromping (2006). \emph{Relative importance for linear regression in R: the Package
@@ -182,7 +182,7 @@ print(x)
 }
 
 \seealso{
-\code{\link{pcc}}, \code{\link{src}}, \code{\link{shapleyPermEx}}, \code{\link{shapleysobol_knn}}, \code{\link{pmvd}}, \code{\link{pme_knn}}
+\code{\link{pcc}}, \code{\link{src}}, \code{\link{johnson}}, \code{\link{shapleyPermEx}}, \code{\link{shapleysobol_knn}}, \code{\link{pmvd}}, \code{\link{pme_knn}}
 }
 
 \keyword{shapley}

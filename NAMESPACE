@@ -20,7 +20,7 @@ importFrom("stats", "coefficients", "cor", "cor.test", "cov", "dist",
            "var", "dbeta", "dexp", "dgamma", "dlnorm", "dweibull",
            "integrate", "smooth.spline", "ecdf", "pgamma", 
            "pbeta", "pexp", "pweibull", "approxfun", "glm", "glm.control",
-           "setNames", "prcomp", "na.omit","complete.cases")
+           "setNames", "prcomp", "na.omit","complete.cases", "pchisq")
 importFrom("utils", "combn", "methods", "head") 
 
 importFrom("ggplot2","ggplot", "ylim", "position_dodge","aes","geom_point",
@@ -70,6 +70,11 @@ export(johnson)
 S3method(print, johnson)
 S3method(plot, johnson)
 S3method(ggplot, johnson)
+
+export(johnsonshap)
+S3method(print, johnsonshap)
+S3method(plot, johnsonshap)
+S3method(ggplot, johnsonshap)
 
 export(pme_knn)
 S3method(print, pme_knn)
@@ -300,3 +305,5 @@ S3method(tell, qosa)
 S3method(print, qosa)
 S3method(plot, qosa)
 S3method(ggplot, qosa)
+
+export(EPtest)

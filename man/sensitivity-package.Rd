@@ -5,19 +5,19 @@
 
 \title{Sensitivity Analysis}
 
-\description{Methods and functions for global sensitivity analysis of model outputs and machine learning interpretability}
+\description{Methods and functions for global sensitivity analysis of model outputs, importance measures and machine learning model interpretability}
 
 \details{
   The \pkg{sensitivity} package implements some global sensitivity analysis
-  methods:
+  methods and importance measures:
   \itemize{
-    \item Linear regression importance measures in regression or classification (logistic regression) contexts (Iooss et al., 2022):
-  \itemize{
-    \item SRC and SRRC (\code{\link{src}}), and correlation ratio (\code{\link{correlRatio}})
-    \item PCC, SPCC, PRCC and SPRCC (\code{\link{pcc}}),
-    \item LMG and LMG on ranks (\code{\link{lmg}}),
-    \item PMVD and PMVD on ranks (\code{\link{pmvd}}),
-    \item Johnson indices (\code{\link{johnson}});
+    \item Linear regression importance measures in regression or classification (logistic regression) contexts (Iooss et al., 2022; Clouvel et al., 2023):
+    \itemize{
+      \item SRC and SRRC (\code{\link{src}}), and correlation ratio (\code{\link{correlRatio}})
+      \item PCC, SPCC, PRCC and SPRCC (\code{\link{pcc}}),
+      \item LMG and LMG on ranks (\code{\link{lmg}}),
+      \item PMVD and PMVD on ranks (\code{\link{pmvd}}),
+      \item Johnson indices (\code{\link{johnson}});
     }
     \item Bettonvil's sequential bifurcations (Bettonvil and Kleijnen, 1996) (\code{\link{sb}});
     \item Morris's "OAT" elementary effects screening method (\code{\link{morris}});
@@ -58,6 +58,7 @@
 	  \itemize{
 	    \item Exact computation of Shapley effects in the linear Gaussian framework (Broto et al., 2019) (\code{\link{shapleyLinearGaussian}}),
 	    \item Computation of Shapley effects in the Gaussian linear framework with an unknown block-diagonal covariance matrix (Broto et al., 2020) (\code{\link{shapleyBlockEstimation}}),
+      \item Johnson-Shapley indices (Iooss and Clouvel, 2023) (\code{\link{johnsonshap}}), [WARNING: This function does not work yet],
 	    \item Estimation of Shapley effects by examining all permutations of inputs (Song et al., 2016) (\code{\link{shapleyPermEx}}),
 	    \item Estimation of Shapley effects by randomly sampling permutations of inputs (Song et al., 2016) (\code{\link{shapleyPermRand}}),
 	    \item Estimation of Shapley effects from data using nearest neighbors method (Broto et al., 2018) (\code{\link{shapleySubsetMc}}),
@@ -67,6 +68,7 @@
 	  }
     \item Support index functions (\code{\link{support}}) of Fruth et al. (2016);
     \item Sensitivity Indices based on Csiszar f-divergence (\code{\link{sensiFdiv}}) (particular cases: Borgonovo's indices and mutual-information based indices) and Hilbert-Schmidt Independence Criterion (\code{\link{sensiHSIC}} and \code{\link{testHSIC}}) (Da Veiga, 2015; De Lozzo and Marrel, 2016; Meynaoui et al., 2019);
+    \item Non-parametric variable significance test based on the empirical process (\code{\link{EPtest}}) of Klein and Rochet (2022);
     \item First-order quantile-oriented sensitivity indices as defined in Fort et al. (2016) via a kernel-based estimator related (Maume-Deschamps and Niang, 2018) (\code{\link{qosa}});
     \item Target Sensitivity Analysis via Hilbert-Schmidt Independence Criterion (\code{\link{sensiHSIC}}) (Spagnol et al., 2019);
     \item Robustness analysis by the Perturbed-Law based Indices (\code{\link{PLI}}) of Lemaitre et al. (2015), (\code{\link{PLIquantile}}) of Sueur et al. (2017), (\code{\link{PLIsuperquantile}}) of Iooss et al. (2021), and extension as (\code{\link{PLIquantile_multivar}}) and (\code{\link{PLIsuperquantile_multivar}}) ;
@@ -109,7 +111,7 @@
 }
 
 
-\author{Bertrand Iooss, Sebastien Da Veiga, Alexandre Janon and Gilles Pujol with contributions from Paul Lemaitre for \code{\link{PLI}}, Thibault Delage and Roman Sueur for \code{\link{PLIquantile}}, Vanessa Verges for \code{\link{PLIquantile}}, \code{\link{PLIsuperquantile}}, \code{\link{PLIquantile_multivar}} and \code{\link{PLIsuperquantile_multivar}}, Laurent Gilquin for \code{\link{sobolroalhs}}, \code{\link{sobolroauc}}, \code{\link{sobolSalt}}, \code{\link{sobolrep}}, \code{\link{sobolrec}}, as well as \code{\link{addelman_const}}, \code{\link{discrepancyCriteria_cplus}} and \code{\link{maximin_cplus}}, Loic le Gratiet for \code{\link{sobolGP}}, Khalid Boumhaout, Taieb Touati and Bernardo Ramos for \code{\link{sobolowen}} and \code{\link{soboltouati}}, Jana Fruth for \code{\link{PoincareConstant}}, \code{\link{sobolTIIlo}} and \code{\link{sobolTIIpf}}, Amandine Marrel, Anouar Meynaoui and Reda El Amri for their contributions to \code{\link{sensiHSIC}}, Joseph Guillaume and Oldrich Rakovec for \code{\link{delsa}} and \code{\link{parameterSets}}, Olivier Roustant for \code{\link{PoincareOptimal}}, \code{\link{PoincareChaosSqCoef}}, \code{\link{squaredIntEstim}} and \code{\link{support}}, Eunhye Song, Barry L. Nelson and Jeremy Staum for \code{\link{shapleyPermEx}} and \code{\link{shapleyPermRand}}, Baptiste Broto for \code{\link{shapleySubsetMc}}, \code{\link{shapleyLinearGaussian}} and \code{\link{shapleyBlockEstimation}}, Filippo Monari for (\code{\link{sobolSmthSpl}}) and (\code{\link{morrisMultOut}}), Marouane Il Idrissi for \code{\link{lmg}}, \code{\link{pmvd}} and \code{\link{shapleysobol_knn}}, associated to Margot Herin for \code{\link{pme_knn}}, Laura Clouvel for \code{\link{johnson}}, Frank Weber and Roelof Oomen for other contributions.
+\author{Bertrand Iooss, Sebastien Da Veiga, Alexandre Janon and Gilles Pujol with contributions from Paul Lemaitre for \code{\link{PLI}}, Thibault Delage and Roman Sueur for \code{\link{PLIquantile}}, Vanessa Verges for \code{\link{PLIquantile}}, \code{\link{PLIsuperquantile}}, \code{\link{PLIquantile_multivar}} and \code{\link{PLIsuperquantile_multivar}}, Laurent Gilquin for \code{\link{sobolroalhs}}, \code{\link{sobolroauc}}, \code{\link{sobolSalt}}, \code{\link{sobolrep}}, \code{\link{sobolrec}}, as well as \code{\link{addelman_const}}, \code{\link{discrepancyCriteria_cplus}} and \code{\link{maximin_cplus}}, Loic le Gratiet for \code{\link{sobolGP}}, Khalid Boumhaout, Taieb Touati and Bernardo Ramos for \code{\link{sobolowen}} and \code{\link{soboltouati}}, Jana Fruth for \code{\link{PoincareConstant}}, \code{\link{sobolTIIlo}} and \code{\link{sobolTIIpf}}, Gabriel Sarazin, Amandine Marrel, Anouar Meynaoui and Reda El Amri for their contributions to \code{\link{sensiHSIC}} and \code{\link{testHSIC}}, Joseph Guillaume and Oldrich Rakovec for \code{\link{delsa}} and \code{\link{parameterSets}}, Olivier Roustant for \code{\link{PoincareOptimal}}, \code{\link{PoincareChaosSqCoef}}, \code{\link{squaredIntEstim}} and \code{\link{support}}, Eunhye Song, Barry L. Nelson and Jeremy Staum for \code{\link{shapleyPermEx}} and \code{\link{shapleyPermRand}}, Baptiste Broto for \code{\link{shapleySubsetMc}}, \code{\link{shapleyLinearGaussian}} and \code{\link{shapleyBlockEstimation}}, Filippo Monari for (\code{\link{sobolSmthSpl}}) and (\code{\link{morrisMultOut}}), Marouane Il Idrissi for \code{\link{lmg}}, \code{\link{pmvd}} and \code{\link{shapleysobol_knn}}, associated to Margot Herin for \code{\link{pme_knn}}, Laura Clouvel for \code{\link{johnson}}, Paul Rochet for \code{\link{EPtest}}, Frank Weber and Roelof Oomen for other contributions.
 
 (maintainer: Bertrand Iooss \email{biooss@yahoo.fr})}
 
@@ -118,7 +120,7 @@ S. Da Veiga, F. Gamboa, B. Iooss and C. Prieur, \emph{Basics and trends in sensi
 
 R. Faivre, B. Iooss, S. Mahevas, D. Makowski, H. Monod, editors, 2013, \emph{Analyse de sensibilite et exploration de modeles. Applications aux modeles environnementaux}, Editions Quae.
 
-L. Clouvel, B. Iooss, V. Chabridon, M. Il Idrissi and F. Robin, 2023, \emph{Variance-based importance measures in the linear regression context: Review, new insights and applications}, Preprint. \url{https://hal.science/hal-04102053}
+L. Clouvel, B. Iooss, V. Chabridon, M. Il Idrissi and F. Robin, 2023, \emph{A review on variance-based importance measures in the linear regression context}, Preprint. \url{https://hal.science/hal-04102053}
   
 B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance measures for machine learning model interpretability}, Congres lambda-mu23, Saclay, France, 10-13 octobre 2022. \url{https://hal.science/hal-03741384}
 

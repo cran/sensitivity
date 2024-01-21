@@ -59,8 +59,7 @@ johnson(X, y, rank = FALSE, logistic = FALSE, nboot = 0, conf = 0.95)
 \references{
 
 L. Clouvel, B. Iooss, V. Chabridon, M. Il Idrissi and F. Robin, 2023,
-\emph{Variance-based importance measures in the linear regression context: 
-Review, new insights and applications}, Preprint
+\emph{A review on variance-based importance measures in the linear regression context}, Preprint
 \url{https://hal.science/hal-04102053}
   
 B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance 
@@ -178,7 +177,7 @@ plot(joh)
 }
 
 \seealso{
-\code{\link{src}}, \code{\link{lmg}}, \code{\link{pmvd}}
+\code{\link{src}}, \code{\link{lmg}}, \code{\link{pmvd}}, \code{\link{johnsonshap}}
 }
 
 \keyword{regression}

@@ -16,7 +16,6 @@ estim.src <- function(data, logistic, i = 1:nrow(data) ) {
   }
 }
 
-
 src <- function(X, y, rank = FALSE, logistic = FALSE, nboot = 0, conf = 0.95) {
   data <- data.frame(Y = y, X)
   

@@ -3,8 +3,7 @@
 # Bertrand Iooss 2022 (inspired from fct corRatio() of the DiscriMiner package)
 
 
-correlRatio <-
-  function(X, y)
+correlRatio <- function(X, y)
   {
     # Correlation ratio
     # X: sample of a quantitative variable

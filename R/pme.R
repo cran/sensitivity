@@ -154,7 +154,7 @@ recur.PV<-function(indices, VEs, parl, cl){
 ########################
 #Estimation of all the PVs
 
-calc.pv<-function(X,y, method, d, indices, parl, clus, boot, n.limit, n.knn, noise, tol, marg, i=1:nrow(X)){
+calc.pv<-function(X, y, method, d, indices, parl, clus, boot, n.limit, n.knn, noise, tol, marg, i=1:nrow(X)){
                            
   ###############################
   #Pre-Processing

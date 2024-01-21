@@ -1,4 +1,9 @@
 
+Changes in version 1.30.0:
+
+  o Nex fct EPtest
+  o New fct johnsonshap() (Warning: does not work yet)
+  
 Changes in version 1.29.0:
 
   o New fct johnson()
