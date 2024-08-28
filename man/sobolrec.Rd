@@ -11,7 +11,8 @@
 \description{\code{sobolrec} implements a recursive version of the procedure introduced by Tissot & Prieur (2015) using two replicated nested designs. This function estimates either all first-order indices or all closed second-order indices at a total cost of \eqn{2 \times N}{2*N} model evaluations where \eqn{N}{N} is the size of each replicated nested design.}
 
 \usage{
-sobolrec(model=NULL, factors, layers, order, precision, method=NULL, tail=TRUE, \dots)
+sobolrec(model=NULL, factors, layers, order, precision, method=NULL, tail=TRUE, 
+          \dots)
 \method{ask}{sobolrec}(x, index, \dots)
 \method{tell}{sobolrec}(x, y = NULL, index, \dots)
 \method{print}{sobolrec}(x, \dots)

@@ -22,15 +22,15 @@
 }
 
 \usage{
-  sobolshap_knn(model = NULL, X, id.cat = NULL, U = NULL, method = "knn", n.knn = 2, 
-                return.shap = FALSE, randperm = FALSE, n.perm = 1e4, 
+  sobolshap_knn(model = NULL, X, id.cat = NULL, U = NULL, method = "knn", 
+                n.knn = 2, return.shap = FALSE, randperm = FALSE, n.perm = 1e4, 
                 rescale = FALSE, n.limit = 2000, noise = FALSE, \dots)
   \method{tell}{sobolshap_knn}(x, y = NULL, \dots)
   \method{extract}{sobolshap_knn}(x, \dots)
   \method{print}{sobolshap_knn}(x, \dots)
   \method{plot}{sobolshap_knn}(x, ylim = c(0, 1), type.multout = "lines", \dots)
-  \method{ggplot}{sobolshap_knn}(data,  mapping = aes(), ylim = c(0, 1), type.multout =
-                 "lines", \dots, environment = parent.frame())
+  \method{ggplot}{sobolshap_knn}(data,  mapping = aes(), ylim = c(0, 1), 
+              type.multout = "lines", \dots, environment = parent.frame())
 }
 
 \arguments{
@@ -153,8 +153,8 @@
     print(x)
     library(ggplot2)
     ggplot(x)
-    # We can use the output sample generated for this estimation to compute total indices 
-    # without additional calls to the model
+    # We can use the output sample generated for this estimation to compute 
+    # total indices without additional calls to the model
     x2 <- sobolshap_knn(model = NULL, X = X, U = 0, method = "knn", n.knn = 5)
     tell(x2,x$y)
     ggplot(x2)

@@ -23,9 +23,10 @@ The value of the correlation ratio
 
 \references{
 
-  V. Chabridon, L. Clouvel, B. Iooss, M. Il Idrissi and F. Robin, 2022,
-  \emph{Variance-based importance measures in the linear regression context: Review, 
-  new insights and applications}, Preprint
+  L. Clouvel, B. Iooss, V. Chabridon, M. Il Idrissi and F. Robin, 2024,
+  \emph{An overview of variance-based importance measures in the linear regression context: 
+  comparative analyses and numerical tests}, Preprint.
+  \url{https://hal.science/hal-04102053}
   
 }
 

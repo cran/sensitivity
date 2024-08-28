@@ -8,7 +8,7 @@
 
 \description{
   \code{johnson} computes the Johnson indices for correlated input relative importance by 
-  \eqn{R^2}{R-squared} decomposition for linear and logistic   regression models. These 
+  \eqn{R^2}{R-squared} decomposition for linear and logistic regression models. These 
   indices allocates  a share of \eqn{R^2}{R-squared} to each input based on the relative 
   weight allocation (RWA) system, in the case of dependent or correlated inputs.
 }
@@ -58,9 +58,10 @@ johnson(X, y, rank = FALSE, logistic = FALSE, nboot = 0, conf = 0.95)
 
 \references{
 
-L. Clouvel, B. Iooss, V. Chabridon, M. Il Idrissi and F. Robin, 2023,
-\emph{A review on variance-based importance measures in the linear regression context}, Preprint
-\url{https://hal.science/hal-04102053}
+  L. Clouvel, B. Iooss, V. Chabridon, M. Il Idrissi and F. Robin, 2024,
+  \emph{An overview of variance-based importance measures in the linear regression context: 
+  comparative analyses and numerical tests}, Preprint.
+  \url{https://hal.science/hal-04102053}
   
 B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance 
 measures for machine learning model interpretability}, Congres lambda-mu23,
@@ -163,6 +164,8 @@ print(x)
 # - multivariate normal inputs (all multicollinear)
 # - in dimension 50 (there are 42 dummy inputs)
 # - large-size sample (1e4)
+
+library(mvtnorm)
 
 n <- 1e4
 d <- 50

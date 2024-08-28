@@ -1,75 +1,90 @@
 # Johnson-Shapley indices
 #
-# Bertrand Iooss 2023
+# Bertrand Iooss 2024
 
-estim.johnsonshap <- function(model, data, N, i = 1:nrow(data)){
-    dd <- data[i, ]
-    d <- ncol(dd)
+johnsonshap <- function(model = NULL, X1, N, nboot = 0, conf = 0.95) {
+    d <- dim(X1)[[2]]
 
-    # Computation of the weight matrix
-    cor_matrix <- cor(dd, use = "pairwise.complete.obs")
-    corXX <- cor_matrix # Correlations between inputs
-    corXX.eigen <- eigen(corXX) # Eigenvalues and eigenvectors
-    W <- corXX.eigen$vec %*% sqrt(diag(corXX.eigen$val)) %*% t(corXX.eigen$vec)
-    
     # Computation of indices (alpha) between output and orthogonal variables
     # With the orthogonalized inputs Z
-    PDQ <- svd(dd)
-    P <- PDQ$u
-    Q <- PDQ$v
+    PDQ <- svd(X1)
+    P <- PDQ$u # left singular vectors
+    Q <- PDQ$v # right singular vectors
     Z <- P %*% t(Q)
     
-    # on calcule les indices de Sobol de Z (en les transformant en X)
-    sobrepZ <- sensitivity::sobolrep(model=NULL, factors=d, N=N)
+    # Computation of the weight matrix
+    D <- PDQ$d # singular values
+    W <- Q %*% diag(D) %*% t(Q)
+    W2sum <- sqrt(colSums(W^2))
+    Wstar <- t(t(W) / W2sum)
+    
+    # computing Sobol' indices of Z (by transformation of Z to X)
+    sobrepZ <- sensitivity::sobolrep(model=NULL, factors=d, N=N, nboot = nboot)
     for (i in 1:d) sobrepZ$X[,i] <- quantile(ecdf(Z[,i]), sobrepZ$X[,i])
     sobrepX <- sobrepZ$X %*% W
     colnames(sobrepX) <- colnames(sobrepZ$X)
-    yrepZ <- model(sobrepX)
-    tell(sobrepZ, yrepZ)
-    # effets de Shapley (= 1er ordre + somme 2eme ordre / 2)
-    alpha <- sobrepZ$S$original # 1er ordre
-    a <- gtools::combinations(d,2,1:d) # on cherche les 2nd ordre
-    for (i in 1:d){
-      nr <- which(a == i)%%nrow(a)
-      nr[nr==0] <- nrow(a)
-      alpha[i] <- alpha[i] + sum(sobrepZ$S2$original[nr]) / 2
-    }
-    #alpha <- alpha / sum(alpha) # normalisation pas tres catholique
-    rsquare <- sum(alpha)
-    alpha <- matrix(alpha)
+    X <- sobrepX
     
+    x <- list(model = model, X1 = X1, N = N, nboot = nboot, conf = conf,
+              X = X, sobrepZ = sobrepZ, Wstar = Wstar, call = match.call())
+    class(x) <- "johnsonshap"
     
-#    W1 <- Q %*% diag(PDQ$d) %*% t(Q)
-#    W[,1:ncol(W1)] <-  W1[,1:ncol(W1)] / sqrt(rowSums(W1^2))[1:ncol(W1)]
-    
-    W^2 %*% alpha ^ 2
-    
+    #calcul of the response for explicit model
+    if (! is.null(x$model)){
+      response(x)
+      tell(x, x$y)
+    }  
+    return(x)
 }
 
-
-johnsonshap <- function(model = NULL, X, N, rank = FALSE, nboot = 0, conf = 0.95) {
-
-  if (rank) {
-    for (i in 1:ncol(X)) {
-      data[,i] <- rank(X[,i])
-    }
-  }
+tell.johnsonshap <- function(x, y = NULL, ...){
   
-  if (nboot == 0) {
-    johnsonshap <- data.frame(original = estim.johnsonshap(model, X, N))
-    rownames(johnsonshap) <- colnames(X)
-  } else {
-    boot.johnsonshap <- boot(X, estim.johnsonshap, R = nboot, model = model, N = N)
-    johnsonshap <- bootstats(boot.johnsonshap, conf, "basic")
-    rownames(johnsonshap) <- colnames(X)
-  }
-
-  out <- list(model = model, X = X, N = N, rank = rank, nboot = nboot, conf = conf,
-              call = match.call())
-  class(out) <- "johnsonshap"
-  out$johnsonshap <- johnsonshap
+    id <- deparse(substitute(x))
+    if (! is.null(y)) {
+      x$y <- y
+    } 
+    else if (is.null(x$y)) {
+      stop("y not found")
+    }
     
-  return(out)
+    sob <- x$sobrepZ
+    sensitivity::tell(sob, x$y)
+    
+    # Shapley effects(= 1st order + sum of 2nd order / 2)
+    d <- dim(x$X1)[[2]]
+    a <- gtools::combinations(d,2,1:d) # look for 2nd order indices
+
+    if (x$nboot == 0) {
+      alpha <- sob$S$original # 1er ordre
+      for (i in 1:d){
+        nr <- which(a == i)%%nrow(a)
+        nr[nr==0] <- nrow(a)
+        alpha[i] <- alpha[i] + sum(sob$S2$original[nr]) / 2
+      }
+      alpha <- matrix(alpha)
+      estim <- x$Wstar^2 %*% alpha
+    
+      johnsonshap <- data.frame(original = estim, row.names = colnames(x$X1))
+    } else {
+      estim <- matrix(0, nrow = d, ncol = 5)
+      for (k in c(1,4,5)){
+        alpha <- sob$S[,k] # 1st order
+        for (i in 1:d){
+          nr <- which(a == i)%%nrow(a)
+          nr[nr==0] <- nrow(a)
+          alpha[i] <- alpha[i] + sum(sob$S2$original[nr]) / 2
+        }
+        alpha <- matrix(alpha)
+        estim[,k] <- x$Wstar^2 %*% alpha
+      }
+      johnsonshap <- data.frame(estim, row.names = colnames(x$X1))
+      colnames(johnsonshap) <-  c("original", "bias", "std. error", "min. c.i.", "max. c.i.")
+    }
+    
+    x$sobrepZ <- sob
+    x$johnsonshap <- johnsonshap
+    
+    assign(id, x, parent.frame())
 }
 
 

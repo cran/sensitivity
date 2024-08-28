@@ -17,27 +17,16 @@ Depending on the sample size and the chosen test statistic (either a \bold{U-sta
 }
 
 
-
-
-
 \usage{
 testHSIC(sensi, test.method = "Asymptotic", B = 3000,
          seq.options = list(criterion = "screening", alpha = 0.05,
-                            Bstart = 200, Bfinal = 5000, Bbatch = 100, Bconv = 200,
-                            graph = TRUE) )
+                            Bstart = 200, Bfinal = 5000, Bbatch = 100, 
+                            Bconv = 200, graph = TRUE) )
 
 \method{print}{testHSIC}(x, ...)
 
 \method{plot}{testHSIC}(x, ylim = c(0, 1), err, ...)
 }
-
-
-
-
-
-
-
-
 
 
 \arguments{
@@ -55,7 +44,8 @@ testHSIC(sensi, test.method = "Asymptotic", B = 3000,
   
   \item{B}{Number of random permutations carried out on the output samples before the non-parametric estimation of p-values. Only relevant if \code{test.method="Permutation"}.}
   
-  \item{seq.options}{A list of options guiding the sequential procedure. Only relevant if \code{test.method="Seq_Permutaion"}.
+  \item{seq.options}{A list of options guiding the sequential procedure. 
+  Only relevant if \code{test.method="Seq_Permutation"}.
   
     \itemize{
       \item \code{criterion} is a string specifying the stopping criterion. Available criteria include \code{"screening"} (permutations stop as soons as the estimated p-values have sufficiently converged so that they can be compared to the reference threshold \code{alpha}), \code{"ranking"} (permutations stop as soon as the estimated p-values have sufficiently converged so that they can be ranked) and \code{"both"} (permutations stop as soon as the two previous criteria are fulfilled).

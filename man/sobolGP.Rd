@@ -146,8 +146,9 @@ Loic Le Gratiet, EDF R&D
 
 
 \seealso{
-\code{\link{sobol}}, \code{\link{sobol2002}}, \code{\link{sobol2007}}, \code{\link{sobolEff}}, \code{\link{soboljansen}},\link{sobolMultOut}, \code{\link[DiceKriging]{km}}
+\code{\link{sobol}}, \code{\link{sobol2002}}, \code{\link{sobol2007}}, \code{\link{sobolEff}}, \code{\link{soboljansen}}, \link{sobolMultOut}, \link[DiceKriging]{km}
 }
+
 \examples{
 
 \donttest{

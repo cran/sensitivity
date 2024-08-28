@@ -8,19 +8,19 @@
 \title{Data-given proportional marginal effects estimation via nearest-neighbors procedure}
 
 \description{
-\code{pme_knn} computes the proportional marginal effects (PME), from Herin et al. (2022) 
+\code{pme_knn} computes the proportional marginal effects (PME), from Herin et al. (2024) 
 via a nearest neighbor estimation.
 Parallelized computations are possible to accelerate the estimation process.
-  It can be used with categorical inputs (which are transformed with one-hot encoding before computing the nearest-neighbors), 
-  dependent inputs and multiple outputs.
+  It can be used with categorical inputs (which are transformed with one-hot encoding before 
+  computing the nearest-neighbors), dependent inputs and multiple outputs.
   For large sample sizes, the nearest neighbour algorithm can be significantly accelerated 
   by using approximate nearest neighbour search.
 }
 
 \usage{
 pme_knn(model=NULL, X, method = "knn", tol = NULL, marg = T, n.knn = 2, 
-          n.limit = 2000, noise = F, rescale = F, nboot = NULL, boot.level = 0.8, 
-          conf=0.95, parl=NULL, \dots)
+          n.limit = 2000, noise = F, rescale = F, nboot = NULL, 
+          boot.level = 0.8, conf=0.95, parl=NULL, \dots)
 \method{tell}{pme_knn}(x, y, \dots)
 \method{print}{pme_knn}(x, \dots)
 \method{plot}{pme_knn}(x, ylim = c(0,1), \dots)
@@ -106,7 +106,7 @@ pme_knn(model=NULL, X, method = "knn", tol = NULL, marg = T, n.knn = 2,
   and Depecker (2020), that is computing all the Sobol' closed indices for all 
   possible sub-models first, and then computing the proportional values 
   recursively, as detailed in Feldman (2005), but using an extension to 
-  non strictly positive games (Margot Herin 2021).
+  non strictly positive games (Herin et al., 2024).
 
   Since boostrap creates ties which are not accounted for in the algorithm, 
   confidence intervals are obtained by sampling without replacement with a 
@@ -156,8 +156,9 @@ pme_knn(model=NULL, X, method = "knn", tol = NULL, marg = T, n.knn = 2,
   Conferenceon Sensitivity Analysis of Model Output (SAMO 2022), p 42-43, 
   Tallahassee, Florida, March 2022.
   
-  M. Herin, M. Il Idrissi, V. Chabridon and B. Iooss, Proportional marginal effects 
-  for global sensitivity analysis, Preprint, 2023.
+  M. Herin, M. Il Idrissi, V. Chabridon and B. Iooss, \emph{Proportional marginal effects 
+  for global sensitivity analysis}, SIAM/ASA Journal of Uncertainty Quantification, 
+  12:667-692 2024
   
   M. Il Idrissi, V. Chabridon and B. Iooss (2021). \emph{Developments and applications
   of Shapley effects   to reliability-oriented sensitivity analysis with correlated inputs.}

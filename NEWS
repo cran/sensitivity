@@ -1,4 +1,9 @@
 
+Changes in version 1.30.1:
+
+  o fct johnsonshap() has been corrected and does work now,
+  with bootstrap, argument model=NULL and tell() usage
+  
 Changes in version 1.30.0:
 
   o Nex fct EPtest

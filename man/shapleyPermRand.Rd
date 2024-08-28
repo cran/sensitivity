@@ -20,12 +20,13 @@
 }
 
 \usage{
-shapleyPermRand(model = NULL, Xall, Xset, d, Nv, m, No = 1, Ni = 3, colnames = NULL, \dots)
+shapleyPermRand(model = NULL, Xall, Xset, d, Nv, m, No = 1, Ni = 3, 
+                colnames = NULL, \dots)
 \method{tell}{shapleyPermRand}(x, y = NULL, return.var = NULL, \dots)
 \method{print}{shapleyPermRand}(x, \dots)
 \method{plot}{shapleyPermRand}(x, ylim = c(0, 1), \dots)
-\method{ggplot}{shapleyPermRand}(data, mapping = aes(), ylim = c(0, 1), title = NULL,
-                 \dots, environment = parent.frame())
+\method{ggplot}{shapleyPermRand}(data, mapping = aes(), ylim = c(0, 1), 
+                          title = NULL, \dots, environment = parent.frame())
 }
 
 \arguments{
@@ -133,7 +134,8 @@ d <- 3
 Xall <- function(n) matrix(runif(d*n,-pi,pi),nc=d)
 Xset <- function(n, Sj, Sjc, xjc) matrix(runif(n*length(Sj),-pi,pi),nc=length(Sj))
 
-x <- shapleyPermRand(model = ishigami.fun, Xall=Xall, Xset=Xset, d=d, Nv=1e4, m=1e4, No = 1, Ni = 3)
+x <- shapleyPermRand(model = ishigami.fun, Xall=Xall, Xset=Xset, d=d, Nv=1e4, 
+                      m=1e4, No = 1, Ni = 3)
 print(x)
 plot(x)
 
@@ -164,10 +166,12 @@ Xset <- function(n, Sj, Sjc, xjc){
   if (is.null(Sjc)){
     if (length(Sj) == 1){ rnorm(n,mu[Sj],sqrt(Covmat[Sj,Sj]))
     } else{ mvtnorm::rmvnorm(n,mu[Sj],Covmat[Sj,Sj])}
-  } else{ condMVNorm::rcmvnorm(n, mu, Covmat, dependent.ind=Sj, given.ind=Sjc, X.given=xjc)}}
+  } else{ condMVNorm::rcmvnorm(n, mu, Covmat, dependent.ind=Sj, given.ind=Sjc, 
+                                X.given=xjc)}}
 
 m <- 1e3 # put m)1e4 for more precised results
-x <- shapleyPermRand(model = modlin, Xall=Xall, Xset=Xset, d=d, Nv=1e3, m = m, No = 1, Ni = 3)
+x <- shapleyPermRand(model = modlin, Xall=Xall, Xset=Xset, d=d, Nv=1e3, m = m, 
+                      No = 1, Ni = 3)
 print(x)
 ggplot(x)
 

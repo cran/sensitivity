@@ -60,10 +60,10 @@ src(X, y, rank = FALSE, logistic = FALSE, nboot = 0, conf = 0.95)
 
 \references{
 
-L. Clouvel, B. Iooss, V. Chabridon, M. Il Idrissi and F. Robin, 2023,
-\emph{A review on variance-based importance measures in the linear 
-regression context}, Preprint
-\url{https://hal.science/hal-04102053}
+  L. Clouvel, B. Iooss, V. Chabridon, M. Il Idrissi and F. Robin, 2023,
+  \emph{An overview of variance-based importance measures in the linear regression context: 
+  comparative analyses and numerical tests}, Preprint.
+  \url{https://hal.science/hal-04102053}
   
 B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance 
 measures for machine learning model interpretability}, Congres lambda-mu23,

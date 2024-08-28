@@ -72,14 +72,15 @@ S3method(plot, johnson)
 S3method(ggplot, johnson)
 
 export(johnsonshap)
+S3method(tell, johnsonshap)
 S3method(print, johnsonshap)
 S3method(plot, johnsonshap)
 S3method(ggplot, johnsonshap)
 
 export(pme_knn)
+S3method(tell, pme_knn)
 S3method(print, pme_knn)
 S3method(plot, pme_knn)
-S3method(tell, pme_knn)
 S3method(ggplot, pme_knn)
 
 export(morris)

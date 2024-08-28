@@ -11,7 +11,7 @@
   The \pkg{sensitivity} package implements some global sensitivity analysis
   methods and importance measures:
   \itemize{
-    \item Linear regression importance measures in regression or classification (logistic regression) contexts (Iooss et al., 2022; Clouvel et al., 2023):
+    \item Linear regression importance measures in regression or classification (logistic regression) contexts (Iooss et al., 2022; Clouvel et al., 2024):
     \itemize{
       \item SRC and SRRC (\code{\link{src}}), and correlation ratio (\code{\link{correlRatio}})
       \item PCC, SPCC, PRCC and SPRCC (\code{\link{pcc}}),
@@ -58,13 +58,13 @@
 	  \itemize{
 	    \item Exact computation of Shapley effects in the linear Gaussian framework (Broto et al., 2019) (\code{\link{shapleyLinearGaussian}}),
 	    \item Computation of Shapley effects in the Gaussian linear framework with an unknown block-diagonal covariance matrix (Broto et al., 2020) (\code{\link{shapleyBlockEstimation}}),
-      \item Johnson-Shapley indices (Iooss and Clouvel, 2023) (\code{\link{johnsonshap}}), [WARNING: This function does not work yet],
+      \item Johnson-Shapley indices (Iooss and Clouvel, 2024) (\code{\link{johnsonshap}}),
 	    \item Estimation of Shapley effects by examining all permutations of inputs (Song et al., 2016) (\code{\link{shapleyPermEx}}),
 	    \item Estimation of Shapley effects by randomly sampling permutations of inputs (Song et al., 2016) (\code{\link{shapleyPermRand}}),
 	    \item Estimation of Shapley effects from data using nearest neighbors method (Broto et al., 2018) (\code{\link{shapleySubsetMc}}),
 	    \item Estimation of Shapley effects and all Sobol indices from data using nearest neighbors (Broto et al., 2018) (using a fast approximate algorithm) or ranking (Gamboa et al., 2020) (\code{\link{shapleysobol_knn}}) and (\code{\link{sobolshap_knn}}),
 	    \item Estimation of Shapley effects from data using nearest neighbors method (Broto et al., 2018) with an optimized/parallelized computations and bootstrap confidence intervals estimations  (\code{\link{shapleysobol_knn}}),
-	    \item Estimation of Proportional Marginal Effects (PME) (Il Idrissi et al., 2021) (\code{\link{pme_knn}});
+	    \item Estimation of Proportional Marginal Effects (PME) (Herin et al., 2024) (\code{\link{pme_knn}});
 	  }
     \item Support index functions (\code{\link{support}}) of Fruth et al. (2016);
     \item Sensitivity Indices based on Csiszar f-divergence (\code{\link{sensiFdiv}}) (particular cases: Borgonovo's indices and mutual-information based indices) and Hilbert-Schmidt Independence Criterion (\code{\link{sensiHSIC}} and \code{\link{testHSIC}}) (Da Veiga, 2015; De Lozzo and Marrel, 2016; Meynaoui et al., 2019);
@@ -120,7 +120,7 @@ S. Da Veiga, F. Gamboa, B. Iooss and C. Prieur, \emph{Basics and trends in sensi
 
 R. Faivre, B. Iooss, S. Mahevas, D. Makowski, H. Monod, editors, 2013, \emph{Analyse de sensibilite et exploration de modeles. Applications aux modeles environnementaux}, Editions Quae.
 
-L. Clouvel, B. Iooss, V. Chabridon, M. Il Idrissi and F. Robin, 2023, \emph{A review on variance-based importance measures in the linear regression context}, Preprint. \url{https://hal.science/hal-04102053}
+L. Clouvel, B. Iooss, V. Chabridon, M. Il Idrissi and F. Robin, 2023, \emph{An overview of variance-based importance measures in the linear regression context: comparative analyses and numerical tests}, Preprint. \url{https://hal.science/hal-04102053}
   
 B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance measures for machine learning model interpretability}, Congres lambda-mu23, Saclay, France, 10-13 octobre 2022. \url{https://hal.science/hal-03741384}
 

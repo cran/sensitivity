@@ -48,7 +48,8 @@ Baptiste Broto
 }
 
 \seealso{
-\link{shapleyBlockEstimation}, \link{shapleyPermEx}, \link{shapleyPermRand}, \link{shapleySubsetMc}
+\link{shapleyBlockEstimation}, \link{shapleyPermEx}, \link{shapleyPermRand}, 
+\link{shapleySubsetMc}, \link{shapleysobol_knn}, \link{johnsonshap}
 }
 
 

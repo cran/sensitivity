@@ -165,9 +165,11 @@ Xset <- function(n, Sj, Sjc, xjc){
   if (is.null(Sjc)){
     if (length(Sj) == 1){ rnorm(n,mu[Sj],sqrt(Covmat[Sj,Sj]))
     } else{ mvtnorm::rmvnorm(n,mu[Sj],Covmat[Sj,Sj])}
-  } else{ condMVNorm::rcmvnorm(n, mu, Covmat, dependent.ind=Sj, given.ind=Sjc, X.given=xjc)}}
+  } else{ condMVNorm::rcmvnorm(n, mu, Covmat, dependent.ind=Sj, given.ind=Sjc, 
+                                X.given=xjc)}}
 
-x <- shapleyPermEx(model = modlin, Xall=Xall, Xset=Xset, d=d, Nv=1e4, No = 1e3, Ni = 3)
+x <- shapleyPermEx(model = modlin, Xall=Xall, Xset=Xset, d=d, Nv=1e4, 
+                    No = 1e3, Ni = 3)
 print(x)
 ggplot(x)
 }

@@ -12,7 +12,8 @@
 }
 
 \usage{
-shapleySubsetMc(X,Y, Ntot=NULL, Ni=3, cat=NULL, weight=NULL, discrete=NULL, noise=FALSE)
+shapleySubsetMc(X,Y, Ntot=NULL, Ni=3, cat=NULL, weight=NULL, discrete=NULL, 
+                noise=FALSE)
 \method{plot}{shapleySubsetMc}(x, ylim = c(0, 1), \dots)
 }
 
@@ -99,7 +100,8 @@ X[,2]=X[,2]>2
 X[,4]=-2*round(X[,4])+4
 X[(X[,6]>0 &X[,6]<1),6]=1
 
-cat=c(1,2)  # we choose to take X1 and X2 as categorical variables (with the discrete distance)
+cat=c(1,2)  # we choose to take X1 and X2 as categorical variables 
+            #   (with the discrete distance)
 discrete=c(4,6) # we indicate that X4 and X6 can take several times the same value
 
 Y=sobol.fun(X)

@@ -112,9 +112,9 @@ pmvd(X, y, logistic = FALSE, tol = NULL, rank = FALSE, nboot = 0,
   D.V. Budescu (1993). \emph{Dominance analysis: A new approach to the problem of relative
   importance of predictors in multiple regression.} Psychological Bulletin, 114:542-551.
 
-  L. Clouvel, B. Iooss, V. Chabridon, M. Il Idrissi and F. Robin, 2023,
-  \emph{A review on variance-based importance measures in the linear regression 
-  context}, Preprint
+  L. Clouvel, B. Iooss, V. Chabridon, M. Il Idrissi and F. Robin, 2024,
+  \emph{An overview of variance-based importance measures in the linear regression context: 
+  comparative analyses and numerical tests}, Preprint.
   \url{https://hal.science/hal-04102053}
   
   Feldman, B. (2005) \emph{Relative Importance and Value} SSRN Electronic Journal.

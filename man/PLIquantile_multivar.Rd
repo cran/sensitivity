@@ -189,8 +189,8 @@ library(grid)
 colnames(toto12$PLI) = round(v_delta,2)
 rownames(toto12$PLI) = round(v_delta,2)
 coul = viridis(100)
-levelplot(toto12$PLI, col.regions = coul, xlab=bquote(delta[X~.(1)]), ylab=bquote(delta[X~.(2)]),
-         main=bquote(hat(PLI)[quantile[~X[1]~X[2]]]))
+levelplot(toto12$PLI, col.regions = coul, xlab=bquote(delta[X~.(1)]), 
+  ylab=bquote(delta[X~.(2)]), main=bquote(hat(PLI)[quantile[~X[1]~X[2]]]))
 
 }
 }

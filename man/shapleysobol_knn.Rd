@@ -27,15 +27,15 @@
 }
 
 \usage{
-shapleysobol_knn(model=NULL, X, method = "knn", n.knn = 2, n.limit = 2000, U = NULL,
-          n.perm = NULL, noise = F, rescale = F, nboot = NULL, boot.level = 0.8, 
-          conf=0.95, parl=NULL, \dots)
+shapleysobol_knn(model=NULL, X, method = "knn", n.knn = 2, n.limit = 2000, 
+          U = NULL, n.perm = NULL, noise = F, rescale = F, nboot = NULL, 
+          boot.level = 0.8, conf=0.95, parl=NULL, \dots)
 \method{tell}{shapleysobol_knn}(x, y, \dots)
 \method{extract}{shapleysobol_knn}(x, \dots)
 \method{print}{shapleysobol_knn}(x, \dots)
 \method{plot}{shapleysobol_knn}(x, ylim = c(0,1), \dots)
-\method{ggplot}{shapleysobol_knn}(data, mapping = aes(), ylim = c(0, 1), \dots, environment
-                 = parent.frame())
+\method{ggplot}{shapleysobol_knn}(data, mapping = aes(), ylim = c(0, 1), \dots, 
+                environment = parent.frame())
 \method{print}{sobol_knn}(x, \dots)
 \method{plot}{sobol_knn}(x, ylim = c(0,1), \dots)
 }
@@ -363,7 +363,8 @@ plot(x)
 }
 
 \seealso{
-\code{\link{sobolrank}}, \code{\link{sobolshap_knn}}, \code{\link{shapleyPermEx}}, \code{\link{shapleySubsetMc}}, \code{\link{lmg}}, \code{\link{pme_knn}}
+\code{\link{sobolrank}}, \code{\link{sobolshap_knn}}, \code{\link{shapleyPermEx}}, 
+\code{\link{shapleySubsetMc}}, \code{\link{johnsonshap}}, \code{\link{lmg}}, \code{\link{pme_knn}}
 }
 
 \keyword{shapley}

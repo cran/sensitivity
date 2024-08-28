@@ -12,8 +12,8 @@
 }
 
 \usage{
-PLIsuperquantile_multivar(order,x,y,inputs,deltasvector,InputDistributions,samedelta=TRUE,
-            percentage=TRUE,nboot=0,conf=0.95,bootsample=TRUE,bias=TRUE)
+PLIsuperquantile_multivar(order,x,y,inputs,deltasvector,InputDistributions,
+  samedelta=TRUE, percentage=TRUE,nboot=0,conf=0.95,bootsample=TRUE,bias=TRUE)
 }
 
 \arguments{

@@ -11,8 +11,8 @@
 }
 
 \usage{
-PLIsuperquantile(order,x,y,deltasvector,InputDistributions,type="MOY",samedelta=TRUE,
-            percentage=TRUE,nboot=0,conf=0.95,bootsample=TRUE,bias=TRUE)
+PLIsuperquantile(order,x,y,deltasvector,InputDistributions,type="MOY",
+  samedelta=TRUE, percentage=TRUE,nboot=0,conf=0.95,bootsample=TRUE,bias=TRUE)
 }
 
 \arguments{

@@ -12,7 +12,8 @@ via ranking following Gamboa et al. (2020) and inspired by Chatterjee (2019).
 }
 
 \usage{
-sobolrank(model = NULL, X, nboot = 0, conf = 0.95, nsample = round(0.8*nrow(X)), \dots)
+sobolrank(model = NULL, X, nboot = 0, conf = 0.95, nsample = round(0.8*nrow(X)), 
+          \dots)
 \method{tell}{sobolrank}(x, y = NULL, \dots)
 \method{print}{sobolrank}(x, \dots)
 \method{plot}{sobolrank}(x, ylim = c(0, 1), \dots)
