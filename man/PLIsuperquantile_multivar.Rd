@@ -17,7 +17,7 @@ PLIsuperquantile_multivar(order,x,y,inputs,deltasvector,InputDistributions,
 }
 
 \arguments{
-  \item{order}{the order of the quantile to estimate.}
+  \item{order}{the order of the superquantile to estimate.}
   \item{x}{the matrix of simulation points coordinates, 
     one column per variable.}
     \item{y}{the vector of model outputs.}

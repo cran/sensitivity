@@ -545,9 +545,9 @@ pmvd <- function(X, y, logistic = FALSE,  tol=NULL, rank=FALSE, nboot = 0, conf=
 print.pmvd<-function(x, ...){
   cat("\nCall:\n", deparse(x$call), "\n", sep = "")
   if(x$logistic){
-    cat("\nPMVD decomposition of R2 for logistic model\n")
+    cat("\nDecomposition of R2 for logistic model\n")
   }else{
-    cat("\nPMVD decomposition of R2 for linear model\n")
+    cat("\nDecomposition of R2 for linear model\n")
   }
   if(x$boot){
     print(x$conf_int)
@@ -559,9 +559,9 @@ print.pmvd<-function(x, ...){
 
 plot.pmvd<-function(x, ylim=c(0,1), ...){
   if(x$logistic){
-    plot_title="PMVD decomposition of R2 for logistic model"
+    plot_title="Decomposition of R2 for logistic model"
   }else{
-    plot_title="PMVD decomposition of R2 for linear model"
+    plot_title="Decomposition of R2 for linear model"
   }
 
   plot(x$pmvd,

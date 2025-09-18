@@ -1,4 +1,5 @@
 // [[Rcpp::depends(RcppArmadillo)]]
+#define ARMA_USE_LEGACY
 #include <RcppArmadillo.h>
 #include <RcppArmadilloExtensions/sample.h>
 using namespace Rcpp;

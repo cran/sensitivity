@@ -20,7 +20,7 @@
     \item the g-function of Sobol' with 8 inputs, X ~ U[0,1];
     \item the function  of Ishigami with 3 inputs, X ~ U[-pi,pi];
     \item the function of Morris with 20 inputs, X ~ U[0,1];
-    \item the Linkletter  decreasing coefficients function, X ~ U[0,1] 
+    \item the Linkletter  decreasing coefficients function with 8 inputs, X ~ U[0,1] 
     (Linkletter et al. (2006));
     \item the heterdisc function with 4 inputs, X ~ U[0,20];
     \item the Friedman function with 5 inputs, X ~ U[0,1] 

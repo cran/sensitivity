@@ -1,5 +1,5 @@
 Package: sensitivity
-Version: 1.30.1
+Version: 1.30.2
 Title: Global Sensitivity Analysis of Model Outputs and Importance
         Measures
 Authors@R: c(person(given = "Bertrand", family = "Iooss", role = c("aut", "cre"), email = "biooss@yahoo.fr"),
@@ -19,9 +19,9 @@ Description: A collection of functions for sensitivity analysis of model outputs
 License: GPL-2
 NeedsCompilation: yes
 Repository: CRAN
-Packaged: 2024-08-28 10:45:33 UTC; Bertrand
+Packaged: 2025-09-17 16:38:38 UTC; F80570
 Author: Bertrand Iooss [aut, cre],
   Sebastien Da Veiga [aut],
   Alexandre Janon [aut],
   Gilles Pujol [aut]
-Date/Publication: 2024-08-28 13:40:13 UTC
+Date/Publication: 2025-09-18 05:10:11 UTC

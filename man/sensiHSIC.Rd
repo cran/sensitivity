@@ -36,13 +36,13 @@
 
 \description{ 
 
-\code{sensiHSIC} allows to conduct \bold{global sensitivity analysis (\acronym{GSA})} in many different contexts thanks to several sensitivity measures based on the \bold{Hilbert-Schmidt independence criterion (\acronym{HSIC})}. The so-called \acronym{HSIC} sensitivity indices depend on the kernels which are affected to the input variables \eqn{Xi} as well as on the kernel which is affected to the output object \eqn{Y}. For each random entity, a reproducing kernel Hilbert space (\acronym{RKHS}) is associated to the chosen kernel and allows to represent probability distributions in an appropriate function space. The influence of \eqn{Xi} on \eqn{Y} is then measured through the distance between the joint probability distribution (true impact of \eqn{Xi} on \eqn{Y} in the numerical model) and the product of marginal distributions (no impact of \eqn{Xi} on \eqn{Y}) after embedding those distributions into a bivariate \acronym{RKHS}. Such a GSA approach has three main advantages:
+\code{sensiHSIC} allows to conduct \bold{global sensitivity analysis (\acronym{GSA})} in many different contexts thanks to several sensitivity measures based on the \bold{Hilbert-Schmidt independence criterion (\acronym{HSIC})}. The so-called \acronym{HSIC} sensitivity indices depend on the kernels which are affected to the input variables \eqn{X_i} as well as on the kernel which is affected to the output object \eqn{Y}. For each random entity, a reproducing kernel Hilbert space (\acronym{RKHS}) is associated to the chosen kernel and allows to represent probability distributions in an appropriate function space. The influence of \eqn{X_i} on \eqn{Y} is then measured through the distance between the joint probability distribution (true impact of \eqn{X_i} on \eqn{Y} in the numerical model) and the product of marginal distributions (no impact of \eqn{X_i} on \eqn{Y}) after embedding those distributions into a bivariate \acronym{RKHS}. Such a GSA approach has three main advantages:
   \itemize{
-    \item The input variables \eqn{Xi} may be correlated.
+    \item The input variables \eqn{X_i} may be correlated.
     \item Any kind of mathematical object is supported (provided that a kernel function is available).
     \item Accurate estimation is possible even in presence of very few data (no more than a hundred of input-output samples).
   }
-In \code{sensiHSIC}, each input variable \eqn{Xi} is expected to be scalar (either discrete or continous). On the contrary, a much wider collection of mathematical objects are supported for the output variable \eqn{Y}. In particular, \eqn{Y} may be:
+In \code{sensiHSIC}, each input variable \eqn{X_i} is expected to be scalar (either discrete or continous). On the contrary, a much wider collection of mathematical objects are supported for the output variable \eqn{Y}. In particular, \eqn{Y} may be:
 
   \itemize{
   
@@ -68,17 +68,17 @@ Many variants of the original \acronym{HSIC} indices are now available in \code{
     The original \acronym{HSIC} indices defined in Gretton et al. (2005) may be hard to interpret because they do not admit a universal upper bound. A first step to overcome this difficulty was enabled by Da Veiga (2015) with the definition of the \acronym{R2-HSIC} indices. The resulting sensitivity indices can no longer be greater than \eqn{1}.
   
     \item \bold{Target \acronym{HSIC} indices (\acronym{T-HSIC})} \cr
-    They were thought by Marrel and Chabridon (2021) to meet the needs of \bold{target sensitivity analysis (\acronym{TSA})}. The idea is to measure the impact of each input variable \eqn{Xi} on a specific part of the output distribution (for example the upper tail). To achieve this, a weight function \eqn{w} is applied on \eqn{Y} before computing \acronym{HSIC} indices.
+    They were thought by Marrel and Chabridon (2021) to meet the needs of \bold{target sensitivity analysis (\acronym{TSA})}. The idea is to measure the impact of each input variable \eqn{X_i} on a specific part of the output distribution (for example the upper tail). To achieve this, a weight function \eqn{w} is applied on \eqn{Y} before computing \acronym{HSIC} indices.
   
     \item \bold{Conditional \acronym{HSIC} indices (\acronym{C-HSIC})} \cr
-    They were thought by Marrel and Chabridon (2021) to meet the needs of \bold{conditional sensitivity analysis (\acronym{CSA})}. The idea is to measure the impact of each input variable \eqn{Xi} on \eqn{Y} when a specific event occurs. This conditioning event is detected on the output variable \eqn{Y} and its amplitude is taken into account thanks to a weight function \eqn{w}.
+    They were thought by Marrel and Chabridon (2021) to meet the needs of \bold{conditional sensitivity analysis (\acronym{CSA})}. The idea is to measure the impact of each input variable \eqn{X_i} on \eqn{Y} when a specific event occurs. This conditioning event is detected on the output variable \eqn{Y} and its amplitude is taken into account thanks to a weight function \eqn{w}.
   
     \item \bold{\acronym{HSIC-ANOVA} indices} \cr
-    To improve the interpretability of \acronym{HSIC} indices, Da Veiga (2021) came up with an \bold{ANOVA-like decomposition} that allows to establish a strict separation of main effects and interaction effects in the \acronym{HSIC} paradigm. The first-order and total-order \acronym{HSIC-ANOVA} indices are then defined just as the first-order and total-order Sobol' indices. However, this framework only holds if two major assumptions are verified: the input variables \eqn{Xi} must be mutually independent and all input kernels must belong to the very restrained class of \acronym{ANOVA} kernels. 
+    To improve the interpretability of \acronym{HSIC} indices, Da Veiga (2021) came up with an \bold{ANOVA-like decomposition} that allows to establish a strict separation of main effects and interaction effects in the \acronym{HSIC} paradigm. The first-order and total-order \acronym{HSIC-ANOVA} indices are then defined just as the first-order and total-order Sobol' indices. However, this framework only holds if two major assumptions are verified: the input variables \eqn{X_i} must be mutually independent and all input kernels must belong to the very restrained class of \acronym{ANOVA} kernels. 
     
   }
 
-As most sensitivity measures, \acronym{HSIC} indices allow to rank the input variables \eqn{Xi} according to the influence they have on the output variable \eqn{Y}. They can also be used for a screening purpose, that is to distinguish between truly influential input variables and non-influential input variables. The user who is interested in this topic is invited to consult the documentation of the function \code{testHSIC}. 
+As most sensitivity measures, \acronym{HSIC} indices allow to rank the input variables \eqn{X_i} according to the influence they have on the output variable \eqn{Y}. They can also be used for a screening purpose, that is to distinguish between truly influential input variables and non-influential input variables. The user who is interested in this topic is invited to consult the documentation of the function \code{testHSIC}. 
 
 }
 
@@ -176,9 +176,13 @@ sensiHSIC(model = NULL, X, target = NULL, cond = NULL,
 
   In addition, let us assume that all input variables are uniformly distributed on \eqn{[0,1]}. Under this assumption, the kernels \code{"laplace"}, \code{"matern3"}, \code{"matern5"} and \code{"rbf"} can be easily transformed into \acronym{ANOVA} kernels. The resulting kernels are respectively called \code{"laplace_anova"}, \code{"matern3_anova"}, \code{"matern5_anova"} and \code{"rbf_anova"}.
   
+  The same can be done with the kernel \code{"categ"} and any discrete distribution, leading to the kernel \code{"categ_anova"}.
+  
     \itemize{
-      \item One-parameter kernels: \code{"categ"}, \code{"dcov"}, \code{"invmultiquad"}, \code{"laplace"}, \code{"laplace_anova"}, \code{"matern3"}, \code{"matern3_anova"}, \code{"matern5"}, \code{"matern5_anova"}, \code{"raquad"}, \code{"rbf"} and \code{"rbf_anova"}.
-      \item Parameter-free kernels: \code{"linear"}, \code{"sobolev1"} and \code{"sobolev2"}. 
+      \item \bold{One-parameter kernels:} \code{"categ"}, \code{"categ_anova"}, \code{"dcov"}, \code{"invmultiquad"}, \code{"laplace"}, \code{"laplace_anova"}, \code{"matern3"}, \code{"matern3_anova"}, \code{"matern5"}, \code{"matern5_anova"}, \code{"raquad"}, \code{"rbf"} and \code{"rbf_anova"}.
+      \item \bold{Parameter-free kernels:} \code{"linear"}, \code{"sobolev1"} and \code{"sobolev2"}.
+      \item \bold{ANOVA kernel for discrete distributions:} \code{"categ_anova"}.
+      \item \bold{ANOVA kernels for the uniform distribution on \eqn{[0,1]}:} \code{"sobolev1"}, \code{"sobolev2"}, \code{"rbf_anova"}, \code{"laplace_anova"}, \code{"matern3_anova"} and \code{"matern5_anova"}.
     }
   
   }
@@ -280,7 +284,7 @@ sensiHSIC(model = NULL, X, target = NULL, cond = NULL,
     \itemize{
     
       \item \code{obj} is a string specifying which kinds of \acronym{HSIC-ANOVA} indices are expected. Available choices include \code{"no"} (\code{anova} is disabled), \code{"FO"} (first-order only), \code{"TO"} (total-order only) and \code{"both"} (first-order and total-order). 
-      \item \code{is.uniform} is a boolean indicating whether the samples stored in \code{X} come from random variables that are uniformly distributed on \eqn{[0,1]}. Let us recall that \acronym{HSIC-ANOVA} indices can only be computed by means of \acronym{ANOVA} kernels. Among available kernels, only \code{"laplace_anova"}, \code{"matern3_anova"}, \code{"matern5_anova"}, \code{"rbf_anova"}, \code{"sobolev1"} and \code{"sobole2"} verify this constraint (provided that all input variables are uniformly distributed on \eqn{[0,1]}).
+      \item \code{is.uniform} is a boolean indicating whether the samples stored in \code{X} come from random variables that are uniformly distributed on \eqn{[0,1]}. Let us recall that \acronym{HSIC-ANOVA} indices can only be computed by means of \acronym{ANOVA} kernels. Among available kernels, only \code{"laplace_anova"}, \code{"matern3_anova"}, \code{"matern5_anova"}, \code{"rbf_anova"}, \code{"sobolev1"} and \code{"sobolev2"} verify this constraint (provided that all input variables are uniformly distributed on \eqn{[0,1]}).
       
       \itemize{
         \item If \code{is.uniform=TRUE}, it is checked that each input data stored in \eqn{X} actually lies in \eqn{[0,1]}. If this condition is not verified, an error is returned.
@@ -291,12 +295,31 @@ sensiHSIC(model = NULL, X, target = NULL, cond = NULL,
     
   }
   
-  \item{sensi}{An object of class \code{"sensiHSIC"} resulting from a prior call to the hereby function. If an object of class \code{"sensiHSIC"} is indeed provided, the following happens:
+  \item{sensi}{An object of class \code{"sensiHSIC"} resulting from a previous call to this function. If such an object is provided, the following checks and actions are performed:
   
-    \itemize{
-      \item If \code{sensi} contains an object named \code{"KX"}, it is extracted from \code{sensi} and the input Gram matrices (required to estimate \acronym{HSIC} indices) are not built from \code{X}, \code{kernelX} and \code{paramX}.
-      \item If \code{sensi} contains an object named \code{"KY"}, it is extracted from \code{sensi} and the output Gram matrix (required to estimate \acronym{HSIC} indices) is not built from \code{model}, \code{kernelY} and \code{paramY}. 
+    \enumerate{
+      \item \bold{Consistency check.} It is verified that the object of class \code{"sensiHSIC"} is consistent with \code{X} and \code{y}, ensuring that the number \eqn{p} of input variables and the sample size \eqn{n} match with \code{X} and \code{y}.
+      \item \bold{Input Gram matrices.} If \code{sensi} contains an object named \code{KX}, it is extracted from \code{sensi}, and the input Gram matrices (required to estimate HSIC indices) are not recomputed from \code{X}, \code{kernelX}, and \code{paramX} (as they would be otherwise).
+      \item \bold{Output Gram matrix.} If \code{sensi} contains an object named \code{KY}, it is extracted from \code{sensi}, and the output Gram matrix (required to estimate HSIC indices) is not recomputed from \code{y}, \code{kernelY}, and \code{paramY} (as it would be otherwise).
     }
+    
+    It is also possible to provide the \code{sensi} argument with a \bold{custom list of Gram matrices}. This is useful when one wishes to use kernel functions that are not directly supported by \code{sensiHSIC}. To do so, follow these steps:
+    \enumerate{
+    
+      \item Create a list containing two objects named \code{"KX"} and \code{"KY"}.
+      \itemize{
+        \item \code{KX} must be a 3D array of size \eqn{n \times n \times p}.
+        \item \code{KY} must be a matrix of size \eqn{n \times n}.
+      }
+      Be careful, \code{sensiHSIC} will check that \code{KX} and \code{KY} have the expected types and dimensions and will return an error if not. Even when \eqn{p = 1}, \code{KX} must be a 3D array (of size \eqn{n \times n \times 1} in this particular case). 
+      
+      Note that the list can contain only one of the two objects (\code{KX} alone or \code{KY} alone). The missing object is then constructed from the data (found in \code{X} or \code{y}) and the information provided through the input arguments (for kernel families and parameters).
+    
+    \item Declare the type of the list as \code{"gramHSIC"}.
+    
+    }
+    
+    Afterwards, \code{sensiHSIC} proceeds exactly as it does for an object of class \code{"sensiHSIC"} (performs the consistency check first, followed by the extractions).
     
   }
 
@@ -381,7 +404,7 @@ sensiHSIC(model = NULL, X, target = NULL, cond = NULL,
   \item{S}{The estimated \acronym{R2-HSIC} indices (also called normalized \acronym{HSIC} indices).}
   
   \item{weights}{Only if \code{cond} is passed to \code{sensiHSIC}. \cr
-  A vector of \eqn{n} values containing all conditioning weights. In the \acronym{CSA} context, the conditioning factor is defined by \eqn{w(Y)/E[w(Y)]}. See Marrel and Chabridon (2021) for further explanations.}
+  A vector of \eqn{n} values containing all conditioning weights. In the \acronym{CSA} context, the conditioning factor is defined by \eqn{w(Y)/\mathbb{E}[w(Y)]}. See Marrel and Chabridon (2021) for further explanations.}
   
   Depending on what is specified in \code{anova}, the list of class \code{"sensiHSIC"} may also contain the following objects:
 
@@ -408,28 +431,28 @@ sensiHSIC(model = NULL, X, target = NULL, cond = NULL,
 
 \details{
 
-Let \eqn{(Xi,Y)} be an input-output pair. The kernels assigned to \eqn{Xi} and \eqn{Y} are respectively denoted by \eqn{Ki} and \eqn{KY}. 
+Let \eqn{(X_i,Y)} be an input-output pair. The kernels assigned to \eqn{X_i} and \eqn{Y} are respectively denoted by \eqn{K_{X_i}} and \eqn{K_Y}. 
 
-For many global sensitivity measures, the influence of \eqn{Xi} on \eqn{Y} is measured in the light of the probabilistic dependence that exists within the input-output pair \eqn{(Xi,Y)}. For this, a dissimilarity measure is applied between the joint probability distribution (true impact of \eqn{Xi} and \eqn{Y} in the numerical model) and the product of marginal distributions (no impact of \eqn{Xi} on \eqn{Y}). For instance, Borgonovo's sensitivity measure is built upon the total variation distance between those two probability distributions. See Borgonovo and Plischke (2016) for further details.
+For many global sensitivity measures, the influence of \eqn{X_i} on \eqn{Y} is measured in the light of the probabilistic dependence that exists within the input-output pair \eqn{(X_i,Y)}. For this, a dissimilarity measure is applied between the joint probability distribution (true impact of \eqn{X_i} and \eqn{Y} in the numerical model) and the product of marginal distributions (no impact of \eqn{X_i} on \eqn{Y}). For instance, Borgonovo's sensitivity measure is built upon the total variation distance between those two probability distributions. See Borgonovo and Plischke (2016) for further details.
 
-The \acronym{HSIC}-based sensitivity measure can be understood in this way since the index \eqn{HSIC(Xi,Y)} results from the application of the \bold{Hilbert-Schmidt independence criterion (\acronym{HSIC})} on the pair \eqn{(Xi,Y)}. This criterion is nothing but a special kind of dissimilarity measure between the joint probability distribution and the product of marginal distributions. This dissimilarity measure is called the \bold{maximum mean discrepancy (MMD)} and its definition relies on the selected kernels \eqn{Ki} and \eqn{KY}. According to the theory of reproducing kernels, every kernel \eqn{K} is related to a \bold{reproducing kernel Hilbert space (\acronym{RKHS})}.Then, if \eqn{K} is affected to a random variable \eqn{Z}, any probability distribution describing the random behavior of \eqn{Z} may be represented within the induced \acronym{RKHS}. In this setup, the dissimilarity between the joint probability distribution and the product of marginal distributions is then measured through the squared norm of their images into the bivariate \acronym{RKHS}. The user is referred to Gretton et al. (2006) for additional details on the mathematical construction of \acronym{HSIC} indices.
+The \acronym{HSIC}-based sensitivity measure can be understood in this way since the index \eqn{HSIC(X_i,Y)} results from the application of the \bold{Hilbert-Schmidt independence criterion (\acronym{HSIC})} on the pair \eqn{(X_i,Y)}. This criterion is nothing but a special kind of dissimilarity measure between the joint probability distribution and the product of marginal distributions. This dissimilarity measure is called the \bold{maximum mean discrepancy (MMD)} and its definition relies on the selected kernels \eqn{K_{X_i}} and \eqn{K_Y}. According to the theory of reproducing kernels, every kernel \eqn{K} is related to a \bold{reproducing kernel Hilbert space (\acronym{RKHS})}.Then, if \eqn{K} is affected to a random variable \eqn{Z}, any probability distribution describing the random behavior of \eqn{Z} may be represented within the induced \acronym{RKHS}. In this setup, the dissimilarity between the joint probability distribution and the product of marginal distributions is then measured through the squared norm of their images into the bivariate \acronym{RKHS}. The user is referred to Gretton et al. (2006) for additional details on the mathematical construction of \acronym{HSIC} indices.
 
-In practice, it may be difficult to understand how \eqn{HSIC(Xi,Y)} measures dependence within \eqn{(Xi,Y)}. An alternative definition relies on the concept of \bold{feature map}. Let us recall that the value taken by a kernel function can always be seen as the scalar product of two \bold{feature functions} lying in a \bold{feature space}. Definition 1 in Gretton et al. (2005) introduces \eqn{HSIC(Xi,Y)} as the Hilbert-Schmidt norm of a covariance-like operator between random features. For this reason, having access to the input and output feature maps may help identify the dependence patterns captured by \eqn{HSIC(Xi,Y)}.
+In practice, it may be difficult to understand how \eqn{HSIC(X_i,Y)} measures dependence within \eqn{(X_i,Y)}. An alternative definition relies on the concept of \bold{feature map}. Let us recall that the value taken by a kernel function can always be seen as the scalar product of two \bold{feature functions} lying in a \bold{feature space}. Definition 1 in Gretton et al. (2005) introduces \eqn{HSIC(X_i,Y)} as the Hilbert-Schmidt norm of a covariance-like operator between random features. For this reason, having access to the input and output feature maps may help identify the dependence patterns captured by \eqn{HSIC(X_i,Y)}.
 
-Kernels must be chosen very carefully. There exists a wide variety of kernels but only a few f them meet the needs of \acronym{GSA}. As \eqn{HSIC(Xi,Y)} is supposed to be a dependence measure, it must be equal to \eqn{0} if and only if \eqn{Xi} and \eqn{Y} are independent. A sufficient condition to enable this equivalence is to take two characteristic kernels. The reader is referred to Fukumizu et al. (2004) for the mathematical definition of a characteristic kernel and to Sriperumbur et al. (2010) for an overview of the major related results. In particular:
+Kernels must be chosen very carefully. There exists a wide variety of kernels but only a few f them meet the needs of \acronym{GSA}. As \eqn{HSIC(X_i,Y)} is supposed to be a dependence measure, it must be equal to \eqn{0} if and only if \eqn{X_i} and \eqn{Y} are independent. A sufficient condition to enable this equivalence is to take two characteristic kernels. The reader is referred to Fukumizu et al. (2004) for the mathematical definition of a characteristic kernel and to Sriperumbur et al. (2010) for an overview of the major related results. In particular:
   \itemize{
     \item The Gaussian kernel, the Laplace kernel, the Matern \eqn{3/2} kernel and the Matern \eqn{5/2} kernel (all defined on \eqn{R^2}) are \bold{characteristic}.
     \item The transformed versions of the four abovementioned kernels (all defined on \eqn{[0,1]^2}) are \bold{characteristic}.
     \item All Sobolev kernels (defined on \eqn{[0,1]^2}) are \bold{characteristic}.
-    \item The categorical kernel (defined on any discrete probability space) is \bold{characteristic}.
+    \item The categorical kernel (suitable for any discrete probability space) is \bold{characteristic}.
   }
   
-Lemma 1 in Gretton et al. (2005) provides a third way of defining \eqn{HSIC(Xi,Y)}. Since the associated formula is only based on three expectation terms, the corresponding estimation procedures are very simple and they do not ask for a large amount of input-output samples to be accurate. Two kinds of estimators may be used for \eqn{HSIC(Xi,Y)}: the \bold{V-statistic estimator} (which is non negative, biased and asymptotically unbiased) or the \bold{U-statistic estimator} (unbiased). For both estimators,  the computational complexity is \eqn{O(n^2)} where \eqn{n} is the sample size.
+Lemma 1 in Gretton et al. (2005) provides a third way of defining \eqn{HSIC(X_i,Y)}. Since the associated formula is only based on three expectation terms, the corresponding estimation procedures are very simple and they do not ask for a large amount of input-output samples to be accurate. Two kinds of estimators may be used for \eqn{HSIC(X_i,Y)}: the \bold{V-statistic estimator} (which is non negative, biased and asymptotically unbiased) or the \bold{U-statistic estimator} (unbiased). For both estimators,  the computational complexity is \eqn{O(n^2)} where \eqn{n} is the sample size.
 
-The user must always keep in mind the key steps leading to the estimation of \eqn{HSIC(Xi,Y)}:
+The user must always keep in mind the key steps leading to the estimation of \eqn{HSIC(X_i,Y)}:
   \itemize{
     \item Input samples are simulated and the corresponding output samples are computed with the numerical model.
-    \item An input kernel \eqn{Ki} and an output kernel \eqn{KY} are selected.
+    \item An input kernel \eqn{K_{X_i}} and an output kernel \eqn{K_Y} are selected.
     \item \bold{In case of target sensitivity analysis:} output samples are transformed by means of a weight function \eqn{w}.
     \item The input and output Gram matrices are constructed.
     \item \bold{In case of conditional sensitivity analysis:} conditioning weights are computed by means of a weight function \eqn{w}.
@@ -438,11 +461,11 @@ The user must always keep in mind the key steps leading to the estimation of \eq
   
 \subsection{Kernel functions for random variables}{
 
-All what follows is written for a scalar output \eqn{Y} but the same is true for any scalar input \eqn{Xi}. 
+All what follows is written for a scalar output \eqn{Y} but the same is true for any scalar input \eqn{X_i}. 
 
 Let \eqn{D} denote the support of the output probability distribution. A kernel is a symmetric and positive definite function defined on the domain \eqn{D}. Different kernel families are available in \code{sensiHSIC}. 
   \itemize{
-    \item To deal with continuous probability distributions on \eqn{R}, one can use:
+    \item To deal with continuous probability distributions on \eqn{\mathbb{R}}, one can use:
     \itemize{
       \item The covariance kernel of the fractional Browian motion (\code{"dcov"}), the inverse multiquadratic kernel (\code{"invmultiquad"}), the exponential kernel (\code{"laplace"}), the dot-product kernel (\code{"linear"}), the Matern \eqn{3/2} kernel (\code{"matern3"}), the Matern \eqn{5/2} kernel (\code{"matern5"}), the rationale quadratic kernel (\code{"raquad"}) and the Gaussian kernel (\code{"rbf"}).
     }
@@ -460,7 +483,7 @@ Two kinds of kernels must be distinguished:
   
     \item \bold{Parameter-free kernels:} the dot-product kernel (\code{"linear"}), the Sobolev kernel with smoothness parameter \eqn{r=1} (\code{"sobolev1"}) and the Sobolev kernel with smoothness parameter \eqn{r=2} (\code{"sobolev2"}).
     
-    \item \bold{One-parameter kernels:} the categorical kernel (\code{"categ"}), the covariance kernel of the fractional Brownian motion kernel (\code{"dcov"}), the inverse multiquadratic kernel (\code{"invmultiquad"}), the exponential kernel (\code{"laplace"}), the transformed exponential kernel (\code{"laplace_anova"}), the Matern \eqn{3/2} kernel (\code{"matern3"}), the transformed Matern \eqn{3/2} kernel (\code{"matern3_anova"}), the Matern \eqn{5/2} kernel (\code{"matern5"}), the transformed Matern \eqn{5/2} kernel (\code{"matern5_anova"}), the rationale quadratic kernel (\code{"raquad"}), the Gaussian kernel (\code{"rbf"}) and the transformed Gaussian kernel (\code{"rbf_anova"}).
+    \item \bold{One-parameter kernels:} the categorical kernel (\code{"categ"}), the transformed categorical kernel (\code{"categ_anova"}), the covariance kernel of the fractional Brownian motion kernel (\code{"dcov"}), the inverse multiquadratic kernel (\code{"invmultiquad"}), the exponential kernel (\code{"laplace"}), the transformed exponential kernel (\code{"laplace_anova"}), the Matern \eqn{3/2} kernel (\code{"matern3"}), the transformed Matern \eqn{3/2} kernel (\code{"matern3_anova"}), the Matern \eqn{5/2} kernel (\code{"matern5"}), the transformed Matern \eqn{5/2} kernel (\code{"matern5_anova"}), the rationale quadratic kernel (\code{"raquad"}), the Gaussian kernel (\code{"rbf"}) and the transformed Gaussian kernel (\code{"rbf_anova"}).
     
   }
 
@@ -468,11 +491,11 @@ A major issue related to one-parameter kernels is how to set the parameter. It m
 
   \itemize{
   
-    \item For translation-invariant kernels and their \acronym{ANOVA} variants (that is all one-parameter kernels except \code{"categ"} and \code{"dcov"}), the parameter may be interpreted as a correlation length (or a scale parameter). The rule of thumb is to compute the empirical standard deviation of the provided samples.
+    \item For translation-invariant kernels and their \acronym{ANOVA} variants, the parameter may be interpreted as a correlation length (or a scale parameter). The rule of thumb is to compute the empirical standard deviation of the provided samples.
     
     \item For the covariance kernel of the fractional Brownian motion (\code{"dcov"}), the parameter is an exponent. Default value is \eqn{1}.
     
-    \item For the categorical kernel (\code{"categ"}), the parameter has no physical sense. It is just a kind of binary encoding.
+    \item For the categorical kernel (\code{"categ"}) and its \acronym{ANOVA} variant (\code{"categ_anova"}), the parameter has no physical sense. It is just a kind of binary encoding.
       \itemize{
         \item \eqn{0} means the user wants to use the basic categorical kernel.
         \item \eqn{1} means the user wants to use the weighted variant of the categorical kernel.
@@ -484,9 +507,9 @@ A major issue related to one-parameter kernels is how to set the parameter. It m
 
 \subsection{How to deal with a low-dimensional vector output?}{
 
-Let us assume that the output vector \eqn{Y} is composed of \eqn{q} random variables \eqn{Y1,...,Yq}.
+Let us assume that the output vector \eqn{Y} is composed of \eqn{q} random variables \eqn{Y_1,...,Y_q}.
 
-A kernel \eqn{Kj} is affected to each output variable \eqn{Yj} and this leads to embed the \eqn{j}-th output probability distribution in a \acronym{RKHS} denoted by \eqn{Hj}. Then, the \bold{tensorization} of \eqn{H1,...,Hq} allows to build the final \acronym{RKHS}, that is the \acronym{RKHS} where the \eqn{q}-variate output probability distribution describing the overall random behavior of \eqn{Y} will be embedded. In this situation:
+A kernel \eqn{K_{Y_j}} is assigned to each output variable \eqn{Y_j} and this leads to embed the \eqn{j}-th output probability distribution in a \acronym{RKHS} denoted by \eqn{\mathcal{H}_j}. Then, the \bold{tensorization} of \eqn{\mathcal{H}_1,...,\mathcal{H}_q} allows to build the final \acronym{RKHS}, that is the \acronym{RKHS} where the \eqn{q}-variate output probability distribution describing the overall random behavior of \eqn{Y} will be embedded. In this situation:
   \itemize{
     \item The final output kernel is the tensor product of all output kernels.
     \item The final output Gram matrix is the Hadamard product of all output Gram matrices.
@@ -521,7 +544,7 @@ The last step consists in constructing a kernel in the reduced subspace. One sin
       }
 
   }
-In sensiHSIC, all these strategies correspond to the following specifications in \code{kernelY}:
+In \code{sensiHSIC}, all these strategies correspond to the following specifications in \code{kernelY}:
   \itemize{
     
     \item \bold{Direct tensorization:}
@@ -563,7 +586,7 @@ In \code{sensiHSIC}, two \acronym{GAK}-related parameters may be tuned by the us
 
 \subsection{About normalized \acronym{HSIC} indices (\acronym{R2-HSIC})}{
 
-No doubt interpretability is the major drawback of \acronym{HSIC} indices. This shortcoming led Da Veiga (2021) to introduce a normalized version of \eqn{HSIC(Xi,Y)}. The so-called R2-HSIC index is thus defined as the ratio between \eqn{HSIC(Xi,Y)} and the square root of a normalizing constant equal to \eqn{HSIC(Xi,Xi)*HSIC(Y,Y)}. 
+No doubt interpretability is the major drawback of \acronym{HSIC} indices. This shortcoming led Da Veiga (2021) to introduce a normalized version of \eqn{HSIC(X_i,Y)}. The so-called R2-HSIC index is thus defined as the ratio between \eqn{HSIC(X_i,Y)} and the square root of a normalizing constant equal to \eqn{HSIC(X_i,X_i) \times HSIC(Y,Y)}. 
 
 This normalized sensitivity measure is inspired from the \bold{distance correlation measure} proposed by Szekely et al. (2007) and the resulting sensitivity indices are easier to interpret since they all fall in the interval \eqn{[0,1]}.
 
@@ -571,21 +594,21 @@ This normalized sensitivity measure is inspired from the \bold{distance correlat
 
 \subsection{About target \acronym{HSIC} indices (\acronym{T-HSIC})}{
 
-T-HSIC indices were designed by Marrel and Chabridon (2021) for \acronym{TSA}. They are only defined for a scalar output. Vector and functional outputs are not supported. The main idea of \acronym{TSA} is to measure the influence of each input variable \eqn{Xi} on a modified version of \eqn{Y}. To do so, a preliminary mathematical transform \eqn{w} (called the \bold{weight function}) is applied on \eqn{Y}. The collection of \acronym{HSIC} indices is then estimated with respect to \eqn{w(Y)}. Here are two examples of situations where \acronym{TSA} is particularly relevant:
+T-HSIC indices were designed by Marrel and Chabridon (2021) for \acronym{TSA}. They are only defined for a scalar output. Vector and functional outputs are not supported. The main idea of \acronym{TSA} is to measure the influence of each input variable \eqn{X_i} on a modified version of \eqn{Y}. To do so, a preliminary mathematical transform \eqn{w} (called the \bold{weight function}) is applied on \eqn{Y}. The collection of \acronym{HSIC} indices is then estimated with respect to \eqn{w(Y)}. Here are two examples of situations where \acronym{TSA} is particularly relevant:
   \itemize{
-    \item How to measure the impact of \eqn{Xi} on the upper values taken by \eqn{Y} (for example the values above a given threshold \eqn{T})?
+    \item How to measure the impact of \eqn{X_i} on the upper values taken by \eqn{Y} (for example the values above a given threshold \eqn{T})?
       \itemize{
-        \item To answer this question, one may take \eqn{w(Y)=Y*1_{Y>T}} (\bold{zero-thresholding}). \cr
+        \item To answer this question, one may take \eqn{w(Y)=Y \times 1_{ \left\{ Y>T \right\} }} \bold{(zero-thresholding)}. \cr
         This can be specified in \code{sensiHSIC} with \code{target=list(c=T, type="zeroTh", upper=TRUE)}.
       }
-    \item How to measure the influence of \eqn{Xi} on the occurrence of the event \eqn{{Y>T}}?
+    \item How to measure the influence of \eqn{X_i} on the occurrence of the event \eqn{ \left\{ Y>T \right\} }?
       \itemize{
-        \item To answer this question, one may take \eqn{w(Y)=1_{Y<T}} (\bold{indicator-thresholding}). \cr
+        \item To answer this question, one may take \eqn{w(Y) = 1_{ \left\{ Y<T \right\} }} \bold{(indicator-thresholding)}. \cr
         This can be specified in \code{sensiHSIC} with \code{target=list(c=T, type="indicTh", upper=FALSE)}.
       }
   }
 
-In Marrel and Chabridon (2021), the two situations described above are referred to as \bold{"hard thresholding"}. To avoid using discontinuous weight functions, \bold{"smooth thresholding"} may be used instead.
+In Marrel and Chabridon (2021), the two situations described above are referred to as \bold{hard thresholding}. To avoid using discontinuous weight functions, \bold{smooth thresholding} may be used instead.
   \itemize{
     \item Spagnol et al. (2019): logistic transformation on both sides of the threshold \eqn{T}.
     \item Marrel and Chabridon (2021): exponential transformation above or below the threshold \eqn{T}.
@@ -598,11 +621,11 @@ These two smooth relaxation functions depend on a tuning parameter that helps co
 
   \item When \code{type="indicTh"} (\bold{indicator-thesholding}), \eqn{w(Y)} becomes a binary random variable. Accordingly, the output kernel selected in \code{kernelY} must be the categorical kernel.
   
-  \item In the spirit of \acronym{R2-HSIC} indices, \acronym{T-HSIC} indices can be normalized. The associated normalizing constant is equal to the square root of \eqn{HSIC(Xi,Xi)*HSIC(w(Y),w(Y))}.
+  \item In the spirit of \acronym{R2-HSIC} indices, \acronym{T-HSIC} indices can be normalized. The associated normalizing constant is equal to the square root of \eqn{HSIC(X_i,X_i) \times HSIC(w(Y),w(Y))}.
   
   \item \acronym{T-HSIC} indices can be very naturally combined with the \acronym{HSIC-ANOVA} decomposition proposed by Da Veiga (2021). As a consequence, the arguments \code{target} and \code{anova} in \code{sensiHSIC} can be enabled simultaneously. Compared with basic \acronym{HSIC} indices, there are three main differences: the input variables must be mutually independent, \acronym{ANOVA} kernels must be used for all input variables and the output of interest is \eqn{w(Y)}.
   
-  \item \acronym{T-HSIC} indices can be very naturally combined with the tests of independence proposed in \code{testHSIC}. In this context, the null hypothesis is \eqn{H0}: "\eqn{Xi} and \eqn{w(Y)} are independent".
+  \item \acronym{T-HSIC} indices can be very naturally combined with the tests of independence proposed in \code{testHSIC}. In this context, the null hypothesis is \eqn{H_0}: "\eqn{X_i} and \eqn{w(Y)} are independent".
   
 }
 
@@ -610,12 +633,12 @@ These two smooth relaxation functions depend on a tuning parameter that helps co
 
 \subsection{About conditional \acronym{HSIC} indices (\acronym{C-HSIC})}{
 
-\acronym{C-HSIC} indices were designed by Marrel and Chabridon (2021) for \acronym{CSA}. They are only defined for a scalar output. Vector and functional outputs are not supported. The idea is to measure the impact of each input variable \eqn{Xi} on \eqn{Y} when a specific event occurs. This conditioning event is defined on \eqn{Y} thanks to a \bold{weight function} \eqn{w}. In order to compute the conditioning weights, \eqn{w} is applied on the output samples and an empirical normalization is carried out (so that the overall sum of conditioning weights is equal to \eqn{1}). The conditioning weights are then combined with the simulated Gram matrices in order to estimate \acronym{C-HSIC} indices. All formulas can be found in Marrel and Chabridon (2021). Here is an exemple of a situation where \acronym{CSA} is particularly relevant:
+\acronym{C-HSIC} indices were designed by Marrel and Chabridon (2021) for \acronym{CSA}. They are only defined for a scalar output. Vector and functional outputs are not supported. The idea is to measure the impact of each input variable \eqn{X_i} on \eqn{Y} when a specific event occurs. This conditioning event is defined on \eqn{Y} thanks to a \bold{weight function} \eqn{w}. In order to compute the conditioning weights, \eqn{w} is applied on the output samples and an empirical normalization is carried out (so that the overall sum of conditioning weights is equal to \eqn{1}). The conditioning weights are then combined with the simulated Gram matrices in order to estimate \acronym{C-HSIC} indices. All formulas can be found in Marrel and Chabridon (2021). Here is an exemple of a situation where \acronym{CSA} is particularly relevant:
   \itemize{
-    \item  Let us imagine that the event \eqn{{Y>T}} coincides with a system failure. \cr
-    How to measure the influence of \eqn{Xi} on \eqn{Y} when failure occurs?
+    \item  Let us imagine that the event \eqn{\left\{ Y>T \right\}} coincides with a system failure. \cr
+    How to measure the influence of \eqn{X_i} on \eqn{Y} when failure occurs?
     \itemize{
-      \item To answer this question, one may take \eqn{w(Y) = 1_{Y>T}} (\bold{indicator-thresholding}). \cr
+      \item To answer this question, one may take \eqn{w(Y) = 1_{ \left\{ Y>T \right\}}} (\bold{indicator-thresholding}). \cr
       This can be specified in \code{sensiHSIC} with \code{cond=list(c=T, type="indicTh", upper=TRUE)}.
     }
   }
@@ -627,13 +650,13 @@ The three other weight functions proposed for TSA (namely \code{"zeroTh"}, \code
   
     \item Unlike what is pointed out for \acronym{TSA}, when \code{type="thresholding"}, the output of interest \eqn{Y} remains a continuous random variable. The categorical kernel is thus inappropriate. A continuous kernel must be used instead.
     
-    \item In the spirit of \acronym{R2-HSIC} indices, \acronym{C-HSIC} indices can be normalized. The associated normalizing constant is equal to the square root of \eqn{C-HSIC(Xi,Xi)*C-HSIC(Y,Y)}.
+    \item In the spirit of \acronym{R2-HSIC} indices, \acronym{C-HSIC} indices can be normalized. The associated normalizing constant is equal to the square root of \eqn{CHSIC(X_i,X_i)*CHSIC(Y,Y)}.
 
-    \item Only V-statistics are supported to estimate C-HSIC indices. The reason is because the normalized version of C-HSIC indices cannot always be estimated with U-statistics. In particular, the estimates of \eqn{C-HSIC(Xi,Xi)*C-HSIC(Y,Y)} may be negative.
+    \item Only V-statistics are supported to estimate C-HSIC indices. The reason is because the normalized version of C-HSIC indices cannot always be estimated with U-statistics. In particular, the estimates of \eqn{CHSIC(X_i,X_i)*CHSIC(Y,Y)} may be negative.
     
     \item \acronym{C-HSIC} indices cannot be combined with the \acronym{HSIC-ANOVA} decomposition proposed in Da Veiga (2021). In fact, the conditioning operation is feared to introduce statistical dependence among input variables, which forbids using \acronym{HSIC-ANOVA} indices. As a consequence, the arguments \code{cond} and \code{anova} in \code{sensiHSIC} cannot be enabled simultaneously.
     
-    \item \acronym{C-HSIC} indices can harly be combined with the tests of inpendence proposed in \code{testHSIC}. This is only possible if \code{type="indicTh"}. In this context, the null hypothesis is \eqn{H0}: "\eqn{Xi} and \eqn{Y} are independent if the event described in \code{cond} occurs".
+    \item \acronym{C-HSIC} indices can harly be combined with the tests of inpendence proposed in \code{testHSIC}. This is only possible if \code{type="indicTh"}. In this context, the null hypothesis is \eqn{H_0}: "\eqn{X_i} and \eqn{Y} are independent if the event described in \code{cond} occurs".
     
   }
 
@@ -646,17 +669,21 @@ In comparison with \acronym{HSIC} indices, \acronym{R2-HSIC} indices are easier 
 It was proved in Da Veiga (2021) that an \acronym{ANOVA}-like decomposition can be achived for \acronym{HSIC} indices under certain conditions:
   \itemize{
     \item The input variables must be mutually independent (which was not required to compute all other kinds of \acronym{HSIC} indices).
-    \item \bold{\acronym{ANOVA} kernels} must be assigned to all input variables.
+    \item \bold{\acronym{ANOVA} kernels} must be assigned to all input variables. In contrast, no such constraint applies to the output kernel. It can be chosen freely among standard characteristic kernels.
   }
-This \acronym{ANOVA} setup allows to establish a strict separation between main effects and interaction effects in the \acronym{HSIC} sense. The first-order and total-order \acronym{HSIC-ANOVA} indices are then defined in the same fashion than first-order and total-order Sobol' indices. It is worth noting that the \acronym{HSIC-ANOVA} normalizing constant is equal to \eqn{HSIC(X,Y)} and is thus different from the one used for \acronym{R2-HSIC} indices.
+This \acronym{ANOVA} setup allows to establish a strict separation between main effects and interaction effects in the \acronym{HSIC} sense. The first-order and total-order \acronym{HSIC-ANOVA} indices are then defined in the same fashion than the first-order and total-order Sobol' indices. It is worth noting that the \acronym{HSIC-ANOVA} normalizing constant is equal to \eqn{HSIC(X,Y)} and is thus different from the one used for \acronym{R2-HSIC} indices.
 
-For a given probability measure \eqn{P}, an \acronym{ANOVA} kernel \eqn{K} is a kernel that can rewritten \eqn{1+k} where \eqn{k} is an orthogonal kernel with respect to \eqn{P}. Among the well-known parametric families of probability distributions and kernel functions, there are very few examples of orthogonal kernels. One example is given by \bold{Sobolev kernels} when there are matched with the uniform probability measure on [0,1]. See Wahba et al. (1995) for further details on Sobolev kernels.
+For a given probability measure \eqn{P}, an \acronym{ANOVA} kernel \eqn{K} is a kernel that can rewritten \eqn{1+k} where \eqn{k} is an orthogonal kernel with respect to \eqn{P}. Among the well-known parametric families of probability distributions and kernel functions, there are very few examples of orthogonal kernels. One example is given by \bold{Sobolev kernels} when the reference probability measure \eqn{P} is the uniform distribution on \eqn{[0,1]}. See Wahba et al. (1995) for further details on Sobolev kernels.
 
-Moreover, several strategies to construct orthogonal kernels from non-orthogonal kernels are recalled in Da Veiga (2021). One of them consists in translating the feature map so that the resulting kernel becomes centered at the prescribed probability measure \eqn{P}. This can be done analytically for some basic kernels (Gaussian, exponential, Matern \eqn{3/2} and Matern \eqn{5/2}) when \eqn{P} is the uniform measure on \eqn{[0,1]}. See Section 9 in Ginsbourger et al. (2016) for the corresponding formulas.
+Moreover, several strategies to construct orthogonal kernels from non-orthogonal kernels are recalled in Da Veiga (2021). One of them consists in translating the feature map so that the resulting kernel becomes centered at the prescribed probability measure \eqn{P}. This can be done analytically for some basic kernels (Gaussian, exponential, Matern \eqn{3/2} and Matern \eqn{5/2}) when \eqn{P} is the uniform measure on \eqn{[0,1]}. See Section 9 in Ginsbourger et al. (2016) for the corresponding formulas. The categorical kernel (used to handle discrete variables) can also be orthogonalized with respect to any discrete probability distribution.
 
-In \code{sensiHSIC}, \acronym{ANOVA} kernels are only available for the uniform probability measure on \eqn{[0,1]}. This includes the Sobolev kernel with parameter \eqn{r=1} (\code{"sobolev1"}), the Sobolev kernel with parameter \eqn{r=2} (\code{"sobolev2"}), the transformed Gaussian kernel (\code{"rbf_anova"}), the transformed exponential kernel (\code{"laplace_anova"}), the transformed Matern \eqn{3/2} kernel (\code{"matern3_anova"}) and the transformed Matern \eqn{5/2} kernel (\code{"matern5_anova"}).
+\code{sensiHSIC} supports one \acronym{ANOVA} kernel for discrete distributions (\code{"categ_anova"}) and six \acronym{ANOVA} kernels for the uniform distribution on \eqn{[0,1]}. These include the Sobolev kernel with smoothness parameter \eqn{r=1} (\code{"sobolev1"}), the Sobolev kernel with smoothness parameter \eqn{r=2} (\code{"sobolev2"}), the transformed Gaussian kernel (\code{"rbf_anova"}), the transformed exponential kernel (\code{"laplace_anova"}), the transformed Matern \eqn{3/2} kernel (\code{"matern3_anova"}), and the transformed Matern \eqn{5/2} kernel (\code{"matern5_anova"}) kernels.
 
-As explained above, the \acronym{HSIC-ANOVA} indices can only be computed if all input variables are uniformly distributed on \eqn{[0,1]}. Because of this limitation, a preliminary reformulation is needed if the \acronym{GSA} problem includes other kinds of input probability distributions. The \bold{probability integral transform (PIT)} must be applied on each input variable \eqn{Xi}. In addition, all quantile functions must be encapsulated in the numerical model, which may lead to reconsider the way \code{model} is specified. In \code{sensiHSIC}, if \code{check=TRUE} is selected in \code{anova}, it is checked that all input samples lie in \eqn{[0,1]}. If this is not the case, a non-parametric rescaling (based on empirical distribution functions) is operated.
+As explained above, for continuous input variables, the \acronym{HSIC-ANOVA} indices can only be computed when all input variables are uniformly distributed on \eqn{[0,1]}. Because of this limitation, a \bold{preliminary transformation} is needed if the \acronym{GSA} problem includes other kinds of input probability distributions. The \bold{probability integral transform (PIT)} must be applied on each input variable \eqn{X_i}. In addition, all quantile functions must be encapsulated in the numerical model, which may lead to reconsider the way \code{model} is specified.
+\itemize{
+  \item If \code{is.uniform=TRUE} in \code{anova}, all input samples are checked to ensure that they lie in \eqn{[0,1]}. If not, an error is returned.
+  \item If \code{is.uniform=FALSE} in \code{anova}, a non-parametric rescaling based on empirical distribution functions is applied. 
+}
 
 \acronym{HSIC-ANOVA} indices can be used for \acronym{TSA}. The only difference with \acronym{GSA} is the use of a weight function \eqn{w}. On the contrary, CSA cannot be conducted with \acronym{HSIC-ANOVA} indices. Indeed, the conditioning operation is feared to introduce statistical independence among the input variables, which prevents using the \acronym{HSIC-ANOVA} approach.
 
@@ -677,7 +704,6 @@ As explained above, the \acronym{HSIC-ANOVA} indices can only be computed if all
   Da Veiga, S. (2021). \emph{Kernel-based \acronym{ANOVA} decomposition and Shapley effects: application to global sensitivity analysis}, arXiv preprint arXiv:2101.05487.
   
   El Amri, M. R. and Marrel, A. (2021), \emph{More powerful \acronym{HSIC}-based independence tests, extension to space-filling designs and functional data}.
-  \url{https:/cea.hal.science/cea-03406956/}
 
   Fukumizu, K., Bach, F. R. and Jordan, M. I. (2004), \emph{Dimensionality reduction for supervised learning with reproducing kernel Hilbert spaces}, Journal of Machine Learning Research, 5(Jan), 73-99.
   
@@ -740,7 +766,6 @@ As explained above, the \acronym{HSIC-ANOVA} indices can only be computed if all
 
 \examples{
  \donttest{
-
 ############################
 ### HSIC indices for GSA ###
 ############################
@@ -780,7 +805,7 @@ Y <- friedman.fun(X)
 sensi <- sensiHSIC(model=NULL, X,
                    kernelX=kernelX, paramX=paramX, 
                    kernelY=kernelY, paramY=paramY)
-tell(sensi, y=Y)
+sensi <- tell(sensi, y=Y)
 
 print(sensi)
 

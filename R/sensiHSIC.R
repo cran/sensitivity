@@ -1,5 +1,3 @@
-
-
 sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL, 
                       kernelX = "rbf", paramX = NA,
                       kernelY = "rbf", paramY = NA,
@@ -67,11 +65,11 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
       stop("target must be a list of options.", call.=FALSE)
     }else{
       if(is.null(target$c)){
-        stop("Threshold not defined. You must specify target$c.", call.=FALSE)
+        stop("Threshold not specified. You must specify target$c.", call.=FALSE)
       }
     }
   
-    ### default values for other options ###
+    ### default values for missing options ###
     
     if(is.null(target$type)) target$type <- "indicTh"
     if(is.null(target$upper)) target$upper <- TRUE
@@ -85,7 +83,7 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
       undesired.target <- setdiff(found.target, expected.target)
       target[undesired.target] <- NULL
       warning("The list target can only contain the following options: ",
-              paste0(expected.target, collapse=', '), ". \n", 
+              paste0(expected.target, collapse=", "), ". \n", 
               "Other options have been removed.", call.=FALSE)
     }
     
@@ -115,8 +113,9 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
     }else{
       if(!(target$type %in% L$weight.functions)){
         target$type <- "exp1side"
-        warning("target$type must be: indicTh, zeroTh, logistic or exp1side. \n",
-                "By default, target$type=exp1side has been selected.", call.=FALSE)
+        warning("target$type must be chosen among: ",
+                paste0(L$weight.functions, collapse=", "), ". \n", 
+                "By default, target$type=expl1side has been selected.", call.=FALSE)
       }
     }
     
@@ -156,11 +155,11 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
       stop("cond must be a list of options.", call.=FALSE)
     }else{
       if(is.null(cond$c)){
-        stop("Threshold not defined. You must specify cond$c.", call.=FALSE)
+        stop("Threshold not specified. You must specify cond$c.", call.=FALSE)
       }
     }
     
-    ### default values for other options ###
+    ### default values for missing options ###
     
     if(is.null(cond$type)) cond$type <- "exp1side"
     if(is.null(cond$upper)) cond$upper <- TRUE
@@ -174,7 +173,7 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
       undesired.cond <- setdiff(found.cond, expected.cond)
       cond[undesired.cond] <- NULL
       warning("The list cond can only contain the following options: ",
-              paste0(expected.cond, collapse=', '), ". \n", 
+              paste0(expected.cond, collapse=", "), ". \n", 
               "Other options have been removed.", call.=FALSE)
     }
     
@@ -204,8 +203,9 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
     }else{
       if(!(cond$type %in% L$weight.functions)){
         cond$type <- "exp1side"
-        warning("cond$type must be: indicTh, zeroTh, logistic or exp1side. \n",
-                "By default, cond$type=exp1side has been selected.", call.=FALSE)
+        warning("cond$type must be chosen among: ",
+                paste0(L$weight.functions, collapse=", "), ". \n", 
+                "By default, target$type=expl1side has been selected.", call.=FALSE)
       }
     }
     
@@ -264,7 +264,7 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
   if(!all(kernelX %in% L$kernels)){
     stop("Invalid kernel names in kernelX. \n", 
          "Available kernels include: ",
-         paste0(L$kernels, collapse=', '), ".", call.=FALSE)
+         paste0(L$kernels, collapse=", "), ".", call.=FALSE)
   }
 
   ### For paramX ###############################################################
@@ -311,7 +311,7 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
   # If b):
   # --> kernelY must contain at least one element named "method"
   # --> kernelY$method must be: PCA, GAK or DTW
-  
+
   if(!is.character(kernelY) && !is.list(kernelY)){
     stop("kernelY must be a string, a vector of strings or a list of options.", call.=FALSE)
   }else{
@@ -320,23 +320,23 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
       if(!all(kernelY %in% L$kernels)){
         stop("Invalid kernel names in kernelY. \n", 
              "Available kernels include: ",
-             paste0(L$kernels, collapse=', '), ".", call.=FALSE)
+             paste0(L$kernels, collapse=", "), ".", call.=FALSE)
       }
     }else{
     # kernelY is a list of options
       # must contain an object named "method"
       if(is.null(kernelY$method)){
-        stop("Method not defined. You must specify kernelY$method.", call.=FALSE)
+        stop("Method not specified. You must specify kernelY$method.", call.=FALSE)
       }else{
         # kernelY must be a string
         if(!is.character(kernelY$method) | length(kernelY$method)>1){
           stop("kernelY$method must be a string.", call.=FALSE)
         }else{
-          # must be: PCA, GAK or DTW
+          # kernelY must be: PCA, GAK or DTW
           list.kY <- c("PCA", "GAK", "DTW")
           if(!(kernelY$method %in% list.kY)){
-            stop("kernelY$method must be: ",
-                 paste0(list.kY, collapse=', '), ".", call.=FALSE)
+            stop("kernelY$method must be chosen among: ",
+                 paste0(list.kY, collapse=", "), ".", call.=FALSE)
           }
         }
       }
@@ -405,7 +405,7 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
         undesired.kY <- setdiff(found.kY, expected.kY)
         kernelY[undesired.kY] <- NULL
         warning("The list kernelY can only contain the following options: ",
-                paste0(expected.kY, collapse=', '), ". \n",
+                paste0(expected.kY, collapse=", "), ". \n",
                 "Other options have been removed.", call.=FALSE)
       }
       
@@ -440,7 +440,7 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
         if(!(kernelY$fam %in% L$pca.kernels)){
           stop("Invalid kernel name in kernelY$fam. \n", 
                "Available kernels include: ",
-               paste0(L$pca.kernels, collapse=', '), ".", call.=FALSE)
+               paste0(L$pca.kernels, collapse=", "), ".", call.=FALSE)
         }
       }
       
@@ -489,31 +489,35 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
       if(!is.character(kernelY$combi) | length(kernelY$combi)>1){
         stop("kernelY$combi must be a string.", call.=FALSE)
       }else{
-        if(!(kernelY$combi %in% c("sum", "prod"))){
+        list.combi <- c("sum", "prod")
+        if(!(kernelY$combi %in% list.combi)){
           kernelY$combi <- "sum"
-          warning("kernelY$combi must be: sum or prod. \n",
+          warning("kernelY$combi must be chosen among: ", 
+                  paste0(list.combi, collapse=", "), ". \n", 
                   "By default, kernelY$combi=sum has been selected.", call.=FALSE)
         }
       }
       
-      # kernelY$position must be either "no", "intern" or "extern"
+      # kernelY$position must be either "nowhere", "intern" or "extern"
       
       if(!is.character(kernelY$position) | length(kernelY$position)>1){
         stop("kernelY$position must be a string.", call.=FALSE)
       }else{
-        if(!(kernelY$position %in% c("nowhere", "intern", "extern"))){
+        list.position <- c("nowhere", "intern", "extern")
+        if(!(kernelY$position %in% list.position)){
           kernelY$position <- "intern"
-          warning("kernelY$position must be: nowhere, intern or extern. \n",
+          warning("kernelY$position must be chosen among: ", 
+                  paste0(list.position, collapse=", "), ". \n", 
                   "By default, kernelY$position=intern has been selected.", call.=FALSE)
         }
       }
 
-      # if kernelY$combi="prod", kernelY$position must be "intern" 
+      # if kernelY$combi="prod", kernelY$position must not be "extern" 
       
       if(kernelY$combi=="prod" && kernelY$position=="extern"){
         kernelY$position <- "intern"
-        warning("If kernelY$combi=prod, kernelY$position cannot be extern. \n",
-                "By default, kernelY$position=intern has been selected.", call.=FALSE)
+        warning("If kernelY$combi=prod, kernelY$position=extern is not possible. \n",
+                "kernelY$position=intern has been selected instead.", call.=FALSE)
       }
 
     }
@@ -553,15 +557,15 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
       ### check of remaining options in kernelY ###
       
       # kernelY$fam must be a string.
-      # the string in kernelY$fam must belong to L$dtw.kernels
+      # the string in kernelY$fam must belong to L$translation.invariant.kernels
       
       if(!is.character(kernelY$fam) | length(kernelY$fam)>1){
         stop("kernelY$fam must be a string.", call.=FALSE)
       }else{
-        if(!(kernelY$fam %in% L$dtw.kernels)){
+        if(!(kernelY$fam %in% L$translation.invariant.kernels)){
           stop("Invalid kernel name in kernelY$fam. \n", 
                "Available kernels include: ",
-               paste0(L$dtw.kernels, collapse=', '), ".", call.=FALSE)
+               paste0(L$translation.invariant.kernels, collapse=", "), ".", call.=FALSE)
         }
       }
 
@@ -598,14 +602,15 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
   
   ### For estimator.type #######################################################
 
-  # estimator.type must be either "V-stat" or "U-stat"
+  # estimator.type must be either "U-stat" or "V-stat"
   
   if(!is.character(estimator.type) | length(estimator.type)>1){
     stop("estimator.type must be a string.", call.=FALSE)
   }else{
-    if(!(estimator.type %in% c("V-stat", "U-stat"))){
-      estimator.type <- "V-stat"
-      warning("estimator.type must be: V-stat or U-stat. \n",
+    list.estim <- c("U-stat", "V-stat")
+    if(!(estimator.type %in% list.estim)){
+      warning("estimator.type must be chosen among: ",
+              paste0(list.estim, collapse=", "), ". \n", 
               "By default, estimator.type=V-stat has been selected.", call.=FALSE)
     }
   }
@@ -664,7 +669,7 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
     stop("anova must be a list of options.", call.=FALSE)
   }else{
     if(is.null(anova$obj)){
-      stop("Objective not defined. You must specify anova$obj.", call.=FALSE)
+      stop("Objective not specified. You must specify anova$obj.", call.=FALSE)
     }
   }
   
@@ -680,7 +685,7 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
     undesired.anova <- setdiff(found.anova, expected.anova)
     anova[undesired.anova] <- NULL
     warning("The list anova can only contain the following options: ",
-            paste0(expected.anova, collapse=', '), ". \n", 
+            paste0(expected.anova, collapse=", "), ". \n", 
             "Other options have been removed.", call.=FALSE)
   }
   
@@ -695,7 +700,7 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
     if(!(anova$obj %in% list.obj)){
       anova$obj = "no"
       warning("anova$obj does not belong to: ",
-              paste0(list.obj, collapse=', '), ". \n",
+              paste0(list.obj, collapse=", "), ". \n",
               "By default, anova$obj=no has been selected.", call.=FALSE)
     }
   }
@@ -708,6 +713,15 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
     if(!(isTRUE(anova$is.uniform) | isFALSE(anova$is.uniform))){
       stop("anova$is.uniform must be a boolean.", call.=FALSE)
     }
+  }
+  
+  # the HSIC-ANOVA decomposition cannot be achieved for conditional SA
+  # after conditioning, the input variables are non longer independent
+  
+  if(!is.null(cond) && anova$obj!="no"){
+    anova <- list(obj="no", is.uniform=TRUE)
+    warning("cond and anova cannot be enabled simultaneously. \n",
+            "Your specification of anova has been ignored.", call.=FALSE)
   }
   
   # if ANOVA is required, all input kernels must be in L$anova.kernels or in L$conv.kernels
@@ -733,36 +747,133 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
       }
     }
   }
-
-  # the HSIC-ANOVA decomposition cannot be achieved for conditional SA
-  # after conditioning, the input variables are non longer independent
-
-  if(!is.null(cond) && anova$obj!="no"){
-    anova <- list(obj="no", check=FALSE)
-    warning("cond and anova cannot be enabled simultaneously. \n",
-            "anova has been ignored.", call.=FALSE)
-  }
   
   ### For sensi ################################################################
   
+  # sensi must be a list of class either:
+  # --> "sensiHSIC" (former call to the function sensiHSIC)
+  # --> "gramHSIC" (list with input and output Gram matrices)
+  
+  # case 1: sensi is a list of class "sensiHSIC"
+  # sensi should contain an object named KX or an object named KY
+  # KX (n x n x p) must be consistent with X (n x p)
+  # KY (n x n) must be consistent with Y (n x q)
+  
+  # case 2: sensi is a list of class "gramHSIC"
+  # sensi should contain an object named KX or an object named KY
+  # all other objects are useless
+  # KX must be an 3D-array and KY must be a square matrix
+  # KX (n x n x p) must be consistent with X (n x p)
+  # KY (n x n) must be consistent with Y (n x q)
+  
   if(!is.null(sensi)){
-    
-    # sensi must be an object of class sensiHSIC
-    # sensi should contain an object named KX or an object named KY 
-    
-#    if(!(class(sensi)=="sensiHSIC")){ # bug
-    if(!(inherits(sensi,"sensiHSIC"))){
-      stop("sensi must be an object of class sensiHSIC.", call.=FALSE)
+
+    if(!(inherits(sensi, c("sensiHSIC", "gramHSIC")))){
+      
+      stop("sensi must be a list of class either sensiHSIC or gramHSIC.", call.=FALSE)
+      
     }else{
+      
       if(is.null(sensi$KX) && is.null(sensi$KY)){
+        
         warning("The sensi option is useless here. ",
                 "Neither KX nor KY is stored in the provided object. \n",
                 "All Gram matrices are reassembled from scratch.", call.=FALSE)
+        
+      }else{
+        
+        ### specific checks when sensi is a list of class "gramHSIC" ###
+        
+        if(inherits(sensi, "gramHSIC")){
+          
+          # if provided, KX must be a 3D-array
+          
+          if(!(is.null(sensi$KX))){
+            
+            msg <- "sensi$KX must be a 3D-array (n x n x p)."
+            
+            if(!(inherits(sensi$KX, "array"))){
+              stop(msg, call.=FALSE)
+            }else{
+              dKX <- dim(sensi$KX)
+              if(!(length(dKX)==3 && dKX[1]==dKX[2])){
+                stop(msg, call.=FALSE)
+              }
+            }
+            
+          }
+          
+          # if provided, KY must be a square matrix
+          
+          if(!(is.null(sensi$KY))){
+            
+            msg <- "sensi$KY must be a square matrix (n x n)."
+            
+            if(!(inherits(sensi$KY, "matrix"))){
+              stop(msg, call.=FALSE)
+            }else{
+              dKY <- dim(sensi$KY) 
+              if(!(dKY[1]==dKY[2])){
+                stop(msg, call.=FALSE)
+              }
+            }
+            
+          }
+          
+          # removal of undesired objects in sensi
+          
+          expected.sensi <- c("KX", "KY")
+          found.sensi <- names(sensi)
+          if(!(all(found.sensi %in% expected.sensi))){
+            undesired.sensi <- setdiff(found.sensi, expected.sensi)
+            sensi[undesired.sensi] <- NULL
+            warning("The list sensi can only contain the following options: ",
+                    paste0(expected.sensi, collapse=", "), ". \n", 
+                    "Other options have been removed.", call.=FALSE)
+          }
+          
+        }
+        
+        ### checks needed in both cases ###
+        
+        # KX (n x n x p) must be consistent with X (n x p)
+        
+        if(!(is.null(sensi$KX))){
+          
+          dKX <- dim(sensi$KX)
+          
+          if(!(nrow(X)==dKX[1] && ncol(X)==dKX[3])){
+            
+            stop("The dimensions of the array KX provided in sensi ",
+                 "must be consistent with those of the matrix X. \n", 
+                 "KX must be a 3D-array of size n x n x p with ",
+                 "n=nrow(X) and p=ncol(X).", call.=FALSE)
+            
+          }
+          
+        }
+        
+        # KY (n x n) must be consistent with Y (n x q)
+        
+        if(!(is.null(sensi$KY))){
+          
+          if(!(nrow(X)==nrow(sensi$KY))){
+            
+            stop("The dimensions of the matrix KY provided in sensi ",
+                 "must be consistent with those of the matrix X. \n",
+                 "KY must be a square matrix of size n x n with ",
+                 "n=nrow(X).", call.=FALSE)
+            
+          }
+          
+        }
+        
       }
+      
     }
     
   }
-
+  
   ### For save.GM ##############################################################
   
   ### requirements ###
@@ -810,7 +921,7 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
       undesired.GM <- setdiff(found.GM, expected.GM)
       save.GM[undesired.GM] <- NULL
       warning("The list save.GM can only contain the following options: ",
-              paste0(expected.GM, collapse=', '), ". \n", 
+              paste0(expected.GM, collapse=", "), ". \n", 
               "Other options have been removed.", call.=FALSE)
     }
   }
@@ -831,10 +942,12 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
   class(x) <- "sensiHSIC"
   
   if(!is.null(x$model)){ 
-    response(x, other_types_allowed=TRUE, ...)
-    tell(x, ...)
+    # for the computation of output samples (if necessary)
+    response(x, other_types_allowed=TRUE, ...) 
+    # to keep on
+    x <- tell(x, ...)
   }
-
+  
   return(x)
   
 }
@@ -842,8 +955,6 @@ sensiHSIC <- function(model = NULL, X, target = NULL, cond = NULL,
 ### tell.sensiHSIC #############################################################
 
 tell.sensiHSIC <- function(x, y = NULL, ...){
-  
-  id <- deparse(substitute(x))
 
   # How to start from given data?
   
@@ -890,7 +1001,7 @@ tell.sensiHSIC <- function(x, y = NULL, ...){
   }
   
   q <- ncol(Y)
-  
+
   ### For consistency between q, target, cond and kernelY ######################
   
   # Target SA is only possible if the output is scalar
@@ -915,7 +1026,7 @@ tell.sensiHSIC <- function(x, y = NULL, ...){
     msg <- paste0(msg, " is not appropriate for a scalar output. \n",
                  "kernelY must be a string specifying the selected kernel. \n",
                  "Available kernels include: ", 
-                 paste0(L$kernels, collapse=', '), ".")
+                 paste0(L$kernels, collapse=", "), ".")
     
     stop(msg, call.=FALSE)
     
@@ -955,36 +1066,7 @@ tell.sensiHSIC <- function(x, y = NULL, ...){
       }
     }
   }
-
-  ### For anova ################################################################
-
-  # only if the HSIC-ANOVA decomposition is required
   
-  if(x$anova$obj!="no"){
-
-    if(x$anova$is.uniform==TRUE){
-    
-      # if anova$is.uniform=TRUE, X is examined 
-      # if some samples do not lie in [0,1] --> error
-
-      if(!(all(x$X>=0 & x$X<=1))){
-        stop("You wrongly specified is.uniform=TRUE in anova. \n",
-             "In fact, some samples in X do not lie in [0,1]. You can either: \n",
-             "1) Rescale the data in X so that all samples lie in [0,1]. \n",
-             "Be careful: this may lead to change the function given to model. \n",
-             "2) Specify is.uniform=FALSE in anova.", call.=FALSE)
-      }
-      
-    }else{
-      
-      # if anova$is.uniform=FALSE, non-parametric rescaling is operated
-      
-      x$X <- apply(x$X, 2, function(col){ rank(col) })/n
-      
-    }
-    
-  }
-
   ### For kernelX and paramX ###################################################
   
   ### conversion into fully specified objects ###
@@ -992,6 +1074,45 @@ tell.sensiHSIC <- function(x, y = NULL, ...){
   convX <- kernel.param.X(x$kernelX, x$paramX, x$X)
   x$kernelX <- convX$kernelX
   x$paramX <- convX$paramX
+  
+  ### For anova ################################################################
+
+  # only if the HSIC-ANOVA decomposition is required
+  
+  if(x$anova$obj!="no"){
+    
+    ind.unif <- which(x$kernelX %in% L$anova.unif.kernels)
+	
+	Xunif <- x$X[,ind.unif, drop=FALSE]
+	
+	if(x$anova$is.uniform==TRUE){
+	
+		# if anova$is.uniform=TRUE, X is examined 
+        # be careful: only continuous inputs need to be examined
+        # for these inputs, if some samples do not lie in [0,1] --> error
+        
+        if(!(all(Xunif>=0 & Xunif<=1))){
+          stop("Some samples in X do not lie in [0,1] whereas they should. ",
+               "You can either: \n",
+               "1) Rescale the data so that continous inputs lie in [0,1]. \n",
+               "Be careful: this may lead to adapt the function specified in model. \n",
+               "2) Select is.uniform=FALSE in anova. \n", 
+               "In the current version of the package, the HSIC-ANOVA decomposition ",
+               "can only be implemented with either: \n",
+               "- discrete inputs, \n",
+               "- uniformly distributed inputs on [0,1]. \n", call.=FALSE)
+		}
+	
+	}else{
+        
+        # if anova$is.uniform=FALSE, non-parametric rescaling is operated
+        
+        x$X[,ind.unif] <- apply(Xunif, 2, function(col){ rank(col) })/n
+		x$anova$is.uniform <- TRUE
+        
+    }
+    
+  }
   
   ### For kernelY and paramY ###################################################
   
@@ -1099,10 +1220,16 @@ tell.sensiHSIC <- function(x, y = NULL, ...){
   # if an object sensi is provided:
   # a) if KX is stored:
   # --> the input Gram matrices must not be recomputed
-  # --> kernelX, paramX and KX must be taken from sensi
+  #   a1) if sensi is a list of class sensiHSIC:
+  #   --> kernelX, paramX and KX must be taken from sensi
+  #   a2) if sensi is a list of class gramHSIC:
+  #   --> only KX must be taken from sensi
   # b) if KY is stored:
   # --> the output Gram matrix must not be recomputed
-  # --> kernelY, paramY and KY must be taken from sensi
+  #   b1) if sensi is a list of class sensiHSIC:
+  #   --> kernelY, paramY and KY must be taken from sensi
+  #   b2) if sensi is a list of class gramHSIC:
+  #   --> only KY must be taken from sensi
   
   # --> sensi is eliminated at the end of the process
   
@@ -1110,48 +1237,70 @@ tell.sensiHSIC <- function(x, y = NULL, ...){
   need2cpt.KY <- TRUE
   
   if(!is.null(x$sensi)){
-    # access at sensi$KX
+    # access to sensi$KX
     if(!is.null(x$sensi$KX)){
       need2cpt.KX <- FALSE
     }
-    # access at sensi$KY
+    # access to sensi$KY
     if(!is.null(x$sensi$KY)){
       need2cpt.KY <- FALSE
     }
   }
   
   # computation of KX (if required)
+  
   if(need2cpt.KX){
+    
     KX <- compute.KX(x$X, x$kernelX, x$paramX)
+    
   }else{
-    x$kernelX <- x$sensi$kernelX
-    x$paramX <- x$sensi$paramX
+    
     KX <- x$sensi$KX 
+    
     if(p==1){
-      warning("The input Gram matrix has been extracted ", 
-              "from an older object of class sensiHSIC.", call.=FALSE)
+      warning("The input Gram matrix has been ",
+              "extracted from sensi.", call.=FALSE)
     }else{
-      warning("The input Gram matrices have been extracted ", 
-              "from an older object of class sensiHSIC.", call.=FALSE)
+      warning("The input Gram matrices have been ",
+              "extracted from sensi.", call.=FALSE)
     }
+    
+    if(inherits(x$sensi, "sensiHSIC")){ # sensi is a list of class "sensiHSIC"
+      x$kernelX <- x$sensi$kernelX
+      x$paramX <- x$sensi$paramX
+    }else{ # sensi is a list of class "gramHSIC"
+      x$kernelX <- x$paramX <- "unspecified"
+    }
+    
   }
   
   # computation of KY (if required)
+  
   if(need2cpt.KY){
+    
     GM.Y <- compute.KY(x$y, x$kernelY, x$paramY)
     x$kernelY <- GM.Y$kernelY
     x$paramY <- GM.Y$paramY
     KY <- GM.Y$KY
+    
   }else{
-    x$kernelY <- x$sensi$kernelY
-    x$paramY <- x$sensi$paramY
+    
     KY <- x$sensi$KY
-    warning("The output Gram matrix has been extracted ", 
-            "from an older object of class sensiHSIC.", call.=FALSE)
+    
+    warning("The output Gram matrix has been ", 
+            "extracted from sensi.", call.=FALSE)
+    
+    if(inherits(x$sensi, "sensiHSIC")){ # sensi is a list of class "sensiHSIC"
+      x$kernelY <- x$sensi$kernelY
+      x$paramY <- x$sensi$paramY
+    }else{ # sensi is a list of class "gramHSIC"
+      x$kernelY <- x$paramY <- "unspecified"
+    }
+    
   }
   
   x$sensi <- NULL
-
+  
   ### storage of Gram matrices ###
   
   if(x$save.GM$KX){
@@ -1277,8 +1426,9 @@ tell.sensiHSIC <- function(x, y = NULL, ...){
     }
     
   }
+
+  return(x)
   
-  assign(id, x, parent.frame())
 }
 
 ### estim.sensiHSIC ############################################################
@@ -1323,14 +1473,13 @@ estim.sensiHSIC <- function(KX, KY, estimator.type, stats, vector=FALSE){
     if(!identical(order, 1:s)){
       stats <- stats[order]
       warning("The required statistics were sorted in the following order: \n",
-              paste0(stats, collapse=', '), ".", call.=FALSE)
+              paste0(stats, collapse=", "), ".", call.=FALSE)
     }
 
   }
 
   ### Body of the function #####################################################
 
-  n <- dim(KX)[1]
   p <- dim(KX)[3]
 
   res <- list() # pre-allocation of the output object
@@ -1474,14 +1623,14 @@ HSIC.fun <- function(KX, KY, estimator.type){
   
   ### output ###
   
-  # HSIC              1 x 1       numeric   (HSIC index estimator)
+  # HSIC              1 x 1       numeric   (HSIC estimate)
   
   n <- dim(KX)[1]
   
   if(estimator.type=="V-stat"){ # formula for the V-statistic
     
     UXY <- sum(KX*KY)
-    VXY <- sum(colSums(KX)%*%KY)
+    VXY <- sum(colSums(KX)*colSums(KY))
     WXY <- sum(KX)*sum(KY)
     HSIC <- UXY/(n^2) - 2*VXY/(n^3) + WXY/(n^4)
     
@@ -1490,7 +1639,7 @@ HSIC.fun <- function(KX, KY, estimator.type){
     diag(KX) <- diag(KY) <- 0
     
     UXY <- sum(KX*KY)
-    VXY <- sum(colSums(KX)%*%KY) - UXY
+    VXY <- sum(colSums(KX)*colSums(KY)) - UXY
     WXY <- sum(KX)*sum(KY) - 2*UXY - 4*VXY
     HSIC <- UXY/(n*(n-1)) - 2*VXY/(n*(n-1)*(n-2)) + WXY/(n*(n-1)*(n-2)*(n-3))
     
@@ -1609,11 +1758,11 @@ cond.HSIC.fun <- function(KX, KY, weights){
   
   # formula for the V-statistic
   UXY <- sum(KX*KY*W)
-  VXY <- sum((colSums(KX*wu)%*%(KY*W)))
+  VXY <- sum(colSums(KX*wu)*colSums(KY*W))
   WXY <- sum(KX*W)*sum(KY*W)
   
   C.HSIC <- UXY/(n^2) - 2*VXY/(n^3) + WXY/(n^4)
-
+  
   return(C.HSIC)
   
 }
@@ -1674,20 +1823,55 @@ check.param <- function(ker, par, X){
     }
   }
   
-  ### categorical kernel ###
+  ### categ kernel ###
   
-  if(ker=="categ"){
+  if(stringr::str_detect(ker, "^categ")){
     if(is.na(par)){
       par <- 0
     }else{
       if(!(par %in% c(0,1))){
         par <- 0
-        warning("For the categ kernel, the parameter must be 0 or 1. \n",
+        warning("For categorical kernels, the parameter must be 0 or 1. \n",
                 "Default assignment has been accepted.", call.=FALSE)
       }
     }
   }
   
+  ### KA kernel ###
+
+  if(ker=="KA"){
+    if(is.na(par)){
+      par <- 1
+    }else{
+      if(par<1){
+        par <- 1 
+        warning("For the KA kernel, the parameter must be a positive integer. \n",
+                "Default assignment has been accepted.", call.=FALSE)
+      }else{
+        if(!(par==round(par))){
+          par <- floor(par)
+          warning("For the KA kernel, the parameter must be a positive integer. \n",
+                  "The given value has been truncated.", call.=FALSE)
+        }
+      }
+    }
+  }
+  
+  ### weighted unanchored Sobolev kernel (of order 1) ###
+  
+  if(ker=="sob_hd"){
+    if(is.na(par)){
+      par <- 1
+    }else{
+      if(par<0){
+        par <- 1 
+        warning("For the weighted unanchored Sobolev kernel of order 1, ",
+                "the parameter must be a positive real number. \n",
+                "Default assignment has been accepted.", call.=FALSE)
+      }
+    }
+  }
+
   return(par)
   
 }
@@ -1853,10 +2037,12 @@ compute.KY <- function(Y, kernelY, paramY){
   # paramY:     1 x q     numeric/NA    (parameter values)
   #             1 x 2     numeric/NA    (parameter values for the GA kernel)
 
-  ### output ###
-
+  ### outputs ###
+  
   # KY:         n x n     matrix        (output Gram matrix)
-
+  # kernelY:    1 x ...   list          (options describing the kernel)  
+  # paramY:     1 x ...   numeric       (parameters of the output kernel)
+  
   n <- nrow(Y)
   q <- ncol(Y)
   
@@ -1964,7 +2150,7 @@ PCA.KY <- function(Y, kernelY){
   
   if(kernelY$position=="intern"){
     
-    # computation of Gram matrices of the principal components
+    # computation of Gram matrices for the principal components
     # --> the weights are directly applied on the principal components
     
     for(i in 1:PC){
@@ -1974,7 +2160,7 @@ PCA.KY <- function(Y, kernelY){
     
   }else if(kernelY$position=="extern"){
     
-    # computation of Gram matrices of the principal components
+    # computation of Gram matrices for the principal components
     # --> the weights are applied on the Gram matrices
     
     for(i in 1:PC){
@@ -1984,7 +2170,7 @@ PCA.KY <- function(Y, kernelY){
     
   }else{
     
-    # computation of Gram matrices of the principal components
+    # computation of Gram matrices for the principal components
     # --> no weights
     
     for(i in 1:PC){
@@ -2099,41 +2285,48 @@ available.material <- function(){
   
   # kernels that can be selected by the user in kernelX and kernelY
   
-  L$kernels <- c("categ", "dcov", "invmultiquad",
-                 "laplace", "laplace_anova", "linear", "matern3", "matern3_anova",
+  L$kernels <- c("categ", "categ_anova", "dcov", "invmultiquad",
+                 "laplace", "laplace_anova", "linear", "linear_anova", "matern3", "matern3_anova",
                  "matern5", "matern5_anova", "raquad", "rbf", "rbf_anova",
-                 "sobolev1", "sobolev2")
+                 "KA", "sobolev1", "sobolev2", "sobolev3", "sob_hd", "exp")
   
   # kernels that directly allow for the HSIC-ANOVA decomposition
   
-  L$anova.kernels <- c("sobolev1", "sobolev2",
-                       "laplace_anova", "matern3_anova", "matern5_anova", "rbf_anova")
+  L$anova.kernels <- c("KA", "sobolev1", "sobolev2", "sobolev3", "sob_hd", 
+                       "categ_anova", "laplace_anova", "linear_anova", "matern3_anova", 
+                       "matern5_anova", "rbf_anova")
+  
+  L$anova.unif.kernels <- c("KA", "sobolev1", "sobolev2", "sobolev3", "sob_hd", 
+                            "laplace_anova", "linear_anova", "matern3_anova", 
+                            "matern5_anova", "rbf_anova")
   
   # kernels that can be converted into ANOVA kernels
   
-  L$conv.kernels <- c("laplace", "matern3", "matern5", "rbf")
+  L$conv.kernels <- c("categ", "laplace", "linear", "matern3", "matern5", "rbf")
   
   # kernels that can be coupled with PCA
   
   L$pca.kernels <- c("dcov", "invmultiquad", "laplace", "linear", "matern3", 
                      "matern5", "raquad", "rbf")
   
-  # kernels that can be coupled with DTW
+  # translation-invariant kernels 
+  # --> they can be coupled with DTW
+  # --> their bandwidth parameter can be optimized
   
-  L$dtw.kernels <- c("invmultiquad", "laplace", "matern3", 
-                     "matern5", "raquad", "rbf")
+  L$translation.invariant.kernels <- c("invmultiquad", "laplace", "matern3", 
+                                       "matern5", "raquad", "rbf")
   
   ### How to choose kernel parameters? ###
 
   # one-parameter kernels
 
   L$sd.kernels <- c("invmultiquad", "laplace", 
-                    "matern3", "matern5", "raquad", "rbf", 
+                    "matern3", "matern5", "raquad", "rbf", "exp",
                     "laplace_anova", "matern3_anova", "matern5_anova", "rbf_anova")
   
   # parameter-free kernels
   
-  L$free.kernels <- c("linear", "sobolev1", "sobolev2")
+  L$free.kernels <- c("linear", "linear_anova", "sobolev1", "sobolev2", "sobolev3")
   
   ########################
   ### Weight functions ###
@@ -2147,11 +2340,13 @@ available.material <- function(){
   
   # test procedures that can be selected by the user in test.method
   
-  L$tests <- c("Asymptotic", "Permutation", "Seq_Permutation", "Gamma")
+  L$tests <- c("Asymptotic", "Permutation", "Seq_Permutation", "Gamma",
+               "Tot_Permutation", "Tot_Seq_Permutation", "Tot_Gamma")
   
   # test procedures that can be coupled with U-statistics
   
-  L$U.tests <- c("Asymptotic", "Permutation", "Seq_Permutation")
+  L$U.tests <- c("Asymptotic", "Permutation", "Seq_Permutation",
+                 "Tot_Permutation", "Tot_Seq_Permutation")
   
   # test procedures that can be coupled with C-HSIC indices
   
@@ -2173,7 +2368,7 @@ categ_hsic <- function(x, param){
     nval <- length(val)
     for(i in 1:nval){
       id <- which(x==val[i])
-      d[id,id] <- 1/sum(x==val[i])
+      d[id,id] <- 1/length(id)
     }
   }
   return(d)
@@ -2238,9 +2433,26 @@ rbf_hsic <- function(x, param, d=NULL){
   return(exp(-0.5*d^2))
 }
 
+KA_hsic <- function(x, param){
+  n <- length(x)
+  X <- matrix(x, n, 1)
+  K <- 1
+  for(j in 1:param){
+    K <- K+( pracma::bernoulli(j,X)
+             %*%t( pracma::bernoulli(j,X) ) )/( factorial(j)^2 )
+  }
+  return(K)
+}
+
 sobolev1_hsic <- function(x, ...){
   d <- as.matrix(dist(x))
   return(1+B1(x)%*%t(B1(x))+0.5*B2(d))
+}
+
+sob_hd_hsic <- function(x, param){
+  d <- as.matrix(dist(x))
+  mat.sob <- B1(x)%*%t(B1(x))+0.5*B2(d)
+  return(1+param*mat.sob)
 }
 
 sobolev2_hsic <- function(x, ...){
@@ -2248,7 +2460,53 @@ sobolev2_hsic <- function(x, ...){
   return(1+B1(x)%*%t(B1(x))+B2(x)%*%t(B2(x))/4-B4(d)/24)
 }
 
-### ANOVA kernels ##############################################################
+sobolev3_hsic <- function(x, ...){
+  d <- as.matrix(dist(x))
+  return(1+B1(x)%*%t(B1(x))+0.25*B2(x)%*%t(B2(x))+B3(x)%*%t(B3(x))/36+B6(d)/720)
+}
+
+exp_hsic <- function(x, param){
+  n <- length(x)
+  X <- matrix(x, n, 1)
+  return(exp((X/param)%*%t(X/param)))
+}
+
+### ANOVA kernels for discrete distributions ###################################
+
+categ_anova_hsic <- function(x, param){
+  
+  n <- length(x)
+  
+  if(param==0){
+    
+    # first matrix
+    d1 <- 1*sapply(x, function(z){z==x})
+    
+    # second and third matrices
+    val <- unique(x)
+    nval <- length(val)
+    prob <- rep(NA, nval)
+    
+    d2 <- d3 <- matrix(0, n, n)
+    
+    for(i in 1:nval){
+      id <- which(x==val[i])
+      d2[id,] <- d3[,id] <- prob[i] <- length(id)/n
+    }
+    
+    d <- 1+d1-d2-d3+sum(prob^2)
+    
+  }else{
+    
+    d <- 1+categ_hsic(x, 1)-1/n
+    
+  }
+  
+  return(d)
+  
+}
+
+### ANOVA kernels for continuous distributions #################################
 
 # Ginsbourger, Roustant, Schuhmacher, Durrande & Lenz (2014)
 # On ANOVA decompositions of kernels and Gaussian random field paths
@@ -2356,6 +2614,10 @@ matern5_anova_hsic <- function(x, param){ anova_transfo(x, param, "matern5") }
 
 rbf_anova_hsic <- function(x, param){ anova_transfo(x, param, "rbf") }
 
+linear_anova_hsic <- function(x, ...){
+  return(1+B1(x)%*%t(B1(x)))
+}
+
 ### Bernoulli polynomials ######################################################
 
 B1 <- function(t){
@@ -2366,8 +2628,16 @@ B2 <- function(t){
   return(t^2-t+1/6)
 }
 
+B3 <- function(t){
+  return(t^3-1.5*t^2+0.5*t)
+}
+
 B4 <- function(t){
   return(t^4-2*t^3+t^2-1/30)
+}
+
+B6 <- function(t){
+  return(t^6-3*t^5+2.5*t^4-0.5*t^2+1/42)
 }
 
 ### print.sensiHSIC ############################################################
@@ -2376,9 +2646,9 @@ print.sensiHSIC <- function(x, ...){
   
   ### input ###
   
-  # x:      1 x 1     list of class sensiHSIC  
+  # x:      1 x 1     list of class sensiHSIC     (all results)
   
-  ##########
+  ### no output ###
   
   # initial call:
   cat("\n","Call:","\n", deparse(x$call), "\n\n", sep="")
@@ -2414,6 +2684,8 @@ print.sensiHSIC <- function(x, ...){
     cat("(empty)", "\n\n")
   }
   
+  return()
+  
 }
 
 ### plot.sensiHSIC #############################################################
@@ -2422,11 +2694,12 @@ plot.sensiHSIC <- function(x, ylim=c(0, 1), ...){
   
   ### inputs ###
   
-  # x:      1 x 1     list of class sensiHSIC 
-  # ylim:   1 x 2     (numeric)     bounds on the y-axis
+  # x:      1 x 1     list of class sensiHSIC       (all results)
+  # ylim:   1 x 2     numeric                       (bounds on the y-axis)
   
-  ##########
+  ### no output ###
   
+  all.stats <- c("S", "FO", "TO")
   nb.stats <- sum(c("S", "FO", "TO") %in% names(x))
   
   if(nb.stats==0){
@@ -2436,14 +2709,22 @@ plot.sensiHSIC <- function(x, ylim=c(0, 1), ...){
   }else{
     
     # nb of input variables
-    p <- nrow(x$S) 
+    if(!is.null(x$S)){
+      p <- nrow(x$S)
+    }else if(!is.null(x$FO)){
+      p <- nrow(x$FO)
+    }else{
+      p <- nrow(x$TO)
+    }
     
+    print(p)
+
     ###################
     ### Preparation ###
     ###################
     
     xshift <- 0.15
-    yshift <- 0.2
+    yshift <- 0.0
     
     # minimum and maximum values on the y-axis
     ym <- ylim[1]-yshift
@@ -2477,11 +2758,23 @@ plot.sensiHSIC <- function(x, ylim=c(0, 1), ...){
     ### R2-HSIC indices ###
     #######################
     
+    flag.add <- FALSE
+    flag.labels <- TRUE
+    
     if(!is.null(x$S)){
       
       nodeplot(x$S, at=xval,
                xlim=c(xm, xM), ylim=c(ym, yM),
-               pch=marker.S, bg=col.S)
+               pch=marker.S, bg=col.S,
+               add=flag.add, labels=flag.labels)
+      
+      if(!flag.add){ 
+        flag.add <- TRUE 
+      }
+      
+      if(flag.labels){
+        flag.labels <- FALSE
+      }
       
       xval <- xval+xshift
       
@@ -2500,7 +2793,15 @@ plot.sensiHSIC <- function(x, ylim=c(0, 1), ...){
       nodeplot(x$FO, at=xval,
                xlim=c(xm, xM), ylim=c(ym, yM),
                pch=marker.FO, bg=col.FO,
-               add=TRUE, labels=FALSE)
+               add=flag.add, labels=flag.labels)
+      
+      if(!flag.add){ 
+        flag.add <- TRUE 
+      }
+      
+      if(flag.labels){
+        flag.labels <- FALSE
+      }
       
       xval <- xval+xshift
       
@@ -2519,7 +2820,7 @@ plot.sensiHSIC <- function(x, ylim=c(0, 1), ...){
       nodeplot(x$TO, at=xval,
                xlim=c(xm, xM), ylim=c(ym, yM),
                pch=marker.TO, bg=col.TO,
-               add=TRUE, labels=FALSE)
+               add=flag.add, labels=flag.labels)
       
       xval <- xval+xshift
       
@@ -2539,5 +2840,7 @@ plot.sensiHSIC <- function(x, ylim=c(0, 1), ...){
     legend("top", legend=all.captions, col="black", pch=all.markers, pt.bg=all.colors)
     
   }
+  
+  return()
   
 }

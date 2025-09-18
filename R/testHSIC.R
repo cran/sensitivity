@@ -11,8 +11,8 @@ testHSIC <- function(sensi,
 
   # sensi:            1 x ...     list of class sensiHSIC (with all data)
   # test.method:      1 x 1       character (method used to test independence)
-  # B:                1 x 1       numeric   (number of permutations)
-  # seq.options:      1 x ...     list      (options for the sequential test)
+  # B:                1 x 1       numeric (number of permutations)
+  # seq.options:      1 x ...     list (options for the sequential test)
 
   ### output ###
 
@@ -38,7 +38,7 @@ testHSIC <- function(sensi,
     if(!(test.method %in% L$tests)){
       stop("Invalid test method. \n",
            "Available test methods include: ",
-           paste0(L$tests, collapse=', '), ".", call.=FALSE)
+           paste0(L$tests, collapse=", "), ".", call.=FALSE)
     }
   }
   
@@ -83,7 +83,7 @@ testHSIC <- function(sensi,
     stop("seq.options must be a list of options.", call.=FALSE)
   }else{
     if(is.null(seq.options$criterion)){
-      stop("Criterion not defined. You must specify seq.options$criterion.", call.=FALSE)
+      stop("Criterion not specified. You must specify seq.options$criterion.", call.=FALSE)
     }
   }
 
@@ -106,20 +106,22 @@ testHSIC <- function(sensi,
     undesired.seq <- setdiff(found.seq, expected.seq)
     seq.options[undesired.seq] <- NULL
     warning("The list seq.options can only contain the following options: \n",
-            paste0(expected.seq, collapse=', '), ". \n",
+            paste0(expected.seq, collapse=", "), ". \n",
             "Other options have been removed.", call.=FALSE)
   }
 
   ### check of remaining options in seq.options ###
 
-  # seq.options$criterion must be a string
-
+  # seq.options$criterion must be either "screening", "ranking" or "both"
+  
   if(!is.character(seq.options$criterion) | length(seq.options$criterion)>1){
     stop("seq.options$criterion must be a string.", call.=FALSE)
   }else{
-    if(!(seq.options$criterion %in% c("screening", "ranking", "both"))){
+    list.crit <- c("screening", "ranking", "both")
+    if(!(seq.options$criterion %in% list.crit)){
       seq.options$criterion <- "screening"
-      warning("seq.options$criterion must be: screening, ranking or both. \n",
+      warning("seq.options$criterion must be chosen among: ",
+              paste0(list.crit, collapse=", "), ". \n",
               "By default, seq.options$criterion=screening has been selected.", call.=FALSE)
     }
   }
@@ -302,7 +304,7 @@ testHSIC <- function(sensi,
     
   }else if(test.method %in% c("Gamma", "Tot_Gamma")){
     
-    res <- gammatest(HSIC.obs, KX, KY, measure.def)
+    res <- gamma_test(HSIC.obs, KX, KY, measure.def)
     
   }else if(test.method %in% c("Permutation", "Tot_Permutation")){
     
@@ -311,12 +313,12 @@ testHSIC <- function(sensi,
     
   }else if(test.method %in% c("Seq_Permutation", "Tot_Seq_Permutation")){
     
-    res <- seqpermutation.test(HSIC.obs, KX, KY,
+    res <- seq_permutation_test(HSIC.obs, KX, KY,
                                 measure.def, sensi$estimator.type, seq.options)
     
   }
   
-  ### object of class testHSIC ###
+  ### list of class testHSIC ###
   
   x <- list()
   
@@ -421,9 +423,8 @@ check.sensiHSIC <- function(sensi, test.method){
   
   ### For sensi ################################################################
   
-  msg <- "sensi is not an appropriate object of class sensiHSIC. \n"
+  msg <- "sensi is not an appropriate list of class sensiHSIC. \n"
   
-#  if(!(class(sensi)=="sensiHSIC")){ # bug
    if(!(inherits(sensi,"sensiHSIC"))){
     stop("sensi must be a list of class sensiHSIC.", call.=FALSE)
   }
@@ -490,9 +491,11 @@ check.sensiHSIC <- function(sensi, test.method){
     if(!is.character(sensi$estimator.type) | length(sensi$estimator.type)>1){
       stop(msg, "sensi$estimator.type must be a string.", call.=FALSE)
     }else{
-      # sensi$estimator.type must be either "V-stat" or "U-stat"
-      if(!(sensi$estimator.type %in% c("V-stat", "U-stat"))){
-        stop(msg, "estimator.type must be: V-stat or U-stat.", call.=FALSE)
+      # sensi$estimator.type must be either "U-stat" or "V-stat"
+      list.estim <- c("U-stat", "V-stat")
+      if(!(sensi$estimator.type %in% list.estim)){
+        stop(msg, "estimator.type must belong to: ",
+             paste0(list.estim, collapse=", "), ".", call.=FALSE)
       }
     }
     
@@ -655,7 +658,7 @@ asymptotic.test <- function(HSIC.obs, KX, KY, estimator.type){
 
   # output Gram matrix
   EY <- mean(diag(KY))            # mean of diagonal coefficients
-  EYY <- meannondiag(KY)# mean of non-diagonal coefficients
+  EYY <- mean_nondiag(KY)         # mean of non-diagonal coefficients
   BY <- double.centering(KY)      # the rows and columns are now centered
   
   for(i in 1:p){
@@ -663,14 +666,14 @@ asymptotic.test <- function(HSIC.obs, KX, KY, estimator.type){
     # input Gram matrix
     KXi <- KX[,,i]                  # i-th input Gram matrix
     EXi <- mean(diag(KXi))          # mean of diagonal coefficients
-    EXiXi <- meannondiag(KXi)# mean of non-diagonal coefficients
-    BXi <- double.centering(KXi)    # double-centering 
+    EXiXi <- mean_nondiag(KXi)      # mean of non-diagonal coefficients
+    BXi <- double.centering(KXi)    # double-centering
     
     Bi <- (BXi*BY)^2
     
     # estimation of the mean and variance of the V-statistic
     HSIC.mean <- (EXi-EXiXi)*(EY-EYY)/n
-    HSIC.var <- 2*(n-4)*(n-5)/(n*(n-1)*(n-2)*(n-3))*meannondiag(Bi)
+    HSIC.var <- 2*(n-4)*(n-5)/(n*(n-1)*(n-2)*(n-3))*mean_nondiag(Bi)
     
     # method of moments
     alpha <- param[1,i] <- (HSIC.mean^2)/HSIC.var
@@ -690,9 +693,9 @@ asymptotic.test <- function(HSIC.obs, KX, KY, estimator.type){
   
 }
 
-### HSIC.perm ##################################################################
+### HSIC.perm_old ##############################################################
 
-HSIC.perm <- function(KX, KY, measure.def, estimator.type, B, A){
+HSIC.perm_old <- function(KX, KY, measure.def, estimator.type, B, A){
   
   ### inputs ###
   
@@ -758,10 +761,73 @@ HSIC.perm <- function(KX, KY, measure.def, estimator.type, B, A){
   
 }
 
-### permutation.test ###########################################################
+### HSIC.perm ##################################################################
 
-permutation.test <- function(HSIC.obs, KX, KY,
-                             measure.def, estimator.type, B){
+HSIC.perm <- function(KX, KY, measure.def, estimator.type, B, A){
+  
+  ### inputs ###
+  
+  # KX:               n x n x p     array     (input Gram matrices)
+  # KY:               n x n         matrix    (output Gram matrix)
+  # measure.def:      1 x 1         character ("HSICXY" or "TO.num")
+  # estimator.type:   1 x 1         character ("U-stat" or "V-stat")
+  # B:                1 x 1         numeric   (number of permutations)
+  # A:                1 x r         numeric   (subset of 1,...,p)
+  
+  ### output ###
+  
+  # Hperm:           B x r         matrix    (HSIC indices after permutations)
+  
+  n <- dim(KX)[1] # nb of samples
+  p <- dim(KX)[3] # nb of input variables
+  
+  r <- length(A)
+  Hperm <- matrix(NA, B, r)
+  
+  for(k in 1:r){
+    
+    i <- A[k]       # k-th element in the vector A
+    KXi <- KX[,,i]  # i-th Gram matrix
+    
+    ### definition of the permutation scheme ###
+    
+    if(measure.def=="HSICXY"){
+      
+      perm.scheme <- function(j){ 
+        shuf <- sample(seq(1,n), n)
+        HSIC.fun(KXi, KY[shuf, shuf], estimator.type)
+      }
+      
+    }else{
+      
+      kXi <- KXi-1      # the Gram matrix that needs to be permuted
+      
+      # product of all other Gram matrices
+      LXi <- 1          
+      for(s in setdiff(1:p, i)) LXi <- LXi*KX[,,s]
+      # --> this matrix is invariant under permutations
+      
+      perm.scheme <- function(j){ 
+        shuf <- sample(seq(1,n), n)
+        HSIC.fun(kXi[shuf, shuf]*LXi, KY, estimator.type)
+      }
+      
+    }
+    
+    ### repetition of B permutations ###
+    
+    Hperm[,k] <- sapply(1:B, perm.scheme)
+    
+  }
+  
+  return(Hperm)
+  
+}
+
+### permutation.test_old #######################################################
+
+permutation.test_old <- function(HSIC.obs, KX, KY,
+                                 measure.def, estimator.type, B){
   
   ### inputs ###
   
@@ -776,7 +842,7 @@ permutation.test <- function(HSIC.obs, KX, KY,
   
   # res:        1 x 2   list        (test results)
   
-  # In particular, res contains the following object:
+  # In particular, res contains the following objects:
   
   # pval:           1 x p   numeric     (estimated p-values)  
   # Hperm:          B x p   numeric     (HSIC indices after permutations)
@@ -799,10 +865,49 @@ permutation.test <- function(HSIC.obs, KX, KY,
   
 }
 
-### seqpermutation.test ###########################################
+### permutation.test ###########################################################
 
-seqpermutation.test <- function(HSIC.obs, KX, KY,
-                                 measure.def, estimator.type, seq.options){
+permutation.test <- function(HSIC.obs, KX, KY,
+                             measure.def, estimator.type, B){
+  
+  ### inputs ###
+  
+  # HSIC.obs:         1 x p         numeric   (observed values of HSIC indices)
+  # KX:               n x n x p     array     (input Gram matrices)
+  # KY:               n x n         matrix    (output Gram matrix)
+  # measure.def:      1 x 1         character ("HSICXY" or "TO.num")
+  # estimator.type:   1 x 1         character ("U-stat" or "V-stat")
+  # B:                1 x 1         numeric   (number of permutations)
+  
+  ### output ###
+  
+  # res:            1 x 2   list        (test results)
+  
+  # In particular, res contains the following objects:
+  
+  # pval:           1 x p   numeric     (estimated p-values)  
+  # Hperm:          B x p   numeric     (HSIC indices after permutations)
+  
+  p <- dim(KX)[3]
+  
+  ### repetitions of B permutations ###
+  
+  Hperm <- HSIC.perm(KX, KY, measure.def, estimator.type, B, 1:p)
+  
+  ### non-parametric estimation of the p-values ###
+  
+  pval <- apply(mat.comp(Hperm, HSIC.obs, ">"), 2, mean)
+  
+  res <- list(pval=pval, Hperm=Hperm)
+  
+  return(res)
+  
+}
+
+### seq_permutation_test_old ###################################################
+
+seq_permutation_test_old <- function(HSIC.obs, KX, KY,
+                                     measure.def, estimator.type, seq.options){
   
   ### inputs ###
   
@@ -984,7 +1089,7 @@ seqpermutation.test <- function(HSIC.obs, KX, KY,
   
   if(graph){
     # estimation paths for all p-values
-    matplot(paths, type='l', ylim=c(0,1),
+    matplot(paths, type="l", ylim=c(0,1),
             xlab="number of permutations",
             ylab="estimated p-values",
             main="Sequential estimation of the p-values until convergence")
@@ -998,9 +1103,252 @@ seqpermutation.test <- function(HSIC.obs, KX, KY,
   
 }
 
-### gammatest #################################################################
+### seq_permutation_test #######################################################
 
-gammatest <- function(HSIC.obs, KX, KY, measure.def){
+seq_permutation_test <- function(HSIC.obs, KX, KY,
+                                 measure.def, estimator.type, seq.options){
+  
+  ### inputs ###
+  
+  # HSIC.obs:         1 x p         numeric   (observed values of HSIC indices)
+  # KX:               n x n x p     array     (input Gram matrices)
+  # KY:               n x n         matrix    (output Gram matrix)
+  # measure.def:      1 x 1         character ("HSICXY" or "TO.num")
+  # estimator.type:   1 x 1         character ("U-stat" or "V-stat")
+  # seq.options:      1 x ...       list      (options for the sequential test)
+  
+  ### output ###
+  
+  # res:        1 x 2     list      (test results)
+  
+  # In particular, res contains the following objects:
+  
+  # pval:       1 x p     numeric   (estimated p-values)
+  # paths:    ... x p     matrix    (all estimated p-values)
+  
+  p <- dim(KX)[3]
+  
+  # hyperparameters to guide the sequential procedure
+  criterion <- seq.options$criterion
+  alpha <- seq.options$alpha
+  Bstart <- seq.options$Bstart
+  Bfinal <- seq.options$Bfinal
+  Bbatch <- seq.options$Bbatch
+  Bconv <- seq.options$Bconv
+  graph <- seq.options$graph
+  
+  if(Bconv>Bstart){
+    Bstart <- Bconv
+  }
+  
+  ### goal-oriented test of independence ###
+  
+  if(criterion=="screening"){
+    
+    #############################
+    ### FIRST CASE: SCREENING ###
+    #############################
+    
+    pval <- rep(NA, p)              # p-values
+    paths <- matrix(NA, Bfinal, p)  # estimation paths
+    nb.perm <- rep(NA, p)           # nb of permutations
+    
+    for(i in 1:p){
+      
+      ### FIRST ITERATION ###
+      
+      B <- Bstart # counter for permutations
+      
+      # observed value of the HSIC index
+      Hi <- HSIC.obs[i]
+      # new values of the HSIC index after Bstart permutations
+      seq.HSIC <- HSIC.perm(KX, KY, measure.def, estimator.type, B, i)[,1]
+      # estimation of the p-value with increasing sample sizes
+      seq.pval <- cumsum(seq.HSIC>Hi)/seq(2, B+1)
+      # screening (0 if pval>alpha, 1 otherwise)
+      seq.bin <- 1*(seq.pval<=alpha)
+      # more permutations?
+      more.perm <- !identical( seq.bin[(B-Bconv+1):B], 
+                               rep(seq.bin[B], Bconv) )
+      
+      ### Details on the handled variables ###
+      
+      # HSIC.perm returns a matrix of size (B x 1)
+      
+      # seq.HSIC:     numeric   (length B)
+      # seq.pval:     numeric   (length B)
+      # seq.bin:      numeric   (length B)
+      # more.perm:    boolean
+      
+      ### OTHER ITERATIONS ###
+      
+      while(more.perm && B<Bfinal){
+        
+        B <- B+Bbatch
+        
+        # new values of the HSIC index (coming from Bbatch additional permutations)
+        new.HSIC <- HSIC.perm(KX, KY, measure.def, estimator.type, Bbatch, i)[,1]
+        # all HSIC values
+        seq.HSIC <- c(seq.HSIC, new.HSIC)
+        # all p-values are recomputed
+        seq.pval <- cumsum(seq.HSIC>Hi)/seq(2, B+1)
+        # all binary decisions are recomputed
+        seq.bin <- 1*(seq.pval<=alpha)       
+        # more permutations?
+        more.perm <- !identical( seq.bin[(B-Bconv+1):B], 
+                                 rep(seq.bin[B], Bconv) )
+        
+        ### Details on the handled variables ###
+        
+        # HSIC.perm returns a matrix of size (Bbatch x 1)
+        
+        # new.HSIC:     numeric   (length Bbatch)
+        # seq.HSIC:     numeric   (length B)
+        # seq.pval:     numeric   (length B)
+        # seq.bin:      numeric   (length B)
+        # more.perm:    boolean
+        
+      }
+      
+      # storage
+      pval[i] <- seq.pval[B]
+      paths[1:B,i] <- seq.pval
+      nb.perm[i] <- B
+      
+    }
+    
+    Bm <- max(nb.perm)    # largest nb of permutations
+    paths <- paths[1:Bm,] # paths are shortened
+    
+  }else{
+    
+    ####################################
+    ### SECOND CASE: RANKING or BOTH ###
+    ####################################
+    
+    ### FIRST ITERATION ###
+    
+    B <- Bstart # counter for permutations
+    
+    # new values of the HSIC indices after Bstart permutations 
+    seq.HSIC <- HSIC.perm(KX, KY, measure.def, estimator.type, B, 1:p)
+    # estimation of the p-value with increasing sample sizes
+    seq.pval <- ( apply(mat.comp(seq.HSIC, HSIC.obs, ">"), 2, cumsum) /
+                    matrix(seq(2, B+1), B, p) )
+    # rankings of p-values with increasing sample sizes
+    seq.rk <- mat.rank(seq.pval)
+    
+    # more permutations?
+    more.perm <- !identical( seq.rk[(B-Bconv+1):B,], 
+                             matrix(seq.rk[B,], Bconv, p, byrow=TRUE) )
+    
+    # additional check if screening="both"
+    if(!more.perm && criterion=="both"){
+      # screening (0 if pval>alpha, 1 otherwise)
+      seq.bin <- 1*(seq.pval<=alpha)
+      # more permutations?
+      more.perm <- !identical( seq.bin[(B-Bconv+1):B,], 
+                               matrix(seq.bin[B,], Bconv, p, byrow=TRUE) )
+    }
+    
+    ### Details on the handled variables ###
+    
+    # HSIC.perm returns a matrix of size (B x p)
+    
+    # seq.HSIC:     matrix    (B x p)
+    # seq.pval:     matrix    (B x p)
+    # seq.rk:       matrix    (B x p)
+    # seq.bin:      matrix    (B x p)
+    # more.perm:    boolean
+    
+    ### OTHER ITERATIONS ###
+    
+    while(more.perm && B<Bfinal){
+      
+      B <- B+Bbatch
+      
+      # new values of the HSIC indices (coming from Bbatch additional permutations)
+      new.HSIC <- HSIC.perm(KX, KY, measure.def, estimator.type, Bbatch, 1:p)
+      # all HSIC values
+      seq.HSIC <- rbind(seq.HSIC, new.HSIC)
+      # all p-values are recomputed
+      seq.pval <- ( apply(mat.comp(seq.HSIC, HSIC.obs, ">"), 2, cumsum) /
+                      matrix(seq(2, B+1), B, p) )
+      # all rankings are recomputed
+      seq.rk <- mat.rank(seq.pval)
+      # more permutations?
+      more.perm <- !identical( seq.rk[(B-Bconv+1):B,], 
+                               matrix(seq.rk[B,], Bconv, p, byrow=TRUE) )
+      
+      # additional check if screening="both"
+      if(!more.perm && criterion=="both"){
+        seq.bin <- 1*(seq.pval<=alpha)
+        # more permutations?
+        more.perm <- !identical( seq.bin[(B-Bconv+1):B,], 
+                                 matrix(seq.bin[B,], Bconv, p, byrow=TRUE) )
+        
+      }
+      
+      ### Details on the handled variables ###
+      
+      # HSIC.perm returns a matrix of size (Bbatch x p)
+      
+      # new.HSIC:     matrix    (Bbatch x p)
+      # seq.HSIC:     matrix    (B x p)
+      # seq.pval:     matrix    (B x p)
+      # seq.rk:       matrix    (B x p)
+      # seq.bin:      matrix    (B x p)
+      # more.perm:    boolean
+      
+    }
+    
+    # storage
+    pval <- seq.pval[B,]
+    paths <- seq.pval
+    
+  }
+  
+  ### warning if paths are not stabilized ###
+  
+  if(criterion=="screening"){
+    
+    if(any(nb.perm>Bfinal)){
+      ind <- which(nb.perm>Bfinal)
+      warning("Even after ", Bfinal, " iterations, ",
+              "the algorithm has not converged yet for the following variables: ",
+              paste(ind, collapse=", "), ".", call.=FALSE)
+    }
+    
+  }else{
+    
+    if(B>Bfinal){
+      warning("Even after ", Bfinal, " iterations, ",
+              "the algorithm has not converged yet.", call.=FALSE)
+    }
+    
+  }
+  
+  ### plot of estimation paths ###
+  
+  if(graph){
+    # estimation paths for all p-values
+    matplot(paths, type="l", ylim=c(0,1),
+            xlab="number of permutations",
+            ylab="estimated p-values",
+            main="Sequential estimation of the p-values until convergence")
+    # red line for screening
+    if(!(criterion=="ranking")) abline(h=alpha, lwd=2, col="red")
+  }
+  
+  res <- list(pval=pval, paths=paths)
+  
+  return(res)
+  
+}
+
+### gamma_test #################################################################
+
+gamma_test <- function(HSIC.obs, KX, KY, measure.def){
 
   ### inputs ###
 
@@ -1030,6 +1378,7 @@ gammatest <- function(HSIC.obs, KX, KY, measure.def){
   mat <- compute.mat.TrAW(KX, KY, measure.def)
   
   # computations of the first two moments of Tr(Ai Wi) for all i in {1,...,p}
+  # --> (mean value + variance) of Tr(Ai Wi)
   
   mom <- compute.mom.TrAW(mat$A, mat$W, measure.def)
   
@@ -1161,8 +1510,7 @@ compute.mom.TrAW <- function(A, W, measure.def){
       O1.Ai <- (n-1)*sum.Ai2-tr.Ai^2
       O2.Ai <- n*(n+1)*tr.Ai2-(n-1)*(tr.Ai^2+2*sum.Ai2)
       
-      # --> final formulas
-      
+      # final formulas
       mom[1,i] <- tr.Ai*tr.W/(n-1)
       mom[2,i] <- 2*O1.Ai*O1.W/denom1 + O2.Ai*O2.W/denom2
 
@@ -1228,7 +1576,8 @@ compute.mom.TrAW <- function(A, W, measure.def){
       O32.Wi <- tr.Wi*sum.tWi-2*(sdc.Wi-tr.Wi2)
       O4.Wi <- (sum.tWi)^2-2*sum.tWi2-4*sct.Wi
       
-      # crossed expressions
+      # --> crossed expressions
+      
       T1 <- ( O1.Ai*O1.Wi )/denom1
       T2 <- ( O21.Ai*O21.Wi + 2*O22.Ai*O22.Wi + 4*O23.Ai*O23.Wi )/denom2
       T3 <- ( 4*O31.Ai*O31.Wi + 2*O32.Ai*O32.Wi )/denom3
@@ -1248,9 +1597,9 @@ compute.mom.TrAW <- function(A, W, measure.def){
   
 }
 
-### meannondiag ################################################
+### mean_nondiag ###############################################################
 
-meannondiag <- function(A){
+mean_nondiag <- function(A){
   
   ### input ###
   
@@ -1293,23 +1642,82 @@ double.centering <- function(A){
   
 }
 
+### mat.vec_old ################################################################
+
+mat.vec_old <- function(M1, vec, sgn){
+  
+  ### input ###
+  
+  # M1:		  1 x n     numeric     (samples from a random variable in R)	
+  # 		    n x p     matrix      (samples from a random vector in R^p)  
+  
+  # vec:    1 x 1     numeric     (reference value in R)
+  #         1 x p     numeric     (reference value in R^p)
+  
+  # sgn:    1 x 1     character   (boolean operator provided as a string)
+  
+  ### output ###
+  
+  # M2:     1 x n     matrix      (each element is compared to vec with sgn)
+  #         n x p     matrix      (each row in M1 is compared to vec with sgn)
+  
+  if(is.numeric(M1)){ 
+    flag.numeric <- TRUE
+    M1 <- matrix(M1, length(M1), 1) 
+  }
+
+  n <- nrow(M1)
+  
+  vec <- t(as.matrix(vec))
+  vec.cloned <- matrix(1, n, 1)%*%vec
+  M2 <- switch(sgn, 
+               "==" ={ 1*(M1-vec.cloned==0) },
+               ">"  ={ 1*(M1-vec.cloned>0) },
+               "<"  ={ 1*(M1-vec.cloned<0) },
+               ">=" ={ 1*(M1-vec.cloned>=0) },
+               "<=" ={ 1*(M1-vec.cloned<=0) },
+               NA)
+  
+  if(flag.numeric){
+    M2 <- as.numeric(M2)
+  }
+  
+  return(M2)
+  
+}
+
 ### mat.vec ####################################################################
 
 mat.vec <- function(M1, vec, sgn){
   
   ### input ###
   
-  # M1:     n x p     matrix      (samples from a random variable in R^p)  
-  # vec:    1 x p     numeric     (reference vector in R^p)
-  # sgn:    1 x 1     character   (boolean operator provided as a string)
+  # M1:		  1 x n     numeric     (samples from a random variable in R)	
+  # 		    n x p     matrix      (samples from a random vector in R^p)  
+  
+  # vec:    1 x 1     numeric     (reference value in R)
+  #         1 x p     numeric     (reference value in R^p)
+  
+  # sgn:    1 x 1     character   (boolean operator for comparison)
   
   ### output ###
   
-  # M2:     n x p     matrix      (each row in M1 is compared to vec with sgn)
+  # M2:     n x 1     matrix      (binaries indicating the results of element-wise comparisons)
+  #         n x p     matrix      (binaries indicating the results of element-wise comparisons)
+  
+  p <- length(vec)
+  flag.numeric <- FALSE
+  
+  if(is.vector(M1)){
+    
+    flag.numeric <- TRUE
+    M1 <- matrix(M1, length(M1), 1) 
+    
+  }
   
   n <- nrow(M1)
   
-  vec <- t(as.matrix(vec))
+  vec <- matrix(vec, 1, p)
   vec.cloned <- matrix(1, n, 1)%*%vec
   M2 <- switch(sgn, 
                "==" ={ 1*(M1-vec.cloned==0) },
@@ -1323,15 +1731,78 @@ mat.vec <- function(M1, vec, sgn){
   
 }
 
+### mat.comp ###################################################################
+
+mat.comp <- function(M1, vec, sgn){
+  
+  ### input ###
+  
+  # M1:		  n x p     matrix      (samples from a random vector in R^p)  
+  
+  # vec:    1 x p     numeric     (reference value in R^p)
+  
+  # sgn:    1 x 1     character   (boolean operator for comparison)
+  
+  ### output ###
+  
+  # M2:		  n x p     matrix      (binaries indicating the results of element-wise comparisons)
+  
+  n <- nrow(M1)
+  p <- length(vec)
+  
+  vec <- matrix(vec, 1, p)
+  vec.cloned <- matrix(1, n, 1)%*%vec
+  
+  M2 <- switch(sgn, 
+               "==" ={ 1*(M1-vec.cloned==0) },
+               ">"  ={ 1*(M1-vec.cloned>0) },
+               "<"  ={ 1*(M1-vec.cloned<0) },
+               ">=" ={ 1*(M1-vec.cloned>=0) },
+               "<=" ={ 1*(M1-vec.cloned<=0) },
+               NA)
+  
+  return(M2)
+  
+}
+
+### mat.rank ###################################################################
+
+mat.rank <- function(M1){
+  
+  ### input ###
+  
+  # M1:		  n x p     matrix      (samples from a random vector in R^p)  
+  
+  ### output ###
+  
+  # M2:		  n x p     matrix      (ranks for each row)
+  
+  n <- nrow(M1)
+  p <- ncol(M1)
+  
+  if(p==1){
+    
+    M2 <- matrix(apply(M1, 1, rank, ties="first"), n, 1)
+    
+  }else{
+    
+    M2 <- t(apply(M1, 1, rank, ties="first"))
+    
+  }
+  
+  return(M2)
+  
+}
+
 ### print.testHSIC #############################################################
 
 print.testHSIC <- function(x, ...){
   
   ### input ###
   
-  # x:      1 x 1     list of class testHSIC  
+  # x:      1 x 1     list of class testHSIC    (all results) 
   
-  ##########
+  ### no output ###
   
   # initial call
   cat("\n", "Call:", "\n", deparse(x$call), "\n\n", sep="")
@@ -1353,6 +1824,8 @@ print.testHSIC <- function(x, ...){
   }else{
     cat("(empty)", "\n\n")
   }
+  
+  return()
 
 }
 
@@ -1360,13 +1833,13 @@ print.testHSIC <- function(x, ...){
 
 plot.testHSIC <- function(x, ylim=c(0, 1), err=NA, ...){
   
-  ### inputs ###
+  ### input ###
   
-  # x:      1 x 1     list of class sensiHSIC 
-  # ylim:   1 x 2     (numeric)                 bounds on the y-axis
-  # err:    1 x 1     (numeric)                 level of type I error
+  # x:      1 x 1     list of class testHSIC      (all results)
+  # ylim:   1 x 2     numeric                     (bounds on the y-axis)
+  # err:    1 x 1     numeric                     (level of type I error)
   
-  ##########
+  ### no output ###
   
   if(is.null(x$pval)){
     
@@ -1378,7 +1851,7 @@ plot.testHSIC <- function(x, ylim=c(0, 1), err=NA, ...){
     ### Preparation ###
     ###################
     
-    yshift <- 0.2
+    yshift <- 0.25
     
     # minimum and maximum values on the y-axis
     ym <- ylim[1]-yshift
@@ -1386,6 +1859,7 @@ plot.testHSIC <- function(x, ylim=c(0, 1), err=NA, ...){
     
     # nb of input variables
     p <- nrow(x$pval)
+    xval <- 1:p
     
     # type I error
     if(is.na(err)){
@@ -1399,23 +1873,41 @@ plot.testHSIC <- function(x, ylim=c(0, 1), err=NA, ...){
     
     # preliminary work for the legend
     
-    cap.H0 <- "Rejected variables"
-    cap.H1 <- "Selected variables"
+	cap.H0 <- bquote("Rejected variables (p-value " >= .(err) * ")")
+    cap.H1 <- bquote("Selected variables (p-value " < .(err) * ")")
     
-    col.H0 <- "red"
-    col.H1 <- "green"
+    col.init <- "white"
+    col.H0 <- "cyan"
+    col.H1 <- "purple"
     
     all.captions <- c(cap.H0, cap.H1)
     all.colors <- c(col.H0, col.H1)
+    
+    #####################
+    ### All variables ###
+    #####################
+    
+    nodeplot(x$pval, at=xval, 
+             xlim=c(1,p), ylim=c(ym, yM),
+             pch=21, bg=col.init)
+
+    ind.H0 <- which(x$pval>=err)
+    ind.H1 <- which(x$pval<err)
+    
+    pval.H0 <- pval.H1 <- x$pval
+    pval.H0[ind.H1,] <- pval.H1[ind.H0,] <- NA
     
     #########################################
     ### Rejected variables (decision: H0) ###
     #########################################
     
     if(sum(x$pval>=err)>=1){
-      var.H0 <- which(x$pval>=err)
-      nodeplot(x$pval[var.H0, "original", drop=FALSE], at=var.H0, 
-               xlim=c(1,p), ylim=c(ym, yM), pch=21, bg=col.H0)
+      
+      nodeplot(pval.H0, at=1:p, 
+               xlim=c(1,p), ylim=c(ym, yM),
+               pch=21, bg=col.H0, 
+               add=TRUE, labels=FALSE) 
+      
     }
     
     #########################################
@@ -1423,10 +1915,12 @@ plot.testHSIC <- function(x, ylim=c(0, 1), err=NA, ...){
     #########################################
     
     if(sum(x$pval<err)>=1){
-      var.H1 <- which(x$pval<err)
-      nodeplot(x$pval[var.H1, "original", drop=FALSE], at=var.H1, 
-               xlim=c(1,p), ylim=c(ym, yM), pch=21, bg=col.H1,
-               add=TRUE)
+      
+      nodeplot(pval.H1, at=1:p, 
+               xlim=c(1,p), ylim=c(ym, yM),
+               pch=21, bg=col.H1, 
+               add=TRUE, labels=FALSE) 
+      
     }
     
     ##############
@@ -1440,5 +1934,7 @@ plot.testHSIC <- function(x, ylim=c(0, 1), err=NA, ...){
     legend("top", legend=all.captions, col="black", pch=21, pt.bg=all.colors)
     
   }
+  
+  return()
   
 }

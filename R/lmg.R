@@ -363,9 +363,9 @@ lmg<-function(X, y, logistic = FALSE,  rank=FALSE, nboot = 0, conf=0.95, max.ite
 print.lmg<-function(x, ...){
   cat("\nCall:\n", deparse(x$call), "\n", sep = "")
   if(x$logistic){
-    cat("\nLMG decomposition of R2 for logistic model\n")
+    cat("\nDecomposition of R2 for logistic model\n")
   }else{
-    cat("\nLMG decomposition of R2 for linear model\n")
+    cat("\nDecomposition of R2 for linear model\n")
   }
   if(x$boot){
     print(x$conf_int)
@@ -377,9 +377,9 @@ print.lmg<-function(x, ...){
 
 plot.lmg<-function(x, ylim=c(0,1), ...){
   if(x$logistic){
-    plot_title="LMG decomposition of R2 for logistic model"
+    plot_title="Decomposition of R2 for logistic model"
   }else{
-    plot_title="LMG decomposition of R2 for linear model"
+    plot_title="Decomposition of R2 for linear model"
   }
 
   plot(x$lmg,
