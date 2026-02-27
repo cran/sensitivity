@@ -164,6 +164,23 @@ friedman.fun <- function(X){
 }
 
 ##################################################################
+# Amandine function - d=20 on U[0,1]
+# (also called Marrel fct or modified Friedman fct)
+# A. Marrel, B. Iooss and V. Chabridon, The ICSCREAM methodology: ...
+# Nuclear Science and Engineering, 196:301-321, 2022
+
+amandine.fun <- function(X){
+  y <- 5 * sin(6 * pi * X[,1]^2.5 * (X[,2] - 0.5))
+  y <- y + 20 * (X[,3] - 0.5)^2 + 8 * X[,4] + 5 * X[,5]
+  tt <- 0
+  for (i in 6:15) tt <- tt + i^2
+  rr <- 0
+  for (i in 6:15) rr <- rr +  sqrt(12) * i * (X[,i] - 0.5)
+  y <- y + 1.5 / sqrt(tt) * rr
+  return(y)
+}
+
+##################################################################
 # Matyas function (from the Virtual Library of Simulation Experiments)
 # see: https://www.sfu.ca/~ssurjano/matya.html
 

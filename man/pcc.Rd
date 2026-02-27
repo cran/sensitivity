@@ -64,6 +64,8 @@ pcc(X, y, rank = FALSE, semi = FALSE, logistic = FALSE, nboot = 0, conf = 0.95)
 }
 
 \details{
+  This function cannot be used with categorical inputs.
+  
   Logistic regression model (\code{logistic = TRUE}) and rank-based indices
   (\code{rank = TRUE}) are incompatible.
 }
@@ -72,12 +74,13 @@ pcc(X, y, rank = FALSE, semi = FALSE, logistic = FALSE, nboot = 0, conf = 0.95)
   
   L. Clouvel, B. Iooss, V. Chabridon, M. Il Idrissi and F. Robin, 2023,
   \emph{An overview of variance-based importance measures in the linear regression context: 
-  comparative analyses and numerical tests}, Preprint.
+  comparative analyses and numerical tests}, Socio-Environmental Systems Modelling, vol. 7, 
+  18681, 2025, doi:10.18174/sesmo.1868.
   \url{https://hal.science/hal-04102053}
 
 B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance 
 measures for machine learning model interpretability}, Congres lambda-mu23,
-Saclay, France, 10-13 octobre 2022
+Saclay, France, 10-13 octobre 2022.
 \url{https://hal.science/hal-03741384}
   
 J.W. Johnson and J.M. LeBreton, 2004, \emph{History and use of relative 

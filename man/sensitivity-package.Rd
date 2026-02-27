@@ -11,13 +11,14 @@
   The \pkg{sensitivity} package implements some global sensitivity analysis
   methods and importance measures:
   \itemize{
-    \item Linear regression importance measures in regression or classification (logistic regression) contexts (Iooss et al., 2022; Clouvel et al., 2024):
+    \item Linear regression importance measures in regression or classification (logistic regression) contexts (Iooss et al., 2022; Clouvel et al., 2025):
     \itemize{
       \item SRC and SRRC (\code{\link{src}}), and correlation ratio (\code{\link{correlRatio}})
       \item PCC, SPCC, PRCC and SPRCC (\code{\link{pcc}}),
       \item LMG and LMG on ranks (\code{\link{lmg}}),
       \item PMVD and PMVD on ranks (\code{\link{pmvd}}),
-      \item Johnson indices (\code{\link{johnson}});
+      \item Johnson indices (\code{\link{johnson}}),
+      \item the (\code{\link{VIM}}) function which summarizes linear variance-based metrics;
     }
     \item Bettonvil's sequential bifurcations (Bettonvil and Kleijnen, 1996) (\code{\link{sb}});
     \item Morris's "OAT" elementary effects screening method (\code{\link{morris}});
@@ -120,7 +121,7 @@ S. Da Veiga, F. Gamboa, B. Iooss and C. Prieur, \emph{Basics and trends in sensi
 
 R. Faivre, B. Iooss, S. Mahevas, D. Makowski, H. Monod, editors, 2013, \emph{Analyse de sensibilite et exploration de modeles. Applications aux modeles environnementaux}, Editions Quae.
 
-L. Clouvel, B. Iooss, V. Chabridon, M. Il Idrissi and F. Robin, 2023, \emph{An overview of variance-based importance measures in the linear regression context: comparative analyses and numerical tests}, Preprint. \url{https://hal.science/hal-04102053}
+L. Clouvel, B. Iooss, V. Chabridon, M. Il Idrissi and F. Robin, 2023, \emph{An overview of variance-based importance measures in the linear regression context: comparative analyses and numerical tests}, Socio-Environmental Systems Modelling, vol. 7, 18681, 2025, doi:10.18174/sesmo.1868. \url{https://hal.science/hal-04102053}
   
 B. Iooss, V. Chabridon and V. Thouvenot, \emph{Variance-based importance measures for machine learning model interpretability}, Congres lambda-mu23, Saclay, France, 10-13 octobre 2022. \url{https://hal.science/hal-03741384}
 

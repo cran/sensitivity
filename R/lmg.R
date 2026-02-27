@@ -8,7 +8,7 @@
 
 ############################################
 #R2 estimation
-estim.R2<-function(dataX,y, subset, logistic, any.cat, max.iter){
+estim.R2<-function(dataX, y, subset, logistic, any.cat, max.iter){
   # Function estim.R2:
   #   Computes the R2 (explained variance) statistic for linear/logistic
   #   regression for a specified sub-model (subset of inputs)

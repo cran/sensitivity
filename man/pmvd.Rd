@@ -114,7 +114,8 @@ pmvd(X, y, logistic = FALSE, tol = NULL, rank = FALSE, nboot = 0,
 
   L. Clouvel, B. Iooss, V. Chabridon, M. Il Idrissi and F. Robin, 2024,
   \emph{An overview of variance-based importance measures in the linear regression context: 
-  comparative analyses and numerical tests}, Preprint.
+  comparative analyses and numerical tests}, Socio-Environmental Systems Modelling, vol. 7, 
+  18681, 2025, doi:10.18174/sesmo.1868.
   \url{https://hal.science/hal-04102053}
   
   Feldman, B. (2005) \emph{Relative Importance and Value} SSRN Electronic Journal.

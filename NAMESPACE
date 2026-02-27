@@ -4,11 +4,10 @@ import(numbers)
 import(boot)
 import(foreach)
 import(ggplot2)
+
 importFrom(Rcpp, evalCpp)
 importFrom("methods", "is")
-
 importFrom("dtwclust", "gak")
-
 importFrom("grDevices", "dev.interactive", "dev.new", "devAskNewPage")
 importFrom("graphics", "abline", "axis", "barplot", "box", "legend",
            "lines", "par", "plot", "points", "polygon", "segments",
@@ -22,12 +21,11 @@ importFrom("stats", "coefficients", "cor", "cor.test", "cov", "dist",
            "pbeta", "pexp", "pweibull", "approxfun", "glm", "glm.control",
            "setNames", "prcomp", "na.omit","complete.cases", "pchisq")
 importFrom("utils", "combn", "methods", "head") 
-
 importFrom("ggplot2","ggplot", "ylim", "position_dodge","aes","geom_point",
            "geom_errorbar","scale_shape_manual","coord_cartesian","labs",
            "scale_x_discrete","theme_bw","theme","element_text",
            "scale_x_continuous", "geom_line")
-
+           
 export(ask,tell,extract)
 
 export(plotFG)
@@ -40,13 +38,18 @@ export(dnorm.trunc,pnorm.trunc,qnorm.trunc,rnorm.trunc)
 export(dgumbel.trunc,pgumbel.trunc,qgumbel.trunc,rgumbel.trunc)
 
 export(sobol.fun, ishigami.fun, morris.fun, atantemp.fun, campbell1D.fun, 
-       linkletter.fun, heterdisc.fun, friedman.fun, matyas.fun)
+       linkletter.fun, heterdisc.fun, friedman.fun, amandine.fun, matyas.fun)
 
 export(squaredIntEstim, PoincareChaosSqCoef)
 
-export(weightTSA)
-
 export(correlRatio)
+
+export(delsa)
+S3method(tell, delsa)
+S3method(print, delsa)
+S3method(plot, delsa)
+
+export(EPtest)
 
 export(src)
 S3method(print, src)
@@ -91,6 +94,12 @@ export(plot3d.morris)
 
 export(morrisMultOut)
 S3method(tell, morrisMultOut)
+
+export(qosa)
+S3method(tell, qosa)
+S3method(print, qosa)
+S3method(plot, qosa)
+S3method(ggplot, qosa)
 
 export(sobol)
 S3method(tell, sobol)
@@ -209,11 +218,6 @@ S3method(tell, sb)
 S3method(print, sb)
 S3method(plot, sb)
 
-export(delsa)
-S3method(tell, delsa)
-S3method(print, delsa)
-S3method(plot, delsa)
-
 export(PLI)
 export(PLIquantile)
 export(PLIsuperquantile)
@@ -301,10 +305,9 @@ export(sobolSmthSpl)
 S3method(print, sobolSmthSpl)
 S3method(plot, sobolSmthSpl)
 
-export(qosa)
-S3method(tell, qosa)
-S3method(print, qosa)
-S3method(plot, qosa)
-S3method(ggplot, qosa)
+export(VIM)
+S3method(print, VIM)
+S3method(plot, VIM)
+S3method(ggplot, VIM)
 
-export(EPtest)
+export(weightTSA)

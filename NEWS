@@ -1,4 +1,11 @@
 
+Changes in version 1.31.0:
+
+  o New fct VIM() which computes and summarizes 
+  several linear variance-based importance measures 
+  
+  o New benchmark fct amandine.fun() added in "testmodels.R"
+
 Changes in version 1.30.2:
 
   o Warning RcppArmadillo => 
@@ -7,16 +14,16 @@ Changes in version 1.30.2:
     - environment variable PKG_CPPFLAGS is defined as -DARMA_USE_LEGACY
     
   o Fixed a bug in sensiHSIC(). When using anova = list(obj = "both", 
-    is.uniform = FALSE), the renormalization of input data was not completed.
+  is.uniform = FALSE), the renormalization of input data was not completed.
     
   o Fixed a bug in testHSIC(). In the particular case where there is one single 
-    input variable, there was a problem with permutation-based test procedures.
+  input variable, there was a problem with permutation-based test procedures.
     
   o New feature in sensiHSIC(). It is now possible to create a sensiHSIC object 
-    from a custom list of Gram matrices.
+  from a custom list of Gram matrices.
     
   o New feature in sensiHSIC(). It is now possible to perform the HSIC-ANOVA 
-    decomposition with discrete input variables.
+  decomposition with discrete input variables.
     
   o bug corrected in morris() fct 
   (about the argument grid.jump which can be a vector)

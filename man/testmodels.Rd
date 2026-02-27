@@ -8,6 +8,7 @@
 \alias{linkletter.fun}
 \alias{heterdisc.fun}
 \alias{friedman.fun}
+\alias{amandine.fun}
 \alias{matyas.fun}
 
 \title{Test Models for Sensitivity Analysis}
@@ -23,8 +24,8 @@
     \item the Linkletter  decreasing coefficients function with 8 inputs, X ~ U[0,1] 
     (Linkletter et al. (2006));
     \item the heterdisc function with 4 inputs, X ~ U[0,20];
-    \item the Friedman function with 5 inputs, X ~ U[0,1] 
-    (Friedman, 1991);
+    \item the Friedman function with 5 inputs, X ~ U[0,1] (Friedman, 1991);
+    \item the Amandine function with 15 inputs, X ~ U[0,1] (Marrel et al., 2022);
     \item the Matyas function with 2 inputs, X ~ U[0,1].
   }
   For functional output cases:

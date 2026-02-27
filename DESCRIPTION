@@ -1,5 +1,5 @@
 Package: sensitivity
-Version: 1.30.2
+Version: 1.31.0
 Title: Global Sensitivity Analysis of Model Outputs and Importance
         Measures
 Authors@R: c(person(given = "Bertrand", family = "Iooss", role = c("aut", "cre"), email = "biooss@yahoo.fr"),
@@ -10,7 +10,7 @@ Maintainer: Bertrand Iooss <biooss@yahoo.fr>
 Depends: R (>= 3.0.0)
 Imports: boot, numbers, methods, ggplot2, Rcpp, foreach, dtwclust
 LinkingTo: Rcpp, RcppArmadillo
-Suggests: condMVNorm, DiceDesign, DiceKriging, doParallel, evd,
+Suggests: car, condMVNorm, DiceDesign, DiceKriging, doParallel, evd,
         ggExtra, grid, gplots, gtools, igraph, IncDTW, ks, lattice,
         MASS, mc2d, mvtnorm, parallel, plotrix, pracma, proxy,
         randtoolbox, RANN, reshape2, rgl, stringr, triangle, TSP,
@@ -19,9 +19,9 @@ Description: A collection of functions for sensitivity analysis of model outputs
 License: GPL-2
 NeedsCompilation: yes
 Repository: CRAN
-Packaged: 2025-09-17 16:38:38 UTC; F80570
+Packaged: 2026-02-27 16:02:12 UTC; F80570
 Author: Bertrand Iooss [aut, cre],
   Sebastien Da Veiga [aut],
   Alexandre Janon [aut],
   Gilles Pujol [aut]
-Date/Publication: 2025-09-18 05:10:11 UTC
+Date/Publication: 2026-02-27 18:00:02 UTC
